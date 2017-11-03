@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/header :: my-header('Show Post')"></head>
+<head th:include="fragments/header :: my-header('Show Post')">
+</head>
 <body>
-<div th:include="fragments/navbar :: my-navbar"></div>
+<nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<h1>Here is one post:</h1>
+<h1>Here is a Post:</h1>
 <ul>
-
+    <li>
+        <p>post</p>
+    </li>
 </ul>
 
+<footer th:include="fragments/footer :: my-footer"></footer>
 </body>
 </html>
