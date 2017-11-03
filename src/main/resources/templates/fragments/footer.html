@@ -5,9 +5,79 @@
     </head>
 
 <body>
-
+<!--Whichever bootstrap footer chosen in bootstrap 3, to keep it on bottom, use:-->
+<!--footer class="navbar-fixed-bottom"-->
 <div th:fragment="my-footer">
-    <h2>Footer Content Goes Here</h2>
+
+    <!--Footer-->
+    <footer class="navbar-fixed-bottom page-footer center-on-small-only">
+
+        <!--Footer Links-->
+        <div class="container-fluid">
+            <div class="row">
+
+                <!--First column-->
+                <div class="col-md-6">
+                    <h5 class="title">Footer Content</h5>
+                    <p>Here you can use rows and columns here to organize your footer content.</p>
+                </div>
+                <!--/.First column-->
+
+                <!--Second column-->
+                <div class="col-md-6">
+                    <h5 class="title">Links</h5>
+                    <ul>
+                        <!--<li sec:authorize="!isAuthenticated()">-->
+                        <li>
+                            <a href="/register">Register</a>
+                        </li>
+
+                        <!--<li sec:authorize="!isAuthenticated()">-->
+                        <li>
+                            <a href="/login">Login</a>
+                        </li>
+
+                        <li><a href="/posts">All Posts</a></li>
+
+                        <!--<li sec:authorize="isAuthenticated()">-->
+                        <li>
+                            <a href="/posts/create">Create New Post</a>
+                        </li>
+
+                        <!--<li sec:authorize="isAuthenticated()">-->
+                        <!--<form th:action="@{/logout}" th:method="post">-->
+                        <!--<button id="logout" class="btn btn-link">Logout</button>-->
+                        <!--</form>-->
+                        <!--</li>-->
+
+                        <!--<li><a href="/contact">Contact</a></li>-->
+                        <!--<li><a href="/home">Home</a></li>-->
+                        <!--<li><a href="/demo">Demo</a></li>-->
+
+                        <li><a href="/roll-dice">Roll Dice</a></li>
+                    </ul>
+                </div>
+                <!--/.Second column-->
+            </div>
+        </div>
+        <!--/.Footer Links-->
+
+        <!--Copyright-->
+        <div class="footer-copyright">
+            <div class="container-fluid">
+                © 2015 Copyright: <a href="https://www.MDBootstrap.com"> MDBootstrap.com </a>
+
+            </div>
+        </div>
+        <!--/.Copyright-->
+
+    </footer>
+    <!--/.Footer-->
+
+
+
+
+
 
 </div>
 </body>
