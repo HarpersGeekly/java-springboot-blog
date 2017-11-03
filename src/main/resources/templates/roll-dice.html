@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>roll-dice</title>
+</head>
+<body>
+
+<h1>Welcome to the Dice Roll page. Guess a number:</h1>
+<ul>
+    <li><a href="/roll-dice/1">1</a></li>
+    <li><a href="/roll-dice/2">2</a></li>
+    <li><a href="/roll-dice/3">3</a></li>
+    <li><a href="/roll-dice/4">4</a></li>
+    <li><a href="/roll-dice/5">5</a></li>
+    <li><a href="/roll-dice/6">6</a></li>
+</ul>
+
+<h2 th:if="${guess} == ${randomNumber} and ${guess} != null">You rolled a <span th:text="${guess}"></span>. CORRECT!</h2>
+<h2 th:if="${randomNumber} != ${guess}"> The number was <span th:text="${randomNumber}"></span>. You guessed wrong. Try again.</h2>
+<h2 th:if="${guess} == ${randomNumber} and ${guess} != null or ${randomNumber} != ${guess}"> Number of guesses: <span th:text="${counter}"></span>
+
+    <span th:if="${guess} == ${randomNumber} and ${counter &gt;= 8}">. You've got bad luck...</span>
+    <span th:if="${guess} == ${randomNumber} and ${counter &lt;= 5}">. Nice job!</span>
+    <span th:if="${guess} == ${randomNumber} and ${counter == 1}">. Whoa! Lucky!</span>
+
+</h2>
+</body>
+</html>
