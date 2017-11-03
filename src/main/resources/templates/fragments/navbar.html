@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/header :: my-header">
+</head>
+<body>
+
+<div th:fragment="my-navbar">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid" id="navbarContainer">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/posts">BLOG</a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <!--<li>-->
+                    <!--<form action="/posts/search" method="GET" class="navbar-form">-->
+                        <!--<div class="input-group add-on">-->
+                            <!--<input class="form-control" placeholder="Search" name="term" id="srch-term" type="text"/>-->
+                            <!--<div class="input-group-btn">-->
+                                <!--<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</li>-->
+
+                <!--<li sec:authorize="!isAuthenticated()">-->
+                <li>
+                    <a href="/register">Register</a>
+                </li>
+
+                <!--<li sec:authorize="!isAuthenticated()">-->
+                <li>
+                    <a href="/login">Login</a>
+                </li>
+
+                <li><a href="/posts">All Posts</a></li>
+
+                <!--<li sec:authorize="isAuthenticated()">-->
+                <li>
+                    <a href="/posts/create">Create New Post</a>
+                </li>
+
+                <!--<li sec:authorize="isAuthenticated()">-->
+                    <!--<form th:action="@{/logout}" th:method="post">-->
+                        <!--<button id="logout" class="btn btn-link">Logout</button>-->
+                    <!--</form>-->
+                <!--</li>-->
+
+                <!--<li><a href="/contact">Contact</a></li>-->
+                <!--<li><a href="/home">Home</a></li>-->
+                <!--<li><a href="/demo">Demo</a></li>-->
+
+                <li><a href="/roll-dice">Roll Dice</a></li>
+
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+    </nav>
+</div>
+</body>
+</html>

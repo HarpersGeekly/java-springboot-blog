@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>roll-dice</title>
+<head th:include="fragments/header :: my-header('Roll-Dice')">
 </head>
 <body>
+<div th:include="fragments/navbar :: my-navbar">
+    <!--The entire content of the partial will be *included* inside this div.-->
+</div>
 
 <h1>Welcome to the Dice Roll page. Guess a number:</h1>
 <ul>
@@ -18,6 +19,7 @@
 
 <h2 th:if="${guess} == ${randomNumber} and ${guess} != null">You rolled a <span th:text="${guess}"></span>. CORRECT!</h2>
 <h2 th:if="${randomNumber} != ${guess}"> The number was <span th:text="${randomNumber}"></span>. You guessed wrong. Try again.</h2>
+
 <h2 th:if="${guess} == ${randomNumber} and ${guess} != null or ${randomNumber} != ${guess}"> Number of guesses: <span th:text="${counter}"></span>
 
     <span th:if="${guess} == ${randomNumber} and ${counter &gt;= 8}">. You've got bad luck...</span>
@@ -25,5 +27,10 @@
     <span th:if="${guess} == ${randomNumber} and ${counter == 1}">. Whoa! Lucky!</span>
 
 </h2>
+
+
+<div th:include="fragments/footer :: my-footer">
+    <!--The entire content of the partial will be *included* inside this div.-->
+</div>
 </body>
 </html>
