@@ -11,21 +11,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class RollDiceController {
-        private int counter = 0;
+    private int counter = 0;
 
     @GetMapping("/roll-dice")
-    public String rollDice() {
+    public String showRollDicePage() {
         return "roll-dice";
     }
 
     @GetMapping("/roll-dice/{guess}")
-    public String rollDiceCompare(@PathVariable int guess, Model viewModel) {
+    public String play(@PathVariable int guess, Model viewModel) {
 
         int random = (int)(Math.random() * 6 + 1);
         counter++;
         viewModel.addAttribute("randomNumber", random);
         viewModel.addAttribute("guess", guess);
         viewModel.addAttribute("counter", counter);
+
+        if(guess == random) {
+            counter = 0;
+        }
         return "roll-dice";
     }
 }

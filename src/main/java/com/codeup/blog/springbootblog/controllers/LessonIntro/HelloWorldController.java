@@ -1,4 +1,4 @@
-package com.codeup.blog.springbootblog.controllers;
+package com.codeup.blog.springbootblog.controllers.LessonIntro;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //Controllers in Springboot will annotate url's to the method...not the class like in Servlets with extending urlPatterns
 public class HelloWorldController {
 
-//    @GetMapping("/hello") // [Step 2] hello() method will now respond to the /hello url.
+//    @GetMapping("/hello") // [Step 2] hello() method will now respond to the /hello url. Similar: request.getRequestDispatcher("/something.jsp").forward(request, response)
 //    @ResponseBody //[Step 3] Must have a response too, like how it was in Servlets.
 //    // This will respond with everything inside the body of the hello() method
 //    public String hello() {

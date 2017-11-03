@@ -1,4 +1,4 @@
-package com.codeup.blog.springbootblog;
+package com.codeup.blog.springbootblog.Models;
 
 /**
  * Created by RyanHarper on 11/3/17.
