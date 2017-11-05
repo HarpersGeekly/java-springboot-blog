@@ -7,12 +7,12 @@
 
 <h1>Here are the posts!</h1>
 
-<ul>
-    <li th:each="aPost : ${posts}">
+
+    <div th:each="aPost : ${posts}">
         <h3 th:text="${aPost.title}"></h3>
         <h3 th:text="${aPost.description}"></h3>
-    </li>
-</ul>
+    </div>
+
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>
