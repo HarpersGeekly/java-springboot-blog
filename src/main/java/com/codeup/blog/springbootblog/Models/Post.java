@@ -16,13 +16,14 @@ public class Post {
         this.description = description;
     }
 
-    // use on the create action
     public Post(String title, String description) {
         this.title = title;
         this.description = description;
     }
 
+    // To use Spring magic, this is the one that is needed:
     public Post() {}
+//    like use on the create form action with Model binding.
 
     public String getTitle() {
         return title;

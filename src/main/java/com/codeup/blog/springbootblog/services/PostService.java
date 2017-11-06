@@ -36,7 +36,7 @@ public class PostService {
     }
 
     private void createDummy() {
-        savePost(new Post(
+        savePost(new Post( // uses the old constructor with just the two parameters...
 //                1L, you don't need to set ID here. savePost handles it. and notice how /posts/1/edit will take you to the first post.
                 "1 Title",
                 "1 Description"
@@ -46,7 +46,7 @@ public class PostService {
                 "2 Title",
                 "2 Description"
         ));
-        savePost(new Post(
+        savePost(new Post( // uses the old constructor with all three parameters...
                 3L,
                 "3 Title",
                 "3 Description"
