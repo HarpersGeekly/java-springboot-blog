@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
@@ -17,19 +18,21 @@ import java.util.List;
 @Controller
 public class PostsController {
 
-    // this is the service placeholder that will be final, it'll never change
+    // this is the service placeholder that will be final, it'll never change.
     private final PostService postSvc;
 
-    // "dependency injection", everything ties together. Services + Controller
+    // Constructor "dependency injection", passing the PostService object into the PostController constructor,
+    // everything ties together now. Services + Controller.
+    // Autowiring makes it so we don't have to build the object ourselves in the main method of SpringBlogApplication, Spring handles this.
     @Autowired
     public PostsController(PostService postSvc) {
         this.postSvc = postSvc;
     }
 
+    //========================================= SHOW ALL POSTS AND SHOW ONE POST =======================================
+
     @GetMapping("/posts")
     public String showAllPosts(Model viewModel) {
-
-        List<Post> posts = postSvc.findAll();
 
 //        Before making the PostService we had all of this:
 
@@ -45,6 +48,7 @@ public class PostsController {
 //        posts.add(post3);
 //        posts.add(post4);
 
+        List<Post> posts = postSvc.findAll();
         viewModel.addAttribute("posts", posts);
         return "posts/index";
     }
@@ -57,15 +61,51 @@ public class PostsController {
         return "posts/show";
     }
 
+    // =============================================== CREATE FORM =====================================================
+
     @GetMapping("/posts/create")
     public String showCreatePostForm(Model viewModel) {
         viewModel.addAttribute("post", new Post());
         return "posts/create";
     }
+//      Essentially we see a blank form when we load the page.
+//      We are displaying the 'title' and 'description' properties of a new post, which doesn't
+//      have any values set for these properties.
+//      We have to make it have an empty object to fill.
+//      So we need to first prepare the form to have a Post object to be submitted.
+//      Therefore on the create.html we use a thymeleaf object <form th:object="${post}">, and the thymeleaf fields:
+//      th:field:*{title}, th:field:*{description}. the * means post.title, post.description
+//      and we get the "post" from:
 
     @PostMapping("/posts/create")
-    public String createPost(Post post) {
+    public String createPost(@ModelAttribute Post post) {
         postSvc.savePost(post);
         return "redirect:/posts";
     }
+//      Now, post will automatically have the title and description that was submitted with the form.
+//      This is why it's good to have an empty constructor Post(){} to handle this.
+
+    // =============================================== EDIT POST =======================================================
+
+    @GetMapping("/posts/{id}/edit")
+    public String showEditPostForm(@PathVariable Long id, @ModelAttribute Post post, Model viewModel) {
+        Post existingPost = postSvc.findOne(id);
+        viewModel.addAttribute("post", existingPost);
+        return "/posts/edit";
+    }
+
+    @PostMapping("/posts/{id}/edit")
+    public String updatePost(Post post, Model viewModel) {
+        viewModel.addAttribute("post", post);
+        postSvc.savePost(post);
+        return "redirect:/show";
+    }
+
+    // ============================================== DELETE POST ======================================================
+
+
+
+
+
+
 }

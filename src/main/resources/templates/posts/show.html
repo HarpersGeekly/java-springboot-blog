@@ -5,8 +5,8 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<h1>Here is a Post:</h1>
-<div th:object="${post}">
+<h1 id="showPageIntro">Here is a Post:</h1>
+<div id="showPageContent" th:object="${post}">
     <h2 th:text="${post.title}"></h2>
     <h2 th:text="${post.description}"></h2>
 </div>

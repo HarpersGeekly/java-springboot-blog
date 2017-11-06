@@ -3,6 +3,7 @@ package com.codeup.blog.springbootblog.Models;
 /**
  * Created by RyanHarper on 11/3/17.
  */
+
 public class Post {
 
     private Long id;
@@ -15,6 +16,7 @@ public class Post {
         this.description = description;
     }
 
+    // use on the create action
     public Post(String title, String description) {
         this.title = title;
         this.description = description;

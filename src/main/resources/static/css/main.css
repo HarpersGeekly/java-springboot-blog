@@ -1,7 +1,7 @@
 body {
     /*!*margin: 0;*!*/
     padding-top: 65px;
-    background-color: #e6aa9f;
+    background-color: #d4cedd;
     /*min-height: 100vh;*/
     /*height: 100%;*/
 
@@ -17,6 +17,15 @@ body {
     height: 100%;
 }
 
+.navbar-default {
+    background-color: rgb(255, 222, 123);
+    border-bottom: #d4cedd solid 1px;
+}
+
+#postIntro {
+    text-align: center;
+}
+
 #wrapper {
     min-height: 100%;
     position: relative;
@@ -24,12 +33,22 @@ body {
 }
 
 #content {
+    margin-left: 20px;
     overflow: auto;
     /*margin-bottom: 155px;*/
 }
 
+#showPageIntro {
+    text-align: center;
+}
+
+#showPageContent {
+    margin-left: 20px;
+}
+
+
 #footer {
-    background: #ffab62;
+    background: #e2a087;
     height: 155px;
     position: absolute;
     bottom: 0;

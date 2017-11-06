@@ -9,7 +9,7 @@
 
     <h1 style="margin-top: 50px;">Create Post</h1>
 
-    <form action="/posts/create" method="POST" th:object="${post}">
+    <form action="/posts/create" method="POST" th:object="${post}"> <!-- @ModelAttribute Post post -->
 
         <div class="form-group">
             <label for="title">Title</label>

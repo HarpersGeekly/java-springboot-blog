@@ -7,11 +7,18 @@
 
     <div id="wrapper">
 
-        <h1>Here are the posts!</h1>
+        <h1 id="postIntro">Here are the posts!</h1>
 
-        <div id="content" th:each="aPost : ${posts}">
-            <h3 th:text="${aPost.title}"></h3>
-            <h3 th:text="${aPost.description}"></h3>
+        <div id="content" th:each="post : ${posts}">
+            <h3>
+                <a th:href="@{/posts/{id}(id=${post.id})}"  th:text="${post.title}"></a>
+            </h3>
+
+            <h3 th:text="${post.description}"></h3>
+
+            <!--// wanna use a button to send to edit? -->
+            <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
+            
         </div>
 
     </div>
