@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/header :: my-header('Create Post')">
+<head th:include="fragments/header :: my-header('Edit Post')">
 </head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
 <div class="container">
 
-    <h1 style="margin-top: 50px;">Edit Post</h1>
+    <h1 style="margin-top: 50px;">Create New Post</h1>
 
-    <form action="/posts/create" method="POST" th:object="${post}">
+    <form th:action="@{'/posts/' + ${post.id} + '/edit'}" method="post" th:object="${post}">
 
         <div class="form-group">
             <label for="title">Title</label>
@@ -23,11 +23,11 @@
             </textarea>
         </div>
 
-        <input type="submit" value="Post!" class="btn btn-primary btn-block" />
+        <input type="submit" value="Update Post!" class="btn btn-primary btn-block" />
 
     </form>
-
 </div>
+
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>
 </html>
