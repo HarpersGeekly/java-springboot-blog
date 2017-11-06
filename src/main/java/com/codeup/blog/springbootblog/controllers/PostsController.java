@@ -64,7 +64,8 @@ public class PostsController {
     }
 
     @PostMapping("/posts/create")
-    public String createPost() {
-        return "posts/create";
+    public String createPost(Post post) {
+        postSvc.savePost(post);
+        return "redirect:/posts";
     }
 }

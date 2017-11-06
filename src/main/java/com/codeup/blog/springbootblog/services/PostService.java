@@ -55,5 +55,45 @@ public class PostService {
                 "Fourth Title",
                 "Fourth Description"
         ));
+//        this.savePost(new Post(
+//                5L,
+//                "5 Title",
+//                "5 Description"
+//        ));
+//        this.savePost(new Post(
+//                6L,
+//                "6 Title",
+//                "6 Description"
+//        ));
+//        this.savePost(new Post(
+//                7L,
+//                "7 Title",
+//                "7 Description"
+//        ));
+//        this.savePost(new Post(
+//                8L,
+//                "8 Title",
+//                "8 Description"
+//        ));
+//        this.savePost(new Post(
+//                9L,
+//                "5 Title",
+//                "5 Description"
+//        ));
+//        this.savePost(new Post(
+//                10L,
+//                "6 Title",
+//                "6 Description"
+//        ));
+//        this.savePost(new Post(
+//                11L,
+//                "7 Title",
+//                "7 Description"
+//        ));
+//        this.savePost(new Post(
+//                12L,
+//                "12 Title",
+//                "12 Description"
+//        ));
     }
 }

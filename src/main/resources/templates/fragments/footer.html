@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
     <head th:include="fragments/header :: my-header">
     </head>
-
 <body>
 <!--Whichever bootstrap footer chosen in bootstrap 3, to keep it on bottom, use:-->
 <!--footer class="navbar-fixed-bottom"-->
 <div th:fragment="my-footer">
+
+
+    <footer id="footer" class="navbar-fixed-bottom">
     <!--Footer-->
-    <footer class="navbar-fixed-bottom page-footer center-on-small-only">
+        <!--  class="navbar-fixed-bottom page-footer center-on-small-only"-->
 
         <!--Footer Links-->
         <div class="container-fluid">
@@ -24,7 +25,7 @@
 
                 <!--Second column-->
                 <div class="col-md-6">
-                    <h5 class="title">Links</h5>
+                    <h5 class="title">GO TO:</h5>
                     <ul>
                         <!--<li sec:authorize="!isAuthenticated()">-->
                         <li>
@@ -61,18 +62,16 @@
         </div>
         <!--/.Footer Links-->
 
-        <!--Copyright-->
-        <div class="footer-copyright">
-            <div class="container-fluid">
-                © 2015 Copyright: <a href="https://www.MDBootstrap.com"> MDBootstrap.com </a>
+        <!--&lt;!&ndash;Copyright&ndash;&gt;-->
+        <!--<div class="footer-copyright">-->
+            <!--<div class="container-fluid">-->
+                <!--© 2015 Copyright: <a href="https://www.MDBootstrap.com"> MDBootstrap.com </a>-->
 
-            </div>
-        </div>
+            <!--</div>-->
+        <!--</div>-->
         <!--/.Copyright-->
-
     </footer>
     <!--/.Footer-->
-
 </div>
 </body>
 </html>

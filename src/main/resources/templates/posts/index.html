@@ -5,14 +5,16 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<h1>Here are the posts!</h1>
+    <div id="wrapper">
 
+        <h1>Here are the posts!</h1>
 
-    <div th:each="aPost : ${posts}">
-        <h3 th:text="${aPost.title}"></h3>
-        <h3 th:text="${aPost.description}"></h3>
+        <div id="content" th:each="aPost : ${posts}">
+            <h3 th:text="${aPost.title}"></h3>
+            <h3 th:text="${aPost.description}"></h3>
+        </div>
+
     </div>
-
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>
