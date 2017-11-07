@@ -31,25 +31,25 @@ public class PostService {
 //    public List<Post> findAll() {
 //        return posts;
 //    }
-
+//
 //    public Post findOne(Long id) {
 //        return posts.get((int) (id - 1)); // why minus 1? Must take into account the +1 I made when I created the post.
 //        //if I put 2 in the PathVariable, it's still at position 1 in the "database" because it's zero-based indexed.
 //    }
-
-    // this is only used for the Dummy List here in this class.
-//    public Post savePost(Post post) { // think of this as the first post you ever make. size = 0. Then, + 1.
+//
+//    // this is only used for the Dummy List here in this class.
+//    public Post save(Post post) { // think of this as the first post you ever make. size = 0. Then, + 1.
 //        post.setId((long) (posts.size() + 1)); // size returns an integer, needs to be long casted. Add 1 to the id so it's not 0.
 //        posts.add(post); // add to the List.
 //        return post;
 //    }
-
-//    public Post updatePost(Post post) {
-//        post.setId((long)(post.getId() - 1), post);
-//        return post;
-//    }
 //
 //    public Post delete(Post post) {
+//        return post;
+//    }
+
+//    public Post update(Post post) {
+//        post.setId((long)(post.getId() - 1), post);
 //        return post;
 //    }
 
@@ -69,25 +69,6 @@ public class PostService {
 //                "3 Title",
 //                "3 Description"
 //        ));
-//        savePost(new Post(
-//                4L,
-//                "4 Title",
-//                "4 Description"
-//        ));
-//        savePost(new Post(
-//                5L,
-//                "5 Title",
-//                "5 Description"
-//        ));
-//        savePost(new Post(
-//                6L,
-//                "6 Title",
-//                "6 Description"
-//        ));
-//        savePost(new Post(
-//                7L,
-//                "7 Title",
-//                "7 Description"
-//        ));
+
 }
 

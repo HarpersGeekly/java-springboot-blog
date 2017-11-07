@@ -21,7 +21,6 @@ public class PostsController {
 
     // this is the service placeholder that will be final, it'll never change.
     private final PostService postSvc;
-
     //this is the repository placeholder;
     private final PostsRepository postsDao;
 
@@ -109,7 +108,7 @@ public class PostsController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String updatePost(Post post, Model viewModel) {
+    public String update(Post post, Model viewModel) {
         viewModel.addAttribute("post", post);
 //        postSvc.save(post);
         postsDao.save(post);
@@ -119,7 +118,7 @@ public class PostsController {
     // ============================================== DELETE POST ======================================================
 
     @PostMapping("/posts/delete")
-    public String deletePost(@ModelAttribute Post post) { // @ModelAttribute = expecting a post object to delete
+    public String delete(@ModelAttribute Post post) { // @ModelAttribute = expecting a post object to delete
         postsDao.delete(postsDao.findOne(post.getId()));
         return "redirect:/posts";
     }
