@@ -11,6 +11,13 @@
     <h2 th:text="${post.description}"></h2>
 </div>
 
+<!--<div sec:authorize="isAuthenticated()">-->
+    <!--<div th:if="${isEditable}">-->
+        <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>
+    <!--</div>-->
+
+<!--</div>-->
+
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>
 </html>

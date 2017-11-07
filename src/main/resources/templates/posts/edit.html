@@ -26,6 +26,13 @@
         <input type="submit" value="Update Post!" class="btn btn-primary btn-block" />
 
     </form>
+
+    <form th:action="@{'/posts/delete'}" method="post" th:object="${post}">
+        <input type="hidden" name="id" th:value="${post.id}" />
+        <input type="submit" value="Delete" class="btn btn-primary btn-block btn-danger"/>
+        <!-- <input th:if="${isEditable}"-->
+    </form>
+
 </div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
