@@ -1,13 +1,23 @@
 package com.codeup.blog.springbootblog.Models;
 
+import javax.persistence.*;
+
 /**
  * Created by RyanHarper on 11/3/17.
  */
 
+@Entity
+@Table(name = "posts")
 public class Post {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 100)
     private String title;
+
+    @Column(nullable = false)
     private String description;
 
     public Post(Long id, String title, String description) {
