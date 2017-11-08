@@ -15,7 +15,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
     private Long id;
 
-    @Column(nullable = false, unique = true) 
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false, unique = true)
@@ -29,16 +29,15 @@ public class User {
 
     public User(){}
 
-    // security files will need this constructor: It makes clones. Why?
+    // security files will need the next constructor. It makes clones/copies. Why?
     // Spring dependencies require a copy of all the properties in the User object
-    // because it's the only one that requires authentication.
-
+    // because it's the only one that requires authentication:
     public User(User copy) {
-        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
-        email = copy.email;
-        username = copy.username;
-        password = copy.password;
-        posts = copy.posts;
+        this.id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        this.email = copy.email;
+        this.username = copy.username;
+        this.password = copy.password;
+        this.posts = copy.posts;
     }
 
     public Long getId() {
