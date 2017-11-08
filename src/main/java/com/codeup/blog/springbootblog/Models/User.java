@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.Models;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by RyanHarper on 11/7/17.
@@ -23,8 +24,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany // one user can have many posts
-    private Post post;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts.
+    private List<Post> posts;
 
     public User(Long id, String username, String email, String password) {
         this.id = id;

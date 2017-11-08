@@ -39,6 +39,14 @@ public class Post {
     //use for Spring magic.
     public Post() {}
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -55,11 +63,12 @@ public class Post {
         this.description = description;
     }
 
-    public Long getId() {
-        return id;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -15,6 +15,7 @@
             </h3>
 
             <h3 th:text="${post.description}"></h3>
+            <h4>posted by: <span th:text="${post.user.username}"></span></h4>
 
             <!--// wanna use a button to send to edit? -->
             <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->

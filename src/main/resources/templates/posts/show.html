@@ -12,6 +12,7 @@
     <div id="showPageContent" th:object="${post}">
         <h2 th:text="${post.title}"></h2>
         <h2 th:text="${post.description}"></h2>
+        <h4>Created by: <span th:text="${post.user.username}"></span></h4>
         <!--<div sec:authorize="isAuthenticated()">-->
             <div>
                 <!--<div th:if="${isEditable}">-->

@@ -18,5 +18,6 @@ public interface UsersRepository extends CrudRepository<User, Long> {
     public User findByEmail(String password);
 
 //    @Query("select u from users u where u.email = ?1")
-    public User findByEmailQuery(String email);
+//    public User findByEmailQuery(String email);
+
 }
