@@ -20,17 +20,21 @@ public class UserWithRoles extends User implements UserDetails { // UserDetails 
 
     private List<String> userRoles;
 
+    //constructor
     public UserWithRoles(User user, List<String> userRoles) {
-        super(user); // call the copy constructor defined in the User model
+        super(user); // call the copy constructor, User(User copy),
+        // defined in the User model superclass (inheritance)
         this.userRoles = userRoles;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities() { // get the list (collection) of roles.
         String roles = StringUtils.collectionToCommaDelimitedString(userRoles);
         return AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
     }
 
+    // these are small configs: How the security is going to behave.
+    // Overriding methods in UserDetails interface, which we don't need to know much about!
     @Override
     public boolean isAccountNonExpired() {
         return true;
