@@ -9,6 +9,8 @@
 
     <h1 style="margin-top: 50px;">Edit Post</h1>
 
+    <!--====================================== EDIT FORM ========================================-->
+
     <form th:action="@{'/posts/' + ${post.id} + '/edit'}" method="post" th:object="${post}">
 
         <div class="form-group">
@@ -27,14 +29,16 @@
 
     </form>
 
-    <form th:action="@{'/posts/delete'}" method="post" th:object="${post}">
+    <!--=================================== DELETE BUTTON =========================================-->
+
+    <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" th:object="${post}">
         <input type="hidden" name="id" th:value="${post.id}" />
-        <input type="submit" value="Delete" class="btn btn-primary btn-block btn-danger"/>
+        <input type="submit" value="Delete :(" class="btn btn-primary btn-block btn-danger"/>
         <!-- <input th:if="${isEditable}"-->
     </form>
 
 </div>
 
-<footer th:include="fragments/footer :: my-footer"></footer>
+<!--<footer th:include="fragments/footer :: my-footer"></footer>-->
 </body>
 </html>

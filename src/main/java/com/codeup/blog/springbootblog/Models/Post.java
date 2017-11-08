@@ -6,34 +6,38 @@ import javax.persistence.*;
  * Created by RyanHarper on 11/3/17.
  */
 
-@Entity
-@Table(name = "posts")
+@Entity // annotation saying "will be a table".
+@Table(name = "posts") // name of database table
 public class Post {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100) // column on table, not-null
     private String title;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false) // column, text for more, not-null
     private String description;
 
+    @OneToOne //one post belongs to a user.
+    private User user;
+
+    //use when the post is retrieved from the database.
     public Post(Long id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
     }
 
+    //use on the create form action with Model binding.
     public Post(String title, String description) {
         this.title = title;
         this.description = description;
     }
 
-    // To use Spring magic, this is the one that is needed:
+    //use for Spring magic.
     public Post() {}
-//    like use on the create form action with Model binding.
 
     public String getTitle() {
         return title;
