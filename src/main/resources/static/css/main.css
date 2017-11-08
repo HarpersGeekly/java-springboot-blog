@@ -1,10 +1,10 @@
 body {
     /*!*margin: 0;*!*/
     padding-top: 65px;
-    background-color: #d4cedd;
     /*min-height: 100vh;*/
     /*height: 100%;*/
-
+    background:  #dedede;
+    font-family: Georgia, serif;
 }
 
 html {
@@ -18,8 +18,30 @@ body {
 }
 
 .navbar-default {
-    background-color: rgb(255, 222, 123);
-    border-bottom: #d4cedd solid 1px;
+    background-color: #5c5757;
+    /*border-bottom: #ffa631 solid 10px;*/
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav>li>a {
+    color: #d9edf7;
+    font-family: Avenir, serif;
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-nav>li>a:hover {
+    color: #ffea7e;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    /* ...and now for the proper property */
+    transition:.5s;
+    -webkit-animation-name: pulse;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+
 }
 
 #postIntro {
@@ -33,6 +55,7 @@ body {
 }
 
 #content {
+    font-family: Georgia, serif;
     margin-left: 20px;
     overflow: auto;
     /*margin-bottom: 155px;*/
@@ -48,9 +71,15 @@ body {
 
 
 #footer {
-    background: #e2a087;
+    /*border-top: #00aeff solid 10px;*/
+    background: #ffea7e;
     height: 155px;
     position: absolute;
     bottom: 0;
     left: 0;
+}
+
+#footer ul, #footer a:hover {
+    font-family: Avenir, serif;
+    text-decoration: none;
 }

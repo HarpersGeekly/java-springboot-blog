@@ -20,7 +20,7 @@ public class Post {
     @Column(columnDefinition = "TEXT", nullable = false) // column, text for more, not-null
     private String description;
 
-    @OneToOne //one post belongs to a user.
+    @ManyToOne // many posts can belong to one user.
     private User user;
 
     //use when the post is retrieved from the database.

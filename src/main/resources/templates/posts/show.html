@@ -10,10 +10,10 @@
     <h1 id="showPageIntro">Here is a Post:</h1>
 
     <div id="showPageContent" th:object="${post}">
-        <h2 th:text="${post.title}"></h2>
-        <h2 th:text="${post.description}"></h2>
-        <h4>Created by: <span th:text="${post.user.username}"></span></h4>
-        <!--<div sec:authorize="isAuthenticated()">-->
+        <h3 th:text="${post.title}"></h3>
+        <h3 th:text="${post.description}"></h3>
+        <h4>posted by: <span th:text="${post.user.username}"></span></h4>
+            <!--<div sec:authorize="isAuthenticated()">-->
             <div>
                 <!--<div th:if="${isEditable}">-->
                 <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>
