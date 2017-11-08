@@ -15,10 +15,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true) 
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -27,6 +27,12 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts.
     private List<Post> posts;
 
+    public User(){}
+
+    // security files will need this constructor: It makes clones. Why?
+    // Spring dependencies require a copy of all the properties in the User object
+    // because it's the only one that requires authentication.
+
     public User(User copy) {
         id = copy.id; // This line is SUPER important! Many things won't work if it's absent
         email = copy.email;
@@ -34,9 +40,6 @@ public class User {
         password = copy.password;
         posts = copy.posts;
     }
-
-    public User(){}
-
 
     public Long getId() {
         return id;
