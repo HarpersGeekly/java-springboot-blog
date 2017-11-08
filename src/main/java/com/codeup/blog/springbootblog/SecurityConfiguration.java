@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Created by RyanHarper on 11/8/17.
  */
 
+//GIVEN IN CURRICULUM
 //Finally, we need to create a configuration class to determine several things
 
 //Which pages will require authentication

@@ -27,14 +27,6 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts.
     private List<Post> posts;
 
-//    public User(Long id, String username, String email, String password, List<Post> posts) {
-//        this.id = id;
-//        this.username = username;
-//        this.email = email;
-//        this.password = password;
-//        this.posts = posts;
-//    }
-
     public User(User copy) {
         id = copy.id; // This line is SUPER important! Many things won't work if it's absent
         email = copy.email;

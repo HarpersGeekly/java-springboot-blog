@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 /**
  * Created by RyanHarper on 11/8/17.
  */
+
+//GIVEN IN CURRICULUM
 @Controller
 public class UsersController {
+
     private UsersRepository usersDao;
     private PasswordEncoder passwordEncoder;
 

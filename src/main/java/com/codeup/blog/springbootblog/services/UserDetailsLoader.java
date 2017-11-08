@@ -14,7 +14,7 @@ import java.util.Collections;
 /**
  * Created by RyanHarper on 11/8/17.
  */
-
+// GIVEN IN CURRICULUM.
 // We will need to define a service that spring security will use to
 // load the authentication and authorization information of users.
 
