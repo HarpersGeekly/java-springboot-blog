@@ -24,13 +24,13 @@ public class UsersController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/users/sign-up")
-    public String showSignupForm(Model model){
+    @GetMapping("/users/register")
+    public String showRegisterForm(Model model){
         model.addAttribute("user", new User());
-        return "users/sign-up";
+        return "users/register";
     }
 
-    @PostMapping("/users/sign-up")
+    @PostMapping("/users/register")
     public String saveUser(@ModelAttribute User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersDao.save(user);
