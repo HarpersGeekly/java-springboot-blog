@@ -5,6 +5,7 @@ import com.codeup.blog.springbootblog.Models.User;
 import com.codeup.blog.springbootblog.repositories.PostsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
+import com.codeup.blog.springbootblog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +25,9 @@ public class PostsController {
     // this is the service placeholder that will be final, it'll never change.
     private final PostService postSvc;
 
-    private final UsersRepository usersDao;
+    private final UsersRepository usersDao; //making queries to database
+
+    private final UserService userSvc; // using methods in the UserService, like isLoggedIn(), etc.
 
     // Constructor "dependency injection", passing the PostService object into the PostController constructor,
     // everything ties together now. Services + Controller.
@@ -36,9 +39,10 @@ public class PostsController {
     // Reminder: There are built in methods for CRUDRepository:
     // findAll(), findOne(), save(), delete(). These are in the Service
 
-    public PostsController(PostService postSvc, UsersRepository usersDao) {
+    public PostsController(PostService postSvc, UsersRepository usersDao, UserService userSvc) {
         this.postSvc = postSvc;
         this.usersDao = usersDao;
+        this.userSvc = userSvc;
     }
 
     //========================================= SHOW ALL POSTS AND SHOW ONE POST =======================================
@@ -86,10 +90,11 @@ public class PostsController {
 //      th:field:*{title}, th:field:*{description}. the * means post.title, post.description
 //      and we get the "post" from:
 
+    // We also need to set the User of the post to the user who is logged in!
+
     @PostMapping("/posts/create")
     public String createPost(@ModelAttribute Post post) {
-//        post.setUser(usersDao.loggedInUser());
-        post.setUser(usersDao.findById(2L));
+        post.setUser(userSvc.loggedInUser());
         postSvc.save(post);
         return "redirect:/posts";
     }
@@ -101,6 +106,8 @@ public class PostsController {
     @GetMapping("/posts/{id}/edit")
     public String showEditPostForm(@PathVariable Long id, Model viewModel) {
         Post existingPost = postSvc.findOne(id);
+//        viewModel.addAttribute("isEditable", userSvc.isLoggedInAndPostMatchesUser(existingPost.getUser()));
+//        userSvc.isLoggedInAndPostMatchesUser(existingPost.getUser());
         viewModel.addAttribute("post", existingPost);
         return "/posts/edit";
     }
@@ -109,6 +116,7 @@ public class PostsController {
     public String update(@PathVariable Long id, @ModelAttribute Post post) {
         // @ModelAttribute = expecting a post object to update/delete
         post.setId(id);
+        post.setUser(userSvc.loggedInUser());
         postSvc.save(post);
         return "redirect:/posts/{id}";
     }

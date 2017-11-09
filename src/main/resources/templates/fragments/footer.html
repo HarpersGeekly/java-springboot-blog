@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
     <head th:include="fragments/header :: my-header">
     </head>
 <body>
@@ -28,33 +28,30 @@
                     <h5 class="title">GO TO:</h5>
                     <ul>
                         <!--<li sec:authorize="!isAuthenticated()">-->
-                        <li>
-                            <a href="/register">Register</a>
-                        </li>
-
-                        <!--<li sec:authorize="!isAuthenticated()">-->
-                        <li>
-                            <a href="/login">Login</a>
-                        </li>
-
                         <li><a href="/posts">All Posts</a></li>
 
-                        <!--<li sec:authorize="isAuthenticated()">-->
-                        <li>
+                        <li sec:authorize="isAuthenticated()">
                             <a href="/posts/create">Create New Post</a>
                         </li>
 
-                        <!--<li sec:authorize="isAuthenticated()">-->
-                        <!--<form th:action="@{/logout}" th:method="post">-->
-                        <!--<button id="logout" class="btn btn-link">Logout</button>-->
-                        <!--</form>-->
-                        <!--</li>-->
-
-                        <!--<li><a href="/contact">Contact</a></li>-->
-                        <!--<li><a href="/home">Home</a></li>-->
-                        <!--<li><a href="/demo">Demo</a></li>-->
-
                         <li><a href="/roll-dice">Roll Dice</a></li>
+
+
+                        <li sec:authorize="isAuthenticated()">
+                            <form th:action="@{/logout}" th:method="post">
+                                <button id="logout" class="btn btn-link">
+                                    <a href="/posts" id="logoutLink">Logout</a>
+                                </button>
+                            </form>
+                        </li>
+
+                        <li sec:authorize="!isAuthenticated()">
+                            <a href="/login">Login</a>
+                        </li>
+
+                        <li sec:authorize="!isAuthenticated()">
+                            <a href="/register">Register</a>
+                        </li>
                     </ul>
                 </div>
                 <!--/.Second column-->

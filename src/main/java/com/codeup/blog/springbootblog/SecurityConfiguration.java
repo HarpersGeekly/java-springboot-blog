@@ -33,25 +33,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
+    } //plain text to hash
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                // login
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/posts") // user's home page, it can be any URL
+                .defaultSuccessUrl("/posts") // after logging in, go to user's home page, it can be any URL
                 .permitAll() // Anyone can go to the login page
                 .and()
+
+                // non-logged in users
                 .authorizeRequests()
-                .antMatchers("/", "/logout") // anyone can see the home and logout page
+                .antMatchers("/posts", "/logout") // anyone can see the home and logout page
                 .permitAll()
                 .and()
+
+                // logout
                 .logout()
                 .logoutSuccessUrl("/login?logout") // append a query string value
                 .and()
+
+                //restricted area
                 .authorizeRequests()
-                .antMatchers("/posts/create") // only authenticated users can create ads
+                .antMatchers("/posts/create", "/posts/edit") // only authenticated users can create posts
                 .authenticated()
         ;
     }

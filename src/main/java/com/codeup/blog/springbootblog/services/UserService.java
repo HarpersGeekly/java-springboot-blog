@@ -15,15 +15,15 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     public boolean isLoggedIn() {
-        boolean isAnonymousUser =
+        boolean isAnonymousUser = //starts with an anonymous user...gets authenticated:
                 SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken;
-        return !isAnonymousUser;
+        return !isAnonymousUser; // now is not an anonymous user!
     }
 
     public User loggedInUser() {
-        if (! isLoggedIn()) {
+        if (! isLoggedIn()) {// if you are an anonymous user...return null.
             return null;
-        }
+        } // otherwise return a User who has authentication!
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 

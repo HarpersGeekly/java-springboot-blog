@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
  * Created by RyanHarper on 11/8/17.
  */
 
-//GIVEN IN CURRICULUM
 @Controller
 public class UsersController {
 
@@ -47,7 +46,7 @@ public class UsersController {
     }
 
     @PostMapping("/users/register")
-    public String saveUser(@ModelAttribute User user){
+    public String registerUser(@ModelAttribute User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersDao.save(user);
         return "redirect:/login";
