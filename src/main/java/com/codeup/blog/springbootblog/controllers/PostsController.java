@@ -70,6 +70,7 @@ public class PostsController {
     public String showPostById(@PathVariable Long id, Model viewModel) {
 //        Post post = new Post(1L,"First Title", "First Description");
         Post post = postSvc.findOne(id);
+        viewModel.addAttribute("showEditButton", userSvc.isLoggedInAndPostMatchesUser(post.getUser()));
         viewModel.addAttribute("post", post);
         return "posts/show";
     }
@@ -106,8 +107,8 @@ public class PostsController {
     @GetMapping("/posts/{id}/edit")
     public String showEditPostForm(@PathVariable Long id, Model viewModel) {
         Post existingPost = postSvc.findOne(id);
-//        viewModel.addAttribute("isEditable", userSvc.isLoggedInAndPostMatchesUser(existingPost.getUser()));
-//        userSvc.isLoggedInAndPostMatchesUser(existingPost.getUser());
+        viewModel.addAttribute("isEditable", userSvc.isLoggedInAndPostMatchesUser(existingPost.getUser()));
+        userSvc.isLoggedInAndPostMatchesUser(existingPost.getUser());
         viewModel.addAttribute("post", existingPost);
         return "/posts/edit";
     }

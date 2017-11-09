@@ -16,8 +16,7 @@
 
 
             <div sec:authorize="isAuthenticated()">
-                <div>
-                    <!--<div th:if="${isEditable}">-->
+                <div th:if="${showEditButton}">
                     <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>
                 </div>
             </div>
