@@ -40,9 +40,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 // login
                 .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/posts") // after logging in, go to user's home page, it can be any URL
-                .permitAll() // Anyone can go to the login page
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/posts") // after logging in, go to user's home page
+//                  .defaultSuccessUrl("/profile") // after logging in, go to user's profile page
+                    .permitAll() // Anyone can go to the login page
                 .and()
 
                 // non-logged in users
@@ -53,19 +54,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // logout
                 .logout()
-                .logoutSuccessUrl("/posts") // append a query string value
-//                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/posts") //after logout, go to posts page.
+//                .logoutSuccessUrl("/login?logout") // original convention
                 .and()
 
                 //restricted area
                 .authorizeRequests()
-                .antMatchers("/posts/create", "/posts/edit") // only authenticated users can create posts
+                .antMatchers("/posts/create", "/posts/edit") // only authenticated (logged in) users can create/edit posts
                 .authenticated()
         ;
     }
 
+//============= :) WE DID ALL THE SECURITY STEPS AND MADE CLASSES JUST TO USE THIS NEXT METHOD :) ==================
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetails).passwordEncoder(passwordEncoder());
+        auth
+                .userDetailsService(userDetails) // how to find a user by its username
+                .passwordEncoder(passwordEncoder()); // how to encode/verify a password
     }
 }
