@@ -14,7 +14,6 @@
         <h3 th:text="${post.description}"></h3>
         <h4>posted by: <a th:href="${'/profile/' + post.user.id}"><span th:text="${post.user.username}"></span></a></h4>
 
-
             <div sec:authorize="isAuthenticated()">
                 <div th:if="${showEditButton}">
                     <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>

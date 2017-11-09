@@ -10,17 +10,18 @@
         <h1 id="postIntro">Here are the posts!</h1>
 
         <div id="content" th:each="post : ${posts}">
-            <h3>
-                <a th:href="@{/posts/{id}(id=${post.id})}"  th:text="${post.title}"></a>
-            </h3>
+            <ul>
+                <li>
+                    <h3>
+                        <a th:href="@{/posts/{id}(id=${post.id})}"  th:text="${post.title}"></a>
+                    </h3>
 
-            <h3 th:text="${post.description}"></h3>
-
-            <h4>posted by: <span th:text="${post.user.username}"></span></h4>
-
-            <!--// wanna use a button to send to edit? -->
-            <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
-
+                    <h3 th:text="${post.description}"></h3>
+                    <h4>posted by: <span th:text="${post.user.username}"></span></h4>
+                    </li>
+                <!--// wanna use a button to send to edit here? -->
+                    <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
+            </ul>
         </div>
 
     </div>

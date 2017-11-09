@@ -69,16 +69,17 @@ public class UsersController {
 
     @GetMapping("/profile")
     public String showProfilePage(Model viewModel) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        viewModel.addAttribute("user", user);
+        User userLoggedIn = userSvc.loggedInUser(); // Grab the loggedInUser from the service and assign them a name, userLoggedIn.
+        viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
+        viewModel.addAttribute("profileUser", usersDao.findOne(userLoggedIn.getId())); 
         return "users/profile";
     }
 
     @GetMapping("/profile/{id}")
     public String showOtherUsersProfilePage(@PathVariable Long id, Model viewModel) {
-        User user = usersDao.findById(id);
-        viewModel.addAttribute("showEditButton", userSvc.isLoggedInAndPostMatchesUser(user));
-        viewModel.addAttribute("user", user);
+        User user = usersDao.findById(id); // find the User from the id in the url profile/{id}/edit
+        viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser())); // false if passing another id.
+        viewModel.addAttribute("profileUser", user);
         return "users/profile";
     }
 

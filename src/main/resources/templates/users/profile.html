@@ -1,13 +1,47 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:include="fragments/header :: my-header('Profile')">
 </head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
+<!-- Show different words or features based on whether you're on your profile or someone else's -->
 
-<h1> Here is your profile! </h1>
+<div class="container">
+<!--============================================ VIEWING LOGGED IN USERS PROFILE ========================================-->
 
+    <th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">
+        <h1> Here is your profile! Welcome, <span th:text="${#authentication.principal.username}"></span>!</h1>
+
+        <h3>Email: <span th:text="${#authentication.principal.email}"/></h3>
+        <h3>You are currently logged in.</h3>
+    </th:block>
+
+<!--============================================== VIEWING OTHER USERS PROFILES ===========================================-->
+
+    <th:block th:if="${!isOwnProfile}">
+        <h1> Viewing <span th:text="${profileUser.username}"></span>'s profile!</h1>
+        <h3> Email: <span th:text="${profileUser.email}"></span></h3>
+    </th:block>
+
+<!--============================================== THE LIST OF POSTS ======================================================-->
+
+    <div id="content" th:each="post : ${profileUser.posts}">
+        <ul>
+            <li>
+                <h4 th:text="${post.title}"></h4>
+                <h5 th:text="${post.description}"></h5>
+
+                <div th:if="${isOwnProfile}">
+                    <div>
+                        <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>
 </html>

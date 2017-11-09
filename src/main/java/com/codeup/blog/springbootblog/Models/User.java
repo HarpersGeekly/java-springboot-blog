@@ -71,4 +71,19 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    @Override
+    public boolean equals(Object anotherUser) {
+        if (anotherUser != null)
+            if (anotherUser instanceof User)
+                if (id.equals(((User) anotherUser).id)) return true;
+        // otherwise
+        return false;
+    }
 }
+
+

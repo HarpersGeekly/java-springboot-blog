@@ -30,7 +30,4 @@ public class UserService {
     public boolean isLoggedInAndPostMatchesUser(User user) {
         return isLoggedIn() && (loggedInUser().getId() == user.getId());
     }
-
-
-
 }

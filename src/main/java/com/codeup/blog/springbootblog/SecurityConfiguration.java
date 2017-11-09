@@ -48,7 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // non-logged in users
                 .authorizeRequests()
-                .antMatchers("/posts", "/login", "/register") // anyone can see the home and register page
+                .antMatchers("/posts", "/login", "/register", "/profile/{id}") // anyone can see the home and register page
                 .permitAll()
                 .and()
 
@@ -61,7 +61,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //restricted area
                 .authorizeRequests()
                 .antMatchers("/posts/create",
-                        "/posts/{id}/edit") // only authenticated (logged in) users can create/edit posts
+                        "/posts/{id}/edit",
+                        "/profile"
+                ) // only authenticated (logged in) users can create/edit posts
                 .authenticated()
         ;
     }

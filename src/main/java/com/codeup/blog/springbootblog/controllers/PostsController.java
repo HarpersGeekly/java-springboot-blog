@@ -107,8 +107,6 @@ public class PostsController {
     @GetMapping("/posts/{id}/edit")
     public String showEditPostForm(@PathVariable Long id, Model viewModel) {
         Post existingPost = postSvc.findOne(id);
-        viewModel.addAttribute("isEditable", userSvc.isLoggedInAndPostMatchesUser(existingPost.getUser()));
-        userSvc.isLoggedInAndPostMatchesUser(existingPost.getUser());
         viewModel.addAttribute("post", existingPost);
         return "/posts/edit";
     }
