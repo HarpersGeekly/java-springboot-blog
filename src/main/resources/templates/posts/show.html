@@ -13,12 +13,13 @@
         <h3 th:text="${post.title}"></h3>
         <h3 th:text="${post.description}"></h3>
         <h4>posted by: <span th:text="${post.user.username}"></span></h4>
+
             <!--<div sec:authorize="isAuthenticated()">-->
             <div>
                 <!--<div th:if="${isEditable}">-->
                 <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>
             </div>
-<!--</div>-->
+            <!--</div>-->
     </div>
 
 </div>

@@ -29,7 +29,8 @@ public class UserDetailsLoader implements UserDetailsService { // UserDetailsSer
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { // UserDetails is a built-in Spring interface
+
         User user = usersDao.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("No user found for " + username);

@@ -23,12 +23,15 @@ body {
 }
 
 .navbar-default .navbar-brand,
+.navbar-default .navbar-nav>li>form>button>a, #logout,
 .navbar-default .navbar-nav>li>a {
     color: #d9edf7;
     font-family: Avenir, serif;
+    text-decoration: none;
 }
 
 .navbar-default .navbar-brand:hover,
+.navbar-default .navbar-nav>li>form>button>a:hover, #logout,
 .navbar-default .navbar-nav>li>a:hover {
     color: #ffea7e;
     -o-transition:.5s;
@@ -41,8 +44,13 @@ body {
     -webkit-animation-duration: 1.5s;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
-
+    text-decoration: none;
 }
+
+#logout {
+    margin-top:8px;
+}
+
 
 #postIntro {
     text-align: center;

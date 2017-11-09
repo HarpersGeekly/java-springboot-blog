@@ -88,7 +88,8 @@ public class PostsController {
 
     @PostMapping("/posts/create")
     public String createPost(@ModelAttribute Post post) {
-        post.setUser(usersDao.findById(1L));
+//        post.setUser(usersDao.loggedInUser());
+        post.setUser(usersDao.findById(2L));
         postSvc.save(post);
         return "redirect:/posts";
     }
