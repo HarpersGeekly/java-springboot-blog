@@ -12,15 +12,15 @@ import org.springframework.stereotype.Repository;
 public interface UsersRepository extends CrudRepository<User, Long> {
 
     // select * from users where username = ? (thanks Spring!)
-    public User findByUsername(String username);
+    User findByUsername(String username);
 
     // select * from users where id = ?
-    public User findById(Long id);
+    User findById(Long id);
 
     // select * from users where email = ?
-    public User findByEmail(String password);
+    User findByEmail(String password);
 
 //    @Query("select * from users u where u.email = ?1")
-//    public User findByEmailQuery(String email);
+//  User findByEmailQuery(String email);
 
 }

@@ -18,19 +18,20 @@ import java.util.List;
 
 public class UserWithRoles extends User implements UserDetails { // UserDetails is a built-in Spring interface.
 
-    private List<String> userRoles;
+    private List<String> userRoles; // optional if I want roles.
 
     //constructor
     public UserWithRoles(User user, List<String> userRoles) {
         super(user); // call the copy constructor, User(User copy),
         // defined in the User model superclass (inheritance)
-        this.userRoles = userRoles;
+        // must have super(user)
+        this.userRoles = userRoles; // optional.
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() { // get the list (collection) of roles.
-        String roles = StringUtils.collectionToCommaDelimitedString(userRoles);
-        return AuthorityUtils.commaSeparatedStringToAuthorityList(roles);
+        String roles = StringUtils.collectionToCommaDelimitedString(userRoles); // or Collections.emptyList() if you don't want roles.
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(roles); // or ("");
     }
 
     // these are small configs: How the security is going to behave.
