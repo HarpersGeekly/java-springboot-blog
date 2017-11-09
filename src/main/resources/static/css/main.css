@@ -23,7 +23,7 @@ body {
 }
 
 .navbar-default .navbar-brand,
-.navbar-default .navbar-nav>li>form>button>a, #logout,
+.navbar-default .navbar-nav>li>form>button, #logout,
 .navbar-default .navbar-nav>li>a {
     color: #d9edf7;
     font-family: Avenir, serif;
@@ -31,8 +31,8 @@ body {
 }
 
 .navbar-default .navbar-brand:hover,
-.navbar-default .navbar-nav>li>form>button>a:hover, #logout,
-.navbar-default .navbar-nav>li>a:hover {
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>form>button:hover {
     color: #ffea7e;
     -o-transition:.5s;
     -ms-transition:.5s;

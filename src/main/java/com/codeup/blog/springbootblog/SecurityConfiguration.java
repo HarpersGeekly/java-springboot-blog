@@ -47,13 +47,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // non-logged in users
                 .authorizeRequests()
-                .antMatchers("/posts", "/logout") // anyone can see the home and logout page
+                .antMatchers("/posts") // anyone can see the home and logout page
                 .permitAll()
                 .and()
 
                 // logout
                 .logout()
-                .logoutSuccessUrl("/login?logout") // append a query string value
+                .logoutSuccessUrl("/posts") // append a query string value
+//                .logoutSuccessUrl("/login?logout")
                 .and()
 
                 //restricted area

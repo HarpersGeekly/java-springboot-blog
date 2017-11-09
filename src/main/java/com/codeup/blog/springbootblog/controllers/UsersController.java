@@ -45,7 +45,7 @@ public class UsersController {
         return "/users/register";
     }
 
-    @PostMapping("/users/register")
+    @PostMapping("/register")
     public String registerUser(@ModelAttribute User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersDao.save(user);
