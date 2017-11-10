@@ -11,7 +11,7 @@
 <!--============================================ VIEWING LOGGED IN USERS PROFILE ========================================-->
 
     <th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">
-        <h1> Here is your profile! Welcome, <span th:text="${#authentication.principal.username}"></span>!</h1>
+        <h2> Here is your profile! Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
 
         <h3>Email: <span th:text="${#authentication.principal.email}"/></h3>
         <h3>You are currently logged in.</h3>
@@ -20,7 +20,7 @@
 <!--============================================== VIEWING OTHER USERS PROFILES ===========================================-->
 
     <th:block th:if="${!isOwnProfile}">
-        <h1> Viewing <span th:text="${profileUser.username}"></span>'s profile!</h1>
+        <h2> Viewing <span th:text="${profileUser.username}"></span>'s profile!</h2>
         <h3> Email: <span th:text="${profileUser.email}"></span></h3>
     </th:block>
 

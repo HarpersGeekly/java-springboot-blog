@@ -41,7 +41,7 @@ body {
     /* ...and now for the proper property */
     transition:.5s;
     -webkit-animation-name: pulse;
-    -webkit-animation-duration: 1.5s;
+    -webkit-animation-duration: 1s;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
     text-decoration: none;
