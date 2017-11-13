@@ -1,9 +1,12 @@
 package com.codeup.blog.springbootblog.Models;
 
 import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+//import java.util.Date;
+//import java.sql.Timestamp;
+//import java.time.LocalDateTime;
 
 /**
  * Created by RyanHarper on 11/3/17.
@@ -29,12 +32,16 @@ public class Post {
     @ManyToOne // many posts can belong to one user.
     private User user;
 
+    @Column(name = "CREATED_DATE")
+    private LocalDateTime date;
+
     //use when the post is retrieved from the database.
-    public Post(Long id, String title, String description, User user) {
+    public Post(Long id, String title, String description, User user, LocalDateTime date) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.user = user; // this gives me access to properties from user, user.getUsername()
+        this.date = date;
     }
 
     //use on the create form action with Model binding.
@@ -81,5 +88,13 @@ public class Post {
 
     public String getUsername() {
         return user.getUsername();
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 }

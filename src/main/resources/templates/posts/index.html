@@ -18,6 +18,7 @@
 
                     <h4 th:text="${post.description}"></h4>
                     <h4>posted by: <span th:text="${post.user.username}"></span></h4>
+                    <h4>created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h4>
                     </li>
                 <!--// wanna use a button to send to edit here? -->
                     <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->

@@ -10,6 +10,11 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.List;
+//import java.util.Date;
+//import java.sql.Timestamp;
+//import java.time.LocalDateTime;
 
 /**
  * Created by RyanHarper on 11/2/17.
@@ -58,6 +63,10 @@ public class PostsController {
 //        posts.add(post4);
 //        List<Post> posts = postSvc.findAll();
 
+//        List<Post> allPosts = (List<Post>)postSvc.findAll();
+//        for (Post post : allPosts) {
+//
+//        }
         viewModel.addAttribute("posts", postSvc.findAll());
         return "posts/index";
     }
@@ -101,6 +110,7 @@ public class PostsController {
             return "/posts/create";
         }
 
+        post.setDate(LocalDateTime.now());
         post.setUser(userSvc.loggedInUser());
         postSvc.save(post);
         return "redirect:/posts";
