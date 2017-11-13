@@ -6,7 +6,10 @@ import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Created by RyanHarper on 11/2/17.
@@ -87,7 +90,16 @@ public class PostsController {
     // We also need to set the User of the post to the user who is logged in!
 
     @PostMapping("/posts/create")
-    public String createPost(@ModelAttribute Post post) {
+    public String createPost(@Valid Post post,
+                             Errors validation, Model viewModel) {
+
+        // Validation:
+        if (validation.hasErrors()) {
+            viewModel.addAttribute("errors", validation);
+            viewModel.addAttribute("post", post);
+            return "/posts/create";
+        }
+
         post.setUser(userSvc.loggedInUser());
         postSvc.save(post);
         return "redirect:/posts";
@@ -105,8 +117,15 @@ public class PostsController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String update(@PathVariable Long id, @ModelAttribute Post post) {
-        // @ModelAttribute = expecting a post object to update/delete
+    public String update(@PathVariable Long id, @Valid Post post, Errors validation, Model viewModel) {
+        // @ModelAttribute = expecting a post object to update/delete @ Valid takes care of this instead.
+        // @Valid now calls @ModelAttribute first and calls the validations!
+        if (validation.hasErrors()) {
+            viewModel.addAttribute("errors", validation);
+            viewModel.addAttribute("post", post);
+            return "/posts/create";
+        }
+
         post.setId(id);
         post.setUser(userSvc.loggedInUser());
         postSvc.save(post);
