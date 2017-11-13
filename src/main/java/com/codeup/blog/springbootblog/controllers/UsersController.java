@@ -9,10 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Created by RyanHarper on 11/8/17.
@@ -49,19 +49,47 @@ public class UsersController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user){
+    public String registerUser(@Valid User user,
+                               Errors validation,
+                               Model viewModel,
+                               @RequestParam(name = "password_confirm") String passwordConfirmation) {
 
-        // TODO: validate the input
+        // Validation:
+        // @Valid User user now calls @ModelAttribute User user first/instead and calls the validations!
+        // @RequestParam = asks for the value in the form field called "password_confirm" assigns it to String passwordConfirmation
 
-        // double check that the username is not already in database
+        // double check that the username is not already in database:
         User existingUser = usersDao.findByUsername(user.getUsername());
         if (existingUser != null) {
-            return "redirect:/register";
+            validation.rejectValue(
+                    "username",
+                    "user.username",
+                    "Username is already taken.");
         }
-        // hash password
+
+        //compare passwords:
+        if (!passwordConfirmation.equals(user.getPassword())) {
+            validation.rejectValue(
+                    "password",
+                    "user.password",
+                    "Your passwords do not match.");
+        }
+
+        // if there are errors, show the form again.
+        if (validation.hasErrors()) {
+            viewModel.addAttribute("errors", validation);
+            viewModel.addAttribute("user", user);
+            return "users/register"; // not a redirect:/register because I'd lose the information.
+        }
+
+        // Otherwise, if all is good:
+        // if password is valid, hash the password:
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        // save user in the database
+        // save user in the database:
         usersDao.save(user);
+        // redirect them to the login page.
+        // The login page has a @{/login} action that talks to the SecurityConfiguration class.
+        // Spring handles the logging in.
         return "redirect:/login";
     }
 
@@ -71,7 +99,7 @@ public class UsersController {
     public String showProfilePage(Model viewModel) {
         User userLoggedIn = userSvc.loggedInUser(); // Grab the loggedInUser from the service and assign them a name, userLoggedIn.
         viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
-        viewModel.addAttribute("profileUser", usersDao.findOne(userLoggedIn.getId())); 
+        viewModel.addAttribute("profileUser", usersDao.findOne(userLoggedIn.getId()));
         return "users/profile";
     }
 

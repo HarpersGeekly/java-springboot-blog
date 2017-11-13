@@ -93,6 +93,7 @@ public class PostsController {
     public String createPost(@Valid Post post,
                              Errors validation, Model viewModel) {
 
+        // @Valid Post post now calls @ModelAttribute Post post first/instead and calls the validations!
         // Validation:
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
@@ -119,7 +120,7 @@ public class PostsController {
     @PostMapping("/posts/{id}/edit")
     public String update(@PathVariable Long id, @Valid Post post, Errors validation, Model viewModel) {
         // @ModelAttribute = expecting a post object to update/delete @ Valid takes care of this instead.
-        // @Valid now calls @ModelAttribute first and calls the validations!
+        // @Valid now calls @ModelAttribute first/instead and calls the validations!
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("post", post);

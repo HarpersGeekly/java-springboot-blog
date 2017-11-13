@@ -26,6 +26,7 @@ public class User {
     private String username;
 
     @Column(nullable = false, unique = true)
+    @NotBlank(message = "Please enter an email address.")
     @Email(message = "Enter a valid email address.")
     private String email;
 
@@ -90,8 +91,7 @@ public class User {
     public boolean equals(Object anotherUser) {
         if (anotherUser != null)
             if (anotherUser instanceof User)
-                if (id.equals(((User) anotherUser).id)) return true;
-        // otherwise
+                if (id != null && id.equals(((User) anotherUser).id)) return true;
         return false;
     }
 }
