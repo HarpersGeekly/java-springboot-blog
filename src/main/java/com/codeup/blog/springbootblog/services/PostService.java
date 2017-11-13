@@ -3,14 +3,14 @@ import com.codeup.blog.springbootblog.Models.Post;
 import com.codeup.blog.springbootblog.repositories.PostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**
  * Created by RyanHarper on 11/3/17.
  */
 
-@Service("PostService")
+@Service
 public class PostService {
 
     private final PostsRepository postsDao;
@@ -51,6 +51,10 @@ public class PostService {
 
     public void delete(Long id) {
         postsDao.delete(id);
+    }
+
+    public List<Post> searchPostsByKeyword(String term) {
+        return postsDao.searchPostsWithKeyword("%" + term + "%");
     }
 
     // save takes care of insert and update

@@ -24,10 +24,11 @@ public class Post {
     private User user;
 
     //use when the post is retrieved from the database.
-    public Post(Long id, String title, String description) {
+    public Post(Long id, String title, String description, User user) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.user = user; // this gives me access to properties from user, user.getUsername()
     }
 
     //use on the create form action with Model binding.
@@ -70,5 +71,9 @@ public class Post {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getUsername() {
+        return user.getUsername();
     }
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: my-header('Search Results')">
+</head>
+<body>
+<nav th:include="fragments/navbar :: my-navbar"></nav>
+
+<div id="wrapper">
+
+    <h1 id="postIntro">Here are the posts!</h1>
+
+    <div id="content" th:each="post : ${searchedContent}">
+        <ul>
+            <li>
+                <h4>
+                    <a th:href="@{/posts/{id}(id=${post.id})}"  th:text="${post.title}"></a>
+                </h4>
+
+                <h4 th:text="${post.description}"></h4>
+                <h4>posted by: <span th:text="${post.user.username}"></span></h4>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<footer th:include="fragments/footer :: my-footer"></footer>
+</body>
+</html>

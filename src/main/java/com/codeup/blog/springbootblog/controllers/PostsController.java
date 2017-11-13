@@ -1,19 +1,12 @@
 package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.Post;
-import com.codeup.blog.springbootblog.Models.User;
-import com.codeup.blog.springbootblog.repositories.PostsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by RyanHarper on 11/2/17.
@@ -128,5 +121,15 @@ public class PostsController {
         return "redirect:/posts";
     }
 
-    // =================================================================================================================
+    // ============================================== SEARCH POST ======================================================
+
+    @GetMapping("/posts/search")
+    public String search(@RequestParam String term, Model viewModel) {
+        // return "list of posts where title is like ? or description is like ? or username is like ?"
+        // Go to PostRepository and make a query method.
+        // Go to PostService and implement it there too. Call it here and pass it to the view:
+        viewModel.addAttribute("searchedContent", postSvc.searchPostsByKeyword(term));
+        return "/posts/search";
+    }
+
 }
