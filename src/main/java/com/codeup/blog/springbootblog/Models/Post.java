@@ -1,6 +1,9 @@
 package com.codeup.blog.springbootblog.Models;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 /**
  * Created by RyanHarper on 11/3/17.
@@ -15,9 +18,12 @@ public class Post {
     private Long id;
 
     @Column(nullable = false, length = 100) // column on table, not-null
+    @NotBlank(message="Title cannot be empty")
     private String title;
 
-    @Column(columnDefinition = "TEXT", nullable = false) // column, text for more, not-null
+    @Column(columnDefinition = "TEXT", length = 2000, nullable = false) // column, text for more, not-null
+    @NotBlank(message="Description cannot be empty :/")
+    @Size(min = 5, message="Description must be at least 5 characters.")
     private String description;
 
     @ManyToOne // many posts can belong to one user.

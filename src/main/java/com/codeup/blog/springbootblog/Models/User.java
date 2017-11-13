@@ -1,6 +1,11 @@
 package com.codeup.blog.springbootblog.Models;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -16,12 +21,17 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @NotBlank(message="Enter a username.")
+    @Pattern(regexp = "(?=^.{3,20}$)^[a-zA-Z][a-zA-Z0-9]*[._-]?[a-zA-Z0-9]+$")
     private String username;
 
     @Column(nullable = false, unique = true)
+    @Email(message = "Enter a valid email address.")
     private String email;
 
     @Column(nullable = false)
+    @NotBlank(message = "Your password cannot be empty.")
+    @Size(min = 8, message="Your password must be at least 8 characters.")
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts.
