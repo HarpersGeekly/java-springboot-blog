@@ -13,6 +13,12 @@
         <h3 th:text="${post.title}"></h3>
         <h3 th:text="${post.description}"></h3>
         <h4>posted by: <a th:href="${'/profile/' + post.user.id}"><span th:text="${post.user.username}"></span></a></h4>
+        <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
+        <h5 id="createdDate">created on:
+            <span th:text="${#temporals.monthNameShort(post.date)}"></span>
+            <span th:text="${#temporals.day(post.date)}"></span>,
+            <span th:text="${#temporals.year(post.date)}"></span> at
+            <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></h5>
 
             <div sec:authorize="isAuthenticated()">
                 <div th:if="${showEditButton}">

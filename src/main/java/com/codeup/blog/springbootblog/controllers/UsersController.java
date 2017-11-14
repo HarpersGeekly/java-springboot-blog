@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 /**
  * Created by RyanHarper on 11/8/17.
@@ -85,6 +86,8 @@ public class UsersController {
         // Otherwise, if all is good:
         // if password is valid, hash the password:
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // set the users join date:
+        user.setDate(LocalDateTime.now());
         // save user in the database:
         usersDao.save(user);
         // redirect them to the login page.

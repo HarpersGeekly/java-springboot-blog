@@ -14,7 +14,12 @@
         <h2> Here is your profile! Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
 
         <h3>Email: <span th:text="${#authentication.principal.email}"/></h3>
-        <h3>You are currently logged in.</h3>
+        <h4>You are currently logged in.</h4>
+        <h4>Joined on:
+            <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
+            <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,
+            <span th:text="${#temporals.year(#authentication.principal.date)}"></span></h4>
+        <h4>Your posts:</h4>
     </th:block>
 
 <!--============================================== VIEWING OTHER USERS PROFILES ===========================================-->
@@ -22,6 +27,11 @@
     <th:block th:if="${!isOwnProfile}">
         <h2> Viewing <span th:text="${profileUser.username}"></span>'s profile!</h2>
         <h3> Email: <span th:text="${profileUser.email}"></span></h3>
+        <h4> Joined on:
+            <span th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
+            <span th:text="${#temporals.day(profileUser.date)}"></span>,
+            <span th:text="${#temporals.year(profileUser.date)}"></span></h4>
+        <h4>Their posts:</h4>
     </th:block>
 
 <!--============================================== THE LIST OF POSTS ======================================================-->
@@ -31,6 +41,11 @@
             <li>
                 <h4 th:text="${post.title}"></h4>
                 <h5 th:text="${post.description}"></h5>
+                <h5 id="createdDate">created on:
+                    <span th:text="${#temporals.monthNameShort(post.date)}"></span>
+                    <span th:text="${#temporals.day(post.date)}"></span>,
+                    <span th:text="${#temporals.year(post.date)}"></span> at
+                    <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></h5>
 
                 <div th:if="${isOwnProfile}">
                     <div>

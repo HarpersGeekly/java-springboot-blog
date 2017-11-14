@@ -43,11 +43,13 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		<!--==================== Time Format ==================================-->
+
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-java8time</artifactId>
 			<version>2.1.0.RELEASE</version>
 		</dependency>
+
        <!--========================= database magic ===========================-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

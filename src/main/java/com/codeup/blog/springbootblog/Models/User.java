@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -38,6 +39,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts.
     private List<Post> posts;
 
+    @Column(name = "JOINED_DATE")
+    private LocalDateTime date;
+
     public User(){}
 
     // security files will need the next constructor. It makes clones/copies. Why?
@@ -49,6 +53,7 @@ public class User {
         this.username = copy.username;
         this.password = copy.password;
         this.posts = copy.posts;
+        this.date = copy.date;
     }
 
     public Long getId() {
@@ -85,6 +90,14 @@ public class User {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     @Override
