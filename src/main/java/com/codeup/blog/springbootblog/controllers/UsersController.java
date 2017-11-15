@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 
@@ -33,7 +34,7 @@ public class UsersController {
         this.userSvc = userSvc;
     }
 
-    // ======================================== LOGGING IN ===================================================
+    // ============================================= LOGGING IN USER ===================================================
 
     @GetMapping("/login")
     public String showLoginForm() {
@@ -41,7 +42,7 @@ public class UsersController {
         return "/users/login";
     }
 
-    // ========================================= REGISTER  ========================================================
+    // ========================================== REGISTER USER ========================================================
 
     @GetMapping("/register")
     public String showRegisterForm(Model model){
@@ -96,7 +97,7 @@ public class UsersController {
         return "redirect:/login";
     }
 
-    // ============================================ PROFILE =======================================================
+    // ================================================= PROFILE =======================================================
 
     @GetMapping("/profile")
     public String showProfilePage(Model viewModel) {
@@ -109,9 +110,64 @@ public class UsersController {
     @GetMapping("/profile/{id}")
     public String showOtherUsersProfilePage(@PathVariable Long id, Model viewModel) {
         User user = usersDao.findById(id); // find the User from the id in the url profile/{id}/edit
-        viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser())); // false if passing another id.
+        viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
+        // ^this is a boolean^, true, but false if passing another id.
         viewModel.addAttribute("profileUser", user);
         return "users/profile";
     }
 
+    // ============================================== EDIT PROFILE =====================================================
+
+    @GetMapping("/profile/{id}/edit")
+    public String showProfileEditPage(@PathVariable Long id, Model viewModel) {
+        // find the user in the database:
+        User existingUser = usersDao.findById(id);
+        // pass it to the view: pre-populate the form with the values from that user.
+        viewModel.addAttribute("user", existingUser);
+        return "users/edit";
+    }
+
+    @PostMapping("profile/{id}/edit")
+    public String update(@PathVariable Long id, @Valid User user, Errors validation, Model viewModel,
+                         @RequestParam(name = "username") String username,
+                         @RequestParam(name = "email") String email,
+//                         @RequestParam(name = "password") String password, // is this needed?
+                         @RequestParam(name = "date") LocalDateTime date) {
+
+        // double check that the username is not already in database:
+        User existingUser = usersDao.findByUsername(user.getUsername());
+        if (existingUser != null) {
+            validation.rejectValue(
+                    "username",
+                    "user.username",
+                    "Username is already taken.");
+        }
+
+        if (validation.hasErrors()) {
+            viewModel.addAttribute("errors", validation);
+            viewModel.addAttribute("user", user);
+            return "users/edit";
+        }
+
+        user.setUsername(username);
+        user.setEmail(email);
+//        user.setPassword(password);
+        user.setDate(date); // The date remains the same as the original join date.
+        user.setId(id);
+        usersDao.save(user);
+        return "redirect:/users/profile/{id}";
+    }
+
+    // =========================================== DELETE PROFILE ACCOUNT ==============================================
+
+    @PostMapping("/profile/{id}/delete")
+    public String delete(@PathVariable long id, Model viewModel, HttpSession session) {
+        usersDao.delete(id);
+        // even if I delete a user, the navbar "Username's Profile" is still reading a session.
+        // How do I delete, then cancel/logout a session?
+        // I built a LogoutController.
+        LogoutController logout = new LogoutController();
+        logout.logout(session);
+        return "redirect:/posts";
+    }
 }

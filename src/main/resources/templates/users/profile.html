@@ -9,12 +9,13 @@
 
 <div class="container">
 <!--============================================ VIEWING LOGGED IN USERS PROFILE ========================================-->
+<!--Reminder: #authentication.principal is the currently logged-in/session user-->
 
     <th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">
-        <h2> Here is your profile! Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
+        <h2>Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
 
         <h3>Email: <span th:text="${#authentication.principal.email}"/></h3>
-        <h4>You are currently logged in.</h4>
+        <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">change username or email</a>
         <h4>Joined on:
             <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
             <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,

@@ -43,7 +43,8 @@
             </div>
         </div>
 
-        <input type="submit" value="Update Post!" class="btn btn-primary btn-block" />
+        <input class="form-control" type="hidden" id="date" name="date" th:field="*{date}"/>
+        <input type="submit" value="Update Post!" class="btn btn-primary" />
 
     </form>
 
@@ -51,7 +52,7 @@
 
     <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" th:object="${post}">
         <input type="hidden" name="id" th:value="${post.id}" />
-        <input type="submit" value="Delete :(" class="btn btn-primary btn-block btn-danger"/>
+        <input type="submit" value="Delete :(" class="btn btn-primary btn-danger"/>
         <!-- <input th:if="${isEditable}"-->
     </form>
 
