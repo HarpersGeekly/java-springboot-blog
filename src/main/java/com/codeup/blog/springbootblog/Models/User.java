@@ -44,6 +44,14 @@ public class User {
 
     public User(){}
 
+    // use this constructor for update profile form.
+    public User(Long id, String username, String email, LocalDateTime date) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.date = date;
+    }
+
     // security files will need the next constructor. It makes clones/copies. Why?
     // Spring dependencies require a copy of all the properties in the User object
     // because it's the only one that requires authentication:

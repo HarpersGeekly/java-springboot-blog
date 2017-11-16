@@ -137,12 +137,6 @@ public class UsersController {
 
     @PostMapping("profile/{id}/edit")
     public String update(@PathVariable Long id, @Valid User user, Errors validation, Model viewModel) {
-//                         @RequestParam(name = "username") String username,
-//                         @RequestParam(name = "email") String email,
-////                         @RequestParam(name = "password") String password, // is this needed?
-//                         @RequestParam(name = "date") LocalDateTime date) {
-
-
 
         // double check that the username is not already in database:
         User existingUser = usersDao.findByUsername(user.getUsername());
@@ -153,23 +147,53 @@ public class UsersController {
                     "Username is already taken.");
         }
 
-        // the debugger is saying "password field cannot be null" because of @NotBlank annotation on User model.
-        // The password field is not on the form...what's the deal? What do I need?
-        // I made a User constructor in User model without password parameter
-        // How do I still get Errors validation without @Valid User user, and th:object="${user}" on form?
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("user", user);
             return "users/edit";
         }
 
-//        user.setUsername(username);
-//        user.setEmail(email);
-////        user.setPassword(password);
-//        user.setDate(date); // The date remains the same as the original join date.
         user.setId(id);
         usersDao.save(user);
         userSvc.authenticate(user); // Programmatically login the new user
+        return "redirect:/profile";
+    }
+
+    // ============================================ CHANGE PASSWORD ====================================================
+
+    @GetMapping("/profile/{id}/editPassword")
+    public String showPasswordEditPage(@PathVariable Long id, Model viewModel) {
+        // find the user in the database:
+        User existingUser = usersDao.findById(id);
+        viewModel.addAttribute("user", existingUser);
+        return "users/editPassword";
+    }
+
+    @PostMapping("profile/{id}/editPassword")
+    public String changePassword(@PathVariable Long id, @Valid User user, Errors validation, Model viewModel,
+                                 @RequestParam(name = "password_confirm") String passwordConfirmation,
+                                 @RequestParam(name = "password") String password) {
+
+        //compare passwords:
+        if (!passwordConfirmation.equals(user.getPassword())) {
+            validation.rejectValue(
+                    "password",
+                    "user.password",
+                    "Your passwords do not match.");
+        }
+
+        // if there are errors, show the form again.
+        if (validation.hasErrors()) {
+            viewModel.addAttribute("errors", validation);
+            viewModel.addAttribute("user", user);
+            return "users/editPassword";
+        }
+        // TODO: alert the user that their password has changed?
+        // hash the password:
+        user.setPassword(passwordEncoder.encode(password));
+        user.setId(id);
+        usersDao.save(user);
+        userSvc.authenticate(user);
         return "redirect:/profile";
     }
 

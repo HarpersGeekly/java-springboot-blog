@@ -9,7 +9,7 @@
 
     <h1 style="margin-top: 50px;">Edit Profile:</h1>
 
-
+    <div class="formWrapper">
     <form th:action="@{'/profile/' + ${user.id} + '/edit'}" method="POST" th:object="${user}">
 
         <div class="form-group">
@@ -37,30 +37,9 @@
             </div>
         </div>
 
-        <!--================================ PASSWORD FIELD (HIDDEN) ====================================================-->
-        <div class="form-group">
-            <!--<label for="editFormPassword">Password</label>-->
-            <input type="hidden" id="editFormPassword" name="password" class="form-control" th:field="*{password}"/>
-            <!--<input type="password"-->
-            <div
-                    th:if="${#fields.hasErrors('password')}"
-                    class="alert alert-danger alert-dismissible"
-                    role="alert">
-                <span th:errors="*{password}"/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <!--<label for="password_confirm">Confirm your password</label>-->
-            <input type="hidden" id="password_confirm" name="password_confirm" class="form-control" />
-            <!--<input type="password"-->
-        </div>
-        <!--===========================================================================================================-->
-
-
-        <input class="form-control" type="hidden" id="date" name="date" th:field="*{date}"/>
-        <input type="submit" value="Update Profile" class="btn btn-primary" />
-
+        <input type="hidden" id="editFormPassword" name="password" class="form-control" th:field="*{password}"/>
+        <input type="hidden" id="date" name="date" class="form-control" th:field="*{date}"/>
+        <input type="submit" value="Update Profile" class="btn btn-primary"  />
 
     </form>
 
@@ -68,9 +47,30 @@
 
     <form th:action="@{'/profile/' + ${#authentication.principal.id} + '/delete'}" method="post" th:object="${user}">
         <input type="hidden" name="id" th:value="${user.id}" />
-        <input type="submit" value="Saying Goodbye? Delete Account :(" class="btn btn-primary btn-danger"/>
+        <input id="editDeleteButton" type="submit" value="Saying Goodbye? Delete Account :(" class="btn btn-primary btn-danger" />
     </form>
+    </div>
 
 </div>
 </body>
 </html>
+
+<!--&lt;!&ndash;================================ PASSWORD FIELD (HIDDEN) ====================================================&ndash;&gt;-->
+<!--<div class="form-group">-->
+    <!--&lt;!&ndash;<label for="editFormPassword">Password</label>&ndash;&gt;-->
+    <!--<input type="hidden" id="editFormPassword" name="password" class="form-control" th:field="*{password}"/>-->
+    <!--&lt;!&ndash;<input type="password"&ndash;&gt;-->
+    <!--<div-->
+            <!--th:if="${#fields.hasErrors('password')}"-->
+            <!--class="alert alert-danger alert-dismissible"-->
+            <!--role="alert">-->
+        <!--<span th:errors="*{password}"/>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div class="form-group">-->
+    <!--&lt;!&ndash;<label for="password_confirm">Confirm your password</label>&ndash;&gt;-->
+    <!--<input type="hidden" id="password_confirm" name="password_confirm" class="form-control" />-->
+    <!--&lt;!&ndash;<input type="password"&ndash;&gt;-->
+<!--</div>-->
+<!--&lt;!&ndash;===========================================================================================================&ndash;&gt;-->

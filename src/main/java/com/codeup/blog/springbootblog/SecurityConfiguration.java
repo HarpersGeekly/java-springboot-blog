@@ -63,7 +63,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/posts/create",
                         "/posts/{id}/edit",
                         "/profile",
-                        "/profile/{id}/edit"
+                        "/profile/{id}/edit",
+                        "/profile/{id}/editPassword"
                 ) // only authenticated (logged in) users can create/edit posts
                 .authenticated()
         ;

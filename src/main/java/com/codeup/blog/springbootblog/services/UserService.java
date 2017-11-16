@@ -37,6 +37,7 @@ public class UserService {
         return isLoggedIn() && (loggedInUser().getId() == user.getId());
     }
 
+    // Automatically logs in User:
     public void authenticate(User user) {
         // I'm not using roles so I'm using an empty list for the roles
         UserDetails userDetails = new UserWithRoles(user, Collections.emptyList());

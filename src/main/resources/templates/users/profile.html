@@ -15,7 +15,10 @@
         <h2>Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
 
         <h3>Email: <span th:text="${#authentication.principal.email}"/></h3>
-        <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">change username or email</a>
+
+        <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">change username or email</a> |
+        <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">change your password</a>
+
         <h4>Joined on:
             <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
             <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,

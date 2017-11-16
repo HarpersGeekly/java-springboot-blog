@@ -3,71 +3,105 @@ body {
     padding-top: 65px;
     /*min-height: 100vh;*/
     /*height: 100%;*/
-    background:  #dedede;
+    background:  #FFFAFB;
     font-family: Georgia, serif;
+    margin: 0;
+    padding-top: 60px;
+    height: 100%;
 }
 
 html {
     position: relative;
     min-height: 100%;
 }
-body {
-    margin: 0;
-    padding-top: 60px;
-    height: 100%;
-}
+
+/*============================================================ NAVBAR ====================================================*/
 
 .navbar-default {
-    background-color: #5c5757;
-    /*border-bottom: #ffa631 solid 10px;*/
+    background-color: #2B2C28;
+    border-bottom: #FFFAFB solid 10px;
 }
 
-.navbar-default .navbar-brand,
-.navbar-default .navbar-nav>li>form>button, #logout,
-.navbar-default .navbar-nav>li>a {
-    color: #d9edf7;
-    font-family: Avenir, serif;
+.navbar-default .navbar-brand {
+    color: #7DE2D1;
+    font-family: Futura, serif;
     text-decoration: none;
 }
 
 .navbar-default .navbar-brand:hover,
-.navbar-default .navbar-nav>li>a:hover,
-.navbar-default .navbar-nav>li>form>button:hover {
-    color: #ffea7e;
-    -o-transition:.5s;
-    -ms-transition:.5s;
-    -moz-transition:.5s;
-    -webkit-transition:.5s;
-    /* ...and now for the proper property */
-    transition:.5s;
-    -webkit-animation-name: pulse;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear;
+.navbar-default .navbar-brand:active {
+    color: #339989;
     text-decoration: none;
 }
 
-#logout {
-    margin-top:8px;
+/* ================ Navbar Links ===============*/
+
+.nav > li > a {
+    color: #7DE2D1 !important;
+    font-family: Futura, serif;
 }
 
+.nav > li > a:hover, .nav > li > a:active  {
+    color: #339989 !important;
+}
+
+/* ================== Logout Button =========== */
+
+#logout {
+    font-family: Futura, serif;
+    color: #7DE2D1;
+    margin-top:8px;
+    background-color: transparent;
+    outline: none;
+    text-decoration: none;
+}
+
+#logout:hover, #logout:active {
+    color: #339989;
+    margin-top:8px;
+    background-color: transparent;
+    outline: none;
+    text-decoration: none;
+}
+
+/*========================================================== POSTS =====================================================*/
+
+/*==================Index Page ================*/
 
 #postIntro {
     text-align: center;
 }
 
+#postTitle {
+    font-size: 18px;
+    color: #E07A5F;
+}
+
+textarea, input {
+    border-radius: 0;
+}
+
 #wrapper {
     min-height: 100%;
     position: relative;
-    margin-bottom: 155px;
+    margin-bottom: 100px;
 }
 
-#content {
+#content:before {
     font-family: Georgia, serif;
     margin-left: 20px;
-    overflow: auto;
-    /*margin-bottom: 155px;*/
+    margin-right: 20px;
+    /*overflow: auto;*/
+    height: 200px;
+    min-height: 200px;
+    overflow: hidden;
+    position:absolute;
+    background:linear-gradient(transparent 150px, white);
+    /*content:'';*/
+    /*margin-bottom: 200px;*/
 }
+
+/*=============== Show Page ====================*/
 
 #showPageIntro {
     text-align: center;
@@ -77,17 +111,45 @@ body {
     margin-left: 20px;
 }
 
+/*========================================================= BUTTONS ====================================================*/
+
+
+.btn {
+    border-radius: 0;
+    background-color: #7DE2D1;
+    color: #131515;
+    border: hidden #a1a1a1;
+    outline:none
+}
+
+.btn:hover, .btn:active {
+    background-color: #339989;
+    color: #131515;
+    outline:none
+}
+
+#editDeleteButton, #editDeleteButton:active {
+    background-color: #E07A5F;
+}
+/*===================================================== FOOTER ========================================================*/
 
 #footer {
     /*border-top: #00aeff solid 10px;*/
-    background: #ffea7e;
-    height: 155px;
+    background: #131515;
+    height: 100px;
     position: absolute;
     bottom: 0;
     left: 0;
+    color: #7DE2D1;
 }
 
-#footer ul, #footer a:hover {
-    font-family: Avenir, serif;
+
+.footerList>li>a {
+    color: #7DE2D1;
+    font-family: Futura, serif;
+}
+
+.footerList>li>a:hover, .footerList>li>a:active {
+    color: #339989;
     text-decoration: none;
 }
