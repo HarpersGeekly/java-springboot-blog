@@ -5,8 +5,14 @@ import com.codeup.blog.springbootblog.repositories.PostsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 
 /**
  * Created by RyanHarper on 11/7/17.
@@ -29,5 +35,17 @@ public class UserService {
 
     public boolean isLoggedInAndPostMatchesUser(User user) {
         return isLoggedIn() && (loggedInUser().getId() == user.getId());
+    }
+
+    public void authenticate(User user) {
+        // I'm not using roles so I'm using an empty list for the roles
+        UserDetails userDetails = new UserWithRoles(user, Collections.emptyList());
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                userDetails.getPassword(),
+                userDetails.getAuthorities()
+        );
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(auth);
     }
 }

@@ -3,9 +3,14 @@ package com.codeup.blog.springbootblog.controllers;
 import com.codeup.blog.springbootblog.Models.User;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.UserService;
+import com.codeup.blog.springbootblog.services.UserWithRoles;
 import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 /**
  * Created by RyanHarper on 11/8/17.
@@ -94,7 +100,9 @@ public class UsersController {
         // redirect them to the login page.
         // The login page has a @{/login} action that talks to the SecurityConfiguration class.
         // Spring handles the logging in.
-        return "redirect:/login";
+        userSvc.authenticate(user); // now that I have authenticate in the UserService, it automatically logs in the registered user,
+        // so I no longer have to reroute them to the login page.
+        return "redirect:/profile";
     }
 
     // ================================================= PROFILE =======================================================
@@ -128,11 +136,13 @@ public class UsersController {
     }
 
     @PostMapping("profile/{id}/edit")
-    public String update(@PathVariable Long id, @Valid User user, Errors validation, Model viewModel,
-                         @RequestParam(name = "username") String username,
-                         @RequestParam(name = "email") String email,
-//                         @RequestParam(name = "password") String password, // is this needed?
-                         @RequestParam(name = "date") LocalDateTime date) {
+    public String update(@PathVariable Long id, @Valid User user, Errors validation, Model viewModel) {
+//                         @RequestParam(name = "username") String username,
+//                         @RequestParam(name = "email") String email,
+////                         @RequestParam(name = "password") String password, // is this needed?
+//                         @RequestParam(name = "date") LocalDateTime date) {
+
+
 
         // double check that the username is not already in database:
         User existingUser = usersDao.findByUsername(user.getUsername());
@@ -143,19 +153,24 @@ public class UsersController {
                     "Username is already taken.");
         }
 
+        // the debugger is saying "password field cannot be null" because of @NotBlank annotation on User model.
+        // The password field is not on the form...what's the deal? What do I need?
+        // I made a User constructor in User model without password parameter
+        // How do I still get Errors validation without @Valid User user, and th:object="${user}" on form?
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("user", user);
             return "users/edit";
         }
 
-        user.setUsername(username);
-        user.setEmail(email);
-//        user.setPassword(password);
-        user.setDate(date); // The date remains the same as the original join date.
+//        user.setUsername(username);
+//        user.setEmail(email);
+////        user.setPassword(password);
+//        user.setDate(date); // The date remains the same as the original join date.
         user.setId(id);
         usersDao.save(user);
-        return "redirect:/users/profile/{id}";
+        userSvc.authenticate(user); // Programmatically login the new user
+        return "redirect:/profile";
     }
 
     // =========================================== DELETE PROFILE ACCOUNT ==============================================
