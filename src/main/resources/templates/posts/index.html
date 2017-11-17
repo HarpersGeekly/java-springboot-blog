@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/header :: my-header('Posts')">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+
+    </script>
 </head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
@@ -13,17 +17,17 @@
             <ul>
                 <li>
                     <h4>
-                        <a th:href="@{/posts/{id}(id=${post.id})}"  th:text="${post.title}"></a>
+                        <a th:href="@{/posts/{id}(id=${post.id})}"  th:text="${post.title}"  id="postTitle"></a>
                     </h4>
-
-                    <h4 th:text="${post.description}"></h4>
                     <h4>posted by: <span th:text="${post.user.username}"></span></h4>
-                    <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
                     <h5 id="createdDate">created on:
                         <span th:text="${#temporals.monthNameShort(post.date)}"></span>
                         <span th:text="${#temporals.day(post.date)}"></span>,
                         <span th:text="${#temporals.year(post.date)}"></span> at
                         <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></h5>
+
+                    <h4 th:text="${post.description}"></h4>
+                    <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
                 </li>
                 <!--// wanna use a button to send to edit here? -->
                     <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
@@ -33,6 +37,13 @@
     </div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
+
+
+
+
+
+
+
 
 </body>
 </html>

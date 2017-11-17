@@ -7,7 +7,7 @@
 
 <!-- Show different words or features based on whether you're on your profile or someone else's -->
 
-<div class="container">
+<div class="container" id="profileWrap">
 <!--============================================ VIEWING LOGGED IN USERS PROFILE ========================================-->
 <!--Reminder: #authentication.principal is the currently logged-in/session user-->
 
@@ -40,7 +40,7 @@
 
 <!--============================================== THE LIST OF POSTS ======================================================-->
 
-    <div id="content" th:each="post : ${profileUser.posts}">
+    <div id="profileContent" th:each="post : ${profileUser.posts}">
         <ul>
             <li>
                 <h4 th:text="${post.title}"></h4>

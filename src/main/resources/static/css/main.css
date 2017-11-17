@@ -2,11 +2,9 @@ body {
     /*!*margin: 0;*!*/
     padding-top: 65px;
     /*min-height: 100vh;*/
-    /*height: 100%;*/
-    background:  #FFFAFB;
+    background: #FFFAFB;
     font-family: Georgia, serif;
     margin: 0;
-    padding-top: 60px;
     height: 100%;
 }
 
@@ -87,19 +85,31 @@ textarea, input {
     margin-bottom: 100px;
 }
 
-#content:before {
+#content {
     font-family: Georgia, serif;
     margin-left: 20px;
     margin-right: 20px;
     /*overflow: auto;*/
-    height: 200px;
-    min-height: 200px;
-    overflow: hidden;
-    position:absolute;
-    background:linear-gradient(transparent 150px, white);
-    /*content:'';*/
-    /*margin-bottom: 200px;*/
+    height:50px;
+    min-height:50px;
+    overflow:hidden;
+    /*margin-bottom: 155px;*/
 }
+
+/*overflow: auto;*/
+/*height: 200px;*/
+/*#content {*/
+/*max-height: 250px;*/
+/*overflow: hidden;*/
+/*text-overflow: ellipsis;*/
+/*content: "";*/
+/*}*/
+/*#content:before {*/
+    /*background: -webkit-linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0));*/
+    /*-webkit-background-clip: text;*/
+    /*-webkit-text-fill-color: transparent;*/
+    /*!*margin-bottom: 200px;*!*/
+/*}*/
 
 /*=============== Show Page ====================*/
 
@@ -110,6 +120,20 @@ textarea, input {
 #showPageContent {
     margin-left: 20px;
 }
+
+#profileWrap {
+    overflow: hidden;
+}
+#profileContent {
+
+}
+
+
+/*=============== Profile page ======================*/
+
+
+
+
 
 /*========================================================= BUTTONS ====================================================*/
 
@@ -132,6 +156,10 @@ textarea, input {
     background-color: #E07A5F;
 }
 /*===================================================== FOOTER ========================================================*/
+
+#clearingDiv {
+    height: 100px;
+}
 
 #footer {
     /*border-top: #00aeff solid 10px;*/

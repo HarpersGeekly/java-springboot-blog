@@ -148,7 +148,7 @@ public class PostsController {
     @PostMapping("/posts/{id}/delete")
     public String delete(@PathVariable long id) {
         postSvc.delete(id);
-        return "redirect:/posts";
+        return "redirect:/profile";
     }
 
     // ============================================== SEARCH POST ======================================================

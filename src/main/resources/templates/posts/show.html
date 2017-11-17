@@ -7,11 +7,10 @@
 
 <div id="showPageWrapper">
 
-    <h1 id="showPageIntro">Here is a Post:</h1>
-
     <div id="showPageContent" th:object="${post}">
-        <h3 th:text="${post.title}"></h3>
-        <h3 th:text="${post.description}"></h3>
+
+        <h4 th:text="${post.title}" id="showPageIntro"></h4>
+        <h4 th:text="${post.description}"></h4>
         <h4>posted by: <a th:href="${'/profile/' + post.user.id}"><span th:text="${post.user.username}"></span></a></h4>
         <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
         <h5 id="createdDate">created on:
