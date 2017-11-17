@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <li>
-                    <form action="/posts/search" method="GET" class="navbar-form">
+                    <form th:action="@{/posts/search}" method="GET" class="navbar-form">
                         <div class="input-group add-on">
                             <input class="form-control" placeholder="Search" name="term" id="srch-term" type="text"/>
                             <div class="input-group-btn">

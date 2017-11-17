@@ -4,6 +4,7 @@ import com.codeup.blog.springbootblog.Models.Post;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
+import com.codeup.blog.springbootblog.services.XSSPrevent;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.List;
+//import java.util.List;
 //import java.util.Date;
 //import java.sql.Timestamp;
 //import java.time.LocalDateTime;
@@ -110,6 +111,10 @@ public class PostsController {
             return "/posts/create";
         }
 
+        XSSPrevent xp = new XSSPrevent();
+        xp.setAsText(post.getTitle());
+        post.setDescription(xp.getAsText());
+
         post.setDate(LocalDateTime.now());
         post.setUser(userSvc.loggedInUser());
         postSvc.save(post);
@@ -136,6 +141,10 @@ public class PostsController {
             viewModel.addAttribute("post", post);
             return "/posts/create";
         }
+
+        XSSPrevent xp = new XSSPrevent();
+        xp.setAsText(post.getTitle());
+        post.setDescription(xp.getAsText());
 
         post.setId(id);
         post.setUser(userSvc.loggedInUser());
