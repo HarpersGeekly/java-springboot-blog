@@ -156,7 +156,13 @@ public class UsersController {
         user.setId(id);
         usersDao.save(user);
         userSvc.authenticate(user); // Programmatically login the new user
-        return "redirect:/profile";
+
+        boolean success = (!validation.hasErrors());
+        String profileSuccess = "Profile Updated :)";
+        viewModel.addAttribute("success", success);
+        viewModel.addAttribute("successMessage", profileSuccess);
+
+        return "users/edit";
     }
 
     // ============================================ CHANGE PASSWORD ====================================================
@@ -188,6 +194,7 @@ public class UsersController {
             viewModel.addAttribute("user", user);
             return "users/editPassword";
         }
+
         // hash the password:
         user.setPassword(passwordEncoder.encode(password));
         user.setId(id);
@@ -206,13 +213,22 @@ public class UsersController {
     // =========================================== DELETE PROFILE ACCOUNT ==============================================
 
     @PostMapping("/profile/{id}/delete")
-    public String delete(@PathVariable long id, Model viewModel, HttpSession session) {
+    public String delete(@PathVariable Long id, Model viewModel, HttpSession session) {
+
         usersDao.delete(id);
-        // even if I delete a user, the navbar "Username's Profile" is still reading a session.
+        // even if I delete a user, the navbar "ThisUsername's Profile" is still reading a session.
         // How do I delete, then cancel/logout a session?
-        // I built a LogoutController.
+        // I built a new controller, LogoutController, and called it in here.
         LogoutController logout = new LogoutController();
         logout.logout(session);
-        return "redirect:/posts";
+
+        // alert the user that they are no more...
+        boolean success = (usersDao.findById(id) == null);
+        String deleteSuccess = "Your account has been deactivated.";
+        viewModel.addAttribute("user", new User()); //empty user. Still needed for view.
+        viewModel.addAttribute("successDelete", success);
+        viewModel.addAttribute("successMessage", deleteSuccess);
+
+        return "users/edit";
     }
 }

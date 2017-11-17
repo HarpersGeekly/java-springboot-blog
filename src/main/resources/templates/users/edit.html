@@ -41,13 +41,22 @@
         <input type="hidden" id="date" name="date" class="form-control" th:field="*{date}"/>
         <input type="submit" value="Update Profile" class="btn btn-primary"  />
 
+        <div th:if="${success}" class="alert alert-success fade in">
+            <strong th:text="${successMessage}"></strong><a th:href="@{/profile}" class="alert-link"> Go to your profile.</a>
+        </div>
+
     </form>
+
 
     <!--=================================== DELETE BUTTON =========================================-->
 
     <form th:action="@{'/profile/' + ${#authentication.principal.id} + '/delete'}" method="post" th:object="${user}">
         <input type="hidden" name="id" th:value="${user.id}" />
         <input id="editDeleteButton" type="submit" value="Saying Goodbye? Delete Account :(" class="btn btn-primary btn-danger" />
+
+        <div th:if="${successDelete}" class="alert alert-danger fade in">
+            <strong th:text="${successMessage}"></strong><a th:href="@{/posts}" class="alert-link"> Feel free to browse. </a>
+        </div>
     </form>
     </div>
 
