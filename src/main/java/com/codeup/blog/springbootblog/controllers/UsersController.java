@@ -188,13 +188,19 @@ public class UsersController {
             viewModel.addAttribute("user", user);
             return "users/editPassword";
         }
-        // TODO: alert the user that their password has changed?
         // hash the password:
         user.setPassword(passwordEncoder.encode(password));
         user.setId(id);
         usersDao.save(user);
         userSvc.authenticate(user);
-        return "redirect:/profile";
+
+        // alert the user that their password has changed.
+        boolean success = (!validation.hasErrors());
+            String passwordSuccess = "You have successfully updated your password!";
+            viewModel.addAttribute("success", success);
+            viewModel.addAttribute("successMessage", passwordSuccess);
+
+        return "users/editPassword";
     }
 
     // =========================================== DELETE PROFILE ACCOUNT ==============================================
