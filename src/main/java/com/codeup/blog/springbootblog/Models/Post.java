@@ -29,19 +29,24 @@ public class Post {
     @Size(min = 5, message="Description must be at least 5 characters.")
     private String description;
 
+//    @Column
+//    private String image;
+
     @ManyToOne // many posts can belong to one user.
+    // will define the foreign key. This class represents the post table and we need a reference to the user
     private User user;
 
     @Column(name = "CREATED_DATE")
     private LocalDateTime date;
 
     //use when the post is retrieved from the database.
-    public Post(Long id, String title, String description, User user, LocalDateTime date) {
+    public Post(Long id, String title, String description, User user, String image, LocalDateTime date) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.user = user; // this gives me access to properties from user, user.getUsername()
         this.date = date;
+//        this.image = image; // may not need this here.
     }
 
     //use on the create form action with Model binding.
@@ -97,4 +102,12 @@ public class Post {
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
+
+//    public String getImage() {
+//        return image;
+//    }
+
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
 }

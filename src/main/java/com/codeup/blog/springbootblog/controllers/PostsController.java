@@ -111,9 +111,11 @@ public class PostsController {
             return "/posts/create";
         }
 
-        XSSPrevent xp = new XSSPrevent();
-        xp.setAsText(post.getTitle());
-        post.setDescription(xp.getAsText());
+//        XSSPrevent xp = new XSSPrevent();w
+//        xp.setAsText(post.getTitle());
+//        post.setDescription(xp.getAsText());
+
+        // This XSSPrevent isn't allowin me to update my code? What gives?
 
         post.setDate(LocalDateTime.now());
         post.setUser(userSvc.loggedInUser());
@@ -142,9 +144,9 @@ public class PostsController {
             return "/posts/create";
         }
 
-        XSSPrevent xp = new XSSPrevent();
-        xp.setAsText(post.getTitle());
-        post.setDescription(xp.getAsText());
+//        XSSPrevent xp = new XSSPrevent();
+//        xp.setAsText(post.getTitle());
+//        post.setDescription(xp.getAsText());
 
         post.setId(id);
         post.setUser(userSvc.loggedInUser());
