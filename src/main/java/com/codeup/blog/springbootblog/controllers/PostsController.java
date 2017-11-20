@@ -5,6 +5,9 @@ import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
 import com.codeup.blog.springbootblog.services.XSSPrevent;
+
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -173,4 +176,13 @@ public class PostsController {
         return "/posts/search";
     }
 
+    // ========================================= MARKDOWN EDITOR PREVIEW ===============================================
+
+    @GetMapping("/posts/description.json")
+    @ResponseBody
+    public String showContentInForm(@RequestParam(name = "content") String content) {
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(parser.parse(content));
+    }
 }
