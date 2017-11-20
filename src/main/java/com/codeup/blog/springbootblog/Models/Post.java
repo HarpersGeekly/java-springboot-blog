@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 //import java.util.Date;
 //import java.sql.Timestamp;
 //import java.time.LocalDateTime;
@@ -36,16 +37,20 @@ public class Post {
     // will define the foreign key. This class represents the post table and we need a reference to the user
     private User user;
 
+    @OneToMany // One post will have many comments
+    private List<Comment> comments;
+
     @Column(name = "CREATED_DATE")
     private LocalDateTime date;
 
     //use when the post is retrieved from the database.
-    public Post(Long id, String title, String description, User user, String image, LocalDateTime date) {
+    public Post(Long id, String title, String description, User user, String image, LocalDateTime date, List<Comment> comments) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.user = user; // this gives me access to properties from user, user.getUsername()
         this.date = date;
+        this.comments = comments;
 //        this.image = image; // may not need this here.
     }
 
@@ -101,6 +106,14 @@ public class Post {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public List<Comment> getComment() {
+        return comments;
+    }
+
+    public void setComment(List<Comment> comments) {
+        this.comments = comments;
     }
 
 //    public String getImage() {

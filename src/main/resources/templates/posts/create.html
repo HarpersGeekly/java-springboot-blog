@@ -27,7 +27,8 @@
 
         <div class="form-group">
             <label for="myEditor">Description</label>
-            <textarea class="form-control" type="text" id="myEditor" name="description"  th:field="*{description}"
+            <textarea class="form-control" id="myEditor" th:type="hidden" name="description"
+                      th:field="*{description}"
                       style="width: 1140px; height: 300px; resize: none">
             </textarea>
             <!--<p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"/>-->
@@ -49,4 +50,39 @@
 </div>
 <!--<footer th:include="fragments/footer :: my-footer"></footer>-->
 </body>
+
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/bower_components/ace-builds/src-min/ace.js"></script>
+<script src="/bower_components/bootstrap-markdown-editor/dist/js/bootstrap-markdown-editor.js"></script>
+
+<script>
+
+    //$('#myEditor').markdownEditor();
+    $('#myEditor').markdownEditor({
+        // Activate the preview:
+        preview: true,
+        // This callback is called when the user clicks on the preview button:
+        onPreview: function (content, callback) { /* "content" is the div inside "/posts/preview.html" */
+            // Example of implementation with ajax:
+            $.ajax({
+                url: '/posts/description.json', /* originally: /posts/body.json */
+                type: 'GET',
+                dataType: 'html',
+                data: {content: content}
+//                imageUpload: true, // Activate the option
+//                uploadPath: '/posts/image.json' // Path of the server side script that receive the files
+            })
+                .done(function(content) {
+                    // Return the html:
+                    callback(content);
+                });
+        }
+    });
+
+//    $(document).ready(function(){
+//        $("a[href^='http']").attr('target','_blank');
+//    });
+
+</script>
 </html>

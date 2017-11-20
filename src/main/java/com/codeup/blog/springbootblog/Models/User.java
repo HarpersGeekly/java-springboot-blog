@@ -39,17 +39,21 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts.
     private List<Post> posts;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Comment> comments;
+
     @Column(name = "JOINED_DATE")
     private LocalDateTime date;
 
     public User(){}
 
     // use this constructor for update profile form.
-    public User(Long id, String username, String email, LocalDateTime date) {
+    public User(Long id, String username, String email, LocalDateTime date, List<Comment> comments) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.date = date;
+        this.comments = comments;
     }
 
     // security files will need the next constructor. It makes clones/copies. Why?
@@ -114,6 +118,14 @@ public class User {
             if (anotherUser instanceof User)
                 if (id != null && id.equals(((User) anotherUser).id)) return true;
         return false;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
 
