@@ -7,8 +7,6 @@
 
 <div id="showPageWrapper">
 
-    <div id="showPageContent" th:object="${post}">
-
         <h4 th:text="${post.title}" id="showPageIntro"></h4>
         <h4 th:text="${post.description}"></h4>
         <h4>posted by: <a th:href="${'/profile/' + post.user.id}"><span th:text="${post.user.username}"></span></a></h4>
@@ -20,45 +18,66 @@
             <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></h5>
 
             <div sec:authorize="isAuthenticated()">
-                <div th:if="${showEditButton}">
+                <div th:if="${isPostOwner}">
                     <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>
                 </div>
             </div>
 
-        <!--======================================= COMMENT FORM ====================================-->
-        <div sec:authorize="isAuthenticated()">
-            <div id="commentForm">
 
-                <form th:action="@{/posts/show}" method="POST" th:object="${post}">
-                    <textarea name="body"
-                              th:field="*{post.comment.body}"
+    <!--======================================= COMMENT FORM ====================================-->
+        <div sec:authorize="isAuthenticated()">
+
+            <div class="form-group">
+                <label for="commentFormBody">Comment</label>
+
+                <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
+
+                    <textarea name="body" id="commentFormBody"
+                              th:field="*{body}"
                               th:placeholder="Comment...">
                     </textarea>
 
-                    <input class="form-control" type="hidden" name="id" th:field="*{post.comment.id}"/>
-                    <a class="btn btn-primary" th:href="${'/posts/' + post.id +''}">Reply</a>
+                    <div
+                            th:if="${#fields.hasErrors('body')}"
+                            class="alert alert-danger alert-dismissible"
+                            role="alert">
+                        <span th:errors="*{body}"/>
+                    </div>
+
+                    <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
+                    <input type="submit" value="Comment" class="btn btn-primary" />
                 </form>
 
             </div>
         </div>
         <!--======================================= COMMENT SECTION ====================================-->
 
-            <div id="commentSection" th:each="comment : ${comments}">
-                <h3>Comments Go Here</h3>
+        <h3>============ Comments Go Here =============</h3>
 
-                <h3 th:text="${post.comment.body}" id="commentBody"></h3>
-                    <h3>posted by: <span th:text="${user.username}"></span></h3>
+        <div id="commentSection" th:each="comment : ${comments}">
 
-                    <h5 id="createdDate">created on:
-                        <span th:text="${#temporals.monthNameShort(post.date)}"></span>
-                        <span th:text="${#temporals.day(post.date)}"></span>,
-                        <span th:text="${#temporals.year(post.date)}"></span> at
-                        <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></h5>
-                </div>
+                <h4 th:text="${comment.body}"></h4>
+                <h4>posted by: <span th:text="${comment.user.username}"></span></h4>
+
+                    <h5 id="createdCommentDate">created on:
+                        <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                        <span th:text="${#temporals.day(comment.date)}"></span>,
+                        <span th:text="${#temporals.year(comment.date)}"></span> at
+                        <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span></h5>
+
+            <!--===================================== DELETE A COMMENT ================================-->
+
+            <div sec:authorize="isAuthenticated()">
+
+                <form th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/delete'}" method="POST"
+                         th:object="${comment}">
+                    <input type="hidden" name="id" th:value="${comment.id}" />
+                    <input type="submit" value="Delete Comment" class="btn btn-primary btn-danger"/>
+                </form>
             </div>
+        </div>
 
 
-    </div>
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>

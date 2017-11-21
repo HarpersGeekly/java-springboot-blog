@@ -30,14 +30,11 @@ public class Post {
     @Size(min = 5, message="Description must be at least 5 characters.")
     private String description;
 
-//    @Column
-//    private String image;
-
     @ManyToOne // many posts can belong to one user.
     // will define the foreign key. This class represents the post table and we need a reference to the user
     private User user;
 
-    @OneToMany // One post will have many comments
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post") // One post will have many comments
     private List<Comment> comments;
 
     @Column(name = "CREATED_DATE")

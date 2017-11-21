@@ -39,7 +39,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts.
     private List<Post> posts;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many comments.
     private List<Comment> comments;
 
     @Column(name = "JOINED_DATE")
@@ -66,6 +66,7 @@ public class User {
         this.password = copy.password;
         this.posts = copy.posts;
         this.date = copy.date;
+        this.comments = copy.comments;
     }
 
     public Long getId() {

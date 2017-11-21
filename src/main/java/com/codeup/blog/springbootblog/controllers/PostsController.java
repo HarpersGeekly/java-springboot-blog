@@ -1,10 +1,11 @@
 package com.codeup.blog.springbootblog.controllers;
 
+import com.codeup.blog.springbootblog.Models.Comment;
 import com.codeup.blog.springbootblog.Models.Post;
+import com.codeup.blog.springbootblog.repositories.CommentsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
-import com.codeup.blog.springbootblog.services.XSSPrevent;
 
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -34,6 +35,8 @@ public class PostsController {
 
     private final UserService userSvc; // using methods in the UserService, like isLoggedIn(), etc.
 
+    private final CommentsRepository commentsDao;
+
     // Constructor "dependency injection", passing the PostService object into the PostController constructor,
     // everything ties together now. Services + Controller.
     // Autowiring makes it so we don't have to build the object ourselves in the main method of SpringBlogApplication,
@@ -44,10 +47,11 @@ public class PostsController {
     // Reminder: There are built in methods for CRUDRepository:
     // findAll(), findOne(), save(), delete(). These are in the Service
 
-    public PostsController(PostService postSvc, UsersRepository usersDao, UserService userSvc) {
+    public PostsController(PostService postSvc, UsersRepository usersDao, UserService userSvc, CommentsRepository commentsDao) {
         this.postSvc = postSvc;
         this.usersDao = usersDao;
         this.userSvc = userSvc;
+        this.commentsDao = commentsDao;
     }
 
     //========================================= SHOW ALL POSTS AND SHOW ONE POST =======================================
@@ -79,9 +83,41 @@ public class PostsController {
     public String showPostById(@PathVariable Long id, Model viewModel) {
 //        Post post = new Post(1L,"First Title", "First Description");
         Post post = postSvc.findOne(id);
-        viewModel.addAttribute("showEditButton", userSvc.isLoggedInAndPostMatchesUser(post.getUser()));
         viewModel.addAttribute("post", post);
+        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
+        viewModel.addAttribute("comments", post.getComment());
+        viewModel.addAttribute("comment", new Comment());
         return "posts/show";
+    }
+
+//    ============================================ POST A COMMENT ======================================================
+
+    @PostMapping("/posts/{id}")
+    public String postComment(@PathVariable Long id, @ModelAttribute Comment comment) {
+
+//        Post post = postSvc.findOne(id);
+//        comment.setPost(post);
+//        comment.setUser(userSvc.loggedInUser());
+//        comment.setDate(LocalDateTime.now());
+//        commentsDao.save(comment);
+//        return "posts/";
+
+        Post post = postSvc.findOne(id);
+        comment.setPost(post);
+
+        comment.setUser(userSvc.loggedInUser());
+
+        comment.setDate(LocalDateTime.now());
+        commentsDao.save(comment);
+        return "redirect:/posts/" + id;
+    }
+
+//   ============================================== DELETE A COMMENT ===================================================
+
+    @PostMapping("/posts/{postId}/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+        commentsDao.delete(commentId);
+        return "redirect:/posts/" + postId;
     }
 
     // =============================================== CREATE POST =====================================================

@@ -27,7 +27,7 @@ public class Comment {
     private int rating;
 
     @ManyToOne // many comments will belong to one Post
-    private Post post;
+    private Post post; // this is the mappedBy "post"
 
     @ManyToOne // many comments will belong to one User
     private User user;
@@ -35,13 +35,9 @@ public class Comment {
     @Column(name = "CREATED_DATE")
     private LocalDateTime date;
 
-    public Comment() {}
-//    public Comment(Long id, String body, Post post, User user) {
-//        this.id = id;
-//        this.body = body;
-//        this.post = post;
-//        this.user = user;
-//    }
+    public boolean isOwnedBy(long userId) {
+        return getUser() != null && getUser().getId().equals(userId);
+    }
 
     public Long getId() {
         return id;

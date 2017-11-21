@@ -1,9 +1,6 @@
 package com.codeup.blog.springbootblog.services;
 
 import com.codeup.blog.springbootblog.Models.User;
-import com.codeup.blog.springbootblog.repositories.PostsRepository;
-import com.codeup.blog.springbootblog.repositories.UsersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
