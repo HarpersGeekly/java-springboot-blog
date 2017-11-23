@@ -85,7 +85,7 @@ public class PostsController {
         Post post = postSvc.findOne(id);
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
-        viewModel.addAttribute("comments", post.getComment());
+        viewModel.addAttribute("comments", commentsDao.sortAllByTime(id));
         viewModel.addAttribute("comment", new Comment());
         return "posts/show";
     }
@@ -93,14 +93,7 @@ public class PostsController {
 //    ============================================ POST A COMMENT ======================================================
 
     @PostMapping("/posts/{id}")
-    public String postComment(@PathVariable Long id, @ModelAttribute Comment comment) {
-
-//        Post post = postSvc.findOne(id);
-//        comment.setPost(post);
-//        comment.setUser(userSvc.loggedInUser());
-//        comment.setDate(LocalDateTime.now());
-//        commentsDao.save(comment);
-//        return "posts/";
+    public String postComment(@PathVariable Long id, @Valid Comment comment, Errors validation, Model viewModel) {
 
         Post post = postSvc.findOne(id);
         comment.setPost(post);

@@ -90,7 +90,7 @@ textarea, input {
     margin-left: 20px;
     margin-right: 20px;
     /*overflow: auto;*/
-    height:50px;
+    height:200px;
     min-height:50px;
     overflow:hidden;
     /*margin-bottom: 155px;*/
@@ -117,7 +117,7 @@ textarea, input {
     text-align: center;
 }
 
-#showPageContent {
+#showPageWrapper {
     margin-left: 20px;
 }
 
@@ -125,6 +125,13 @@ textarea, input {
     overflow: hidden;
 }
 #profileContent {
+
+}
+
+/*================= COMMENTS =====================*/
+
+.comment-section-wrapper {
+
 
 }
 

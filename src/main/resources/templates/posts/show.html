@@ -11,11 +11,13 @@
         <h4 th:text="${post.description}"></h4>
         <h4>posted by: <a th:href="${'/profile/' + post.user.id}"><span th:text="${post.user.username}"></span></a></h4>
         <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
-        <h5 id="createdDate">created on:
+
+        <h5 id="createdDate">
             <span th:text="${#temporals.monthNameShort(post.date)}"></span>
             <span th:text="${#temporals.day(post.date)}"></span>,
             <span th:text="${#temporals.year(post.date)}"></span> at
-            <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></h5>
+            <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
+        </h5>
 
             <div sec:authorize="isAuthenticated()">
                 <div th:if="${isPostOwner}">
@@ -27,14 +29,14 @@
     <!--======================================= COMMENT FORM ====================================-->
         <div sec:authorize="isAuthenticated()">
 
-            <div class="form-group">
-                <label for="commentFormBody">Comment</label>
+            <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
+                <div class="form-group">
+                    <label for="commentFormBody">Comment</label>
 
-                <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
-
-                    <textarea name="body" id="commentFormBody"
+                    <textarea class="form-control" id="commentFormBody" name="body"
                               th:field="*{body}"
-                              th:placeholder="Comment...">
+                              th:placeholder="Comment..."
+                              style="width: 900px; height: 150px; resize: none">
                     </textarea>
 
                     <div
@@ -46,27 +48,28 @@
 
                     <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
                     <input type="submit" value="Comment" class="btn btn-primary" />
-                </form>
 
-            </div>
+                </div>
+            </form>
         </div>
         <!--======================================= COMMENT SECTION ====================================-->
 
+        <div class="comment-section-wrapper">
         <h3>============ Comments Go Here =============</h3>
 
         <div id="commentSection" th:each="comment : ${comments}">
 
                 <h4 th:text="${comment.body}"></h4>
-                <h4>posted by: <span th:text="${comment.user.username}"></span></h4>
+                <h5>posted by: <span th:text="${comment.user.username}"></span></h5>
 
-                    <h5 id="createdCommentDate">created on:
+                    <h5 id="createdCommentDate">
                         <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
                         <span th:text="${#temporals.day(comment.date)}"></span>,
                         <span th:text="${#temporals.year(comment.date)}"></span> at
-                        <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span></h5>
+                        <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span>
+                    </h5>
 
             <!--===================================== DELETE A COMMENT ================================-->
-
             <div sec:authorize="isAuthenticated()">
 
                 <form th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/delete'}" method="POST"
@@ -76,8 +79,7 @@
                 </form>
             </div>
         </div>
-
-
+  </div>
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>
