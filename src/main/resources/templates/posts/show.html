@@ -7,6 +7,8 @@
 
 <div id="showPageWrapper">
 
+    <!-- ========================================  SHOW THE POST ============================================-->
+
         <h4 th:text="${post.title}" id="showPageIntro"></h4>
         <h4 th:text="${post.description}"></h4>
         <h4>posted by: <a th:href="${'/profile/' + post.user.id}"><span th:text="${post.user.username}"></span></a></h4>
@@ -26,13 +28,12 @@
             </div>
 
 
-    <!--======================================= COMMENT FORM ====================================-->
+    <!--======================================= SHOW THE COMMENT FORM ====================================-->
         <div sec:authorize="isAuthenticated()">
 
             <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
                 <div class="form-group">
-                    <label for="commentFormBody">Comment</label>
-
+                    <label for="commentFormBody"></label>
                     <textarea class="form-control" id="commentFormBody" name="body"
                               th:field="*{body}"
                               th:placeholder="Comment..."
@@ -52,34 +53,93 @@
                 </div>
             </form>
         </div>
-        <!--======================================= COMMENT SECTION ====================================-->
+        <!--======================================= SHOW THE COMMENTS ===============================================-->
 
         <div class="comment-section-wrapper">
-        <h3>============ Comments Go Here =============</h3>
+            <hr id="commentHRLeader"/>
 
-        <div id="commentSection" th:each="comment : ${comments}">
+            <div id="commentSection" th:each="comment : ${comments}">
 
-                <h4 th:text="${comment.body}"></h4>
-                <h5>posted by: <span th:text="${comment.user.username}"></span></h5>
+                    <h4 th:text="   ${comment.body}"></h4>
+                    <h5>posted by: <span th:text="${comment.user.username}"></span></h5>
 
-                    <h5 id="createdCommentDate">
-                        <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
-                        <span th:text="${#temporals.day(comment.date)}"></span>,
-                        <span th:text="${#temporals.year(comment.date)}"></span> at
-                        <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span>
-                    </h5>
+                        <h5 id="createdCommentDate">
+                            <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                            <span th:text="${#temporals.day(comment.date)}"></span>,
+                            <span th:text="${#temporals.year(comment.date)}"></span> at
+                            <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span>
+                        </h5>
 
-            <!--===================================== DELETE A COMMENT ================================-->
-            <div sec:authorize="isAuthenticated()">
+                <!--======================== DELETE A COMMENT ======================-->
+                <div sec:authorize="isAuthenticated()">
 
-                <form th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/delete'}" method="POST"
-                         th:object="${comment}">
-                    <input type="hidden" name="id" th:value="${comment.id}" />
-                    <input type="submit" value="Delete Comment" class="btn btn-primary btn-danger"/>
-                </form>
+                    <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
+                          th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/delete'}" method="POST"
+                          th:object="${comment}">
+
+                        <input type="hidden" name="id" th:value="${comment.id}" />
+                        <input type="submit" value="Delete Comment" class="btn btn-primary btn-danger"/>
+                    </form>
+                </div>
+                <hr id="commentHR"/>
             </div>
         </div>
-  </div>
+
+<!--<!=================================== PAGINATION =========================================================-->
+    <nav class="text-center">
+        <ul class="pagination">
+
+            <li th:class="${page.isFirst()}? 'disabled' : ''">
+                <span th:if='${page.isFirst()}'>← First</span>
+                <a th:if='${not page.isFirst()}' th:href="'?page=0'">
+                    ← First
+                </a>
+            </li>
+            <li th:class="${page.hasPrevious()}? '' : 'disabled'">
+                <span th:if='${not page.hasPrevious()}'>«</span>
+                <a
+                        th:if='${page.hasPrevious()}'
+                        th:href="'?page=' + ${page.getNumber() - 1}"
+                        title='Go to previous page'
+                >
+                    «
+                </a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">
+                <span
+                        th:if='${(i - 1) == param.page}'
+                        th:text='${i}'>
+                    1
+                </span>
+                <a
+                        th:if='${not ((i - 1) == param.page)}'
+                        th:href="'?page=' + ${(i -1)}"
+                >
+                    <span th:text='${i}'>1</span>
+                </a>
+            </li>
+            <li th:class="${page.hasNext()} ? '' : 'disabled'">
+                <span th:if='${not page.hasNext()}'>»</span>
+                <a
+                        th:if='${page.hasNext()}'
+                        th:href="'?page=' + ${page.getNumber() + 1}"
+                        title='Go to next page'
+                >
+                    »
+                </a>
+            </li>
+            <li th:class="${page.isLast()}? 'disabled' : ''">
+                <span th:if='${page.isLast()}'>Last →</span>
+                <a
+                        th:if='${not page.isLast()}'
+                        th:href="'?page=' + ${page.getTotalPages() - 1}"
+                >
+                    Last →
+                </a>
+            </li>
+        </ul>
+    </nav>
+
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>

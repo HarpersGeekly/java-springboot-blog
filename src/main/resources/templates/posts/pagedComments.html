@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/header :: my-header('title')">
+</head>
+<body>
+<nav th:include="fragments/navbar :: my-navbar"></nav>
+
+<div class="container">
+    <!-- Show the ads -->
+    <div class="comment-section-wrapper">
+        <!--<h3>============ Comments Go Here =============</h3>-->
+        <hr id="commentHRLeader"/>
+
+        <div id="commentSection" th:each="comment : ${comments}">
+
+            <h4 th:text="   ${comment.body}"></h4>
+            <h5>posted by: <span th:text="${comment.user.username}"></span></h5>
+
+            <h5 id="createdCommentDate">
+                <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                <span th:text="${#temporals.day(comment.date)}"></span>,
+                <span th:text="${#temporals.year(comment.date)}"></span> at
+                <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span>
+            </h5>
+
+            <!--===================================== DELETE A COMMENT ================================-->
+            <div sec:authorize="isAuthenticated()">
+
+                <form th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/delete'}" method="POST"
+                      th:object="${comment}">
+                    <input type="hidden" name="id" th:value="${comment.id}" />
+                    <input type="submit" value="Delete Comment" class="btn btn-primary btn-danger"/>
+                </form>
+            </div>
+            <hr id="commentHR"/>
+        </div>
+    </div>
+
+    <!-- Build the pagination component -->
+    <nav class="text-center">
+        <ul class="pagination">
+            <li th:class="${page.isFirst()}? 'disabled' : ''">
+                <span th:if='${page.isFirst()}'>← First</span>
+                <a th:if='${not page.isFirst()}' th:href="'?page=0'">
+                    ← First
+                </a>
+            </li>
+            <li th:class="${page.hasPrevious()}? '' : 'disabled'">
+                <span th:if='${not page.hasPrevious()}'>«</span>
+                <a
+                        th:if='${page.hasPrevious()}'
+                        th:href="'?page=' + ${page.getNumber() - 1}"
+                        title='Go to previous page'
+                >
+                    «
+                </a>
+            </li>
+            <-- Show a link to each page -->
+            <li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">
+                <span
+                        th:if='${(i - 1) == param.page}'
+                        th:text='${i}'>
+                    1
+                </span>
+                <a
+                        th:if='${not ((i - 1) == param.page)}'
+                        th:href="'?page=' + ${(i -1)}"
+                >
+                    <span th:text='${i}'>1</span>
+                </a>
+            </li>
+            <li th:class="${page.hasNext()} ? '' : 'disabled'">
+                <span th:if='${not page.hasNext()}'>»</span>
+                <a
+                        th:if='${page.hasNext()}'
+                        th:href="'?page=' + ${page.getNumber() + 1}"
+                        title='Go to next page'
+                >
+                    »
+                </a>
+            </li>
+            <li th:class="${page.isLast()}? 'disabled' : ''">
+                <span th:if='${page.isLast()}'>Last →</span>
+                <a
+                        th:if='${not page.isLast()}'
+                        th:href="'?page=' + ${page.getTotalPages() - 1}"
+                >
+                    Last →
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+<footer th:include="fragments/footer :: my-footer"></footer>
+</body>
+</html>

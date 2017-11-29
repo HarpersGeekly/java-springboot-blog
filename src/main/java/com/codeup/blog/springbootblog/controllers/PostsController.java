@@ -9,6 +9,10 @@ import com.codeup.blog.springbootblog.services.UserService;
 
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -80,12 +84,18 @@ public class PostsController {
     }
 
     @GetMapping("/posts/{id}")
-    public String showPostById(@PathVariable Long id, Model viewModel) {
+    public String showPostById(@PathVariable Long id, Model viewModel,
+                               @PageableDefault(value = 11) Pageable pageable) {
 //        Post post = new Post(1L,"First Title", "First Description");
         Post post = postSvc.findOne(id);
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
+
+        // this sorts the comments
         viewModel.addAttribute("comments", commentsDao.sortAllByTime(id));
+        // this pages the comments? Do I need to combine these?
+        viewModel.addAttribute("page", commentsDao.findAll(pageable));
+
         viewModel.addAttribute("comment", new Comment());
         return "posts/show";
     }
