@@ -130,9 +130,8 @@ textarea, input {
 
 /*================= COMMENTS =====================*/
 
-.comment-section-wrapper {
-
-
+#commentSection {
+    display: inline-block;
 }
 
 #commentHRLeader {
@@ -149,6 +148,18 @@ textarea, input {
     border: 0;
     box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
+
+.glyphicon-chevron-up, .glyphicon-chevron-down {
+    color: blue;
+}
+.glyphicon-chevron-up:hover, .glyphicon-chevron-down:hover {
+    cursor: pointer;
+}
+
+#commentVoting {
+    display: inline-block;
+}
+
 
 
 /*=============== Profile page ======================*/

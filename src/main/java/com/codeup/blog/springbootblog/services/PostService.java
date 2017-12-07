@@ -2,6 +2,8 @@ package com.codeup.blog.springbootblog.services;
 import com.codeup.blog.springbootblog.Models.Post;
 import com.codeup.blog.springbootblog.repositories.PostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,6 +57,10 @@ public class PostService {
 
     public List<Post> searchPostsByKeyword(String term) {
         return postsDao.searchPostsWithKeyword("%" + term + "%");
+    }
+
+    public Page<Post> postsByPage(Pageable pageable) {
+        return postsDao.postsByPage(pageable);
     }
 
     // save takes care of insert and update

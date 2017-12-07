@@ -9,9 +9,9 @@ import com.codeup.blog.springbootblog.services.UserService;
 
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,7 +61,8 @@ public class PostsController {
     //========================================= SHOW ALL POSTS AND SHOW ONE POST =======================================
 
     @GetMapping("/posts")
-    public String showAllPosts(Model viewModel) {
+    public String showAllPosts(Model viewModel,
+                               @PageableDefault(value = 1, direction = Sort.Direction.DESC) Pageable pageable) {
 
 //        Before making the PostService we had all of this:
 //        ArrayList<Post> posts  = new ArrayList<>();
@@ -79,22 +80,23 @@ public class PostsController {
 //        for (Post post : allPosts) {
 //
 //        }
-        viewModel.addAttribute("posts", postSvc.findAll());
+//        viewModel.addAttribute("posts", postSvc.findAll());
+        viewModel.addAttribute("page", postSvc.postsByPage(pageable));
         return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
     public String showPostById(@PathVariable Long id, Model viewModel,
-                               @PageableDefault(value = 11) Pageable pageable) {
+                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 //        Post post = new Post(1L,"First Title", "First Description");
         Post post = postSvc.findOne(id);
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
 
-        // this sorts the comments
-        viewModel.addAttribute("comments", commentsDao.sortAllByTime(id));
-        // this pages the comments? Do I need to combine these?
-        viewModel.addAttribute("page", commentsDao.findAll(pageable));
+        // this sorts the comments:
+//        viewModel.addAttribute("comments", commentsDao.sortAllByTime(id));
+        // this "pages" the comments? Do I need to combine these?
+        viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
 
         viewModel.addAttribute("comment", new Comment());
         return "posts/show";

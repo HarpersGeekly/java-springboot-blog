@@ -55,11 +55,17 @@
         </div>
         <!--======================================= SHOW THE COMMENTS ===============================================-->
 
-        <div class="comment-section-wrapper">
-            <hr id="commentHRLeader"/>
+    <hr id="commentHRLeader"/>
 
-            <div id="commentSection" th:each="comment : ${comments}">
+        <div class="container" id="commentSection" th:each="comment : ${page}">
 
+            <div class="row" id="commentVoting">
+                <div><span class="glyphicon glyphicon-chevron-up"></span></div>
+                <!--<div><h5><span th:text="${comment.voteCount}"></span></h5></div>-->
+                <div><span class="glyphicon glyphicon-chevron-down"></span></div>
+            </div>
+
+            <div class="row">
                     <h4 th:text="   ${comment.body}"></h4>
                     <h5>posted by: <span th:text="${comment.user.username}"></span></h5>
 
@@ -69,6 +75,7 @@
                             <span th:text="${#temporals.year(comment.date)}"></span> at
                             <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span>
                         </h5>
+            </div>
 
                 <!--======================== DELETE A COMMENT ======================-->
                 <div sec:authorize="isAuthenticated()">
@@ -81,8 +88,7 @@
                         <input type="submit" value="Delete Comment" class="btn btn-primary btn-danger"/>
                     </form>
                 </div>
-                <hr id="commentHR"/>
-            </div>
+            <hr id="commentHR"/>
         </div>
 
 <!--<!=================================== PAGINATION =========================================================-->

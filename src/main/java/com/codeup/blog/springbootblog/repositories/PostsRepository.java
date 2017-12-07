@@ -1,5 +1,6 @@
 package com.codeup.blog.springbootblog.repositories;
 
+
 import com.codeup.blog.springbootblog.Models.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,5 +20,9 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
     @Query("SELECT p FROM Post p JOIN p.user u WHERE p.title LIKE ?1 OR p.description LIKE ?1 OR u.username LIKE ?1")
     List<Post> searchPostsWithKeyword(String term);
 
-//    Page<Post> findAll(Pageable pageable);
+    @Query(nativeQuery = true,
+            countQuery = "SELECT count(*) FROM redwood_blog_db.posts", /*need to count rows for pagination */
+            value =
+                    "SELECT * FROM redwood_blog_db.posts ORDER BY ?#{#pageable} DESC")
+    Page<Post> postsByPage(Pageable pageable);
 }
