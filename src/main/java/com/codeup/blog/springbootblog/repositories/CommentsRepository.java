@@ -1,12 +1,10 @@
 package com.codeup.blog.springbootblog.repositories;
 
 import com.codeup.blog.springbootblog.Models.Comment;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 
@@ -33,20 +31,23 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
     Page<Comment> postCommentsByPage(Long id, Pageable pageable);
     //=================================== BEFORE PAGINATION =====================================================
 //    List<Comment> sortAllByTime(Long id);
-    // "Time" only means the comment id in descending order.
-//    Page<Comment> findAll(Pageable pageable); ??
-//    Find all and sort??
+//    "Time" only means the comment id in descending order...
+
+//    ==== PAGINATION ====
+//    Page<Comment> findAll(Pageable pageable); ???
+//    Find all and sort???
 //    Find all from comments where post_id =? order by comments id descending
 //    public List<Comment> findAllCommentsWherePostIdIsLike(Long id);
-
-// === Spring Documentation ====:
-//    @Query(value = "SELECT * FROM USERS WHERE LASTNAME = ?1",
-//            countQuery = "SELECT count(*) FROM USERS WHERE LASTNAME = ?1",
-//            nativeQuery = true)
-//    Page<User> findByLastname(String lastname, Pageable pageable);
 //    ==== ERROR ====:
 //InvalidJpaQueryMethodException:
 //        Cannot use native queries with dynamic sorting and/or pagination in method public abstract org.springframework.data.domain.Page
 //        com.codeup.blog.springbootblog.repositories.CommentsRepository.findAllByPostIdLikeOrderByCommentId(java.lang.Long,org.springframework.data.domain.Pageable)
+//    ==== SOLUTION ===
+//    Documentation -> StackOverflow -> "ORDER BY ?#{#pageable}"
+
+    @Query(nativeQuery = true,
+            value = "SELECT c.vote_count FROM redwood_blog_db.comments c WHERE c.id = ?1")
+    Long commentVoteCount(long id);
+
 }
 

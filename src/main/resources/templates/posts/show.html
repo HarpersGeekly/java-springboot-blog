@@ -53,7 +53,7 @@
                 </div>
             </form>
         </div>
-        <!--======================================= SHOW THE COMMENTS ===============================================-->
+        <!--======================================= SHOW THE PAGEABLE COMMENTS ======================================-->
 
     <hr id="commentHRLeader"/>
 
@@ -61,7 +61,7 @@
 
             <div class="row" id="commentVoting">
                 <div><span class="glyphicon glyphicon-chevron-up"></span></div>
-                <!--<div><h5><span th:text="${comment.voteCount}"></span></h5></div>-->
+                <div><h5><span th:text="${comment.voteCount}"></span></h5></div>
                 <div><span class="glyphicon glyphicon-chevron-down"></span></div>
             </div>
 
@@ -111,7 +111,8 @@
                     «
                 </a>
             </li>
-            <li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">
+            <!--<li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">-->
+            <li th:each="i : ${#numbers.sequence(page.getNumber(), page.getTotalPages())}">
                 <span
                         th:if='${(i - 1) == param.page}'
                         th:text='${i}'>

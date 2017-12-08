@@ -20,12 +20,12 @@ public class Comment {
     private Long id;
 
     @Column(columnDefinition = "TEXT", length = 2000, nullable = false) // column, text for more, not-null
-    @NotBlank(message="Comment cannot be empty :/")
-    @Size(min = 5, message="Comment must be at least 5 characters.")
+    @NotBlank(message="Comments cannot be empty.")
+    @Size(min = 2, message="Comments must be more than 2 characters.")
     private String body;
 
-    @Column
-    private int rating;
+    @Column(nullable = true) /* null vs setVoteCount(0) ???  */
+    private long voteCount;
 
     @ManyToOne // many comments will belong to one Post
     private Post post; // this is the mappedBy "post"
@@ -80,11 +80,11 @@ public class Comment {
         this.date = date;
     }
 
-    public int getRating() {
-        return rating;
+    public long getVoteCount() {
+        return voteCount;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setVoteCount(long voteCount) {
+        this.voteCount = voteCount;
     }
 }

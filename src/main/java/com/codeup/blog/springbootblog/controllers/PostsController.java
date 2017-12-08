@@ -86,19 +86,18 @@ public class PostsController {
     }
 
     @GetMapping("/posts/{id}")
-    public String showPostById(@PathVariable Long id, Model viewModel,
+    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment,
                                @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 //        Post post = new Post(1L,"First Title", "First Description");
         Post post = postSvc.findOne(id);
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
-
+        viewModel.addAttribute("comment", new Comment());
         // this sorts the comments:
 //        viewModel.addAttribute("comments", commentsDao.sortAllByTime(id));
         // this "pages" the comments? Do I need to combine these?
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
-
-        viewModel.addAttribute("comment", new Comment());
+        viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
         return "posts/show";
     }
 
@@ -109,12 +108,23 @@ public class PostsController {
 
         Post post = postSvc.findOne(id);
         comment.setPost(post);
-
         comment.setUser(userSvc.loggedInUser());
-
         comment.setDate(LocalDateTime.now());
+        comment.setVoteCount((long)0);
         commentsDao.save(comment);
+
+//        if (validation.hasErrors()) {
+//            viewModel.addAttribute("errors", validation);
+//            viewModel.addAttribute("comment", comment);
+//            validation.rejectValue(
+//                    "body",
+//                    "comment.body",
+//                    "Comments must be at least 2 characters.");
+//            return "/posts/show";
+//        }
+
         return "redirect:/posts/" + id;
+
     }
 
 //   ============================================== DELETE A COMMENT ===================================================
@@ -159,7 +169,7 @@ public class PostsController {
 //        xp.setAsText(post.getTitle());
 //        post.setDescription(xp.getAsText());
 
-        // This XSSPrevent isn't allowin me to update my code? What gives?
+        // This XSSPrevent isn't allowing me to update my code? What gives?
 
         post.setDate(LocalDateTime.now());
         post.setUser(userSvc.loggedInUser());

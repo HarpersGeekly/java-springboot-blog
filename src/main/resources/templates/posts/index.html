@@ -19,7 +19,7 @@
                     <h4>
                         <a th:href="@{/posts/{id}(id=${post.id})}"  th:text="${post.title}"  id="postTitle"></a>
                     </h4>
-                    <h4>posted by: <span th:text="${post.user.username}"></span></h4>
+                    <h5>posted by: <span th:text="${post.user.username}"></span></h5>
                     <h5 id="createdDate">created on:
                         <span th:text="${#temporals.monthNameShort(post.date)}"></span>
                         <span th:text="${#temporals.day(post.date)}"></span>,
