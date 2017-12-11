@@ -96,6 +96,7 @@ public class PostsController {
         // this sorts the comments:
 //        viewModel.addAttribute("comments", commentsDao.sortAllByTime(id));
         // this "pages" the comments? Do I need to combine these?
+        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
         viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
         return "posts/show";
