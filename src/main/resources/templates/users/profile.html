@@ -43,7 +43,7 @@
     <div id="profileContent" th:each="post : ${profileUser.posts}">
         <ul>
             <li>
-                <h4 th:text="${post.title}"></h4>
+                <a th:href="@{/posts/{id}(id=${post.id})}"><h4 th:text="${post.title}"></h4></a>
                 <h5 th:text="${post.description}"></h5>
                 <h5 id="createdDate">created on:
                     <span th:text="${#temporals.monthNameShort(post.date)}"></span>
