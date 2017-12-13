@@ -2,11 +2,14 @@ package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.Comment;
 import com.codeup.blog.springbootblog.Models.Post;
+import com.codeup.blog.springbootblog.Models.Reply;
 import com.codeup.blog.springbootblog.repositories.CommentsRepository;
+import com.codeup.blog.springbootblog.repositories.RepliesRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
@@ -41,6 +44,8 @@ public class PostsController {
 
     private final CommentsRepository commentsDao;
 
+    private final RepliesRepository repliesDao;
+
     // Constructor "dependency injection", passing the PostService object into the PostController constructor,
     // everything ties together now. Services + Controller.
     // Autowiring makes it so we don't have to build the object ourselves in the main method of SpringBlogApplication,
@@ -51,11 +56,16 @@ public class PostsController {
     // Reminder: There are built in methods for CRUDRepository:
     // findAll(), findOne(), save(), delete(). These are in the Service
 
-    public PostsController(PostService postSvc, UsersRepository usersDao, UserService userSvc, CommentsRepository commentsDao) {
+    public PostsController(PostService postSvc,
+                           UsersRepository usersDao,
+                           UserService userSvc,
+                           CommentsRepository commentsDao,
+                           RepliesRepository repliesDao) {
         this.postSvc = postSvc;
         this.usersDao = usersDao;
         this.userSvc = userSvc;
         this.commentsDao = commentsDao;
+        this.repliesDao = repliesDao;
     }
 
     //========================================= SHOW ALL POSTS AND SHOW ONE POST =======================================
@@ -82,6 +92,7 @@ public class PostsController {
 //        }
 //        viewModel.addAttribute("posts", postSvc.findAll());
         viewModel.addAttribute("page", postSvc.postsByPage(pageable));
+
         return "posts/index";
     }
 
@@ -93,47 +104,15 @@ public class PostsController {
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("comment", new Comment());
+        viewModel.addAttribute("reply", new Reply());
         // this sorts the comments:
 //        viewModel.addAttribute("comments", commentsDao.sortAllByTime(id));
         // this "pages" the comments? Do I need to combine these?
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
         viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
+        viewModel.addAttribute("replies", repliesDao.repliesToComments(comment.getId()));
         return "posts/show";
-    }
-
-//    ============================================ POST A COMMENT ======================================================
-
-    @PostMapping("/posts/{id}")
-    public String postComment(@PathVariable Long id, @Valid Comment comment, Errors validation, Model viewModel) {
-
-        Post post = postSvc.findOne(id);
-        comment.setPost(post);
-        comment.setUser(userSvc.loggedInUser());
-        comment.setDate(LocalDateTime.now());
-        comment.setVoteCount((long)0);
-        commentsDao.save(comment);
-
-//        if (validation.hasErrors()) {
-//            viewModel.addAttribute("errors", validation);
-//            viewModel.addAttribute("comment", comment);
-//            validation.rejectValue(
-//                    "body",
-//                    "comment.body",
-//                    "Comments must be at least 2 characters.");
-//            return "/posts/show";
-//        }
-
-        return "redirect:/posts/" + id;
-
-    }
-
-//   ============================================== DELETE A COMMENT ===================================================
-
-    @PostMapping("/posts/{postId}/comment/{commentId}/delete")
-    public String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
-        commentsDao.delete(commentId);
-        return "redirect:/posts/" + postId;
     }
 
     // =============================================== CREATE POST =====================================================
@@ -228,7 +207,7 @@ public class PostsController {
         return "/posts/search";
     }
 
-    // ========================================= MARKDOWN EDITOR PREVIEW ===============================================
+    // ========================================== MARKDOWN EDITOR PREVIEW ===============================================
 
     @GetMapping("/posts/description.json")
     @ResponseBody
@@ -237,4 +216,75 @@ public class PostsController {
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(parser.parse(content));
     }
+
+    //    =========================================== COMMENT ON A POST ======================================================
+
+    @PostMapping("/posts/{id}")
+    public String postComment(@PathVariable Long id, @Valid Comment comment, Errors validation, Model viewModel) {
+
+        Post post = postSvc.findOne(id);
+        comment.setPost(post);
+        comment.setUser(userSvc.loggedInUser());
+        comment.setDate(LocalDateTime.now());
+        comment.setVoteCount((long)0);
+        commentsDao.save(comment);
+
+//        if (validation.hasErrors()) {
+//            viewModel.addAttribute("errors", validation);
+//            viewModel.addAttribute("comment", comment);
+//            validation.rejectValue(
+//                    "body",
+//                    "comment.body",
+//                    "Comments must be at least 2 characters.");
+//            return "/posts/show";
+//        }
+
+        return "redirect:/posts/" + id;
+
+    }
+
+//   ============================================== DELETE A COMMENT ===================================================
+
+    @PostMapping("/posts/{postId}/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+        commentsDao.delete(commentId);
+        return "redirect:/posts/" + postId;
+    }
+
+    //    ===============================  REPLY TO A COMMENT ON A POST ======================================================
+
+    // replies aaren't being saved in replies. Form in show.html?
+//        TODO: Need to save a reply into replies. Is this the right @PostMapping? "/comment/{id}" isn't "real"
+
+    @PostMapping("/comment/{id}")
+    public String replyToComment(@PathVariable Long id, @Valid Reply reply, Errors validation, Model viewModel) {
+
+        Comment comment = commentsDao.findOne(id);
+        reply.setComment(comment);
+        reply.setUser(userSvc.loggedInUser());
+        reply.setDate(LocalDateTime.now());
+        reply.setVoteCount((long)0);
+        repliesDao.save(reply);
+
+//        if (validation.hasErrors()) {
+//            viewModel.addAttribute("errors", validation);
+//            viewModel.addAttribute("reply", reply);
+//            validation.rejectValue(
+//                    "body",
+//                    "reply.body",
+//                    "Comments must be at least 2 characters.");
+//            return "/posts/show";
+//        }
+
+        return "redirect:/posts/" + id;
+    }
+
+    //   ============================================== DELETE A REPLY ===================================================
+
+    @PostMapping("/posts/{postId}/comment/{commentId}/reply/{replyId}/delete")
+    public String deleteReply(@PathVariable Long postId, @PathVariable Long commentId, @PathVariable Long replyId) {
+        repliesDao.delete(replyId);
+        return "redirect:/posts/" + postId;
+    }
+
 }

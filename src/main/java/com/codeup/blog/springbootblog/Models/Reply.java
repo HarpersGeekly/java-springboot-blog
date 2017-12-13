@@ -5,15 +5,13 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
- * Created by RyanHarper on 11/20/17.
+ * Created by RyanHarper on 12/13/17.
  */
-
 @Entity // annotation saying "will be a table".
-@Table(name = "comments") // name of database table
-public class Comment {
+@Table(name = "replies") // name of database table
+public class Reply {
 
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
@@ -27,14 +25,11 @@ public class Comment {
     @Column(nullable = true) /* null vs setVoteCount(0) ???  */
     private long voteCount;
 
-    @OneToMany(mappedBy = "comment")
-    private List<Reply> replies;
-
-    @ManyToOne // many comments will belong to one Post
-    private Post post; // this is the mappedBy "post"
-
-    @ManyToOne // many comments will belong to one User
+    @ManyToOne // many replies will belong to one User
     private User user;
+
+    @ManyToOne // many replies will belong to one Comment
+    private Comment comment;
 
     @Column(name = "CREATED_DATE")
     private LocalDateTime date;
@@ -59,12 +54,12 @@ public class Comment {
         this.body = body;
     }
 
-    public Post getPost() {
-        return post;
+    public Comment getComment() {
+        return comment;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
     public User getUser() {
@@ -89,13 +84,5 @@ public class Comment {
 
     public void setVoteCount(long voteCount) {
         this.voteCount = voteCount;
-    }
-
-    public List<Reply> getReplies() {
-        return replies;
-    }
-
-    public void setReplies(List<Reply> replies) {
-        this.replies = replies;
     }
 }

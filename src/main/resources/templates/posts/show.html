@@ -87,8 +87,7 @@
             </h5>
         </div>
 
-        <!--================================== SHOW COMMENT REPLIES ============================================-->
-        <!--=======================================================================================================-->
+        <!--================================== COMMENT ON A POST ============================================-->
 
         <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
         <div class="replyTextArea">
@@ -114,6 +113,7 @@
             </form>
         </div>
 
+
         <!--======================== DELETE A COMMENT ======================-->
         <div sec:authorize="isAuthenticated()">
 
@@ -126,7 +126,85 @@
             </form>
         </div>
         <hr id="commentHR"/>
-    </div>
+
+        <!-- =======================================================================================================-->
+        <!-- =======================  REPLIES TO COMMENTS ON A POST ========================-->
+
+        <div id="replies" th:each="reply: ${replies}">
+
+            <h1>SHOW REPLIES HERE</h1>
+
+            <div class="row" id="commentVoting">
+
+                <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
+                <div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span
+                        class="glyphicon glyphicon-chevron-up"></span></a></div>
+                <!--if logged in: upvote and downvote arrows function normally.-->
+                <div th:if="${isLoggedIn}"><span class="glyphicon glyphicon-chevron-up" id="upvote"></span></div>
+
+                <div><h5><span id="voteCount" th:text="${reply.voteCount}"></span></h5></div>
+
+                <div th:if="${isLoggedIn}"><span class="glyphicon glyphicon-chevron-down"></span></div>
+                <div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span class="glyphicon glyphicon-chevron-down"
+                                                                           id="downvote"></span></a></div>
+
+            </div>
+
+            <div class="row">
+                <h4 th:text="${reply.body}"></h4>
+                <h5>posted by: <span th:text="${reply.user.username}"></span></h5>
+
+                <h5 id="createdCommentDate">
+                    <span th:text="${#temporals.monthNameShort(reply.date)}"></span>
+                    <span th:text="${#temporals.day(reply.date)}"></span>,
+                    <span th:text="${#temporals.year(reply.date)}"></span> at
+                    <span th:text="${#temporals.format(reply.date,  'h:mm a')}"></span>
+                </h5>
+            </div>
+
+
+            <!--================================== SHOW REPLY FORM ============================================-->
+            <!--=======================================================================================================-->
+
+            <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
+            <div class="replyTextArea">
+                <!--<form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">-->
+                <form th:action="${'/comment/' + comment.id}" method="post" th:object="${reply}">
+                    <div class="form-group">
+                        <label for="replyFormBody"></label>
+                        <textarea class="form-control" id="replyFormBody" name="body"
+                                  th:field="*{body}"
+                                  th:placeholder="Comment..."
+                                  style="width: 900px; height: 150px; resize: none">
+                            </textarea>
+
+                        <div th:if="${#fields.hasErrors('body')}"
+                             class="alert alert-danger alert-dismissible"
+                             role="alert">
+                            <span th:errors="*{body}"/>
+                        </div>
+                        <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
+                        <input type="submit" value="Comment" class="btn btn-primary"/>
+
+                    </div>
+                </form>
+            </div>
+
+
+            <!--======================== DELETE A REPLY ======================-->
+            <div sec:authorize="isAuthenticated()">
+
+                <form th:if="${reply.isOwnedBy(#authentication.principal.id)}"
+                      th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/reply/' + reply.id + '/delete'}" method="POST"
+                      th:object="${reply}">
+
+                    <input type="hidden" name="id" th:value="${reply.id}"/>
+                    <input type="submit" value="Delete Comment" class="btn btn-primary btn-danger"/>
+                </form>
+            </div>
+        </div> <!-- END OF THE LOOP:  th:each="reply : ${replies}" -->
+    </div> <!-- END OF THE LOOP:  th:each="comment : ${page}" -->
+
 
     <!--<!=================================== PAGINATION =========================================================-->
     <nav class="text-center">
@@ -198,7 +276,7 @@
             $(this).text(function (_, oldText) {
                 return oldText === 'CANCEL' ? 'REPLY' : 'CANCEL';
             });
-            $(this).next().toggle(750);
+            $(this).next().toggle(500);
         });
 
         $("form").submit(function () {
