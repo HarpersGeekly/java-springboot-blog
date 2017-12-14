@@ -53,6 +53,8 @@
             </div>
         </form>
     </div>
+
+
     <!--======================================= SHOW ALL COMMENTS (PAGEABLE) ======================================-->
 
     <hr id="commentHRLeader"/>
@@ -87,32 +89,31 @@
             </h5>
         </div>
 
-        <!--================================== COMMENT ON A POST ============================================-->
+        <!--================================== REPLY TO A COMMENT ============================================-->
 
-        <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
-        <div class="replyTextArea">
+            <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
+            <div class="replyTextArea">
+                <!--<form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">-->
+                <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post" th:object="${reply}">
+                    <div class="form-group">
+                        <label for="replyFormBody"></label>
+                        <textarea class="form-control" id="replyFormBody" name="body"
+                                  th:field="*{body}"
+                                  th:placeholder="Comment..."
+                                  style="width: 900px; height: 150px; resize: none">
+                            </textarea>
 
-            <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
-                <div class="form-group">
-                    <label for="commentFormBody"></label>
-                    <textarea class="form-control" id="commentFormBody" name="body"
-                              th:field="*{body}"
-                              th:placeholder="Comment..."
-                              style="width: 900px; height: 150px; resize: none">
-                        </textarea>
+                        <div th:if="${#fields.hasErrors('body')}"
+                             class="alert alert-danger alert-dismissible"
+                             role="alert">
+                            <span th:errors="*{body}"/>
+                        </div>
+                        <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
+                        <input type="submit" value="Reply" class="btn btn-primary"/>
 
-                    <div th:if="${#fields.hasErrors('body')}"
-                         class="alert alert-danger alert-dismissible"
-                         role="alert">
-                        <span th:errors="*{body}"/>
                     </div>
-                    <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                    <input type="submit" value="Comment" class="btn btn-primary"/>
-
-                </div>
-            </form>
-        </div>
-
+                </form>
+            </div>
 
         <!--======================== DELETE A COMMENT ======================-->
         <div sec:authorize="isAuthenticated()">
@@ -130,9 +131,9 @@
         <!-- =======================================================================================================-->
         <!-- =======================  REPLIES TO COMMENTS ON A POST ========================-->
 
-        <div id="replies" th:each="reply: ${replies}">
+        <div style="margin-left: 50px" id="replies" th:each="reply: ${comment.replies}">
 
-            <h1>SHOW REPLIES HERE</h1>
+            <h5>SHOW REPLIES HERE</h5>
 
             <div class="row" id="commentVoting">
 
@@ -162,35 +163,6 @@
                 </h5>
             </div>
 
-
-            <!--================================== SHOW REPLY FORM ============================================-->
-            <!--=======================================================================================================-->
-
-            <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
-            <div class="replyTextArea">
-                <!--<form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">-->
-                <form th:action="${'/comment/' + comment.id}" method="post" th:object="${reply}">
-                    <div class="form-group">
-                        <label for="replyFormBody"></label>
-                        <textarea class="form-control" id="replyFormBody" name="body"
-                                  th:field="*{body}"
-                                  th:placeholder="Comment..."
-                                  style="width: 900px; height: 150px; resize: none">
-                            </textarea>
-
-                        <div th:if="${#fields.hasErrors('body')}"
-                             class="alert alert-danger alert-dismissible"
-                             role="alert">
-                            <span th:errors="*{body}"/>
-                        </div>
-                        <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                        <input type="submit" value="Comment" class="btn btn-primary"/>
-
-                    </div>
-                </form>
-            </div>
-
-
             <!--======================== DELETE A REPLY ======================-->
             <div sec:authorize="isAuthenticated()">
 
@@ -199,9 +171,11 @@
                       th:object="${reply}">
 
                     <input type="hidden" name="id" th:value="${reply.id}"/>
-                    <input type="submit" value="Delete Comment" class="btn btn-primary btn-danger"/>
+                    <input type="submit" value="delete" class="btn btn-primary btn-danger"/>
                 </form>
             </div>
+
+            <hr id="commentHR"/>
         </div> <!-- END OF THE LOOP:  th:each="reply : ${replies}" -->
     </div> <!-- END OF THE LOOP:  th:each="comment : ${page}" -->
 

@@ -253,13 +253,10 @@ public class PostsController {
 
     //    ===============================  REPLY TO A COMMENT ON A POST ======================================================
 
-    // replies aaren't being saved in replies. Form in show.html?
-//        TODO: Need to save a reply into replies. Is this the right @PostMapping? "/comment/{id}" isn't "real"
+    @PostMapping("/posts/{id}/comment/{commentId}")
+    public String replyToComment(@PathVariable Long id, @PathVariable Long commentId, @Valid Reply reply, Errors validation, Model viewModel) {
 
-    @PostMapping("/comment/{id}")
-    public String replyToComment(@PathVariable Long id, @Valid Reply reply, Errors validation, Model viewModel) {
-
-        Comment comment = commentsDao.findOne(id);
+        Comment comment = commentsDao.findOne(commentId);
         reply.setComment(comment);
         reply.setUser(userSvc.loggedInUser());
         reply.setDate(LocalDateTime.now());

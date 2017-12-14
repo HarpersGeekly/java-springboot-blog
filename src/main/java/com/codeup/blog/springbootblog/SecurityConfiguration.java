@@ -67,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/profile/{id}/editPassword",
                         "/posts/{id}/comment",
                         "/posts/{postId}/comment/{commentId}/delete",
-                        "/comment/{id}",
+                        "/posts/{id}/comment/{commentId}",
                         "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete"
                 ) // only authenticated (logged in) users can create/edit posts
                 .authenticated()
