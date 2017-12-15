@@ -26,8 +26,13 @@
                         <span th:text="${#temporals.year(post.date)}"></span> at
                         <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></h5>
 
-                    <h4 th:text="${post.description}"></h4>
-                    <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
+                    <div class="gradientBox">
+                        <p class="postDescription" th:text="${post.description}"></p>
+                        <p class="read-more"><a th:href="@{/posts/{id}(id=${post.id})}">check out the post...</a></p>
+                    </div>
+
+
+                        <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
                 </li>
                 <!--// wanna use a button to send to edit here? -->
                     <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
@@ -93,5 +98,48 @@
     </div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
+<script>
+
+    $(function(){ /* to make sure the script runs after page load */
+
+
+//        var showChar = 100;
+//        var ellipsestext = "...";
+////        var moretext = "more";
+////        var lesstext = "less";
+//        $('.gradientBox').each(function() {
+//            var content = $(this).html();
+//
+//            if(content.length > showChar) {
+//
+//                var c = content.substr(0, showChar);
+//                var h = content.substr(showChar-1, content.length - showChar);
+//
+//                var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span>' +
+//                    '<span>' + h +
+//                    '</span>';
+//
+//                $(this).html(html);
+//            }
+//
+//        });
+
+//        $(".read-more").click(function(){
+//            if($(this).hasClass("less")) {
+//                $(this).removeClass("less");
+//                $(this).html(moretext);
+//            } else {
+//                $(this).addClass("less");
+//                $(this).html(lesstext);
+//            }
+//            $(this).parent().prev().toggle();
+//            $(this).prev().toggle();
+//            return false;
+//        });
+
+
+    });
+
+</script>
 </body>
 </html>

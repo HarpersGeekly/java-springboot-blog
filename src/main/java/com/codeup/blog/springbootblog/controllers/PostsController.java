@@ -72,7 +72,7 @@ public class PostsController {
 
     @GetMapping("/posts")
     public String showAllPosts(Model viewModel,
-                               @PageableDefault(value = 1, direction = Sort.Direction.DESC) Pageable pageable) {
+                               @PageableDefault(value = 11, direction = Sort.Direction.DESC) Pageable pageable) {
 
 //        Before making the PostService we had all of this:
 //        ArrayList<Post> posts  = new ArrayList<>();
