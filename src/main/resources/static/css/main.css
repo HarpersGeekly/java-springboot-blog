@@ -64,6 +64,8 @@ html {
 
 /*========================================================== POSTS =====================================================*/
 
+
+
 /*==================Index Page ================*/
 
 #postIntro {
@@ -72,7 +74,7 @@ html {
 
 #postTitle {
     font-size: 18px;
-    color: #E07A5F;
+    /*color: #E07A5F;*/
 }
 
 textarea, input {
@@ -128,16 +130,22 @@ textarea, input {
 
 }
 
+.postedBy {
+    font-weight: bold;
+}
+
 /*================= COMMENTS =====================*/
 
 #commentSection {
-    display: inline-block;
+    /*display: inline-block;*/
+
 }
 
 #commentHRLeader {
     border-top: 3px double #8c8b8b;
 }
-#commentHR {
+
+.commentHR {
     display: block;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -156,10 +164,28 @@ textarea, input {
     cursor: pointer;
 }
 
-#commentVoting {
+.commentVoting {
     display: inline-block;
+    float: left;
+    padding-right: 25px;
 }
 
+/*#commentBody {*/
+    /*float: left;*/
+    /*padding-right: 50px;*/
+/*}*/
+
+.showReplyTextArea {
+    cursor: pointer;
+}
+
+/*.commentDelete {*/
+    /*display: none;*/
+/*}*/
+
+/*.replyTextArea:hover + .commentDelete {*/
+    /*display: block;*/
+/*}*/
 
 
 /*=============== Profile page ======================*/
@@ -187,6 +213,16 @@ textarea, input {
 
 #editDeleteButton, #editDeleteButton:active {
     background-color: #E07A5F;
+}
+
+.deleteCommentBtn {
+    background-color: #FFFAFB;
+    color: #E07A5F;
+    padding: 0;
+}
+.deleteCommentBtn:hover {
+    background-color: #FFFAFB;
+    color: #000000;
 }
 /*===================================================== PAGINATION ====================================================*/
 
@@ -222,12 +258,13 @@ textarea, input {
     text-decoration: none;
 }
 
-.read-more {
+.read-more > a {
     text-decoration: none;
     color: #E07A5F;
 }
 
 .postDescription{
+    margin: 0 auto;
     width: 100%;
     /*margin-bottom: 5px;*/
     /*padding-bottom: 5px;*/
@@ -237,7 +274,7 @@ textarea, input {
     content: "";
     position:relative;
     /*border-bottom: 3px solid #777;*/
-    max-height:135px;
+    max-height:100px;
     /*max-height:200px;*/
 
 }
@@ -248,10 +285,10 @@ textarea, input {
     position:absolute;
     left:0;
     top:0;
-    background:linear-gradient(transparent 90px, #FFFAFB);
-    background-image: -moz-linear-gradient(transparent 90px, #FFFAFB);
-    background-image: -o-linear-gradient(transparent 90px, #FFFAFB);
-    background-image: -ms-linear-gradient(transparent 90px, #FFFAFB);
+    background:linear-gradient(transparent 50px, #FFFAFB);
+    background-image: -moz-linear-gradient(transparent 50px, #FFFAFB);
+    background-image: -o-linear-gradient(transparent 50px, #FFFAFB);
+    background-image: -ms-linear-gradient(transparent 50px, #FFFAFB);
 
     /*background:linear-gradient(transparent 150px, white);*/
 

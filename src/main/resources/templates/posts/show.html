@@ -8,60 +8,67 @@
 <div id="showPageWrapper">
 
     <!-- ========================================  SHOW THE POST ============================================-->
+    <div class="container">
 
-    <h4 th:text="${post.title}" id="showPageIntro"></h4>
-    <h4 th:text="${post.description}"></h4>
-    <h4>posted by: <a th:href="${'/profile/' + post.user.id}"><span th:text="${post.user.username}"></span></a></h4>
-    <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
+        <fieldset>
+            <legend>
+                <h4 th:text="${post.title}" id="showPageIntro"></h4>
+            </legend>
+        <h5 class="postedBy">posted by:
+            <a th:href="${'/profile/' + post.user.id}">
+                <span th:text="${post.user.username}"></span>
+            </a> |
+        <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
+            <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span> |
+            <span th:text="${#temporals.monthNameShort(post.date)}"></span>
+            <span th:text="${#temporals.day(post.date)}"></span>,
+            <span th:text="${#temporals.year(post.date)}"></span>
+        </h5>
 
-    <h5 id="createdDate">
-        <span th:text="${#temporals.monthNameShort(post.date)}"></span>
-        <span th:text="${#temporals.day(post.date)}"></span>,
-        <span th:text="${#temporals.year(post.date)}"></span> at
-        <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
-    </h5>
+        <h5 th:text="${post.description}"></h5>
 
-    <div sec:authorize="isAuthenticated()">
-        <div th:if="${isPostOwner}">
-            <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>
+        <div sec:authorize="isAuthenticated()">
+            <div th:if="${isPostOwner}">
+                <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>
+            </div>
         </div>
-    </div>
 
 
     <!--======================================= SHOW THE POST COMMENT FORM ====================================-->
-    <div sec:authorize="isAuthenticated()">
+        <div sec:authorize="isAuthenticated()">
 
-        <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
-            <div class="form-group">
-                <label for="commentFormBody"></label>
-                <textarea class="form-control" id="commentFormBody" name="body"
-                          th:field="*{body}"
-                          th:placeholder="Comment..."
-                          style="width: 900px; height: 150px; resize: none">
-                    </textarea>
+            <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
+                <div class="form-group">
+                    <label for="commentFormBody"></label>
+                    <textarea class="form-control" id="commentFormBody" name="body"
+                              th:field="*{body}"
+                              th:placeholder="Comment..."
+                              style="width: 900px; height: 150px; resize: none">
+                        </textarea>
 
-                <div
-                        th:if="${#fields.hasErrors('body')}"
-                        class="alert alert-danger alert-dismissible"
-                        role="alert">
-                    <span th:errors="*{body}"/>
+                    <div
+                            th:if="${#fields.hasErrors('body')}"
+                            class="alert alert-danger alert-dismissible"
+                            role="alert">
+                        <span th:errors="*{body}"/>
+                    </div>
+
+                    <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
+                    <input type="submit" value="Comment" class="btn btn-primary"/>
+
                 </div>
-
-                <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                <input type="submit" value="Comment" class="btn btn-primary"/>
-
-            </div>
-        </form>
+            </form>
+        </div>
+        </fieldset>
     </div>
-
 
     <!--======================================= SHOW ALL COMMENTS (PAGEABLE) ======================================-->
 
-    <hr id="commentHRLeader"/>
+    <!--<hr id="commentHRLeader"/>-->
 
     <div class="container" id="commentSection" th:each="comment : ${page}">
 
-        <div class="row" id="commentVoting">
+        <div class="row commentVoting">
 
             <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
             <div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span
@@ -77,16 +84,22 @@
 
         </div>
 
-        <div class="row">
-            <h4 th:text="${comment.body}"></h4>
-            <h5>posted by: <span th:text="${comment.user.username}"></span></h5>
+        <div class="row" id="commentBody">
+            <h5 class="postedBy">posted by:
+                <a th:href="${'/profile/' + comment.user.id}">
+                    <span th:text="${comment.user.username}"></span>
+                </a> |
+            <!--</h5>-->
 
-            <h5 id="createdCommentDate">
+            <!--<h5 class="createdCommentDate">-->
+                <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span> |
                 <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
                 <span th:text="${#temporals.day(comment.date)}"></span>,
-                <span th:text="${#temporals.year(comment.date)}"></span> at
-                <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span>
+                <span th:text="${#temporals.year(comment.date)}"></span>
             </h5>
+
+            <h5 th:text="${comment.body}"></h5>
+
         </div>
 
         <!--================================== REPLY TO A COMMENT ============================================-->
@@ -116,26 +129,26 @@
             </div>
 
         <!--======================== DELETE A COMMENT ======================-->
-        <div sec:authorize="isAuthenticated()">
+        <div class="commentDelete" sec:authorize="isAuthenticated()">
 
             <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
                   th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/delete'}" method="POST"
                   th:object="${comment}">
 
                 <input type="hidden" name="id" th:value="${comment.id}"/>
-                <input type="submit" value="Delete Comment" class="btn btn-primary btn-danger"/>
+                <input type="submit" value="Delete" class="btn btn-primary btn-danger deleteCommentBtn"/>
             </form>
         </div>
-        <hr id="commentHR"/>
+        <hr class="commentHR"/>
 
         <!-- =======================================================================================================-->
         <!-- =======================  REPLIES TO COMMENTS ON A POST ========================-->
 
         <div style="margin-left: 50px" id="replies" th:each="reply: ${comment.replies}">
 
-            <h5>SHOW REPLIES HERE</h5>
+            <!--<h5>SHOW REPLIES HERE</h5>-->
 
-            <div class="row" id="commentVoting">
+            <div class="row commentVoting">
 
                 <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
                 <div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span
@@ -152,30 +165,34 @@
             </div>
 
             <div class="row">
-                <h4 th:text="${reply.body}"></h4>
-                <h5>posted by: <span th:text="${reply.user.username}"></span></h5>
+                <h5 class="postedBy">posted by:
+                    <a th:href="${'/profile/' + reply.user.id}">
+                        <span th:text="${reply.user.username}"></span>
+                    </a> |
 
-                <h5 id="createdCommentDate">
+                    <span th:text="${#temporals.format(reply.date,  'h:mm a')}"></span> |
                     <span th:text="${#temporals.monthNameShort(reply.date)}"></span>
                     <span th:text="${#temporals.day(reply.date)}"></span>,
-                    <span th:text="${#temporals.year(reply.date)}"></span> at
-                    <span th:text="${#temporals.format(reply.date,  'h:mm a')}"></span>
+                    <span th:text="${#temporals.year(reply.date)}"></span>
                 </h5>
+
+                <h5 th:text="${reply.body}"></h5>
+
             </div>
 
             <!--======================== DELETE A REPLY ======================-->
-            <div sec:authorize="isAuthenticated()">
+            <div class="commentDelete" sec:authorize="isAuthenticated()">
 
                 <form th:if="${reply.isOwnedBy(#authentication.principal.id)}"
                       th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/reply/' + reply.id + '/delete'}" method="POST"
                       th:object="${reply}">
 
                     <input type="hidden" name="id" th:value="${reply.id}"/>
-                    <input type="submit" value="delete" class="btn btn-primary btn-danger"/>
+                    <input type="submit" value="delete" class="btn btn-primary btn-danger deleteCommentBtn"/>
                 </form>
             </div>
 
-            <hr id="commentHR"/>
+            <hr class="commentHR"/>
         </div> <!-- END OF THE LOOP:  th:each="reply : ${replies}" -->
     </div> <!-- END OF THE LOOP:  th:each="comment : ${page}" -->
 
@@ -253,9 +270,21 @@
             $(this).next().toggle(500);
         });
 
+
         $("form").submit(function () {
             $(".replyTextArea").hide();
         });
+
+
+//        function allowRemovePostIcon() {
+//            $(".blogStructure").hover(
+//                function() {
+//                    $(this).children(".removePost").removeClass("hidden");
+//                },
+//                function () {
+//                    $(this).children(".removePost").addClass("hidden");
+//                });
+//        }
 
     })
 
