@@ -179,14 +179,9 @@ textarea, input {
     cursor: pointer;
 }
 
-/*.commentDelete {*/
-    /*display: none;*/
-/*}*/
+.deleteCommentBtn {
 
-/*.replyTextArea:hover + .commentDelete {*/
-    /*display: block;*/
-/*}*/
-
+}
 
 /*=============== Profile page ======================*/
 
