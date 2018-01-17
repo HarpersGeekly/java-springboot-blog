@@ -47,6 +47,15 @@ public class UsersController {
 //        System.out.println(new BCryptPasswordEncoder().encode("pass"));
         return "/users/login";
     }
+//
+//    @RequestMapping(value= "/login", method = RequestMethod.POST)
+//    public String login(@RequestParam(value="username", required=false) String username,
+//                        @RequestParam(value="password", required=false) String password) {
+//
+//
+//
+//        return "/profile";
+//    }
 
     // ========================================== REGISTER USER ========================================================
 
@@ -130,27 +139,34 @@ public class UsersController {
     public String showProfileEditPage(@PathVariable Long id, Model viewModel) {
         // find the user in the database:
         User existingUser = usersDao.findById(id);
-        // pass it to the view: pre-populate the form with the values from that user.
+
+        // pass it to the view: pre-populate the form with the values from that user ie: th:field="{user.username}"
         viewModel.addAttribute("user", existingUser);
-        return "users/edit";
+        return "users/editUser";
     }
 
     @PostMapping("profile/{id}/edit")
     public String update(@PathVariable Long id, @Valid User user, Errors validation, Model viewModel) {
 
-        // double check that the username is not already in database:
+        // Check if the username is already in database:
         User existingUser = usersDao.findByUsername(user.getUsername());
-        if (existingUser != null) {
-            validation.rejectValue(
-                    "username",
-                    "user.username",
-                    "Username is already taken.");
-        }
+
+        //need to handle the issue when someone leaves the username unchanged. It still defaults to "username already taken"
+//        if (username.equals(existingUser.getUsername())) {
+
+//        ?????
+
+            if (existingUser != null) {
+                validation.rejectValue(
+                        "username",
+                        "user.username",
+                        "Username is already taken.");
+            }
 
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("user", user);
-            return "users/edit";
+            return "users/editUser";
         }
 
         user.setId(id);
@@ -158,11 +174,11 @@ public class UsersController {
         userSvc.authenticate(user); // Programmatically login the new user
 
         boolean success = (!validation.hasErrors());
-        String profileSuccess = "Profile Updated :)";
+        String profileSuccess = "Profile Updated!";
         viewModel.addAttribute("success", success);
-        viewModel.addAttribute("successMessage", profileSuccess);
+        viewModel.addAttribute("successMsg", profileSuccess);
 
-        return "users/edit";
+        return "users/editUser";
     }
 
     // ============================================ CHANGE PASSWORD ====================================================
@@ -229,6 +245,6 @@ public class UsersController {
         viewModel.addAttribute("successDelete", success);
         viewModel.addAttribute("successMessage", deleteSuccess);
 
-        return "users/edit";
+        return "users/editUser";
     }
 }

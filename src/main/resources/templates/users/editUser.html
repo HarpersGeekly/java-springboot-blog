@@ -42,7 +42,7 @@
         <input type="submit" value="Update Profile" class="btn btn-primary"  />
 
         <div th:if="${success}" class="alert alert-success fade in">
-            <strong th:text="${successMessage}"></strong><a th:href="@{/profile}" class="alert-link"> Go to your profile.</a>
+            <strong th:text="${successMsg}"></strong><a th:href="@{/profile}" class="alert-link"> Go to your profile.</a>
         </div>
 
     </form>
