@@ -18,7 +18,7 @@
 </ul>
 
 <h3 th:if="${guess} == ${randomNumber} and ${guess} != null">You rolled a <span th:text="${guess}"></span>. CORRECT!</h3>
-<h3 th:if="${randomNumber} != ${guess}"> You rolled a <span th:text="${guess}"></span> but the number was <span th:text="${randomNumber}"></span>. Try again!</h3>
+<h3 th:if="${guess} != ${randomNumber}"> You rolled a <span th:text="${guess}"></span> but the number was <span th:text="${randomNumber}"></span>. Try again!</h3>
 
 <h3 th:if="${guess} == ${randomNumber} and ${guess} != null or ${randomNumber} != ${guess}"> Number of guesses: <span th:text="${counter}"></span>.
 
