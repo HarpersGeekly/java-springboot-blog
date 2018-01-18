@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class RollDiceController {
+
     private int counter = 0;
 
     @GetMapping("/roll-dice")
@@ -23,6 +24,7 @@ public class RollDiceController {
 
         int random = (int)(Math.random() * 6 + 1);
         counter++;
+
         viewModel.addAttribute("randomNumber", random);
         viewModel.addAttribute("guess", guess);
         viewModel.addAttribute("counter", counter);
@@ -30,6 +32,7 @@ public class RollDiceController {
         if(guess == random) {
             counter = 0;
         }
+
         return "roll-dice";
     }
 }

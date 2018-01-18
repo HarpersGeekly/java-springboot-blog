@@ -20,7 +20,7 @@
 <h3 th:if="${guess} == ${randomNumber} and ${guess} != null">You rolled a <span th:text="${guess}"></span>. CORRECT!</h3>
 <h3 th:if="${guess} != ${randomNumber}"> You rolled a <span th:text="${guess}"></span> but the number was <span th:text="${randomNumber}"></span>. Try again!</h3>
 
-<h3 th:if="${guess} == ${randomNumber} and ${guess} != null or ${randomNumber} != ${guess}"> Number of guesses: <span th:text="${counter}"></span>.
+<h3 th:if="${guess} == ${randomNumber} and ${guess} != null or ${guess} != ${randomNumber}"> Number of guesses: <span th:text="${counter}"></span>.
 
     <span th:if="${guess} == ${randomNumber} and ${counter &gt;= 12}">Wow you have terrible luck!</span>
     <span th:if="${guess} == ${randomNumber} and ${counter &gt;= 8}  and ${counter &lt;= 11}">You've got bad luck...</span>
