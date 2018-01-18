@@ -6,29 +6,42 @@
 <nav th:include="fragments/navbar :: my-navbar">
     <!--The entire content of the partial will be *included* inside this div.-->
 </nav>
-<div class="wrapper">
-<h1>Welcome to the Dice Roll page. Guess a number:</h1>
-<ul>
-    <li><a href="/roll-dice/1">1</a></li>
-    <li><a href="/roll-dice/2">2</a></li>
-    <li><a href="/roll-dice/3">3</a></li>
-    <li><a href="/roll-dice/4">4</a></li>
-    <li><a href="/roll-dice/5">5</a></li>
-    <li><a href="/roll-dice/6">6</a></li>
-</ul>
+<div class="container">
+    <div class="row">
+        <div class="col col-lg-12">
 
-<h3 th:if="${guess} == ${randomNumber} and ${guess} != null">You rolled a <span th:text="${guess}"></span>. CORRECT!</h3>
-<h3 th:if="${guess} != ${randomNumber}"> You rolled a <span th:text="${guess}"></span> but the number was <span th:text="${randomNumber}"></span>. Try again!</h3>
+            <h1>Welcome to the Dice Roll page. Guess a number:</h1>
 
-<h3 th:if="${guess} == ${randomNumber} and ${guess} != null or ${guess} != ${randomNumber}"> Number of guesses: <span th:text="${counter}"></span>.
+            <!--<ul>-->
+                <!--<li><a class="btn btn-primary" href="/roll-dice/1">1</a></li>-->
+                <!--<li><a class="btn btn-primary" href="/roll-dice/2">2</a></li>-->
+                <!--<li><a class="btn btn-primary" href="/roll-dice/3">3</a></li>-->
+                <!--<li><a class="btn btn-primary" href="/roll-dice/4">4</a></li>-->
+                <!--<li><a class="btn btn-primary" href="/roll-dice/5">5</a></li>-->
+                <!--<li><a class="btn btn-primary" href="/roll-dice/6">6</a></li>-->
+            <!--</ul>-->
 
-    <span th:if="${guess} == ${randomNumber} and ${counter &gt;= 12}">Wow you have terrible luck!</span>
-    <span th:if="${guess} == ${randomNumber} and ${counter &gt;= 8}  and ${counter &lt;= 11}">You've got bad luck...</span>
-    <span th:if="${guess} == ${randomNumber} and ${counter &gt;= 2} and ${counter &lt;= 7}">Nice job!</span>
-    <span th:if="${guess} == ${randomNumber} and ${counter == 1}">Whoa, lucky guess!</span>
+            <!--Check this out. Instead of the links above, you can use this:-->
+            <!-- Using #numbers : utility methods for number objects:-->
 
-</h3>
+            <div th:each="number : ${#numbers.sequence(1,6)}">
+                <a class="btn btn-primary" th:href="@{'/roll-dice/' + ${number}}" th:text="${number}"></a>
+            </div>
 
+            <h3 th:if="${guess == randomNumber} and ${guess != null}">You rolled a <span th:text="${guess}"></span>. CORRECT!</h3>
+            <h3 th:if="${guess != randomNumber}"> You rolled a <span th:text="${guess}"></span> but the number was <span th:text="${randomNumber}"></span>. Try again!</h3>
+
+            <h3 th:if="${guess == randomNumber} and ${guess != null} or ${guess != randomNumber}"> Number of guesses: <span th:text="${counter}"></span>.
+
+                <span th:if="${guess == randomNumber} and ${counter &gt;= 12}">Wow you have terrible luck!</span>
+                <span th:if="${guess == randomNumber} and ${counter &gt;= 8}  and ${counter &lt;= 11}">You've got bad luck...</span>
+                <span th:if="${guess == randomNumber} and ${counter &gt;= 2} and ${counter &lt;= 7}">Nice job!</span>
+                <span th:if="${guess == randomNumber} and ${counter == 1}">Whoa, lucky guess!</span>
+
+            </h3>
+
+        </div>
+    </div>
 </div>
 <footer th:include="fragments/footer :: my-footer">
     <!--The entire content of the partial will be *included* inside this div.-->
