@@ -7,27 +7,57 @@
 
 
 <div class="container">
-    <h1>Log In </h1><a th:href="${'/register'}"><h4>or register</h4></a>
+    <div id="formLoginDiv">
 
-        <div th:if="${param.error}">
-            Invalid Username or Password. Have you registered?
+    <h1>Log In </h1>
+        <!--<a th:href="${'/register'}"><h5>or register</h5></a>-->
+
+    <!--How do I validate my login form...?-->
+    <!--What is param.error? Where does it come from?-->
+    <!--Where are the parameters "${username}" and "${password}" coming from? Why isn't there a postmapping method for login?-->
+        <div th:if="${param.error}" class="alert alert-danger alert-dismissible" role="alert">
+            Invalid username or password. Have you <strong><a th:href="${'/register'}">registered?</a></strong>
         </div>
 
-        <div th:if="${param.logout}">
-            You have been logged out.
-        </div>
+        <!--<div th:if="${param.logout}">-->
+            <!--You have been logged out.-->
+        <!--</div>-->
+        <form th:action="@{/login}" method="post" id="loginForm" th:object="${user}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" type="text" class="form-control" th:field="*{username}"/>
+            </div>
 
-    <form th:action="@{/login}" method="post">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" class="form-control" />
-        </div>
-        <input type="submit" value="Log In" class="btn btn-primary" />
-    </form>
+            <div th:if="${param.error}" class="alert alert-danger alert-dismissible" role="alert">
+                Please enter a username
+            </div>
+
+            <div
+                th:if="${#fields.hasErrors('username')}"
+                class="alert alert-danger alert-dismissible"
+                role="alert">
+                <span th:errors="*{username}"/>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" class="form-control" th:field="*{password}"/>
+            </div>
+
+            <div
+                    th:if="${#fields.hasErrors('password')}"
+                    class="alert alert-danger alert-dismissible"
+                    role="alert">
+                <span th:errors="*{password}"/>
+            </div>
+
+            <div th:if="${param.error}" class="alert alert-danger alert-dismissible" role="alert">
+                Please enter a password
+            </div>
+
+            <input type="submit" value="Log In" class="btn btn-primary" />
+        </form>
+    </div>
 
 </div>
 </body>

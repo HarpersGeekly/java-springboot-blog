@@ -27,31 +27,48 @@
                 </li>
 
 
-                <li><a href="/posts">All Posts</a></li>
-
-                <li sec:authorize="isAuthenticated()">
-                    <a href="/posts/create">Create New Post</a>
+                <li>
+                    <a href="/posts">
+                        <span class="glyphicon glyphicon-nav glyphicon-list"></span> All Posts
+                    </a>
                 </li>
 
                 <li sec:authorize="isAuthenticated()">
-                    <a href="/profile"><span th:text="${#authentication.principal.username}"></span>'s Profile</a>
+                    <a href="/posts/create">
+                        <span class="glyphicon glyphicon-nav glyphicon-comment"></span> Create New Post
+                    </a>
+                </li>
+
+                <li sec:authorize="isAuthenticated()">
+                    <a href="/profile">
+                        <span class="glyphicon glyphicon-nav glyphicon-user"></span>
+                        <span th:text="${#authentication.principal.username}"></span>'s Profile
+                    </a>
                 </li>
 
                 <!--<li><a href="/roll-dice">Roll Dice</a></li>-->
 
 
                 <li sec:authorize="isAuthenticated()">
+
                     <form th:action="@{/logout}" th:method="post">
-                        <button id="logout" class="btn btn-link">Logout</button>
+                        <button id="logout" class="btn btn-link">
+                            <span class="glyphicon glyphicon-nav glyphicon-log-out"></span> Logout
+                        </button>
                     </form>
                 </li>
 
                 <li sec:authorize="!isAuthenticated()">
-                    <a href="/register">Register</a>
+
+                    <a href="/register">
+                        <span class="glyphicon glyphicon-nav glyphicon-sunglasses"></span> Register
+                    </a>
                 </li>
 
                 <li sec:authorize="!isAuthenticated()">
-                    <a href="/login">Login</a>
+                    <a href="/login">
+                        <span class="glyphicon glyphicon-nav glyphicon-log-in"></span> Login
+                    </a>
                 </li>
             </ul>
 

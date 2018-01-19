@@ -43,6 +43,12 @@ html {
     color: #339989 !important;
 }
 
+.glyphicon-nav {
+    color: #7DE2D1;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
 /* ================== Logout Button =========== */
 
 #logout {
@@ -60,6 +66,19 @@ html {
     background-color: transparent;
     outline: none;
     text-decoration: none;
+}
+
+/*================================================== LOGIN ===== REGISTER =============================================*/
+
+#formLoginDiv {
+    display: block;
+    text-align: center;
+}
+#loginForm {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
 }
 
 /*========================================================== POSTS =====================================================*/
@@ -210,12 +229,17 @@ textarea, input {
     background-color: #E07A5F;
 }
 
-.deleteCommentBtn {
+.deleteCommentBtn, .editCommentBtn {
     background-color: #FFFAFB;
-    color: #E07A5F;
+    color: #000000;
     padding: 0;
 }
-.deleteCommentBtn:hover {
+.deleteCommentBtn:hover, .editCommentBtn:hover {
+    background-color: #FFFAFB;
+    color: #E07A5F;
+}
+
+.deleteCommentBtn:active, .editCommentBtn:active {
     background-color: #FFFAFB;
     color: #000000;
 }
