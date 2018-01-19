@@ -29,15 +29,22 @@
                     <ul class="footerList">
                         <!--<li sec:authorize="!isAuthenticated()">-->
                         <li>
-                            <a href="/posts">Home Page</a>
+                            <a href="/posts">
+                                <span class="glyphicon glyphicon-footer glyphicon-home"></span>Home Page
+                            </a>
                         </li>
 
                         <li sec:authorize="isAuthenticated()">
-                            <a href="/posts/create">Create New Post</a>
+                            <a href="/posts/create">
+                                <span class="glyphicon glyphicon-footer glyphicon-comment"></span>Create New Post
+                            </a>
                         </li>
 
                         <li sec:authorize="isAuthenticated()">
-                            <a href="/profile"><span th:text="${#authentication.principal.username}"></span>'s Profile</a>
+                            <a href="/profile">
+                                <span class="glyphicon glyphicon-footer glyphicon-user"></span>
+                                <span th:text="${#authentication.principal.username}"></span>'s Profile
+                            </a>
                         </li>
 
                         <!--<li><a href="/roll-dice">Roll Dice</a></li>-->

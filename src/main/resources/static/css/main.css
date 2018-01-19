@@ -132,6 +132,62 @@ textarea, input {
     /*!*margin-bottom: 200px;*!*/
 /*}*/
 
+.postDescription{
+    margin: 0 auto;
+    width: 100%;
+    /*margin-bottom: 5px;*/
+    /*padding-bottom: 5px;*/
+    /*max-height:100px;*/
+    overflow:hidden;
+    text-overflow: ellipsis;
+    content: "";
+    position:relative;
+    /*border-bottom: 3px solid #777;*/
+    max-height:100px;
+    /*max-height:200px;*/
+
+}
+.postDescription:before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(transparent 50px, #FFFAFB);
+    background-image: -moz-linear-gradient(transparent 50px, #FFFAFB);
+    background-image: -o-linear-gradient(transparent 50px, #FFFAFB);
+    background-image: -ms-linear-gradient(transparent 50px, #FFFAFB);
+}
+
+/*background:linear-gradient(transparent 150px, white);*/
+
+/*background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgb(255, 250, 251) 69%); !* FF3.6-15 *!*/
+/*background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgb(255, 250, 251) 69%); !* Chrome10-25,Safari5.1-6 *!*/
+/*background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgb(255, 250, 251) 69%); !* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ *!*/
+/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); !* IE6-9 *!*/
+
+/*background: -webkit-linear-gradient(*/
+/*rgba(255, 255, 255, 0) 0%,*/
+/*rgb(255, 250, 251) 100%*/
+/*);*/
+/*background-image: -moz-linear-gradient(*/
+/*rgba(255, 255, 255, 0) 0%,*/
+/*rgb(255, 250, 251) 100%*/
+/*);*/
+/*background-image: -o-linear-gradient(*/
+/*rgba(255, 255, 255, 0) 0%,*/
+/*rgb(255, 250, 251) 100%*/
+/*);*/
+/*background-image: linear-gradient(*/
+/*rgba(255, 255, 255, 0) 0%,*/
+/*rgb(255, 250, 251) 100%*/
+/*);*/
+/*background-image: -ms-linear-gradient(*/
+/*rgba(255, 255, 255, 0) 0%,*/
+/*rgb(255, 250, 251) 100%*/
+/*);*/
+
 /*=============== Show Page ====================*/
 
 #showPageIntro {
@@ -266,7 +322,6 @@ textarea, input {
     color: #7DE2D1;
 }
 
-
 .footerList>li>a {
     color: #7DE2D1;
     font-family: Futura, serif;
@@ -282,59 +337,9 @@ textarea, input {
     color: #E07A5F;
 }
 
-.postDescription{
-    margin: 0 auto;
-    width: 100%;
-    /*margin-bottom: 5px;*/
-    /*padding-bottom: 5px;*/
-    /*max-height:100px;*/
-    overflow:hidden;
-    text-overflow: ellipsis;
-    content: "";
-    position:relative;
-    /*border-bottom: 3px solid #777;*/
-    max-height:100px;
-    /*max-height:200px;*/
-
-}
-.postDescription:before {
-    content:'';
-    width:100%;
-    height:100%;
-    position:absolute;
-    left:0;
-    top:0;
-    background:linear-gradient(transparent 50px, #FFFAFB);
-    background-image: -moz-linear-gradient(transparent 50px, #FFFAFB);
-    background-image: -o-linear-gradient(transparent 50px, #FFFAFB);
-    background-image: -ms-linear-gradient(transparent 50px, #FFFAFB);
-
-    /*background:linear-gradient(transparent 150px, white);*/
-
-    /*background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgb(255, 250, 251) 69%); !* FF3.6-15 *!*/
-    /*background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgb(255, 250, 251) 69%); !* Chrome10-25,Safari5.1-6 *!*/
-    /*background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgb(255, 250, 251) 69%); !* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ *!*/
-    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); !* IE6-9 *!*/
-
-    /*background: -webkit-linear-gradient(*/
-            /*rgba(255, 255, 255, 0) 0%,*/
-            /*rgb(255, 250, 251) 100%*/
-    /*);*/
-    /*background-image: -moz-linear-gradient(*/
-            /*rgba(255, 255, 255, 0) 0%,*/
-            /*rgb(255, 250, 251) 100%*/
-    /*);*/
-    /*background-image: -o-linear-gradient(*/
-            /*rgba(255, 255, 255, 0) 0%,*/
-            /*rgb(255, 250, 251) 100%*/
-    /*);*/
-    /*background-image: linear-gradient(*/
-            /*rgba(255, 255, 255, 0) 0%,*/
-            /*rgb(255, 250, 251) 100%*/
-    /*);*/
-    /*background-image: -ms-linear-gradient(*/
-            /*rgba(255, 255, 255, 0) 0%,*/
-            /*rgb(255, 250, 251) 100%*/
-    /*);*/
+.glyphicon-footer {
+    color: #7DE2D1;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
