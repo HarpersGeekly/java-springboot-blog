@@ -3,24 +3,15 @@ package com.codeup.blog.springbootblog.controllers;
 import com.codeup.blog.springbootblog.Models.User;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.UserService;
-import com.codeup.blog.springbootblog.services.UserWithRoles;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.Collections;
 
 /**
  * Created by RyanHarper on 11/8/17.
@@ -43,24 +34,50 @@ public class UsersController {
     // ============================================= LOGGING IN USER ===================================================
 
     @GetMapping("/login")
-    public String showLoginForm() {
-//        System.out.println(new BCryptPasswordEncoder().encode("pass"));
+    public String showLoginForm(Model viewModel) {
+        viewModel.addAttribute("user", new User());
         return "/users/login";
     }
-//
-//    @RequestMapping(value= "/login", method = RequestMethod.POST)
-//    public String login(@RequestParam(value="username", required=false) String username,
-//                        @RequestParam(value="password", required=false) String password) {
-//
-//
-//
-//        return "/profile";
-//    }
+
+    // 1/18/18: Trying to further validate Login. But, we don't even get here. Where do we further validate?
+    @PostMapping("/login")
+    public String login(@Valid User user,
+                        Errors validation,
+                        Model viewModel,
+                        @RequestParam(value = "username") String username,
+                        @RequestParam(value = "password") String password) {
+
+        System.out.println("postmapping login method");
+        User existingUser = usersDao.findByUsername(username);
+        if (existingUser == null && user.getUsername().equals(username)) {
+            validation.rejectValue(
+                    "username",
+                    "user.username",
+                    "There is no user with that username.");
+        }
+
+        if (!password.equals(existingUser.getPassword())) {
+            validation.rejectValue(
+                    "password",
+                    "user.password",
+                    "Password is incorrect for that user.");
+        }
+
+        if (validation.hasErrors()) {
+            viewModel.addAttribute("errors", validation);
+            viewModel.addAttribute("user", user);
+            viewModel.addAttribute("username", username);
+            viewModel.addAttribute("password", password);
+            return "/users/login";
+        }
+
+        return "redirect:/profile";
+    }
 
     // ========================================== REGISTER USER ========================================================
 
     @GetMapping("/register")
-    public String showRegisterForm(Model model){
+    public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());
         return "/users/register";
     }
@@ -146,22 +163,24 @@ public class UsersController {
     }
 
     @PostMapping("profile/{id}/edit")
-    public String update(@PathVariable Long id, @Valid User user, Errors validation, Model viewModel) {
+    public String update(@PathVariable Long id, @Valid User user, Errors validation,
+                         @RequestParam(name = "username") String username, Model viewModel) {
 
-        // Check if the username is already in database:
-        User existingUser = usersDao.findByUsername(user.getUsername());
+        // user who is already in the database and on the form:
+        User existingUser = usersDao.findById(id);
 
-        //need to handle the issue when someone leaves the username unchanged. It still defaults to "username already taken"
-//        if (username.equals(existingUser.getUsername())) {
+        // Handle issue when someone leaves username unchanged it won't default to "username already taken"
+        if (!existingUser.getUsername().equals(username)) {
 
-//        ?????
+            User updatedUser = usersDao.findByUsername(username);
 
-            if (existingUser != null) {
+            if (updatedUser != null) {
                 validation.rejectValue(
                         "username",
                         "user.username",
                         "Username is already taken.");
             }
+        }
 
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
@@ -177,9 +196,9 @@ public class UsersController {
         String profileSuccess = "Profile Updated!";
         viewModel.addAttribute("success", success);
         viewModel.addAttribute("successMsg", profileSuccess);
-
         return "users/editUser";
     }
+
 
     // ============================================ CHANGE PASSWORD ====================================================
 
@@ -219,9 +238,9 @@ public class UsersController {
 
         // alert the user that their password has changed.
         boolean success = (!validation.hasErrors());
-            String passwordSuccess = "You have successfully updated your password!";
-            viewModel.addAttribute("success", success);
-            viewModel.addAttribute("successMessage", passwordSuccess);
+        String passwordSuccess = "You have successfully updated your password!";
+        viewModel.addAttribute("success", success);
+        viewModel.addAttribute("successMessage", passwordSuccess);
 
         return "users/editPassword";
     }
