@@ -14,7 +14,7 @@
     <th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">
         <h2>Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
 
-        <h3>You are logged in. <a th:href="${'/posts/create'}">You can now create a post.</a></h3>
+        <h3>You are logged in. You can make comments and <a th:href="${'/posts/create'}">create a post.</a></h3>
 
         <h4>Email: <span th:text="${#authentication.principal.email}"/></h4>
 
@@ -27,6 +27,9 @@
             <span th:text="${#temporals.year(#authentication.principal.date)}"></span></h4>
 
         <h4>Your posts:</h4>
+        <h5 th:if="${postsAreEmpty}">
+            <i class="far fa-frown profileFrown"></i> You don't have any posts yet... get posting!
+        </h5>
     </th:block>
 
 <!--============================================== VIEWING OTHER USERS PROFILES ===========================================-->

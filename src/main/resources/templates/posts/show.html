@@ -7,13 +7,29 @@
 
 <div id="showPageWrapper">
 
-    <!-- ========================================  SHOW THE POST ============================================-->
+<!-- ====================================================  SHOW THE POST ============================================-->
     <div class="container">
 
         <fieldset>
             <legend>
                 <h4 th:text="${post.title}" id="showPageIntro"></h4>
             </legend>
+
+            <!--<div class="row commentVoting">-->
+
+                <!--&lt;!&ndash;if not logged in: upvote and downvote arrows are href's linked to the login page. &ndash;&gt;-->
+                <!--<div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span-->
+                        <!--class="glyphicon glyphicon-chevron-up"></span></a></div>-->
+                <!--&lt;!&ndash;if logged in: upvote and downvote arrows function normally.&ndash;&gt;-->
+                <!--<div th:if="${isLoggedIn}"><span class="glyphicon glyphicon-chevron-up upvote"></span></div>-->
+
+                <!--<div><h5><span id="voteCount" th:text="${post.voteCount}"></span></h5></div>-->
+
+                <!--<div th:if="${isLoggedIn}"><span class="glyphicon glyphicon-chevron-down"></span></div>-->
+                <!--<div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span class="glyphicon glyphicon-chevron-down downvote"></span></a></div>-->
+
+            <!--</div>-->
+
         <h5 class="postedBy">posted by:
             <a th:href="${'/profile/' + post.user.id}">
                 <span th:text="${post.user.username}"></span>
@@ -34,7 +50,7 @@
         </div>
 
 
-    <!--======================================= SHOW THE POST COMMENT FORM ====================================-->
+<!--================================================= SHOW THE POST COMMENT FORM ====================================-->
         <div sec:authorize="isAuthenticated()">
 
             <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
@@ -62,24 +78,39 @@
         </fieldset>
     </div>
 
-    <!--======================================= SHOW ALL COMMENTS (PAGEABLE) ======================================-->
+<!--============================================= SHOW ALL COMMENTS (PAGEABLE) ======================================-->
 
-    <!--<hr id="commentHRLeader"/>-->
+    <hr id="commentHRLeader"/>
 
     <div class="container" id="commentSection" th:each="comment : ${page}">
 
         <div class="row commentVoting">
 
             <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
-            <div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span
-                    class="glyphicon glyphicon-chevron-up"></span></a></div>
+            <div th:if="${!isLoggedIn}">
+                <a th:href="${'/login'}">
+                    <i class="far fa-thumbs-up"></i>
+                </a>
+            </div>
             <!--if logged in: upvote and downvote arrows function normally.-->
-            <div th:if="${isLoggedIn}"><span class="glyphicon glyphicon-chevron-up upvote"></span></div>
+            <div th:if="${isLoggedIn}">
+                <i class="far fa-thumbs-up upvote"></i>
+            </div>
 
-            <div><h5><span id="voteCount" th:text="${comment.voteCount}"></span></h5></div>
+            <div>
+                <h5>
+                    <span id="voteCount" th:text="${comment.voteCount}"></span>
+                </h5>
+            </div>
 
-            <div th:if="${isLoggedIn}"><span class="glyphicon glyphicon-chevron-down"></span></div>
-            <div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span class="glyphicon glyphicon-chevron-down downvote"></span></a></div>
+            <div th:if="${isLoggedIn}">
+                <i class="far fa-thumbs-down"></i>
+            </div>
+            <div th:if="${!isLoggedIn}">
+                <a th:href="${'/login'}">
+                    <i class="far fa-thumbs-down downvote"></i>
+                </a>
+            </div>
 
         </div>
 
@@ -97,11 +128,10 @@
                 <span th:text="${#temporals.year(comment.date)}"></span>
             </h5>
 
-            <h5 th:text="${comment.body}"></h5>
+            <h5 th:text="${comment.body}" id="commentBody"></h5>
 
         </div>
-
-        <!--================================== REPLY TO A COMMENT ============================================-->
+                                     <!--================================== REPLY TO A COMMENT ======================-->
 
             <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
             <div class="replyTextArea">
@@ -127,7 +157,7 @@
                 </form>
             </div>
 
-        <!--======================== DELETE A COMMENT ======================-->
+                                    <!--==================================== DELETE A COMMENT =======================-->
         <div class="commentDelete" sec:authorize="isAuthenticated()">
 
             <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
@@ -135,13 +165,34 @@
                   th:object="${comment}">
 
                 <input type="hidden" name="id" th:value="${comment.id}"/>
-                <input type="submit" value="Delete" class="btn btn-primary btn-danger deleteCommentBtn"/>
+                <input type="submit" value="Delete" class="btn btn-primary deleteCommentBtn"/>
             </form>
         </div>
+
+                                    <!--===================================== EDIT A COMMENT ========================-->
+        <div class="commentEdit" sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)}">
+
+                <button class="btn btn-primary editCommentBtn"
+                        th:href="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}">Edit</button>
+
+            <!--<form th:if="${comment.isOwnedBy(#authentication.principal.id)}"-->
+                  <!--th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}" method="POST"-->
+                  <!--th:object="${comment}">-->
+
+                <!--<input type="hidden" name="id" th:value="${comment.id}"/>-->
+                    <!--<input type="submit" value="Edit" class="btn btn-primary btn-warning editCommentBtn"/>-->
+            <!--</form>-->
+        </div>
+
+
+
+
+
+
         <hr class="commentHR"/>
 
-        <!-- =======================================================================================================-->
-        <!-- =======================  REPLIES TO COMMENTS ON A POST ========================-->
+<!-- ================================================================================================================-->
+            <!-- =======================  REPLIES TO COMMENTS ON A POST ========================-->
 
         <div style="margin-left: 50px" id="replies" th:each="reply: ${comment.replies}">
 
@@ -150,15 +201,31 @@
             <div class="row commentVoting">
 
                 <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
-                <div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span
-                        class="glyphicon glyphicon-chevron-up"></span></a></div>
+                <div th:if="${!isLoggedIn}">
+                    <a th:href="${'/login'}">
+                        <i class="far fa-thumbs-up"></i>
+                    </a>
+                </div>
                 <!--if logged in: upvote and downvote arrows function normally.-->
-                <div th:if="${isLoggedIn}"><span class="glyphicon glyphicon-chevron-up upvote"></span></div>
+                <div th:if="${isLoggedIn}">
+                    <i class="far fa-thumbs-up upvote"></i>
+                </div>
 
-                <div><h5><span id="voteCount" th:text="${reply.voteCount}"></span></h5></div>
+                <div>
+                    <h5>
+                        <span id="voteCount" th:text="${reply.voteCount}"></span>
+                    </h5>
+                </div>
 
-                <div th:if="${isLoggedIn}"><span class="glyphicon glyphicon-chevron-down"></span></div>
-                <div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span class="glyphicon glyphicon-chevron-down downvote"></span></a></div>
+                <div th:if="${isLoggedIn}">
+                    <i class="far fa-thumbs-down"></i>
+                </div>
+
+                <div th:if="${!isLoggedIn}">
+                    <a th:href="${'/login'}">
+                        <i class="far fa-thumbs-down downvote"></i>
+                    </a>
+                </div>
 
             </div>
 
@@ -178,7 +245,7 @@
 
             </div>
 
-            <!--======================== DELETE A REPLY ======================-->
+                                       <!--==================================== DELETE A REPLY ======================-->
             <div class="commentDelete" sec:authorize="isAuthenticated()">
 
                 <form id="deleteForm" th:if="${reply.isOwnedBy(#authentication.principal.id)}"
@@ -190,7 +257,11 @@
                 </form>
             </div>
 
+
+                                        <!--===================================== EDIT A REPLY ======================-->
+
             <hr class="commentHR"/>
+
         </div> <!-- END OF THE LOOP:  th:each="reply : ${replies}" -->
     </div> <!-- END OF THE LOOP:  th:each="comment : ${page}" -->
 
@@ -266,7 +337,6 @@
             });
             $(this).next().toggle(500);
         });
-
 
         $("form").submit(function () {
             $(".replyTextArea").hide();
