@@ -66,7 +66,9 @@
 
                 <div th:if="${isOwnProfile}">
                     <div>
-                        <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>
+                        <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">
+                            <i class="far fa-edit"></i> Edit
+                        </a>
                     </div>
                 </div>
             </li>

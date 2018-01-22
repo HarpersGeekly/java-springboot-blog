@@ -45,7 +45,9 @@
 
         <div sec:authorize="isAuthenticated()">
             <div th:if="${isPostOwner}">
-                <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">Edit</a>
+                <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">
+                    <i class="far fa-edit"></i> Edit
+                </a>
             </div>
         </div>
 
@@ -70,7 +72,9 @@
                     </div>
 
                     <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                    <input type="submit" value="Comment" class="btn btn-primary"/>
+                    <button class="btn btn-primary">
+                        <i class="far fa-comment-alt"></i> Comment
+                    </button>
 
                 </div>
             </form>
@@ -151,7 +155,9 @@
                             <span th:errors="*{body}"/>
                         </div>
                         <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                        <input type="submit" value="Reply" class="btn btn-primary"/>
+                        <button class="btn btn-primary">
+                            <i class="far fa-comment-alt"></i> Reply
+                        </button>
 
                     </div>
                 </form>
@@ -165,15 +171,19 @@
                   th:object="${comment}">
 
                 <input type="hidden" name="id" th:value="${comment.id}"/>
+                <i class="fas fa-bomb"></i>
                 <input type="submit" value="Delete" class="btn btn-primary deleteCommentBtn"/>
+
             </form>
         </div>
 
                                     <!--===================================== EDIT A COMMENT ========================-->
         <div class="commentEdit" sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)}">
 
+            <i class="far fa-edit"></i>
                 <button class="btn btn-primary editCommentBtn"
-                        th:href="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}">Edit</button>
+                        th:href="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}"> Edit
+                </button>
 
             <!--<form th:if="${comment.isOwnedBy(#authentication.principal.id)}"-->
                   <!--th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}" method="POST"-->

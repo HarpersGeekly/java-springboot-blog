@@ -51,8 +51,10 @@
     <!--=================================== DELETE BUTTON =========================================-->
 
     <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" th:object="${post}">
-        <input type="hidden" name="id" th:value="${post.id}" />
-        <input type="submit" value="Delete :(" class="btn btn-primary btn-danger"/>
+        <input type="hidden" name="id" th:field="*{id}" />
+        <button type="submit" class="btn btn-primary btn-danger">
+            <i class="fas fa-bomb"></i>Delete
+        </button>
         <!-- <input th:if="${isEditable}"-->
     </form>
 
