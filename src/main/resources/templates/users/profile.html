@@ -16,19 +16,26 @@
 
         <h3>You are logged in. You can make comments and <a th:href="${'/posts/create'}">create a post.</a></h3>
 
-        <h4>Email: <span th:text="${#authentication.principal.email}"/></h4>
+        <h4>
+            <i class="far fa-envelope profileEmailIcon"></i>
+                <span th:text="${#authentication.principal.email}"/>
+        </h4>
 
-        <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">change username or email</a> |
-        <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">change your password</a>
+        <i class="fas fa-cog profileCogIcon"></i>
+            <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">change username or email</a> |
+        <i class="fas fa-unlock-alt profilePasswordIcon"></i>
+            <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">change your password</a>
 
-        <h4>Joined on:
-            <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
-            <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,
-            <span th:text="${#temporals.year(#authentication.principal.date)}"></span></h4>
+        <h4>
+            <i class="far fa-handshake profileJoinIcon"></i>
+                <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
+                <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,
+                <span th:text="${#temporals.year(#authentication.principal.date)}"></span>
+        </h4>
 
         <h4>Your posts:</h4>
         <h5 th:if="${postsAreEmpty}">
-            <i class="far fa-frown profileFrown"></i> You don't have any posts yet... get posting!
+            <i class="far fa-frown profileFrownIcon"></i> You don't have any posts yet... get posting!
         </h5>
     </th:block>
 
