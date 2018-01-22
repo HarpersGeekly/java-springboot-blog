@@ -14,7 +14,9 @@
     <th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">
         <h2>Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
 
-        <h3>Email: <span th:text="${#authentication.principal.email}"/></h3>
+        <h3>You are logged in. <a th:href="${'/posts/create'}">You can now create a post.</a></h3>
+
+        <h4>Email: <span th:text="${#authentication.principal.email}"/></h4>
 
         <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">change username or email</a> |
         <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">change your password</a>
@@ -23,6 +25,7 @@
             <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
             <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,
             <span th:text="${#temporals.year(#authentication.principal.date)}"></span></h4>
+
         <h4>Your posts:</h4>
     </th:block>
 
