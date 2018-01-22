@@ -29,19 +29,19 @@
 
                 <li>
                     <a href="/posts">
-                        <span class="glyphicon glyphicon-nav glyphicon-list"></span> All Posts
+                        <i class="fas fa-nav fa-comments"></i> All Posts
                     </a>
                 </li>
 
                 <li sec:authorize="isAuthenticated()">
                     <a href="/posts/create">
-                        <span class="glyphicon glyphicon-nav glyphicon-comment"></span> Create New Post
+                        <i class="fas fa-nav fa-comment"></i> Create New Post
                     </a>
                 </li>
 
                 <li sec:authorize="isAuthenticated()">
                     <a href="/profile">
-                        <span class="glyphicon glyphicon-nav glyphicon-user"></span>
+                        <i class="fas fa-nav fa-user-circle"></i>
                         <span th:text="${#authentication.principal.username}"></span>'s Profile
                     </a>
                 </li>
@@ -53,7 +53,7 @@
 
                     <form th:action="@{/logout}" th:method="post">
                         <button id="logout" class="btn btn-link">
-                            <span class="glyphicon glyphicon-nav glyphicon-log-out"></span> Logout
+                            <i class="fas fa-nav fa-hand-scissors"></i> Logout
                         </button>
                     </form>
                 </li>
@@ -61,13 +61,13 @@
                 <li sec:authorize="!isAuthenticated()">
 
                     <a href="/register">
-                        <span class="glyphicon glyphicon-nav glyphicon-sunglasses"></span> Register
+                        <i class="fas fa-nav fa-users"></i> Register
                     </a>
                 </li>
 
                 <li sec:authorize="!isAuthenticated()">
                     <a href="/login">
-                        <span class="glyphicon glyphicon-nav glyphicon-log-in"></span> Login
+                        <i class="fas fa-nav fa-sign-in-alt"></i> Login
                     </a>
                 </li>
             </ul>
