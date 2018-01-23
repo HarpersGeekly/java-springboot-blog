@@ -30,7 +30,7 @@
 
             <!--</div>-->
 
-        <h5 class="postedBy">posted by:
+        <h5 class="postedBy">
             <a th:href="${'/profile/' + post.user.id}">
                 <span th:text="${post.user.username}"></span>
             </a> |
@@ -136,7 +136,7 @@
         </div>
 
         <div class="row commentBody">
-            <h5 class="postedBy">posted by:
+            <h5 class="postedBy">
                 <a th:href="${'/profile/' + comment.user.id}">
                     <span th:text="${comment.user.username}"></span>
                 </a> |
