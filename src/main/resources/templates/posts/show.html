@@ -45,9 +45,26 @@
 
         <div sec:authorize="isAuthenticated()">
             <div th:if="${isPostOwner}">
-                <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">
-                    <i class="far fa-edit"></i> Edit
-                </a>
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <a class="btn btn-primary" id="editPostBtn" th:href="${'/posts/' + post.id + '/edit'}">
+                                <i class="far fa-edit"></i> Edit
+                            </a>
+
+                            <!--=================================== DELETE BUTTON =========================================-->
+                            <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post"> <!--th:object="${post}"-->
+                                <!--<input type="hidden" name="id" th:field="*{id}" />-->
+                                <button type="submit" class="btn btn-primary btn-danger" id="deletePostBtn">
+                                    <i class="fas fa-bomb"></i> Delete
+                                </button>
+                                <!-- <input th:if="${isEditable}"-->
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
