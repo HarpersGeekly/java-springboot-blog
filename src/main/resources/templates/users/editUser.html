@@ -9,55 +9,75 @@
 
     <h1 style="margin-top: 50px;">Edit Profile:</h1>
 
-    <div class="formWrapper">
-    <form th:action="@{'/profile/' + ${user.id} + '/edit'}" method="POST" th:object="${user}">
+    <div class="editUserFormWrapper">
 
-        <div class="form-group">
-            <label for="editFormUsername">Username</label>
-            <input type="text" id="editFormUsername" name="username" class="form-control" th:value="${user.username}"/>
-            <!--th:field="*{username}"-->
+        <form th:action="@{'/profile/' + ${user.id} + '/edit'}" method="POST" th:object="${user}">
 
-            <div
-                    th:if="${#fields.hasErrors('username')}"
-                    class="alert alert-danger alert-dismissible"
-                    role="alert">
-                <span th:errors="*{username}"/>
+            <div class="form-group">
+                <label for="editFormUsername">Username</label>
+                <input type="text" id="editFormUsername" name="username" class="form-control" th:value="${user.username}"/>
+                <!--th:field="*{username}"-->
+
+                <div
+                        th:if="${#fields.hasErrors('username')}"
+                        class="alert alert-danger alert-dismissible"
+                        role="alert">
+                    <span th:errors="*{username}"/>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="editFormEmail">Email</label>
-            <input type="text" id="editFormEmail" name="email" class="form-control" th:value="${user.email}"/>
-            <!--th:field="*{email}"-->
-            <div
-                    th:if="${#fields.hasErrors('email')}"
-                    class="alert alert-danger alert-dismissible"
-                    role="alert">
-                <span th:errors="*{email}"/>
+            <div class="form-group">
+                <label for="editFormEmail">Email</label>
+                <input type="text" id="editFormEmail" name="email" class="form-control" th:value="${user.email}"/>
+                <!--th:field="*{email}"-->
+                <div
+                        th:if="${#fields.hasErrors('email')}"
+                        class="alert alert-danger alert-dismissible"
+                        role="alert">
+                    <span th:errors="*{email}"/>
+                </div>
             </div>
-        </div>
 
-        <input type="hidden" id="editFormPassword" name="password" class="form-control" th:field="*{password}"/>
-        <input type="hidden" id="date" name="date" class="form-control" th:field="*{date}"/>
-        <input type="submit" value="Update Profile" class="btn btn-primary"  />
+            <input type="hidden" id="editFormPassword" name="password" class="form-control" th:field="*{password}"/>
+            <input type="hidden" id="date" name="date" class="form-control" th:field="*{date}"/>
 
-        <div th:if="${success}" class="alert alert-success fade in">
-            <strong th:text="${successMsg}"></strong><a th:href="@{/profile}" class="alert-link"> Go to your profile.</a>
-        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
 
-    </form>
+                        <button type="submit" class="btn btn-primary" id="updateUserBtn">
+                            <i class="fas fa-user-circle"></i> Update user</button>
+
+                        <a th:href="@{/profile}" class="btn btn-primary" id="updateUserCancelBtn">
+                            <i class="fas fa-ban"></i> Cancel
+                        </a>
+
+                        <div th:if="${success}" class="alert alert-success fade in">
+                            <strong th:text="${successMsg}"></strong><a th:href="@{/profile}" class="alert-link"> Go to your profile.</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </form>
 
 
     <!--=================================== DELETE BUTTON =========================================-->
 
-    <form th:action="@{'/profile/' + ${#authentication.principal.id} + '/delete'}" method="post" th:object="${user}">
-        <input type="hidden" name="id" th:value="${user.id}" />
-        <input id="editDeleteButton" type="submit" value="Saying Goodbye? Delete Account :(" class="btn btn-primary btn-danger" />
+        <form th:action="@{'/profile/' + ${#authentication.principal.id} + '/delete'}" method="post" th:object="${user}">
+            <input type="hidden" name="id" th:value="${user.id}" />
 
-        <div th:if="${successDelete}" class="alert alert-danger fade in">
-            <strong th:text="${successMessage}"></strong><a th:href="@{/posts}" class="alert-link"> Feel free to browse. </a>
-        </div>
-    </form>
+            <button type="submit" class="btn btn-primary btn-danger" id="editUserDeleteButton" >
+                <i class="fas fa-trash"></i> Delete Your Account
+            </button>
+
+            <div th:if="${successDelete}" class="alert alert-danger fade in">
+                <strong th:text="${successMessage}"></strong><a th:href="@{/posts}" class="alert-link"> Feel free to browse. </a>
+            </div>
+
+        </form>
+
     </div>
 
 </div>
