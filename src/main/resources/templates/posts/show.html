@@ -180,19 +180,6 @@
                 </form>
             </div>
 
-                                    <!--==================================== DELETE A COMMENT =======================-->
-        <div class="commentDelete" sec:authorize="isAuthenticated()">
-
-            <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
-                  th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/delete'}" method="POST"
-                  th:object="${comment}">
-
-                <input type="hidden" name="id" th:value="${comment.id}"/>
-                <i class="fas fa-bomb"></i>
-                <input type="submit" value="Delete" class="btn btn-primary deleteCommentBtn"/>
-
-            </form>
-        </div>
 
                                     <!--===================================== EDIT A COMMENT ========================-->
         <div class="commentEdit" sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)}">
@@ -210,12 +197,19 @@
                     <!--<input type="submit" value="Edit" class="btn btn-primary btn-warning editCommentBtn"/>-->
             <!--</form>-->
         </div>
+                                    <!--==================================== DELETE A COMMENT =======================-->
+        <div class="commentDelete" sec:authorize="isAuthenticated()">
 
+            <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
+                  th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/delete'}" method="POST"
+                  th:object="${comment}">
 
+                <input type="hidden" name="id" th:value="${comment.id}"/>
+                <i class="fas fa-bomb"></i>
+                <input type="submit" value="Delete" class="btn btn-primary deleteCommentBtn"/>
 
-
-
-
+            </form>
+        </div>
         <hr class="commentHR"/>
 
 <!-- ================================================================================================================-->
@@ -257,7 +251,7 @@
             </div>
 
             <div class="row commentBody">
-                <h5 class="postedBy">posted by:
+                <h5 class="postedBy">
                     <a th:href="${'/profile/' + reply.user.id}">
                         <span th:text="${reply.user.username}"></span>
                     </a> |

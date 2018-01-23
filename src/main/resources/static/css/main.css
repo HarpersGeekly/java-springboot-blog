@@ -83,9 +83,17 @@ html {
 
 /*========================================================== POSTS =====================================================*/
 
+.gradientBox {
+    margin: 2em;
+    margin-right: 6em;
+}
 
 
 /*==================Index Page ================*/
+
+ul {
+    list-style: none;
+}
 
 #postIntro {
     text-align: center;
@@ -209,6 +217,16 @@ textarea, input {
     font-weight: bold;
 }
 
+#editPostBtn {
+    float: left;
+    margin-right: 20px;
+    background: none;
+}
+
+#deletePostBtn {
+    background: none;
+}
+
 /*================= COMMENTS =====================*/
 
 #commentSection {
@@ -217,7 +235,8 @@ textarea, input {
 }
 
 #commentHRLeader {
-    border-top: 3px double #8c8b8b;
+    border-top: 3px solid #8c8b8b;
+    width: 80%;
 }
 
 .commentHR {
@@ -279,6 +298,30 @@ textarea, input {
     background: none;
 }
 
+/*=============== Edit User Page ========================*/
+
+#updateUserBtn {
+    float: left;
+    margin-right: 20px;
+}
+
+#editUserDeleteButton, #editUserDeleteButton:active {
+    background-color: #E07A5F;
+    float: left;
+}
+
+.editUserFormWrapper {
+    display: inline;
+}
+
+/*=============== Edit Password Page ===================*/
+
+#updatePasswordBtn {
+    float: left;
+    margin-right: 20px;
+}
+
+
 
 /*========================================================= BUTTONS ====================================================*/
 
@@ -295,10 +338,6 @@ textarea, input {
     background-color: #339989;
     color: #131515;
     outline:none
-}
-
-#editDeleteButton, #editDeleteButton:active {
-    background-color: #E07A5F;
 }
 
 .deleteCommentBtn, .editCommentBtn {
