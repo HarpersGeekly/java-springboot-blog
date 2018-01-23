@@ -65,12 +65,28 @@
                     <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></h5>
 
                 <div th:if="${isOwnProfile}">
-                    <div>
-                        <a class="btn btn-primary" th:href="${'/posts/' + post.id + '/edit'}">
-                            <i class="far fa-edit"></i> Edit
-                        </a>
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <a class="btn btn-primary" id="profileEditPostBtn" th:href="${'/posts/' + post.id + '/edit'}">
+                                    <i class="far fa-edit"></i> Edit
+                                </a>
+
+                            <!--=================================== DELETE BUTTON =========================================-->
+                                <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post"> <!--th:object="${post}"-->
+                                    <!--<input type="hidden" name="id" th:field="*{id}" />-->
+                                    <button type="submit" class="btn btn-primary btn-danger" id="profileDeletePostBtn">
+                                        <i class="fas fa-bomb"></i> Delete
+                                    </button>
+                                    <!-- <input th:if="${isEditable}"-->
+                                </form>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+
             </li>
         </ul>
     </div>
