@@ -16,8 +16,18 @@
                     <a th:href="@{/posts/{id}(id=${post.id})}"  th:text="${post.title}"></a>
                 </h4>
 
-                <h4 th:text="${post.description}"></h4>
-                <h4>posted by: <span th:text="${post.user.username}"></span></h4>
+                <h5><a th:href="@{/profile/{id}(id=${post.user.id})}">
+                    <span th:text="${post.user.username}"></span></a> |
+                    <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span> |
+                    <span th:text="${#temporals.monthNameShort(post.date)}"></span>
+                    <span th:text="${#temporals.day(post.date)}"></span>,
+                    <span th:text="${#temporals.year(post.date)}"></span>
+                </h5>
+
+                <div class="gradientBox">
+                    <p class="postDescription" th:text="${post.description}"></p>
+                    <p class="read-more"><a th:href="@{/posts/{id}(id=${post.id})}">check out the post...</a></p>
+                </div>
             </li>
         </ul>
     </div>
