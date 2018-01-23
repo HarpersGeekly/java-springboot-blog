@@ -30,19 +30,19 @@
                         <!--<li sec:authorize="!isAuthenticated()">-->
                         <li>
                             <a href="/posts">
-                                <i class="fas fa-home"></i> Home Page
+                                <i class="fas fa-footer fa-home"></i> Home Page
                             </a>
                         </li>
 
                         <li sec:authorize="isAuthenticated()">
                             <a href="/posts/create">
-                                <i class="fas fa-nav fa-comment"></i> Create New Post
+                                <i class="fas fa-footer fa-comment"></i> Create New Post
                             </a>
                         </li>
 
                         <li sec:authorize="isAuthenticated()">
                             <a href="/profile">
-                                <i class="fas fa-nav fa-user-circle"></i>
+                                <i class="fas fa-footer fa-user-circle"></i>
                                 <span th:text="${#authentication.principal.username}"></span>'s Profile
                             </a>
                         </li>

@@ -43,7 +43,7 @@ html {
     color: #339989 !important;
 }
 
-.glyphicon-nav {
+.fa-nav {
     color: #7DE2D1;
     margin-right: 5px;
     margin-left: 5px;
@@ -261,8 +261,12 @@ textarea, input {
 /*=============== Profile page ======================*/
 
 
-.profileFrown {
+.profileFrownIcon {
     font-size: 3em;
+}
+
+.profileEmailIcon {
+
 }
 
 
@@ -339,7 +343,7 @@ textarea, input {
     color: #E07A5F;
 }
 
-.glyphicon-footer {
+.fa-footer {
     color: #7DE2D1;
     margin-right: 5px;
     margin-left: 5px;
