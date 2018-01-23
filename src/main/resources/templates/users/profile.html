@@ -23,7 +23,7 @@
 
         <i class="fas fa-cog profileCogIcon"></i>
             <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">change username or email</a> |
-        <i class="fas fa-unlock-alt profilePasswordIcon"></i>
+        <i class="fas fa-lock-open profilePasswordIcon"></i>
             <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">change your password</a>
 
         <h4>
@@ -58,11 +58,11 @@
             <li>
                 <a th:href="@{/posts/{id}(id=${post.id})}"><h4 th:text="${post.title}"></h4></a>
                 <h5 th:text="${post.description}"></h5>
-                <h5 id="createdDate">created on:
+                <h5 id="createdDate"><strong>created on:
                     <span th:text="${#temporals.monthNameShort(post.date)}"></span>
                     <span th:text="${#temporals.day(post.date)}"></span>,
                     <span th:text="${#temporals.year(post.date)}"></span> at
-                    <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></h5>
+                    <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></strong></h5>
 
                 <div th:if="${isOwnProfile}">
                     <div class="container">
