@@ -6,8 +6,8 @@
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
 <div id="showPageWrapper">
-
 <!-- ====================================================  SHOW THE POST ============================================-->
+<!-- ================================================================================================================-->
     <div class="container">
 
         <fieldset>
@@ -53,7 +53,8 @@
                                 <i class="far fa-edit"></i> Edit
                             </a>
 
-                            <!--=================================== DELETE BUTTON =========================================-->
+                                     <!--========================== DELETE BUTTON ===================================-->
+                                     <!--============================================================================-->
                             <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post"> <!--th:object="${post}"-->
                                 <!--<input type="hidden" name="id" th:field="*{id}" />-->
                                 <button type="submit" class="btn btn-primary btn-danger" id="deletePostBtn">
@@ -70,6 +71,7 @@
 
 
 <!--================================================= SHOW THE POST COMMENT FORM ====================================-->
+<!-- ================================================================================================================-->
         <div sec:authorize="isAuthenticated()">
 
             <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
@@ -100,6 +102,7 @@
     </div>
 
 <!--============================================= SHOW ALL COMMENTS (PAGEABLE) ======================================-->
+<!-- ================================================================================================================-->
 
     <hr id="commentHRLeader"/>
 
@@ -110,7 +113,7 @@
             <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
             <div th:if="${!isLoggedIn}">
                 <a th:href="${'/login'}">
-                    <i class="far fa-thumbs-up"></i>
+                    <i class="far fa-thumbs-up upvote"></i>
                 </a>
             </div>
             <!--if logged in: upvote and downvote arrows function normally.-->
@@ -125,7 +128,7 @@
             </div>
 
             <div th:if="${isLoggedIn}">
-                <i class="far fa-thumbs-down"></i>
+                <i class="far fa-thumbs-down downvote"></i>
             </div>
             <div th:if="${!isLoggedIn}">
                 <a th:href="${'/login'}">
@@ -153,6 +156,7 @@
 
         </div>
                                      <!--================================== REPLY TO A COMMENT ======================-->
+                                     <!--============================================================================-->
 
             <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
             <div class="replyTextArea">
@@ -182,6 +186,7 @@
 
 
                                     <!--===================================== EDIT A COMMENT ========================-->
+                                    <!--=============================================================================-->
         <div class="commentEdit" sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)}">
 
             <i class="far fa-edit"></i>
@@ -198,6 +203,7 @@
             <!--</form>-->
         </div>
                                     <!--==================================== DELETE A COMMENT =======================-->
+                                    <!--=============================================================================-->
         <div class="commentDelete" sec:authorize="isAuthenticated()">
 
             <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
@@ -224,7 +230,7 @@
                 <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
                 <div th:if="${!isLoggedIn}">
                     <a th:href="${'/login'}">
-                        <i class="far fa-thumbs-up"></i>
+                        <i class="far fa-thumbs-up upvote"></i>
                     </a>
                 </div>
                 <!--if logged in: upvote and downvote arrows function normally.-->
@@ -239,7 +245,7 @@
                 </div>
 
                 <div th:if="${isLoggedIn}">
-                    <i class="far fa-thumbs-down"></i>
+                    <i class="far fa-thumbs-down downvote"></i>
                 </div>
 
                 <div th:if="${!isLoggedIn}">
@@ -287,7 +293,8 @@
     </div> <!-- END OF THE LOOP:  th:each="comment : ${page}" -->
 
 
-    <!--<!=================================== PAGINATION =========================================================-->
+<!-- =========================================== PAGINATION =========================================================-->
+<!-- ================================================================================================================-->
     <nav class="text-center">
         <ul class="pagination">
 
@@ -345,6 +352,9 @@
 
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
+
+<!-- =========================================== JavaScript =========================================================-->
+<!-- ================================================================================================================-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 

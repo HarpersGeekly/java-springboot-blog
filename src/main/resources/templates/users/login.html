@@ -10,7 +10,6 @@
     <div id="formLoginDiv">
 
     <h1>Log In </h1>
-        <!--<a th:href="${'/register'}"><h5>or register</h5></a>-->
 
     <!--How do I validate my login form...?-->
     <!--What is param.error? Where does it come from?-->
@@ -22,7 +21,8 @@
         <!--<div th:if="${param.logout}">-->
             <!--You have been logged out.-->
         <!--</div>-->
-        <form th:action="@{/login}" method="post" id="loginForm" th:object="${user}">
+        <form th:action="@{/login}" method="post" th:object="${user}" id="loginForm">
+
             <div class="form-group">
                 <label for="username">Username</label>
                 <input id="username" type="text" class="form-control" th:field="*{username}"/>

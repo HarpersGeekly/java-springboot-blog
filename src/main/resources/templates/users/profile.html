@@ -33,6 +33,8 @@
                 <span th:text="${#temporals.year(#authentication.principal.date)}"></span>
         </h4>
 
+    <hr class="commentHR"/>
+
         <h4>Your posts:</h4>
         <h5 th:if="${postsAreEmpty}">
             <i class="far fa-frown profileFrownIcon"></i> You don't have any posts yet... get posting!
@@ -43,12 +45,24 @@
 
     <th:block th:if="${!isOwnProfile}">
         <h2> Viewing <span th:text="${profileUser.username}"></span>'s profile!</h2>
-        <h3> Email: <span th:text="${profileUser.email}"></span></h3>
-        <h4> Joined on:
-            <span th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
-            <span th:text="${#temporals.day(profileUser.date)}"></span>,
-            <span th:text="${#temporals.year(profileUser.date)}"></span></h4>
+
+        <h4>
+            <i class="far fa-envelope profileEmailIcon"></i>
+                <span th:text="${profileUser.email}"></span>
+        </h4>
+        <h4>
+            <i class="far fa-handshake profileJoinIcon"></i>
+                <span th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
+                <span th:text="${#temporals.day(profileUser.date)}"></span>,
+                <span th:text="${#temporals.year(profileUser.date)}"></span>
+        </h4>
+
+    <hr class="commentHR"/>
+
         <h4>Their posts:</h4>
+        <h5 th:if="${postsAreEmpty}">
+            <i class="far fa-frown profileFrownIcon"></i> They don't have any posts yet... lame!
+        </h5>
     </th:block>
 
 <!--============================================== THE LIST OF POSTS ======================================================-->
