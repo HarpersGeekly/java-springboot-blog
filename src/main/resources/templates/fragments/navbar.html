@@ -26,7 +26,6 @@
                     </form>
                 </li>
 
-
                 <li>
                     <a href="/posts">
                         <i class="fas fa-nav fa-comments"></i> All Posts
@@ -42,15 +41,14 @@
                 <li sec:authorize="isAuthenticated()">
                     <a href="/profile">
                         <i class="fas fa-nav fa-user-circle"></i>
-                        <span th:text="${#authentication.principal.username}"></span>'s Profile
+                        <!--<span th:text="${#authentication.principal.username}"></span>'s Profile-->
+                        <span sec:authentication="principal.username"/>'s Profile
                     </a>
                 </li>
 
                 <!--<li><a href="/roll-dice">Roll Dice</a></li>-->
 
-
                 <li sec:authorize="isAuthenticated()">
-
                     <form th:action="@{/logout}" th:method="post">
                         <button id="logout" class="btn btn-link">
                             <i class="fas fa-nav fa-hand-scissors"></i> Logout
@@ -59,7 +57,6 @@
                 </li>
 
                 <li sec:authorize="!isAuthenticated()">
-
                     <a href="/register">
                         <i class="fas fa-nav fa-users"></i> Register
                     </a>
