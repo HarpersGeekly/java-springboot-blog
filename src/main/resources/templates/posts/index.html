@@ -11,7 +11,7 @@
 
     <div id="wrapper">
 
-        <h1 id="postIntro">Here are the posts!</h1>
+        <h2 id="postIntro">recent posts</h2>
 
         <div id="content" th:each="post : ${page}">
             <ul>
@@ -19,7 +19,8 @@
                     <h4 th:text="${post.title}"  id="postTitle">
                         <!--<a th:href="@{/posts/{id}(id=${post.id})}"</a> -->
                     </h4>
-                    <h5><span th:text="${post.user.username}"></span> |
+                    <h5><a th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <span th:text="${post.user.username}"></span></a> |
                         <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span> |
                         <span th:text="${#temporals.monthNameShort(post.date)}"></span>
                         <span th:text="${#temporals.day(post.date)}"></span>,
@@ -30,8 +31,6 @@
                         <p class="postDescription" th:text="${post.description}"></p>
                         <p class="read-more"><a th:href="@{/posts/{id}(id=${post.id})}">check out the post...</a></p>
                     </div>
-
-
                         <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
                 </li>
                 <!--// wanna use a button to send to edit here? -->

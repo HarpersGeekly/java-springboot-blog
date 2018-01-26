@@ -136,14 +136,21 @@ public class UsersController {
     @GetMapping("/profile")
     public String showProfilePage(Model viewModel) {
         User userLoggedIn = userSvc.loggedInUser(); // Grab the loggedInUser from the service and assign them a name, userLoggedIn.
+        User user = usersDao.findById(userLoggedIn.getId());
+        //if posts are empty:
+        boolean postsAreEmpty = user.getPosts().isEmpty();
+        viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
-        viewModel.addAttribute("profileUser", usersDao.findOne(userLoggedIn.getId()));
+        viewModel.addAttribute("profileUser", user);
         return "users/profile";
     }
 
     @GetMapping("/profile/{id}")
     public String showOtherUsersProfilePage(@PathVariable Long id, Model viewModel) {
         User user = usersDao.findById(id); // find the User from the id in the url profile/{id}/edit
+        //if posts are empty:
+        boolean postsAreEmpty = user.getPosts().isEmpty();
+        viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
         // ^this is a boolean^, true, but false if passing another id.
         viewModel.addAttribute("profileUser", user);
