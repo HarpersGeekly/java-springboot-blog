@@ -27,7 +27,7 @@ public class Comment {
     @Column(nullable = true) /* null vs setVoteCount(0) ???  */
     private long voteCount;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment") //if I delete comments, it will delete-cascade the relationship to replies as well.
     private List<Reply> replies;
 
     @ManyToOne // many comments will belong to one Post

@@ -9,7 +9,6 @@ import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 //import java.util.List;
 //import java.util.Date;
 //import java.sql.Timestamp;
@@ -92,13 +92,13 @@ public class PostsController {
 //        }
 //        viewModel.addAttribute("posts", postSvc.findAll());
         viewModel.addAttribute("page", postSvc.postsByPage(pageable));
-
         return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
-    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment,
-                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment, Reply reply,
+                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
+                                       Pageable pageable) {
 //        Post post = new Post(1L,"First Title", "First Description");
         Post post = postSvc.findOne(id);
         viewModel.addAttribute("post", post);
@@ -114,6 +114,13 @@ public class PostsController {
         viewModel.addAttribute("replies", repliesDao.repliesToComments(comment.getId()));
         return "posts/show";
     }
+
+//    @GetMapping("/posts/{id}.json")
+//    public @ResponseBody
+//    List<Comment> showAllComments(@PathVariable long id, @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
+//            Pageable pageable) {
+//        return (List<Comment>) commentsDao.postCommentsByPage(id, pageable);
+//    }
 
     // =============================================== CREATE POST =====================================================
 
@@ -191,7 +198,20 @@ public class PostsController {
     // ============================================== DELETE POST ======================================================
 
     @PostMapping("/posts/{id}/delete")
-    public String delete(@PathVariable long id) {
+    public String delete(@PathVariable long id, Post post, Comment comment, Reply reply) {
+
+//  As I delete a post, comments and replies that belong to that post will be deleted too.
+
+        // Set id's:
+        reply.setComment(comment);
+        comment.setPost(post);
+        post.setId(id);
+
+        // Delete the List of replies that belong to the comment id
+        repliesDao.delete(repliesDao.repliesToComments(comment.getId()));
+        // Delete the List of comments that belong to the post id
+        commentsDao.delete(commentsDao.commentsOnPost(id));
+        // Lastly, delete the post.
         postSvc.delete(id);
         return "redirect:/profile";
     }
@@ -207,7 +227,7 @@ public class PostsController {
         return "/posts/search";
     }
 
-    // ========================================== MARKDOWN EDITOR PREVIEW ===============================================
+    // ========================================== MARKDOWN EDITOR PREVIEW ==============================================
 
     @GetMapping("/posts/description.json")
     @ResponseBody
@@ -217,7 +237,7 @@ public class PostsController {
         return renderer.render(parser.parse(content));
     }
 
-    //    =========================================== COMMENT ON A POST ======================================================
+    //    =========================================== COMMENT ON A POST ================================================
 
     @PostMapping("/posts/{id}")
     public String postComment(@PathVariable Long id, @Valid Comment comment, Errors validation, Model viewModel) {
@@ -243,6 +263,11 @@ public class PostsController {
 
     }
 
+//   ============================================ EDIT A COMMENT  ======================================================
+
+//    @GetMapping("/posts/{id}/comment/{commentId}/edit")
+//    public String editComment(@PathVariable Long id)
+
 //   ============================================== DELETE A COMMENT ===================================================
 
     @PostMapping("/posts/{postId}/comment/{commentId}/delete")
@@ -251,10 +276,11 @@ public class PostsController {
         return "redirect:/posts/" + postId;
     }
 
-    //    ===============================  REPLY TO A COMMENT ON A POST ======================================================
+    //    ===============================  REPLY TO A COMMENT ON A POST ================================================
 
     @PostMapping("/posts/{id}/comment/{commentId}")
-    public String replyToComment(@PathVariable Long id, @PathVariable Long commentId, @Valid Reply reply, Errors validation, Model viewModel) {
+    public String replyToComment(@PathVariable Long id, @PathVariable Long commentId,
+                                 @Valid Reply reply, Errors validation, Model viewModel) {
 
         Comment comment = commentsDao.findOne(commentId);
         reply.setComment(comment);
@@ -276,10 +302,10 @@ public class PostsController {
         return "redirect:/posts/" + id;
     }
 
-    //   ============================================== DELETE A REPLY ===================================================
+    //   ============================================== DELETE A REPLY =================================================
 
     @PostMapping("/posts/{postId}/comment/{commentId}/reply/{replyId}/delete")
-    public String deleteReply(@PathVariable Long postId, @PathVariable Long commentId, @PathVariable Long replyId) {
+    public String deleteReply(@PathVariable Long postId, @PathVariable Long replyId) {
         repliesDao.delete(replyId);
         return "redirect:/posts/" + postId;
     }

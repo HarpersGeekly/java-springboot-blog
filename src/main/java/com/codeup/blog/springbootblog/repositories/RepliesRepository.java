@@ -15,5 +15,5 @@ public interface RepliesRepository extends CrudRepository<Reply, Long>{
 
     @Query(nativeQuery = true,
             value ="SELECT * FROM replies r WHERE r.comment_id = ?1")
-    List<Reply> repliesToComments(long id);
+    List<Reply> repliesToComments(Long id);
 }

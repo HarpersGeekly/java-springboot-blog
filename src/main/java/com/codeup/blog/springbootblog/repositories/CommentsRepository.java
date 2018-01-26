@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.repositories;
 
 import com.codeup.blog.springbootblog.Models.Comment;
+import com.codeup.blog.springbootblog.Models.Reply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -29,6 +30,15 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
             value =
                     "SELECT * FROM redwood_blog_db.comments c WHERE c.post_id = ?1 ORDER BY ?#{#pageable}")
     Page<Comment> postCommentsByPage(Long id, Pageable pageable);
+
+    @Query(nativeQuery = true,
+            value = "SELECT c.vote_count FROM redwood_blog_db.comments c WHERE c.id = ?1")
+    Long commentVoteCount(Long id);
+
+    @Query(nativeQuery = true,
+            value = "SELECT * FROM comments c WHERE c.post_id = ?1 ORDER BY c.id DESC")
+    List<Comment> commentsOnPost(Long id);
+
     //=================================== BEFORE PAGINATION =====================================================
 //    List<Comment> sortAllByTime(Long id);
 //    "Time" only means the comment id in descending order...
@@ -44,10 +54,5 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
 //        com.codeup.blog.springbootblog.repositories.CommentsRepository.findAllByPostIdLikeOrderByCommentId(java.lang.Long,org.springframework.data.domain.Pageable)
 //    ==== SOLUTION ===
 //    Documentation -> StackOverflow -> "ORDER BY ?#{#pageable}"
-
-    @Query(nativeQuery = true,
-            value = "SELECT c.vote_count FROM redwood_blog_db.comments c WHERE c.id = ?1")
-    Long commentVoteCount(long id);
-
 }
 

@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public User loggedInUser() {
-        if (! isLoggedIn()) {// if you are an anonymous user...return null.
+        if (!isLoggedIn()) {// if you are an anonymous user...return null.
             return null;
         } // otherwise return a User who has authentication!
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
