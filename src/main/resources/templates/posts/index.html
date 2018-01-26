@@ -29,7 +29,10 @@
 
                     <div class="gradientBox">
                         <p class="postDescription" th:text="${post.description}"></p>
-                        <p class="read-more"><a th:href="@{/posts/{id}(id=${post.id})}">check out the post...</a></p>
+                        <p class="read-more">
+                            <i class="fas fa-hand-point-right fa-read-more"></i>
+                            <a th:href="@{/posts/{id}(id=${post.id})}">check out the post...</a>
+                        </p>
                     </div>
                         <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
                 </li>

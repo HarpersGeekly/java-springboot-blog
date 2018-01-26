@@ -84,8 +84,9 @@ html {
 /*========================================================== POSTS =====================================================*/
 
 .gradientBox {
-    margin: 2em;
     margin-right: 6em;
+    margin-left: 2em;
+    margin-bottom: 2em;
 }
 
 
@@ -167,6 +168,16 @@ textarea, input {
     background-image: -o-linear-gradient(transparent 50px, #FFFAFB);
     background-image: -ms-linear-gradient(transparent 50px, #FFFAFB);
 }
+
+.fa-read-more {
+    color: #E07A5F;
+}
+.read-more > a {
+    text-decoration: underline;
+    color: #E07A5F;
+}
+
+
 
 /*background:linear-gradient(transparent 150px, white);*/
 
@@ -251,11 +262,16 @@ textarea, input {
     box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
 
-.glyphicon-chevron-up, .glyphicon-chevron-down {
-    color: blue;
+.upvote, .downvote {
+    color: #2B2C28;
 }
-.glyphicon-chevron-up:hover, .glyphicon-chevron-down:hover {
+.upvote:hover, .downvote:hover {
+    color: #7DE2D1;
     cursor: pointer;
+}
+.upvote:active, .downvote:active {
+    cursor: pointer;
+    color: #339989;
 }
 
 .commentVoting {
@@ -263,11 +279,6 @@ textarea, input {
     float: left;
     padding-right: 25px;
 }
-
-/*#commentBody {*/
-    /*float: left;*/
-    /*padding-right: 50px;*/
-/*}*/
 
 .showReplyTextArea {
     cursor: pointer;
@@ -300,6 +311,22 @@ textarea, input {
 
 /*=============== Edit User Page ========================*/
 
+#editUserFormWrapper {
+    display: block;
+    text-align: center;
+}
+
+#editUserForm {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+#editUserDeleteForm {
+    float: left;
+}
+
 #updateUserBtn {
     float: left;
     margin-right: 20px;
@@ -310,11 +337,20 @@ textarea, input {
     float: left;
 }
 
-.editUserFormWrapper {
-    display: inline;
+/*=============== Edit Password Page ===================*/
+
+#editPasswordFormWrapper {
+    display: block;
+    text-align: center;
 }
 
-/*=============== Edit Password Page ===================*/
+#editPasswordForm {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
 
 #updatePasswordBtn {
     float: left;
@@ -385,11 +421,6 @@ textarea, input {
 .footerList>li>a:hover, .footerList>li>a:active {
     color: #339989;
     text-decoration: none;
-}
-
-.read-more > a {
-    text-decoration: none;
-    color: #E07A5F;
 }
 
 .fa-footer {
