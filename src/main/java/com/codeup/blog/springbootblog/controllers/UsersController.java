@@ -271,6 +271,7 @@ public class UsersController {
         viewModel.addAttribute("successDelete", success);
         viewModel.addAttribute("successMessage", deleteSuccess);
 
+//        return "redirect:/posts";
         return "users/editUser";
     }
 }

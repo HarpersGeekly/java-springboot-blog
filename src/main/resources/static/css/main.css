@@ -333,8 +333,12 @@ textarea, input {
 }
 
 #editUserDeleteButton, #editUserDeleteButton:active {
-    background-color: #E07A5F;
+    background-color: #7DE2D1;
     float: left;
+}
+
+#editUserDeleteDeclineButton, #editUserDeleteDeclineButton:active {
+    background-color: #E07A5F;
 }
 
 /*=============== Edit Password Page ===================*/

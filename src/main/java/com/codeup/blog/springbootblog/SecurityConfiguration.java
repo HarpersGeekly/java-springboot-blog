@@ -62,13 +62,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/posts/create",
                         "/posts/{id}/edit",
-                        "/profile",
-                        "/profile/{id}/edit",
-                        "/profile/{id}/editPassword",
+                        "/posts/{id}/delete",
                         "/posts/{id}/comment",
                         "/posts/{postId}/comment/{commentId}/delete",
                         "/posts/{id}/comment/{commentId}",
-                        "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete"
+                        "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete",
+                        "/profile",
+                        "/profile/{id}/edit",
+                        "/profile/{id}/delete",
+                        "/profile/{id}/editPassword"
                 ) // only authenticated (logged in) users can create/edit posts
                 .authenticated()
         ;

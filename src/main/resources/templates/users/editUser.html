@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:include="fragments/header :: my-header('Edit Profile')">
 </head>
 <body>
@@ -45,7 +45,7 @@
                         <div class="col-sm">
 
                             <button type="submit" class="btn btn-primary" id="updateUserBtn">
-                                <i class="fas fa-user-circle"></i> Update</button>
+                                <i class="fas fa-wrench"></i> Update</button>
                              <a th:href="@{/profile}" class="btn btn-primary" id="updateUserCancelBtn">
                                  <i class="fas fa-ban"></i> Cancel
                              </a>
@@ -62,44 +62,99 @@
 
     <!--=================================== DELETE BUTTON =========================================-->
 
-    <h3 style="margin-top: 50px;">Danger Zone:</h3>
+    <h3 style="margin-top: 50px;">
+        <span><i class="fas fa-exclamation-circle fa-danger-zone"></i></span> Danger Zone:
+    </h3>
 
-        <div id="editUserDeleteWrapper">
+        <div id="editUserDeleteWrapper" sec:authorize="isAuthenticated()">
 
-            <form th:action="@{'/profile/' + ${#authentication.principal.id} + '/delete'}" method="post" th:object="${user}" id="editUserDeleteForm">
-                <input type="hidden" name="id" th:value="${user.id}" />
+            <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
 
-                <button type="submit" class="btn btn-primary btn-danger" id="editUserDeleteButton" >
-                    <i class="fas fa-trash"></i> Delete Your Account
-                </button>
+            <!--<form th:action="@{'/profile/' + ${#authentication.principal.id} + '/delete'}" method="post" th:object="${user}" id="editUserDeleteForm">-->
+                <!--<input type="hidden" name="id" th:value="${user.id}" />-->
 
-                <div th:if="${successDelete}" class="alert alert-danger fade in">
-                    <strong th:text="${successMessage}"></strong><a th:href="@{/posts}" class="alert-link"> Feel free to browse. </a>
+                <!--<button type="submit" class="btn btn-primary btn-danger" id="editUserDeleteButton" >-->
+                    <!--<i class="fas fa-trash"></i> Delete Your Account-->
+                <!--</button>-->
+
+                <!--<div th:if="${successDelete}" class="alert alert-danger fade in">-->
+                    <!--<strong th:text="${successMessage}"></strong><a th:href="@{/posts}" class="alert-link"> Feel free to browse. </a>-->
+                <!--</div>-->
+            <!--</form>-->
+
+        <!-- Trigger the modal with a button -->
+
+        <button id="myBtn3" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Delete Your Account.</button>
+            <p>You will be prompted again to confirm.</p>
+
+            <div th:if="${successDelete}" class="alert alert-danger fade in" id="successDelete">
+                <strong th:text="${successMessage}"></strong><a th:href="@{/posts}" class="alert-link"> Feel free to browse. </a>
+            </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal3" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+
+                 <!--Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Are you sure you want to delete your account?</h4>
+                    </div>
+                    <!--<div class="modal-body">-->
+
+                        <form th:action="@{'/profile/' + ${#authentication.principal.id} + '/delete'}" method="post" th:object="${user}" id="editUserDeleteForm" class="modal-body">
+                            <input type="hidden" name="id" th:value="${user.id}" />
+
+                            <button type="submit" class="btn btn-primary btn-danger" id="editUserDeleteButton" >
+                                <i class="fas fa-check"></i> Yes
+                            </button>
+                        </form>
+
+                    <!--</div>-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" id="editUserDeleteDeclineButton">
+                            <i class="far fa-times-circle"></i> No
+                        </button>
+                    </div>
+
                 </div>
-            </form>
 
+            </div>
         </div>
 
+    </div>
+
+
+    <!--&lt;!&ndash; Modal Trigger &ndash;&gt;-->
+    <!--<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>-->
+
+    <!--&lt;!&ndash; Modal Trigger &ndash;&gt;-->
+    <!--<button data-target="modal1" class="btn modal-trigger">Modal</button>-->
+
+    <!--&lt;!&ndash; Modal Structure &ndash;&gt;-->
+    <!--<div id="modal1" class="modal modal-fixed-footer">-->
+        <!--<div class="modal-content">-->
+            <!--<h4>Modal Header</h4>-->
+            <!--<p>A bunch of text</p>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+            <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+
 </div>
+
+<script>
+    $(document).ready(function(){
+
+        $("#myBtn3").click(function(){
+            $("#myModal3").modal({backdrop: "static"});
+        });
+
+    });
+</script>
 </body>
 </html>
 
-<!--&lt;!&ndash;================================ PASSWORD FIELD (HIDDEN) ====================================================&ndash;&gt;-->
-<!--<div class="form-group">-->
-    <!--&lt;!&ndash;<label for="editFormPassword">Password</label>&ndash;&gt;-->
-    <!--<input type="hidden" id="editFormPassword" name="password" class="form-control" th:field="*{password}"/>-->
-    <!--&lt;!&ndash;<input type="password"&ndash;&gt;-->
-    <!--<div-->
-            <!--th:if="${#fields.hasErrors('password')}"-->
-            <!--class="alert alert-danger alert-dismissible"-->
-            <!--role="alert">-->
-        <!--<span th:errors="*{password}"/>-->
-    <!--</div>-->
-<!--</div>-->
-
-<!--<div class="form-group">-->
-    <!--&lt;!&ndash;<label for="password_confirm">Confirm your password</label>&ndash;&gt;-->
-    <!--<input type="hidden" id="password_confirm" name="password_confirm" class="form-control" />-->
-    <!--&lt;!&ndash;<input type="password"&ndash;&gt;-->
-<!--</div>-->
-<!--&lt;!&ndash;===========================================================================================================&ndash;&gt;-->
