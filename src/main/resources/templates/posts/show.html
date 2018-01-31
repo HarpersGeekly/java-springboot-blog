@@ -106,6 +106,8 @@
 
     <hr id="commentHRLeader"/>
 
+    <div id="commentsAJAX"></div>
+
     <div class="container" id="commentSection" th:each="comment : ${page}">
 
         <div class="row commentVoting">
@@ -356,6 +358,7 @@
 <!-- =========================================== JavaScript =========================================================-->
 <!-- ================================================================================================================-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/commentsAJAX.js"></script>
 <script>
 
     $(document).ready(function () {

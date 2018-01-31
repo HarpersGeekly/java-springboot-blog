@@ -87,9 +87,12 @@
         <button id="myBtn3" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Delete Your Account.</button>
             <p>You will be prompted again to confirm.</p>
 
+            <!-- Success Message -->
             <div th:if="${successDelete}" class="alert alert-danger fade in" id="successDelete">
                 <strong th:text="${successMessage}"></strong><a th:href="@{/posts}" class="alert-link"> Feel free to browse. </a>
             </div>
+
+
         <!-- Modal -->
         <div class="modal fade" id="myModal3" role="dialog" tabindex="-1">
             <div class="modal-dialog" role="document">
@@ -105,7 +108,7 @@
                         <form th:action="@{'/profile/' + ${#authentication.principal.id} + '/delete'}" method="post" th:object="${user}" id="editUserDeleteForm" class="modal-body">
                             <input type="hidden" name="id" th:value="${user.id}" />
 
-                            <button type="submit" class="btn btn-primary btn-danger" id="editUserDeleteButton" >
+                            <button type="submit" class="btn btn-primary btn-danger" id="editUserDeleteButton">
                                 <i class="fas fa-check"></i> Yes
                             </button>
                         </form>
@@ -121,7 +124,6 @@
 
             </div>
         </div>
-
     </div>
 
 

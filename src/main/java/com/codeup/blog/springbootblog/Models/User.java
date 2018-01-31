@@ -1,5 +1,7 @@
 package com.codeup.blog.springbootblog.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -31,19 +33,25 @@ public class User {
 //    @Pattern(regexp = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/",
 //            message="")
     @Email(message = "That email is not a valid email address.")
+//    @JsonIgnore
     private String email;
 
     @Column(nullable = false)
     @NotBlank(message = "Your password cannot be empty.")
     @Size(min = 8, message="Your password must be at least 8 characters.")
+//    @JsonIgnore
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts.
+//    @JsonBackReference
     private List<Post> posts;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many comments.
+//    @JsonBackReference
     private List<Comment> comments;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many replies to comments.
+    private List<Reply> replies;
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(
 //            name="user_comments_voting",
@@ -58,12 +66,11 @@ public class User {
     public User(){}
 
     // use this constructor for update profile form.
-    public User(Long id, String username, String email, LocalDateTime date, List<Comment> comments) {
+    public User(Long id, String username, String email, LocalDateTime date) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.date = date;
-        this.comments = comments;
     }
 
     // security files will need the next constructor. It makes clones/copies. Why?
@@ -74,9 +81,10 @@ public class User {
         this.email = copy.email;
         this.username = copy.username;
         this.password = copy.password;
-        this.posts = copy.posts;
         this.date = copy.date;
+        this.posts = copy.posts;
         this.comments = copy.comments;
+        this.replies = copy.replies;
     }
 
     public Long getId() {

@@ -1,5 +1,7 @@
 package com.codeup.blog.springbootblog.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -32,9 +34,11 @@ public class Post {
 
     @ManyToOne // many posts can belong to one user.
     // will define the foreign key. This class represents the post table and we need a reference to the user
+//    @JsonManagedReference
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post") // One post will have many comments
+//    @JsonBackReference
     private List<Comment> comments;
 
     @Column(name = "CREATED_DATE")
