@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -33,8 +35,16 @@ public class UsersController {
 
     // ============================================= LOGGING IN USER ===================================================
 
+//    @GetMapping("/login")
+//    public String showLoginForm(Model viewModel) {
+//        viewModel.addAttribute("user", new User());
+//        return "/users/login";
+//    }
+
     @GetMapping("/login")
-    public String showLoginForm(Model viewModel) {
+    public String showLoginForm(HttpServletRequest request, Model viewModel) {
+        String referrer = request.getHeader("Referer");
+        request.getSession().setAttribute("url_prior_login", referrer);
         viewModel.addAttribute("user", new User());
         return "/users/login";
     }

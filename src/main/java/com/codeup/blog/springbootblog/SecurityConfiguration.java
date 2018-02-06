@@ -1,5 +1,6 @@
 package com.codeup.blog.springbootblog;
 
+import com.codeup.blog.springbootblog.services.MyCustomLoginSuccessHandler;
 import com.codeup.blog.springbootblog.services.UserDetailsLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * Created by RyanHarper on 11/8/17.
@@ -35,14 +37,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     } //plain text to hash
 
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new MyCustomLoginSuccessHandler("/profile");
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 // login
                 .formLogin()
                     .loginPage("/login")
-//                    .defaultSuccessUrl("/posts") // after logging in, go to user's home page
-                  .defaultSuccessUrl("/profile") // after logging in, go to user's profile page
+                .defaultSuccessUrl("/profile") // after logging in, go to user's profile page
+                // this is new:
+                .successHandler(successHandler())
+
                     .permitAll() // Anyone can go to the login page
                 .and()
 

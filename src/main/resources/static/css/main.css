@@ -210,7 +210,7 @@ textarea, input {
 /*=============== Show Page ====================*/
 
 #showPageIntro {
-    text-align: center;
+    text-align: left;
 }
 
 #showPageWrapper {

@@ -10,25 +10,38 @@
 <!-- ================================================================================================================-->
     <div class="container">
 
-        <fieldset>
-            <legend>
-                <h4 th:text="${post.title}" id="showPageIntro"></h4>
-            </legend>
+        <h4 th:text="${post.title}" id="showPageIntro"></h4>
 
-            <!--<div class="row commentVoting">-->
+        <div class="row commentVoting">
 
-                <!--&lt;!&ndash;if not logged in: upvote and downvote arrows are href's linked to the login page. &ndash;&gt;-->
-                <!--<div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span-->
-                        <!--class="glyphicon glyphicon-chevron-up"></span></a></div>-->
-                <!--&lt;!&ndash;if logged in: upvote and downvote arrows function normally.&ndash;&gt;-->
-                <!--<div th:if="${isLoggedIn}"><span class="glyphicon glyphicon-chevron-up upvote"></span></div>-->
+                <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
+                <div th:if="${!isLoggedIn}">
+                    <a th:href="${'/login'}">
+                        <i class="far fa-thumbs-up upvote"></i>
+                    </a>
+                </div>
+                <!--if logged in: upvote and downvote arrows function normally.-->
+                <div th:if="${isLoggedIn}">
+                    <i class="far fa-thumbs-up upvote"></i>
+                </div>
 
-                <!--<div><h5><span id="voteCount" th:text="${post.voteCount}"></span></h5></div>-->
+                <div>
+                    <h5>
+                        <!--<span class="voteCount" th:text="${post.voteCount}"></span>--> 0
+                    </h5>
+                </div>
 
-                <!--<div th:if="${isLoggedIn}"><span class="glyphicon glyphicon-chevron-down"></span></div>-->
-                <!--<div th:if="${!isLoggedIn}"><a th:href="${'/login'}"><span class="glyphicon glyphicon-chevron-down downvote"></span></a></div>-->
+                <div th:if="${isLoggedIn}">
+                    <i class="far fa-thumbs-down downvote"></i>
+                </div>
 
-            <!--</div>-->
+                <div th:if="${!isLoggedIn}">
+                    <a th:href="${'/login'}">
+                        <i class="far fa-thumbs-down downvote"></i>
+                    </a>
+                </div>
+
+        </div>
 
         <h5 class="postedBy">
             <a th:href="${'/profile/' + post.user.id}">
@@ -72,33 +85,38 @@
 
 <!--================================================= SHOW THE POST COMMENT FORM ====================================-->
 <!-- ================================================================================================================-->
-        <div sec:authorize="isAuthenticated()">
 
-            <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
-                <div class="form-group">
-                    <label for="commentFormBody"></label>
-                    <textarea class="form-control" id="commentFormBody" name="body"
-                              th:field="*{body}"
-                              th:placeholder="Comment..."
-                              style="width: 900px; height: 150px; resize: none">
-                        </textarea>
+            <div th:if="${!isLoggedIn}">
+                <a th:href="${'/login'}"> REPLY
+                </a>
+            </div>
 
-                    <div
-                            th:if="${#fields.hasErrors('body')}"
-                            class="alert alert-danger alert-dismissible"
-                            role="alert">
-                        <span th:errors="*{body}"/>
+            <div sec:authorize="isAuthenticated()">
+
+                <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">
+                    <div class="form-group">
+                        <label for="commentFormBody"></label>
+                        <textarea class="form-control" id="commentFormBody" name="body"
+                                  th:field="*{body}"
+                                  th:placeholder="Comment..."
+                                  style="width: 900px; height: 150px; resize: none">
+                            </textarea>
+
+                        <div
+                                th:if="${#fields.hasErrors('body')}"
+                                class="alert alert-danger alert-dismissible"
+                                role="alert">
+                            <span th:errors="*{body}"/>
+                        </div>
+
+                        <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
+                        <button class="btn btn-primary">
+                            <i class="far fa-comment-alt"></i> Comment
+                        </button>
+
                     </div>
-
-                    <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                    <button class="btn btn-primary">
-                        <i class="far fa-comment-alt"></i> Comment
-                    </button>
-
-                </div>
-            </form>
-        </div>
-        </fieldset>
+                </form>
+            </div>
     </div>
 
 <!--============================================= SHOW ALL COMMENTS (PAGEABLE) ======================================-->
@@ -160,30 +178,37 @@
                                      <!--================================== REPLY TO A COMMENT ======================-->
                                      <!--============================================================================-->
 
-            <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
-            <div class="replyTextArea">
-                <!--<form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">-->
-                <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post" th:object="${reply}">
-                    <div class="form-group">
-                        <label for="replyFormBody"></label>
-                        <textarea class="form-control" id="replyFormBody" name="body"
-                                  th:field="*{body}"
-                                  th:placeholder="Comment..."
-                                  style="width: 900px; height: 150px; resize: none">
-                            </textarea>
+            <div th:if="${!isLoggedIn}">
+                <a th:href="${'/login'}"> REPLY
+                </a>
+            </div>
+            <div th:if="${isLoggedIn}">
+                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
 
-                        <div th:if="${#fields.hasErrors('body')}"
-                             class="alert alert-danger alert-dismissible"
-                             role="alert">
-                            <span th:errors="*{body}"/>
+                <div class="replyTextArea">
+                    <!--<form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}">-->
+                    <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post" th:object="${reply}">
+                        <div class="form-group">
+                            <label for="replyFormBody"></label>
+                            <textarea class="form-control" id="replyFormBody" name="body"
+                                      th:field="*{body}"
+                                      th:placeholder="Comment..."
+                                      style="width: 900px; height: 150px; resize: none">
+                                </textarea>
+
+                            <div th:if="${#fields.hasErrors('body')}"
+                                 class="alert alert-danger alert-dismissible"
+                                 role="alert">
+                                <span th:errors="*{body}"/>
+                            </div>
+                            <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
+                            <button class="btn btn-primary">
+                                <i class="far fa-comment-alt"></i> Reply
+                            </button>
+
                         </div>
-                        <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                        <button class="btn btn-primary">
-                            <i class="far fa-comment-alt"></i> Reply
-                        </button>
-
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
 
 

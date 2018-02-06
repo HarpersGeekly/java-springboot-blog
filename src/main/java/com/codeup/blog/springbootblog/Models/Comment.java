@@ -26,7 +26,7 @@ public class Comment {
     @Size(min = 2, message="Comments must be more than 2 characters.")
     private String body;
 
-    @Column(nullable = true) /* null vs setVoteCount(0) ???  */
+    @Column
     private long voteCount;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment") //if I delete comments, it will delete-cascade the relationship to replies as well.
