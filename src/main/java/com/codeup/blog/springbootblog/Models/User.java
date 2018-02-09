@@ -42,15 +42,15 @@ public class User {
 //    @JsonIgnore
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts.
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts. When User is deleted, these delete too
 //    @JsonBackReference
     private List<Post> posts;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many comments.
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many comments. When User is deleted, these delete too
 //    @JsonBackReference
     private List<Comment> comments;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many replies to comments.
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many replies to comments. When User is deleted, these delete too
     private List<Reply> replies;
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(

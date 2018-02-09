@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     } //plain text to hash
 
-    @Bean
+    @Bean // this Bean is part of the redirect-to-previous page functionality
     public AuthenticationSuccessHandler successHandler() {
         return new MyCustomLoginSuccessHandler("/profile");
     }
@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                 .defaultSuccessUrl("/profile") // after logging in, go to user's profile page
                 // this is new:
-                .successHandler(successHandler())
+                .successHandler(successHandler()) // this is part of the redirect-to-previous page functionality
 
                     .permitAll() // Anyone can go to the login page
                 .and()

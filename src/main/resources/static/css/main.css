@@ -117,8 +117,8 @@ textarea, input {
 
 #content {
     font-family: Georgia, serif;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 1em;
+    margin-right: 1em;
     /*overflow: auto;*/
     /*height: 200px;*/
     min-height:50px;
@@ -214,7 +214,7 @@ textarea, input {
 }
 
 #showPageWrapper {
-    margin-left: 20px;
+    margin-left: 1em;
 }
 
 #profileWrap {
@@ -230,12 +230,24 @@ textarea, input {
 
 #editPostBtn {
     float: left;
-    margin-right: 20px;
+    margin-right: 1em;
     background: none;
+    color: #999999;
+}
+
+#editPostBtn:hover {
+    color: #E07A5F;
+    text-decoration: none;
 }
 
 #deletePostBtn {
     background: none;
+    border: none;
+    color: #999999;
+}
+
+#deletePostBtn:hover {
+    color: #E07A5F;
 }
 
 /*================= COMMENTS =====================*/
@@ -284,9 +296,39 @@ textarea, input {
     cursor: pointer;
 }
 
-.deleteCommentBtn {
-
+.commentEdit {
+    float: left;
+    margin-right: 1em;
 }
+
+.deleteCommentBtn {
+    color: #999999;
+    border: none;
+    background-color: #FFFAFB;
+    text-decoration: none;
+}
+
+#editCommentBtn {
+    color: #999999;
+    text-decoration: none;
+}
+
+.deleteCommentBtn:hover, #editCommentBtn:hover {
+    background-color: #FFFAFB;
+    color: #E07A5F;
+    text-decoration: none;
+}
+
+.deleteCommentBtn:active, #editCommentBtn:active {
+    background-color: #FFFAFB;
+    color: #E07A5F;
+    text-decoration: none;
+}
+
+.fa-edit, .fa-bomb {
+    color: #999999;
+}
+
 
 /*=============== Profile page ======================*/
 
@@ -380,26 +422,11 @@ textarea, input {
     outline:none
 }
 
-.deleteCommentBtn, .editCommentBtn {
-    background-color: #FFFAFB;
-    color: #000000;
-    padding: 0;
-}
-.deleteCommentBtn:hover, .editCommentBtn:hover {
-    background-color: #FFFAFB;
-    color: #E07A5F;
-}
-
-.deleteCommentBtn:active, .editCommentBtn:active {
-    background-color: #FFFAFB;
-    color: #000000;
-}
 /*===================================================== PAGINATION ====================================================*/
 
 .text-center {
     position: relative;
 }
-
 
 /*===================================================== FOOTER ========================================================*/
 

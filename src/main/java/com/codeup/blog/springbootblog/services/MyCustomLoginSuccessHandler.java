@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+// this is part of the redirect-to-previous page functionality
 public class MyCustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     public MyCustomLoginSuccessHandler(String defaultTargetUrl) {
