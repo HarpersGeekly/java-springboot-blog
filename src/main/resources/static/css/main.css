@@ -16,8 +16,10 @@ html {
 /*============================================================ NAVBAR ====================================================*/
 
 .navbar-default {
+    border: none;
     background-color: #2B2C28;
-    border-bottom: #FFFAFB solid 10px;
+    /*border-bottom: #FFFAFB solid 10px;*/
+    box-shadow: 0px 0px 30px #333;
 }
 
 .navbar-default .navbar-brand {
@@ -30,6 +32,14 @@ html {
 .navbar-default .navbar-brand:active {
     color: #339989;
     text-decoration: none;
+}
+
+.navbar-header {
+    margin-bottom: 0px;
+}
+
+#header-icon {
+    display: inline-block;
 }
 
 /* ================ Navbar Links ===============*/
