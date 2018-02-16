@@ -96,7 +96,7 @@ public class PostsController {
     }
 
     @GetMapping("/posts/{id}")
-    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment, Reply reply,
+    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment,
                                @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
                                        Pageable pageable) {
 //        Post post = new Post(1L,"First Title", "First Description");
@@ -105,9 +105,6 @@ public class PostsController {
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("comment", new Comment());
         viewModel.addAttribute("reply", new Reply());
-        // this sorts the comments:
-//        viewModel.addAttribute("comments", commentsDao.sortAllByTime(id));
-        // this "pages" the comments? Do I need to combine these?
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
         viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
