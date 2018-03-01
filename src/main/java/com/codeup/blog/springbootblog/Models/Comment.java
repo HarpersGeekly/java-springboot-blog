@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -30,15 +31,18 @@ public class Comment {
     private long voteCount;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment") //if I delete comments, it will delete-cascade the relationship to replies as well.
+    @JsonIgnore
 //    @JsonBackReference
     private List<Reply> replies;
 
     @ManyToOne // many comments will belong to one Post
 //    @JsonManagedReference
+    @JsonIgnore
     private Post post; // this is the mappedBy "post"
 
     @ManyToOne // many comments will belong to one User
 //    @JsonManagedReference
+    @JsonIgnore
     private User user;
 
     @Column(name = "CREATED_DATE")

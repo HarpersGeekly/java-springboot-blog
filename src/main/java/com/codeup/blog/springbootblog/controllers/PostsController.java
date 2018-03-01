@@ -112,11 +112,20 @@ public class PostsController {
         return "posts/show";
     }
 
+    // ===!!!====== KEEP SCROLLING DOWN FOR POSTING COMMENTS ====!!!===
+    // ===!!!====================================================!!!===
+    // ===!!!====== KEEP SCROLLING DOWN FOR POSTING COMMENTS ====!!!===
+
+
 //    @GetMapping("/posts/{id}.json")
-//    public @ResponseBody
-//    List<Comment> showAllComments(@PathVariable long id, @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
+//    public @ResponseBody List<Comment> showAllCommentsInJSONFormat(@PathVariable long id, @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
 //            Pageable pageable) {
 //        return (List<Comment>) commentsDao.postCommentsByPage(id, pageable);
+//    }
+
+//    @GetMapping("/posts/{id}")
+//    public String viewAllAdsWithAjax() {
+//        return "posts/show";
 //    }
 
     // =============================================== CREATE POST =====================================================
@@ -234,10 +243,14 @@ public class PostsController {
         return renderer.render(parser.parse(content));
     }
 
+
+    // ==== !!! =====
+    // ==== !!! =====
+    // ==== !!! =====
     //    =========================================== COMMENT ON A POST ================================================
 
     @PostMapping("/posts/{id}")
-    public String postComment(@PathVariable Long id, @Valid Comment comment, Errors validation, Model viewModel) {
+    public @ResponseBody Comment postComment(@PathVariable Long id, @Valid Comment comment, Errors validation, Model viewModel) {
 
         Post post = postSvc.findOne(id);
         comment.setPost(post);
@@ -256,7 +269,7 @@ public class PostsController {
 //            return "/posts/show";
 //        }
 
-        return "redirect:/posts/" + id;
+        return comment;
 
     }
 
@@ -268,7 +281,7 @@ public class PostsController {
 //   ============================================== DELETE A COMMENT ===================================================
 
     @PostMapping("/posts/{postId}/comment/{commentId}/delete")
-    public String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+    public @ResponseBody String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
         commentsDao.delete(commentId);
         return "redirect:/posts/" + postId;
     }

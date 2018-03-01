@@ -33,24 +33,25 @@ public class User {
 //    @Pattern(regexp = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/",
 //            message="")
     @Email(message = "That email is not a valid email address.")
-//    @JsonIgnore
+    @JsonIgnore
     private String email;
 
     @Column(nullable = false)
     @NotBlank(message = "Your password cannot be empty.")
     @Size(min = 8, message="Your password must be at least 8 characters.")
-//    @JsonIgnore
+    @JsonIgnore
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts. When User is deleted, these delete too
-//    @JsonBackReference
+    @JsonBackReference
     private List<Post> posts;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many comments. When User is deleted, these delete too
-//    @JsonBackReference
+    @JsonBackReference
     private List<Comment> comments;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many replies to comments. When User is deleted, these delete too
+    @JsonIgnore
     private List<Reply> replies;
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(
