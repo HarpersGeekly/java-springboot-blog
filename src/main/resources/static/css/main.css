@@ -327,12 +327,14 @@ textarea, input {
     background-color: #FFFAFB;
     color: #E07A5F;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .deleteCommentBtn:active, #editCommentBtn:active {
     background-color: #FFFAFB;
     color: #E07A5F;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .fa-edit, .fa-bomb {

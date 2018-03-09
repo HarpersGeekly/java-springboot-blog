@@ -9,6 +9,7 @@ import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
 
+import com.codeup.blog.springbootblog.services.XSSPrevent;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
@@ -114,8 +115,6 @@ public class PostsController {
 
     // ===!!!====== KEEP SCROLLING DOWN FOR POSTING COMMENTS ====!!!===
     // ===!!!====================================================!!!===
-    // ===!!!====== KEEP SCROLLING DOWN FOR POSTING COMMENTS ====!!!===
-
 
 //    @GetMapping("/posts/{id}.json")
 //    public @ResponseBody List<Comment> showAllCommentsInJSONFormat(@PathVariable long id, @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
@@ -158,14 +157,13 @@ public class PostsController {
             return "/posts/create";
         }
 
-//        XSSPrevent xp = new XSSPrevent();w
+//        XSSPrevent xp = new XSSPrevent();
 //        xp.setAsText(post.getTitle());
 //        post.setDescription(xp.getAsText());
-
         // This XSSPrevent isn't allowing me to update my code? What gives?
 
-        post.setDate(LocalDateTime.now());
         post.setUser(userSvc.loggedInUser());
+        post.setDate(LocalDateTime.now());
         postSvc.save(post);
         return "redirect:/posts";
     }
@@ -195,8 +193,8 @@ public class PostsController {
 //        xp.setAsText(post.getTitle());
 //        post.setDescription(xp.getAsText());
 
-        post.setId(id);
         post.setUser(userSvc.loggedInUser());
+        post.setId(id);
         postSvc.save(post);
         return "redirect:/posts/{id}";
     }
@@ -279,12 +277,18 @@ public class PostsController {
 //    public String editComment(@PathVariable Long id)
 
 //   ============================================== DELETE A COMMENT ===================================================
-
     @PostMapping("/posts/{postId}/comment/{commentId}/delete")
-    public @ResponseBody String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+    public @ResponseBody Comment deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+        Comment comment = commentsDao.findOne(commentId);
         commentsDao.delete(commentId);
-        return "redirect:/posts/" + postId;
+        return comment;
     }
+
+//    @PostMapping("/posts/{postId}/comment/{commentId}/delete")
+//    public String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+//        commentsDao.delete(commentId);
+//        return "redirect:/posts/" + postId;
+//    }
 
     //    ===============================  REPLY TO A COMMENT ON A POST ================================================
 
@@ -315,7 +319,7 @@ public class PostsController {
     //   ============================================== DELETE A REPLY =================================================
 
     @PostMapping("/posts/{postId}/comment/{commentId}/reply/{replyId}/delete")
-    public String deleteReply(@PathVariable Long postId, @PathVariable Long replyId) {
+    public String deleteReply(@PathVariable Long postId, @PathVariable Long commentId, @PathVariable Long replyId) {
         repliesDao.delete(replyId);
         return "redirect:/posts/" + postId;
     }

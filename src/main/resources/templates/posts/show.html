@@ -136,11 +136,11 @@
 
     <hr id="commentHRLeader"/>
 
-    <div id="commentsAJAX"></div>
 
-    <div class="container" id="commentSection" th:each="comment : ${page}" th:data="*{page}">
+    <div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">
 
         <!-- =============================== Comment Votes =========================-->
+    <div id="commentsAJAX"></div>
 
         <div class="row commentVoting">
 
@@ -244,9 +244,9 @@
                 <div class="commentDelete" sec:authorize="isAuthenticated()">
 
                     <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
-                          th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/delete'}" method="POST"
+                          th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}" method="POST"
                           th:object="${comment}"
-                          id="deleteCommentForm">
+                          class="deleteCommentForm">
 
                         <input type="hidden" name="id" id="deleteCommentId" th:value="${comment.id}"/>
                         <button type="submit" class="deleteCommentBtn">
@@ -406,14 +406,12 @@
 <!-- =========================================== JavaScript =========================================================-->
 <!-- ================================================================================================================-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--<script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>-->
+
 <!--<script src="/js/commentsAJAX.js"></script>-->
 <script th:inline="javascript">
 
-    /*<![CDATA[*/
-    const pageable = $('#commentSection').attr("data");
-
-
-
+    // const pageable = $('.commentSection').attr("data");
     // $(document).ready(function () {
 
     $(".replyTextArea").hide();
@@ -456,16 +454,18 @@
     $('.commentSubmitBtn').on("click", function (e) {
         console.log($('.commentForm').serialize());
         e.preventDefault();
+
         let request = $.ajax({
+            // crossOrigin: true, //XSS shield.
             url: '/posts/' + $("#postId").val(),
             method: 'POST',
+            dataType: 'json',
             data: $('.commentForm').serialize()
         });
         request.done((comment) => {
             let html = '';
             html += '<div>';
             html += '<p>' + comment.body + '</p>';
-
             // html += '<p>Published by: ' + comment.user.username + '</p>'; //jsonignore user (remove). Ajax isn't doing that much magic. You still need controllers.
             html += '</div>';
             console.log(html);
@@ -479,17 +479,25 @@
 
     $('.deleteCommentBtn').on("click", function(e) {
         e.preventDefault();
+        //var csrf = $(this).siblings('[name=_csrf]').val();
+        let commentInformation = $('.deleteCommentForm').serialize();
+        console.log(commentInformation);
         let request = $.ajax({
             url: '/posts/' + $("#postId").val() + '/comment/' + $("#deleteCommentId").val() + '/delete',
-            method: 'POST'
-            // data: $('#deleteCommentForm').serialize()
+            method: 'POST',
+                data: commentInformation
+            // data: JSON.stringify({id: deleteCommentId}),
         });
-        request.done(() => {
-            $('#commentsAJAX').html('');
-        });
-    });
+        request.done(function () {
 
-    /*]]>*/
+            console.log("hello from delete request.done");
+
+            $(this).parent().children('.commentSection').css('background-color', 'red');
+            // $(this).parent().children().remove(); // remove the html of this comment
+        });
+        request.fail((a, b, c) => {console.log(a, b, c)});
+    })
+
 </script>
 </body>
 </html>
