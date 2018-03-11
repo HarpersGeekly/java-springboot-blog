@@ -120,7 +120,7 @@
 
                     <!-- ======================== submit comment ================================-->
 
-                    <input class="form-control" type="hidden" id="postId" th:field="${post.id}"/>
+                    <input class="form-control" type="hidden" id="postId" th:value="${post.id}"/>
                     <button class="btn btn-primary commentSubmitBtn">
                         <i class="far fa-comment-alt"></i> Comment
                     </button>
@@ -140,7 +140,7 @@
     <div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">
 
         <!-- =============================== Comment Votes =========================-->
-    <div id="commentsAJAX"></div>
+        <div id="commentsAJAX"></div>
 
         <div class="row commentVoting">
 
@@ -231,9 +231,6 @@
             <div class="row">
                 <div class="commentEdit" sec:authorize="isAuthenticated()"
                      th:if="${comment.isOwnedBy(#authentication.principal.id)}">
-                    <!--<div class="container"></div>-->
-                    <!--<div class="row"></div>-->
-                    <!--<div class="col-sm"></div>-->
                     <a id="editCommentBtn">
                         <!--th:href="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}">-->
                         <i class="far fa-edit"></i> edit
@@ -244,11 +241,13 @@
                 <div class="commentDelete" sec:authorize="isAuthenticated()">
 
                     <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
-                          th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}" method="POST"
+                          th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
+                          method="POST"
                           th:object="${comment}"
                           class="deleteCommentForm">
 
-                        <input type="hidden" name="id" id="deleteCommentId" th:value="${comment.id}"/>
+                        <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
+                        <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
                         <button type="submit" class="deleteCommentBtn">
                             <i class="fas fa-bomb"></i> delete
                         </button>
@@ -264,155 +263,152 @@
         <hr class="commentHR"/>
     </div>
 
-        <!-- ================================================================================================================-->
-        <!-- =======================  REPLIES TO COMMENTS ON A POST ========================-->
-        <!-- ================================================================================================================-->
+    <!-- ================================================================================================================-->
+    <!-- =======================  REPLIES TO COMMENTS ON A POST ========================-->
+    <!-- ================================================================================================================-->
 
-        <div style="margin-left: 50px" id="replies" th:each="reply: ${comment.replies}">
+    <div style="margin-left: 50px" id="replies" th:each="reply: ${comment.replies}">
 
-            <!--<h5>SHOW REPLIES HERE</h5>-->
+        <!--<h5>SHOW REPLIES HERE</h5>-->
 
-            <div class="row commentVoting">
+        <div class="row commentVoting">
 
-                <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
-                <div th:if="${!isLoggedIn}">
-                    <a th:href="${'/login'}">
-                        <i class="far fa-thumbs-up upvote"></i>
-                    </a>
-                </div>
-                <!--if logged in: upvote and downvote arrows function normally.-->
-                <div th:if="${isLoggedIn}">
+            <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
+            <div th:if="${!isLoggedIn}">
+                <a th:href="${'/login'}">
                     <i class="far fa-thumbs-up upvote"></i>
-                </div>
-
-                <div>
-                    <h5>
-                        <span class="voteCount" th:text="${reply.voteCount}"></span>
-                    </h5>
-                </div>
-
-                <div th:if="${isLoggedIn}">
-                    <i class="far fa-thumbs-down downvote"></i>
-                </div>
-
-                <div th:if="${!isLoggedIn}">
-                    <a th:href="${'/login'}">
-                        <i class="far fa-thumbs-down downvote"></i>
-                    </a>
-                </div>
-
+                </a>
+            </div>
+            <!--if logged in: upvote and downvote arrows function normally.-->
+            <div th:if="${isLoggedIn}">
+                <i class="far fa-thumbs-up upvote"></i>
             </div>
 
-            <div class="row replyBody">
-                <h5 class="postedBy">
-                    <a th:href="${'/profile/' + reply.user.id}">
-                        <span th:text="${reply.user.username}"></span>
-                    </a> |
-
-                    <span th:text="${#temporals.format(reply.date,  'h:mm a')}"></span> |
-                    <span th:text="${#temporals.monthNameShort(reply.date)}"></span>
-                    <span th:text="${#temporals.day(reply.date)}"></span>,
-                    <span th:text="${#temporals.year(reply.date)}"></span>
+            <div>
+                <h5>
+                    <span class="voteCount" th:text="${reply.voteCount}"></span>
                 </h5>
-
-                <h5 th:text="${reply.body}"></h5>
-
             </div>
 
-            <!--==================================== DELETE A REPLY ======================-->
-            <div class="commentDelete" sec:authorize="isAuthenticated()">
-
-                <form id="deleteForm" th:if="${reply.isOwnedBy(#authentication.principal.id)}"
-                      th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/reply/' + reply.id + '/delete'}"
-                      method="POST"
-                      th:object="${reply}">
-
-                    <input type="hidden" name="id" th:value="${reply.id}"/>
-                    <!--<input type="submit" value="delete" class="deleteCommentBtn"/>-->
-                    <button type="submit" class="deleteCommentBtn">
-                        <i class="fas fa-bomb"></i> delete
-                    </button>
-                </form>
+            <div th:if="${isLoggedIn}">
+                <i class="far fa-thumbs-down downvote"></i>
             </div>
 
-            <!--===================================== EDIT A REPLY ======================-->
-
-            <hr class="commentHR"/>
-
-        </div> <!-- END OF THE LOOP:  th:each="reply : ${replies}" -->
-    </div> <!-- END OF THE LOOP:  th:each="comment : ${page}" -->
-
-
-    <!-- ================================================================================================================-->
-    <!-- =========================================== PAGINATION =========================================================-->
-    <!-- ================================================================================================================-->
-    <nav class="text-center">
-        <ul class="pagination">
-
-            <li th:class="${page.isFirst()}? 'disabled' : ''">
-                <span th:if='${page.isFirst()}'>← First</span>
-                <a th:if='${not page.isFirst()}' th:href="'?page=0'">
-                    ← First
+            <div th:if="${!isLoggedIn}">
+                <a th:href="${'/login'}">
+                    <i class="far fa-thumbs-down downvote"></i>
                 </a>
-            </li>
-            <li th:class="${page.hasPrevious()}? '' : 'disabled'">
-                <span th:if='${not page.hasPrevious()}'>«</span>
-                <a
-                        th:if='${page.hasPrevious()}'
-                        th:href="'?page=' + ${page.getNumber() - 1}"
-                        title='Go to previous page'
-                >
-                    «
-                </a>
-            </li>
-            <!--<li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">-->
-            <li th:each="i : ${#numbers.sequence(page.getNumber(), page.getTotalPages())}">
+            </div>
+
+        </div>
+
+        <div class="row replyBody">
+            <h5 class="postedBy">
+                <a th:href="${'/profile/' + reply.user.id}">
+                    <span th:text="${reply.user.username}"></span>
+                </a> |
+
+                <span th:text="${#temporals.format(reply.date,  'h:mm a')}"></span> |
+                <span th:text="${#temporals.monthNameShort(reply.date)}"></span>
+                <span th:text="${#temporals.day(reply.date)}"></span>,
+                <span th:text="${#temporals.year(reply.date)}"></span>
+            </h5>
+
+            <h5 th:text="${reply.body}"></h5>
+
+        </div>
+
+        <!--==================================== DELETE A REPLY ======================-->
+        <div class="commentDelete" sec:authorize="isAuthenticated()">
+
+            <form id="deleteForm" th:if="${reply.isOwnedBy(#authentication.principal.id)}"
+                  th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/reply/' + reply.id + '/delete'}"
+                  method="POST"
+                  th:object="${reply}">
+
+                <input type="hidden" name="id" th:value="${reply.id}"/>
+                <!--<input type="submit" value="delete" class="deleteCommentBtn"/>-->
+                <button type="submit" class="deleteCommentBtn">
+                    <i class="fas fa-bomb"></i> delete
+                </button>
+            </form>
+        </div>
+
+        <!--===================================== EDIT A REPLY ======================-->
+
+        <hr class="commentHR"/>
+
+    </div> <!-- END OF THE LOOP:  th:each="reply : ${replies}" -->
+</div> <!-- END OF THE LOOP:  th:each="comment : ${page}" -->
+
+
+<!-- ================================================================================================================-->
+<!-- =========================================== PAGINATION =========================================================-->
+<!-- ================================================================================================================-->
+<nav class="text-center">
+    <ul class="pagination">
+
+        <li th:class="${page.isFirst()}? 'disabled' : ''">
+            <span th:if='${page.isFirst()}'>← First</span>
+            <a th:if='${not page.isFirst()}' th:href="'?page=0'">
+                ← First
+            </a>
+        </li>
+        <li th:class="${page.hasPrevious()}? '' : 'disabled'">
+            <span th:if='${not page.hasPrevious()}'>«</span>
+            <a
+                    th:if='${page.hasPrevious()}'
+                    th:href="'?page=' + ${page.getNumber() - 1}"
+                    title='Go to previous page'
+            >
+                «
+            </a>
+        </li>
+        <!--<li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">-->
+        <li th:each="i : ${#numbers.sequence(page.getNumber(), page.getTotalPages())}">
                 <span
                         th:if='${(i - 1) == param.page}'
                         th:text='${i}'>
                     1
                 </span>
-                <a
-                        th:if='${not ((i - 1) == param.page)}'
-                        th:href="'?page=' + ${(i -1)}"
-                >
-                    <span th:text='${i}'>1</span>
-                </a>
-            </li>
-            <li th:class="${page.hasNext()} ? '' : 'disabled'">
-                <span th:if='${not page.hasNext()}'>»</span>
-                <a
-                        th:if='${page.hasNext()}'
-                        th:href="'?page=' + ${page.getNumber() + 1}"
-                        title='Go to next page'
-                >
-                    »
-                </a>
-            </li>
-            <li th:class="${page.isLast()}? 'disabled' : ''">
-                <span th:if='${page.isLast()}'>Last →</span>
-                <a
-                        th:if='${not page.isLast()}'
-                        th:href="'?page=' + ${page.getTotalPages() - 1}"
-                >
-                    Last →
-                </a>
-            </li>
-        </ul>
-    </nav>
+            <a
+                    th:if='${not ((i - 1) == param.page)}'
+                    th:href="'?page=' + ${(i -1)}"
+            >
+                <span th:text='${i}'>1</span>
+            </a>
+        </li>
+        <li th:class="${page.hasNext()} ? '' : 'disabled'">
+            <span th:if='${not page.hasNext()}'>»</span>
+            <a
+                    th:if='${page.hasNext()}'
+                    th:href="'?page=' + ${page.getNumber() + 1}"
+                    title='Go to next page'
+            >
+                »
+            </a>
+        </li>
+        <li th:class="${page.isLast()}? 'disabled' : ''">
+            <span th:if='${page.isLast()}'>Last →</span>
+            <a
+                    th:if='${not page.isLast()}'
+                    th:href="'?page=' + ${page.getTotalPages() - 1}"
+            >
+                Last →
+            </a>
+        </li>
+    </ul>
+</nav>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 
 <!-- =========================================== JavaScript =========================================================-->
-<!-- ================================================================================================================-->
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!--<script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>-->
-
-<!--<script src="/js/commentsAJAX.js"></script>-->
 <script th:inline="javascript">
 
-    // const pageable = $('.commentSection').attr("data");
-    // $(document).ready(function () {
+//  <!-- ================================================================================================================-->
 
     $(".replyTextArea").hide();
 
@@ -427,29 +423,7 @@
         $(".replyTextArea").hide();
     });
 
-    // $("#editCommentBtn").on('click', function () {
-    //     // $("#commentBody").innerHTML
-    // });
-    //
-    // $(".region").click(function(e) {
-    //     e.preventDefault();
-    //     var content = $(this).html();
-    //     $('#map').replaceWith(`'<div class="region">' + content + '</div>'`);
-    // });
-
-    $('#editCommentBtn').click(function () {
-        var content = $("#commentBody").text();
-        $("#commentBody").html(``);
-    });
-
-    //        $("#replies").hover(
-    //            function() {
-    //                $(this).children.children(".").removeClass("hidden");
-    //            },
-    //            function () {
-    //                $(this).children("#deleteForm").addClass("hidden");
-    //            });
-    //         })
+<!-- ============================================== SUBMIT Comment ====================================================-->
 
     $('.commentSubmitBtn').on("click", function (e) {
         console.log($('.commentForm').serialize());
@@ -459,17 +433,18 @@
             // crossOrigin: true, //XSS shield.
             url: '/posts/' + $("#postId").val(),
             method: 'POST',
-            dataType: 'json',
+            dataType: 'html',
+            // dataType: 'json',
             data: $('.commentForm').serialize()
         });
         request.done((comment) => {
-            let html = '';
-            html += '<div>';
-            html += '<p>' + comment.body + '</p>';
-            // html += '<p>Published by: ' + comment.user.username + '</p>'; //jsonignore user (remove). Ajax isn't doing that much magic. You still need controllers.
-            html += '</div>';
-            console.log(html);
-            $('#commentsAJAX').html(html);
+
+            console.log("==== hello from ajax comment request.done");
+            console.log(comment.id);
+            console.log(comment);
+
+            $('#commentFormBody').val(''); // clear the input field.
+            $('#commentsAJAX').html(comment); //
         });
 
         request.fail((a, b, c) => {
@@ -477,27 +452,78 @@
         });
     });
 
-    $('.deleteCommentBtn').on("click", function(e) {
+<!-- ========================================== EDIT Comment =================================================================-->
+
+$('#editCommentBtn').on("click", function (e) {
+    e.preventDefault();
+    var content = $("#commentBody").text();
+    $("#commentBody").html(``);
+});
+
+
+<!-- ============================================== DELETE Comment  ====================================================-->
+
+
+$('.container').on("click", ".deleteCommentBtn", function (e) {
+        // whats happening is the new comment is not being deleted.
+        // use event delegation for the above. an element parent, something, that isn't dynamic... parent -> children
+        // container?
         e.preventDefault();
         //var csrf = $(this).siblings('[name=_csrf]').val();
-        let commentInformation = $('.deleteCommentForm').serialize();
+        let commentInformation = $(this).parent().serialize();
+        let $button = $(this);
+
         console.log(commentInformation);
+        console.log($button.siblings('[data-comment-id]').data('comment-id'));
+
         let request = $.ajax({
-            url: '/posts/' + $("#postId").val() + '/comment/' + $("#deleteCommentId").val() + '/delete',
+            url: '/posts/' + $("#postId").val() + '/comment/' + $button.siblings('[data-comment-id]').data('comment-id') + '/delete',
             method: 'POST',
-                data: commentInformation
+            data: commentInformation
             // data: JSON.stringify({id: deleteCommentId}),
         });
         request.done(function () {
 
             console.log("hello from delete request.done");
-
-            $(this).parent().children('.commentSection').css('background-color', 'red');
-            // $(this).parent().children().remove(); // remove the html of this comment
+            console.log($button);
+            $button.parent().parent().parent().parent().parent().remove(); // removes from html :)
         });
-        request.fail((a, b, c) => {console.log(a, b, c)});
+        request.fail((a, b, c) => {
+            console.log(a, b, c)
+        });
     })
 
 </script>
 </body>
 </html>
+
+
+
+
+
+<!--// $("#editCommentBtn").on('click', function () {-->
+<!--//     // $("#commentBody").innerHTML-->
+<!--// });-->
+<!--//-->
+<!--// $(".region").click(function(e) {-->
+<!--//     e.preventDefault();-->
+<!--//     var content = $(this).html();-->
+<!--//     $('#map').replaceWith(`'<div class="region">' + content + '</div>'`);-->
+<!--// });-->
+
+<!--//        $("#replies").hover(-->
+<!--//            function() {-->
+<!--//                $(this).children.children(".").removeClass("hidden");-->
+<!--//            },-->
+<!--//            function () {-->
+<!--//                $(this).children("#deleteForm").addClass("hidden");-->
+<!--//            });-->
+<!--//         })-->
+
+<!--//inside ajax-->
+<!--// let html = '';-->
+<!--// html += '<div>';-->
+    <!--// html += '<p>' + comment.body + '</p>';-->
+    <!--// // html += '<p>Published by: ' + comment.user.username + '</p>'; //jsonignore user (remove). Ajax isn't doing that much magic. You still need controllers.-->
+    <!--// html += '</div>';-->
+<!--// console.log(html);-->

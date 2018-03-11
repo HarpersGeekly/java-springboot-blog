@@ -9,7 +9,6 @@ import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
 
-import com.codeup.blog.springbootblog.services.XSSPrevent;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.List;
 //import java.util.List;
 //import java.util.Date;
 //import java.sql.Timestamp;
@@ -112,9 +110,6 @@ public class PostsController {
         viewModel.addAttribute("replies", repliesDao.repliesToComments(comment.getId()));
         return "posts/show";
     }
-
-    // ===!!!====== KEEP SCROLLING DOWN FOR POSTING COMMENTS ====!!!===
-    // ===!!!====================================================!!!===
 
 //    @GetMapping("/posts/{id}.json")
 //    public @ResponseBody List<Comment> showAllCommentsInJSONFormat(@PathVariable long id, @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
@@ -246,16 +241,37 @@ public class PostsController {
     // ==== !!! =====
     // ==== !!! =====
     //    =========================================== COMMENT ON A POST ================================================
+    //    =========================================== COMMENT ON A POST ================================================
+    //    =========================================== COMMENT ON A POST ================================================
 
-    @PostMapping("/posts/{id}")
-    public @ResponseBody Comment postComment(@PathVariable Long id, @Valid Comment comment, Errors validation, Model viewModel) {
+    @PostMapping("/posts/{postId}")
+    public
+//    public @ResponseBody no longer converting the comment into a json string. now returning a template
+    String postComment(@PathVariable Long postId, @Valid Comment comment, Errors validation, Model viewModel) {
 
-        Post post = postSvc.findOne(id);
+        Post post = postSvc.findOne(postId);
+
+        System.out.println(comment.getId()); // still getting null.
+
+//        Current issue: won't allow comments to be created one after the other. The new comment is replacing the old one.
+//        Say I reloaded the page and already had a comment on the page, "comment1". I make a new comment, "comment2". If I delete comment1, comment2 deletes too.
+        // when I reload the page, comment2 is there but comment is deleted.
+
         comment.setPost(post);
         comment.setUser(userSvc.loggedInUser());
         comment.setDate(LocalDateTime.now());
         comment.setVoteCount((long)0);
         commentsDao.save(comment);
+
+        System.out.println(comment.getId()); // has an id.
+
+        viewModel.addAttribute("post", post);
+        viewModel.addAttribute("reply", new Reply());
+        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
+        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
+        viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
+        viewModel.addAttribute("replies", repliesDao.repliesToComments(comment.getId()));
+        viewModel.addAttribute("comment", comment);
 
 //        if (validation.hasErrors()) {
 //            viewModel.addAttribute("errors", validation);
@@ -267,7 +283,8 @@ public class PostsController {
 //            return "/posts/show";
 //        }
 
-        return comment;
+//        return comment;
+        return "posts/ajaxComment"; // By returning this page, we get all of our Thymeleaf-operated HTML!
 
     }
 
@@ -284,6 +301,7 @@ public class PostsController {
         return comment;
     }
 
+    //Before ajax:
 //    @PostMapping("/posts/{postId}/comment/{commentId}/delete")
 //    public String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
 //        commentsDao.delete(commentId);

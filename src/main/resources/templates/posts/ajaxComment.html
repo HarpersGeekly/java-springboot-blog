@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/header :: my-header('title')">
+</head>
+<body>
+
+<div class="row commentVoting">
+
+    <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
+    <div th:if="${!isLoggedIn}">
+        <a th:href="${'/login'}">
+            <i class="far fa-thumbs-up upvote"></i>
+        </a>
+    </div>
+    <!--if logged in: upvote and downvote arrows function normally.-->
+    <div th:if="${isLoggedIn}">
+        <i class="far fa-thumbs-up upvote"></i>
+    </div>
+
+    <div>
+        <h5>
+            <span class="voteCount" th:text="${comment.voteCount}"></span>
+        </h5>
+    </div>
+
+    <div th:if="${isLoggedIn}">
+        <i class="far fa-thumbs-down downvote"></i>
+    </div>
+    <div th:if="${!isLoggedIn}">
+        <a th:href="${'/login'}">
+            <i class="far fa-thumbs-down downvote"></i>
+        </a>
+    </div>
+
+</div>
+
+<div class="row commentBody">
+    <h5 class="postedBy">
+        <a th:href="${'/profile/' + comment.user.id}">
+            <span th:text="${comment.user.username}"></span>
+        </a> |
+        <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span> |
+        <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
+        <span th:text="${#temporals.day(comment.date)}"></span>,
+        <span th:text="${#temporals.year(comment.date)}"></span>
+    </h5>
+
+    <h5 th:text="${comment.body}" id="commentBody"></h5>
+
+</div>
+<!--================================== REPLY TO A COMMENT ======================-->
+<!--============================================================================-->
+
+<div th:if="${!isLoggedIn}">
+    <a th:href="${'/login'}"> REPLY
+    </a>
+</div>
+<div th:if="${isLoggedIn}">
+    <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
+
+    <div class="replyTextArea">
+        <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post" th:object="${reply}">
+            <div class="form-group">
+                <label for="replyFormBody"></label>
+                <textarea class="form-control" id="replyFormBody" name="body"
+                          th:field="*{body}"
+                          th:placeholder="Comment..."
+                          style="width: 900px; height: 150px; resize: none">
+                                </textarea>
+
+                <div th:if="${#fields.hasErrors('body')}"
+                     class="alert alert-danger alert-dismissible"
+                     role="alert">
+                    <span th:errors="*{body}"/>
+                </div>
+                <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
+                <button class="btn btn-primary">
+                    <i class="far fa-comment-alt"></i> Reply
+                </button>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--===================================== EDIT A COMMENT ========================-->
+<!--=============================================================================-->
+<div class="editAndDeleteWrapper">
+    <div class="row">
+        <div class="commentEdit" sec:authorize="isAuthenticated()"
+             th:if="${comment.isOwnedBy(#authentication.principal.id)}">
+            <a id="editCommentBtn">
+                <!--th:href="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}">-->
+                <i class="far fa-edit"></i> edit
+            </a>
+        </div>
+        <!--==================================== DELETE A COMMENT =======================-->
+        <!--=============================================================================-->
+        <div class="commentDelete" sec:authorize="isAuthenticated()">
+
+            <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
+                  th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
+                  method="POST"
+                  th:object="${comment}"
+                  class="deleteCommentForm">
+
+                <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
+                <!--<input type="hidden" name="id" id="deleteCommentId" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>-->
+                <button type="submit" class="deleteCommentBtn">
+                    <i class="fas fa-bomb"></i> delete
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<hr class="commentHR"/>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+    $(".replyTextArea").hide();
+
+    $(".showReplyTextArea").on('click', function () {
+        $(this).text(function (_, oldText) {
+            return oldText === 'CANCEL' ? 'REPLY' : 'CANCEL';
+        });
+        $(this).next().toggle(500);
+    });
+
+    $(".form").submit(function () {
+        $(".replyTextArea").hide();
+    });
+
+</script>
+</body>
+</html>
