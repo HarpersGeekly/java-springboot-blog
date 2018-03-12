@@ -255,7 +255,8 @@ public class PostsController {
 
 //        Current issue: won't allow comments to be created one after the other. The new comment is replacing the old one.
 //        Say I reloaded the page and already had a comment on the page, "comment1". I make a new comment, "comment2". If I delete comment1, comment2 deletes too.
-        // when I reload the page, comment2 is there but comment is deleted.
+//        when I reload the page, comment2 is there but comment is deleted.
+//        if no comment is present, a new comment won't be made.
 
         comment.setPost(post);
         comment.setUser(userSvc.loggedInUser());
@@ -284,8 +285,7 @@ public class PostsController {
 //        }
 
 //        return comment;
-        return "posts/ajaxComment"; // By returning this page, we get all of our Thymeleaf-operated HTML!
-
+        return "fragments/comments :: ajaxComment"; // By returning this fragment (comments.html), we get all of our Thymeleaf-operated HTML
     }
 
 //   ============================================ EDIT A COMMENT  ======================================================

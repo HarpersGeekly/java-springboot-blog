@@ -136,131 +136,140 @@
 
     <hr id="commentHRLeader"/>
 
-
     <div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">
 
         <!-- =============================== Comment Votes =========================-->
-        <div id="commentsAJAX"></div>
 
-        <div class="row commentVoting">
+        <div id="commentsAJAX"></div> <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
 
-            <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
-            <div th:if="${!isLoggedIn}">
-                <a th:href="${'/login'}">
-                    <i class="far fa-thumbs-up upvote"></i>
-                </a>
-            </div>
-            <!--if logged in: upvote and downvote arrows function normally.-->
-            <div th:if="${isLoggedIn}">
-                <i class="far fa-thumbs-up upvote"></i>
-            </div>
+        <div class="comment-wrapper" th:attr="data-delete-comment-id=${comment.id}"> <!-- this div should be targeted with unique th:attr -->
 
-            <div>
-                <h5>
-                    <span class="voteCount" th:text="${comment.voteCount}"></span>
-                </h5>
-            </div>
+            <div class="row commentVoting">
 
-            <div th:if="${isLoggedIn}">
-                <i class="far fa-thumbs-down downvote"></i>
-            </div>
-            <div th:if="${!isLoggedIn}">
-                <a th:href="${'/login'}">
-                    <i class="far fa-thumbs-down downvote"></i>
-                </a>
-            </div>
-
-        </div>
-
-        <div class="row commentBody">
-            <h5 class="postedBy">
-                <a th:href="${'/profile/' + comment.user.id}">
-                    <span th:text="${comment.user.username}"></span>
-                </a> |
-                <!--</h5>-->
-
-                <!--<h5 class="createdCommentDate">-->
-                <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span> |
-                <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
-                <span th:text="${#temporals.day(comment.date)}"></span>,
-                <span th:text="${#temporals.year(comment.date)}"></span>
-            </h5>
-
-            <h5 th:text="${comment.body}" id="commentBody"></h5>
-
-        </div>
-        <!--================================== REPLY TO A COMMENT ======================-->
-        <!--============================================================================-->
-
-        <div th:if="${!isLoggedIn}">
-            <a th:href="${'/login'}"> REPLY
-            </a>
-        </div>
-        <div th:if="${isLoggedIn}">
-            <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
-
-            <div class="replyTextArea">
-                <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post" th:object="${reply}">
-                    <div class="form-group">
-                        <label for="replyFormBody"></label>
-                        <textarea class="form-control" id="replyFormBody" name="body"
-                                  th:field="*{body}"
-                                  th:placeholder="Comment..."
-                                  style="width: 900px; height: 150px; resize: none">
-                                </textarea>
-
-                        <div th:if="${#fields.hasErrors('body')}"
-                             class="alert alert-danger alert-dismissible"
-                             role="alert">
-                            <span th:errors="*{body}"/>
-                        </div>
-                        <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                        <button class="btn btn-primary">
-                            <i class="far fa-comment-alt"></i> Reply
-                        </button>
-
-                    </div>
-                </form>
-            </div>
-        </div>
-
-
-        <!--===================================== EDIT A COMMENT ========================-->
-        <!--=============================================================================-->
-        <div class="editAndDeleteWrapper">
-            <div class="row">
-                <div class="commentEdit" sec:authorize="isAuthenticated()"
-                     th:if="${comment.isOwnedBy(#authentication.principal.id)}">
-                    <a id="editCommentBtn">
-                        <!--th:href="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}">-->
-                        <i class="far fa-edit"></i> edit
+                <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
+                <div th:if="${!isLoggedIn}">
+                    <a th:href="${'/login'}">
+                        <i class="far fa-thumbs-up upvote"></i>
                     </a>
                 </div>
-                <!--==================================== DELETE A COMMENT =======================-->
-                <!--=============================================================================-->
-                <div class="commentDelete" sec:authorize="isAuthenticated()">
+                <!--if logged in: upvote and downvote arrows function normally.-->
+                <div th:if="${isLoggedIn}">
+                    <i class="far fa-thumbs-up upvote"></i>
+                </div>
 
-                    <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
-                          th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
-                          method="POST"
-                          th:object="${comment}"
-                          class="deleteCommentForm">
+                <div>
+                    <h5>
+                        <span class="voteCount" th:text="${comment.voteCount}"></span>
+                    </h5>
+                </div>
 
-                        <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
-                        <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
-                        <button type="submit" class="deleteCommentBtn">
-                            <i class="fas fa-bomb"></i> delete
-                        </button>
-                        <!--<i class="fas fa-bomb"></i>-->
-                        <!--<input type="submit" value="delete" class="deleteCommentBtn"/>-->
+                <div th:if="${isLoggedIn}">
+                    <i class="far fa-thumbs-down downvote"></i>
+                </div>
+                <div th:if="${!isLoggedIn}">
+                    <a th:href="${'/login'}">
+                        <i class="far fa-thumbs-down downvote"></i>
+                    </a>
+                </div>
 
+            </div>
+
+            <div class="row commentBody">
+                <h5 class="postedBy">
+                    <a th:href="${'/profile/' + comment.user.id}">
+                        <span th:text="${comment.user.username}"></span>
+                    </a> |
+                    <!--</h5>-->
+
+                    <!--<h5 class="createdCommentDate">-->
+                    <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span> |
+                    <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                    <span th:text="${#temporals.day(comment.date)}"></span>,
+                    <span th:text="${#temporals.year(comment.date)}"></span>
+                </h5>
+
+                <h5 th:text="${comment.body}" id="commentBody"></h5>
+
+            </div>
+
+            <!--================================== REPLY TO A COMMENT ======================-->
+            <!--============================================================================-->
+
+            <div th:if="${!isLoggedIn}">
+                <a th:href="${'/login'}"> REPLY
+                </a>
+            </div>
+            <div th:if="${isLoggedIn}">
+                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
+
+                <div class="replyTextArea">
+                    <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post"
+                          th:object="${reply}">
+                        <div class="form-group">
+                            <label for="replyFormBody"></label>
+                            <textarea class="form-control" id="replyFormBody" name="body"
+                                      th:field="*{body}"
+                                      th:placeholder="Comment..."
+                                      style="width: 900px; height: 150px; resize: none">
+                                </textarea>
+
+                            <div th:if="${#fields.hasErrors('body')}"
+                                 class="alert alert-danger alert-dismissible"
+                                 role="alert">
+                                <span th:errors="*{body}"/>
+                            </div>
+                            <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
+                            <button class="btn btn-primary">
+                                <i class="far fa-comment-alt"></i> Reply
+                            </button>
+
+                        </div>
                     </form>
-
                 </div>
             </div>
-        </div>
 
-        <hr class="commentHR"/>
+            <!--===================================== EDIT A COMMENT ========================-->
+            <!--=============================================================================-->
+
+            <div class="editAndDeleteWrapper">
+                <div class="row">
+                    <div class="commentEdit" sec:authorize="isAuthenticated()"
+                         th:if="${comment.isOwnedBy(#authentication.principal.id)}">
+                        <a id="editCommentBtn">
+                            <!--th:href="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}">-->
+                            <i class="far fa-edit"></i> edit
+                        </a>
+                    </div>
+
+                    <!--==================================== DELETE A COMMENT =======================-->
+                    <!--=============================================================================-->
+
+
+                    <div class="commentDelete" sec:authorize="isAuthenticated()">
+
+                        <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
+                              th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
+                              method="POST"
+                              th:object="${comment}"
+                              class="deleteCommentForm">
+
+                            <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"
+                                   th:value="${comment.id}"/>
+                            <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
+                            <button type="submit" class="deleteCommentBtn">
+                                <i class="fas fa-bomb"></i> delete
+                            </button>
+                            <!--<i class="fas fa-bomb"></i>-->
+                            <!--<input type="submit" value="delete" class="deleteCommentBtn"/>-->
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <hr class="commentHR"/>
+        </div>
     </div>
 
     <!-- ================================================================================================================-->
@@ -408,7 +417,8 @@
 <!--<script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>-->
 <script th:inline="javascript">
 
-//  <!-- ================================================================================================================-->
+    //
+    <!-- ================================================================================================================-->
 
     $(".replyTextArea").hide();
 
@@ -423,7 +433,7 @@
         $(".replyTextArea").hide();
     });
 
-<!-- ============================================== SUBMIT Comment ====================================================-->
+    <!-- ============================================== SUBMIT Comment ====================================================-->
 
     $('.commentSubmitBtn').on("click", function (e) {
         console.log($('.commentForm').serialize());
@@ -431,20 +441,22 @@
 
         let request = $.ajax({
             // crossOrigin: true, //XSS shield.
-            url: '/posts/' + $("#postId").val(),
+            url: '/posts/' + $("#postId").val(), // @PostMapping("/posts/{postId}") in PostsController
+
             method: 'POST',
-            dataType: 'html',
+            dataType: 'html', // I'm returning html from the PostsController method postComment()
             // dataType: 'json',
             data: $('.commentForm').serialize()
         });
-        request.done((comment) => {
+        request.done((html) => {
+        // request.done((comment) => { // no need for confusion here, not returning a comment, but html.
 
             console.log("==== hello from ajax comment request.done");
-            console.log(comment.id);
-            console.log(comment);
+            //console.log(comment.id);
+            //comment id's will always be undefined here because I'm not returning an object, I'm returning html.
 
             $('#commentFormBody').val(''); // clear the input field.
-            $('#commentsAJAX').html(comment); //
+            $('#commentsAJAX').prepend(html); //prepend the comment to the top of the div length.
         });
 
         request.fail((a, b, c) => {
@@ -452,32 +464,29 @@
         });
     });
 
-<!-- ========================================== EDIT Comment =================================================================-->
+    <!-- ========================================== EDIT Comment =================================================================-->
 
-$('#editCommentBtn').on("click", function (e) {
-    e.preventDefault();
-    var content = $("#commentBody").text();
-    $("#commentBody").html(``);
-});
-
-
-<!-- ============================================== DELETE Comment  ====================================================-->
-
-
-$('.container').on("click", ".deleteCommentBtn", function (e) {
-        // whats happening is the new comment is not being deleted.
-        // use event delegation for the above. an element parent, something, that isn't dynamic... parent -> children
-        // container?
+    $('#editCommentBtn').on("click", function (e) {
         e.preventDefault();
-        //var csrf = $(this).siblings('[name=_csrf]').val();
+        //grab the content within the comment body. Remove it for now, replace with textarea and cursor, submit new edit.
+        var content = $("#commentBody").text();
+        $("#commentBody").html(``);
+    });
+
+    <!-- ============================================== DELETE Comment  ====================================================-->
+
+    $('.container').on("click", ".deleteCommentBtn", function (e) {
+        // use event delegation that targets an elements parent, something, that isn't dynamic: .container
+        e.preventDefault(); // prevent default form behavior and instead use ajax. 
         let commentInformation = $(this).parent().serialize();
         let $button = $(this);
-
         console.log(commentInformation);
-        console.log($button.siblings('[data-comment-id]').data('comment-id'));
+        // Look for element with this attribute. We're looking for siblings(other comments) within the container.
+        let commentId = $button.siblings('[data-comment-id]').data('comment-id');
+        console.log(commentId);
 
         let request = $.ajax({
-            url: '/posts/' + $("#postId").val() + '/comment/' + $button.siblings('[data-comment-id]').data('comment-id') + '/delete',
+            url: '/posts/' + $("#postId").val() + '/comment/' + commentId + '/delete',
             method: 'POST',
             data: commentInformation
             // data: JSON.stringify({id: deleteCommentId}),
@@ -486,7 +495,8 @@ $('.container').on("click", ".deleteCommentBtn", function (e) {
 
             console.log("hello from delete request.done");
             console.log($button);
-            $button.parent().parent().parent().parent().parent().remove(); // removes from html :)
+            $('[data-delete-comment-id=' + commentId + ']').remove(); // new way targets element directly.
+            // $button.parent().parent().parent().parent().parent().remove(); // removes from html (old way/bad way)
         });
         request.fail((a, b, c) => {
             console.log(a, b, c)
@@ -496,9 +506,6 @@ $('.container').on("click", ".deleteCommentBtn", function (e) {
 </script>
 </body>
 </html>
-
-
-
 
 
 <!--// $("#editCommentBtn").on('click', function () {-->
@@ -523,7 +530,7 @@ $('.container').on("click", ".deleteCommentBtn", function (e) {
 <!--//inside ajax-->
 <!--// let html = '';-->
 <!--// html += '<div>';-->
-    <!--// html += '<p>' + comment.body + '</p>';-->
-    <!--// // html += '<p>Published by: ' + comment.user.username + '</p>'; //jsonignore user (remove). Ajax isn't doing that much magic. You still need controllers.-->
-    <!--// html += '</div>';-->
+<!--// html += '<p>' + comment.body + '</p>';-->
+<!--// // html += '<p>Published by: ' + comment.user.username + '</p>'; //jsonignore user (remove). Ajax isn't doing that much magic. You still need controllers.-->
+<!--// html += '</div>';-->
 <!--// console.log(html);-->
