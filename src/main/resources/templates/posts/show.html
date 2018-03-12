@@ -477,7 +477,7 @@
 
     $('.container').on("click", ".deleteCommentBtn", function (e) {
         // use event delegation that targets an elements parent, something, that isn't dynamic: .container
-        e.preventDefault(); // prevent default form behavior and instead use ajax. 
+        e.preventDefault(); // prevent default form behavior and instead use ajax.
         let commentInformation = $(this).parent().serialize();
         let $button = $(this);
         console.log(commentInformation);
