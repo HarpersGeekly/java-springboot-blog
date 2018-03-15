@@ -142,7 +142,7 @@
 
         <div id="commentsAJAX"></div> <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
 
-        <div class="comment-wrapper" th:attr="data-delete-comment-id=${comment.id}"> <!-- this div should be targeted with unique th:attr -->
+        <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}"> <!-- this div should be targeted with unique th:attr -->
 
             <div class="row commentVoting">
 
@@ -190,6 +190,26 @@
 
                 <h5 th:text="${comment.body}" id="commentBody"></h5>
 
+                <!--<form th:if="${comment.isOwnedBy(#authentication.principal.id)}"-->
+                <form
+                      th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id}, commentId=${comment.id})}"
+                      method="POST"
+                      th:object="${comment}"
+                      class="editedCommentForm">
+
+                    <textarea class="form-control editedCommentBody" name="body"
+                              th:value="*{body}"
+                              style="width: 900px; height: 150px; resize: none">
+                    </textarea>
+
+                    <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"
+                           th:value="${comment.id}"/>
+
+                    <button type="submit" class="editedCommentSubmitBtn">
+                        submit
+                    </button>
+                </form>
+
             </div>
 
             <!--================================== REPLY TO A COMMENT ======================-->
@@ -228,21 +248,20 @@
                 </div>
             </div>
 
-            <!--===================================== EDIT A COMMENT ========================-->
-            <!--=============================================================================-->
+            <!--===================================== EDIT COMMENT BUTTON ========================-->
+            <!--==================================================================================-->
 
             <div class="editAndDeleteWrapper">
                 <div class="row">
                     <div class="commentEdit" sec:authorize="isAuthenticated()"
                          th:if="${comment.isOwnedBy(#authentication.principal.id)}">
-                        <a id="editCommentBtn">
-                            <!--th:href="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}">-->
+                        <a class="editCommentBtn">
                             <i class="far fa-edit"></i> edit
                         </a>
                     </div>
 
-                    <!--==================================== DELETE A COMMENT =======================-->
-                    <!--=============================================================================-->
+                    <!--==================================== DELETE COMMENT BUTTON AND FORM =======================-->
+                    <!--===========================================================================================-->
 
 
                     <div class="commentDelete" sec:authorize="isAuthenticated()">
@@ -411,29 +430,27 @@
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 
-<!-- =========================================== JavaScript =========================================================-->
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!--<script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>-->
 <script th:inline="javascript">
 
-    //
-    <!-- ================================================================================================================-->
+    $('.replyTextArea').hide(); // hide the reply text area.
+    $('.editedCommentForm').hide(); //hide the edit comment form.
 
-    $(".replyTextArea").hide();
-
-    $(".showReplyTextArea").on('click', function () {
+    $('.showReplyTextArea').on('click', function () {
         $(this).text(function (_, oldText) {
             return oldText === 'CANCEL' ? 'REPLY' : 'CANCEL';
         });
         $(this).next().toggle(500);
     });
 
-    $(".form").submit(function () {
+    $('.form').submit(function () {
         $(".replyTextArea").hide();
     });
 
-    <!-- ============================================== SUBMIT Comment ====================================================-->
+    <!-- =================================================================================================================-->
+    <!-- ============================================== SUBMIT Comment ===================================================-->
+    <!-- =================================================================================================================-->
 
     $('.commentSubmitBtn').on("click", function (e) {
         console.log($('.commentForm').serialize());
@@ -457,6 +474,7 @@
 
             $('#commentFormBody').val(''); // clear the input field.
             $('#commentsAJAX').prepend(html); //prepend the comment to the top of the div length.
+            $('.replyTextArea').hide(); // hide the reply text area.
         });
 
         request.fail((a, b, c) => {
@@ -464,16 +482,57 @@
         });
     });
 
-    <!-- ========================================== EDIT Comment =================================================================-->
+    <!-- =================================================================================================================-->
+    <!-- ============================================== EDIT Comment =====================================================-->
+    <!-- =================================================================================================================-->
 
-    $('#editCommentBtn').on("click", function (e) {
+    //When I click on the edit button:
+    //Reveals a textarea in place of the comment.body. Textarea should be populated with the comment text.
+    //Reveals a submit button. When I click on the submit button, data should replace previous data with new data.
+
+    $('.container').on("click", ".editCommentBtn", function (e) {
+
+        console.log("edit button clicked");
         e.preventDefault();
+
+        let $button = $(this);
+        let commentInformation = $(this).parent().serialize();
+
+        let commentId = $button.siblings('[data-comment-id]').data('comment-id');
+        let content = $('[data-comment-id=' + commentId + ']').text();
+
+        console.log("commentid: " + commentId);
+        console.log(content);
+
+        $(".replyTextArea").hide();
+        $button.siblings(".editedCommentForm").show();
+
         //grab the content within the comment body. Remove it for now, replace with textarea and cursor, submit new edit.
-        var content = $("#commentBody").text();
-        $("#commentBody").html(``);
+
+        let request = $.ajax({
+            url: '/posts/' + $("#postId").val() + '/comment/' + commentId + '/edit',
+            method: 'POST',
+            data: commentInformation
+        });
+        request.done(function () {
+
+            console.log("hello from edited comment request.done")
+
+        });
+        request.fail((a, b, c) => {
+            console.log(a, b, c)
+        });
     });
 
-    <!-- ============================================== DELETE Comment  ====================================================-->
+    <!-- =================================================================================================================-->
+    <!-- ============================================ SUBMIT EDITED Comment ==============================================-->
+    <!-- =================================================================================================================-->
+
+
+
+    <!-- =================================================================================================================-->
+    <!-- ============================================== DELETE Comment  ==================================================-->
+    <!-- =================================================================================================================-->
 
     $('.container').on("click", ".deleteCommentBtn", function (e) {
         // use event delegation that targets an elements parent, something, that isn't dynamic: .container
@@ -495,7 +554,7 @@
 
             console.log("hello from delete request.done");
             console.log($button);
-            $('[data-delete-comment-id=' + commentId + ']').remove(); // new way targets element directly.
+            $('[data-edit-delete-comment-id=' + commentId + ']').remove(); // new way targets element directly.
             // $button.parent().parent().parent().parent().parent().remove(); // removes from html (old way/bad way)
         });
         request.fail((a, b, c) => {

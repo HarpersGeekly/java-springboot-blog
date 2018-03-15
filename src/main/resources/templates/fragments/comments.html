@@ -7,7 +7,7 @@
 <body>
 
 <!--th:attr allows me to target this element specifically in show.html's ajax request-->
-<div th:attr="data-delete-comment-id=${comment.id}" th:fragment="ajaxComment">
+<div th:attr="data-edit-delete-comment-id=${comment.id}" th:fragment="ajaxComment">
     <div class="row commentVoting">
 
         <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->

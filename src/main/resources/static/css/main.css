@@ -318,19 +318,19 @@ textarea, input {
     text-decoration: none;
 }
 
-#editCommentBtn {
+.editCommentBtn {
     color: #999999;
     text-decoration: none;
 }
 
-.deleteCommentBtn:hover, #editCommentBtn:hover {
+.deleteCommentBtn:hover, .editCommentBtn:hover {
     background-color: #FFFAFB;
     color: #E07A5F;
     text-decoration: none;
     cursor: pointer;
 }
 
-.deleteCommentBtn:active, #editCommentBtn:active {
+.deleteCommentBtn:active, .editCommentBtn:active {
     background-color: #FFFAFB;
     color: #E07A5F;
     text-decoration: none;
