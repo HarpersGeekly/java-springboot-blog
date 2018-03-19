@@ -306,6 +306,11 @@ textarea, input {
     cursor: pointer;
 }
 
+.showReplyTextArea:hover {
+    cursor: pointer;
+    color: #E07A5F;
+}
+
 .commentEdit {
     float: left;
     margin-right: 1em;
@@ -340,7 +345,6 @@ textarea, input {
 .fa-edit, .fa-bomb {
     color: #999999;
 }
-
 
 /*=============== Profile page ======================*/
 

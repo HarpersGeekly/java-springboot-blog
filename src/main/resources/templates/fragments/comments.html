@@ -38,7 +38,7 @@
 
     </div>
 
-    <div class="row commentBody">
+    <div class="row">
         <h5 class="postedBy">
             <a th:href="${'/profile/' + comment.user.id}">
                 <span th:text="${comment.user.username}"></span>
@@ -49,7 +49,28 @@
             <span th:text="${#temporals.year(comment.date)}"></span>
         </h5>
 
-        <h5 th:text="${comment.body}" id="commentBody"></h5>
+        <h5 th:text="${comment.body}" id="commentBodyText"></h5>
+
+        <!-- =============================== Edit Form ============================-->
+
+        <form
+                th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id}, commentId=${comment.id})}"
+                method="POST"
+                th:object="${comment}"
+                class="editedCommentForm">
+
+                    <textarea class="form-control editedCommentBodyText" name="body"
+                              th:value="${comment.body}"
+                              style="width: 900px; height: 150px; resize: none">
+                    </textarea>
+
+            <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"
+                   th:value="${comment.id}"/>
+
+            <button type="submit" class="editedCommentSubmitBtn">
+                submit
+            </button>
+        </form>
 
     </div>
     <!--================================== REPLY TO A COMMENT ======================-->
@@ -92,6 +113,7 @@
     <!--=============================================================================-->
     <div class="editAndDeleteWrapper">
         <div class="row">
+
             <div class="commentEdit" sec:authorize="isAuthenticated()"
                  th:if="${comment.isOwnedBy(#authentication.principal.id)}">
                 <a id="editCommentBtn">

@@ -174,7 +174,7 @@
 
             </div>
 
-            <div class="row commentBody">
+            <div class="row">
                 <h5 class="postedBy">
                     <a th:href="${'/profile/' + comment.user.id}">
                         <span th:text="${comment.user.username}"></span>
@@ -188,17 +188,22 @@
                     <span th:text="${#temporals.year(comment.date)}"></span>
                 </h5>
 
-                <h5 th:text="${comment.body}" id="commentBody"></h5>
+                <!-- =============================== Comment Body =========================-->
+
+                <h5 th:text="${comment.body}" id="commentBodyText"></h5>
 
                 <!--<form th:if="${comment.isOwnedBy(#authentication.principal.id)}"-->
+
+                <!-- =============================== Edit Form ============================-->
+
                 <form
-                      th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id}, commentId=${comment.id})}"
+                      th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
                       method="POST"
                       th:object="${comment}"
                       class="editedCommentForm">
 
-                    <textarea class="form-control editedCommentBody" name="body"
-                              th:value="*{body}"
+                    <textarea class="form-control editedCommentBodyText" name="body"
+                              th:value="${comment.body}"
                               style="width: 900px; height: 150px; resize: none">
                     </textarea>
 
@@ -216,11 +221,14 @@
             <!--============================================================================-->
 
             <div th:if="${!isLoggedIn}">
-                <a th:href="${'/login'}"> REPLY
+                <a th:href="${'/login'}">
+                    REPLY
                 </a>
             </div>
             <div th:if="${isLoggedIn}">
-                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
+                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">
+                    REPLY
+                </h5>
 
                 <div class="replyTextArea">
                     <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post"
@@ -253,9 +261,10 @@
 
             <div class="editAndDeleteWrapper">
                 <div class="row">
+
                     <div class="commentEdit" sec:authorize="isAuthenticated()"
                          th:if="${comment.isOwnedBy(#authentication.principal.id)}">
-                        <a class="editCommentBtn">
+                        <a class="editCommentBtn" th:attr="data-edit-comment-id=${comment.id}">
                             <i class="far fa-edit"></i> edit
                         </a>
                     </div>
@@ -263,9 +272,7 @@
                     <!--==================================== DELETE COMMENT BUTTON AND FORM =======================-->
                     <!--===========================================================================================-->
 
-
                     <div class="commentDelete" sec:authorize="isAuthenticated()">
-
                         <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
                               th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
                               method="POST"
@@ -280,10 +287,9 @@
                             </button>
                             <!--<i class="fas fa-bomb"></i>-->
                             <!--<input type="submit" value="delete" class="deleteCommentBtn"/>-->
-
                         </form>
-
                     </div>
+
                 </div>
             </div>
 
@@ -490,38 +496,36 @@
     //Reveals a textarea in place of the comment.body. Textarea should be populated with the comment text.
     //Reveals a submit button. When I click on the submit button, data should replace previous data with new data.
 
-    $('.container').on("click", ".editCommentBtn", function (e) {
+    //grab the content within the comment body. Remove it for now, replace with textarea and cursor
 
+    $('.container').on("click", ".editCommentBtn", function (e) {
         console.log("edit button clicked");
-        e.preventDefault();
 
         let $button = $(this);
-        let commentInformation = $(this).parent().serialize();
-
-        let commentId = $button.siblings('[data-comment-id]').data('comment-id');
+        let commentId = $button.parent('[data-comment-id]').data('comment-id');
         let content = $('[data-comment-id=' + commentId + ']').text();
-
         console.log("commentid: " + commentId);
         console.log(content);
 
         $(".replyTextArea").hide();
+        $button.siblings("#commentBodyText").hide();
         $button.siblings(".editedCommentForm").show();
 
-        //grab the content within the comment body. Remove it for now, replace with textarea and cursor, submit new edit.
-
+        //================================== AJAX ==================================
         let request = $.ajax({
             url: '/posts/' + $("#postId").val() + '/comment/' + commentId + '/edit',
-            method: 'POST',
-            data: commentInformation
+            method: 'GET',
+            dataType: 'json',
+            data: content
         });
         request.done(function () {
-
-            console.log("hello from edited comment request.done")
-
+            console.log("hello from edited comment request.done");
+            $button.parent('[data-comment-id=' + commentId + ']').val(content);
         });
         request.fail((a, b, c) => {
             console.log(a, b, c)
         });
+
     });
 
     <!-- =================================================================================================================-->
@@ -565,27 +569,6 @@
 </script>
 </body>
 </html>
-
-
-<!--// $("#editCommentBtn").on('click', function () {-->
-<!--//     // $("#commentBody").innerHTML-->
-<!--// });-->
-<!--//-->
-<!--// $(".region").click(function(e) {-->
-<!--//     e.preventDefault();-->
-<!--//     var content = $(this).html();-->
-<!--//     $('#map').replaceWith(`'<div class="region">' + content + '</div>'`);-->
-<!--// });-->
-
-<!--//        $("#replies").hover(-->
-<!--//            function() {-->
-<!--//                $(this).children.children(".").removeClass("hidden");-->
-<!--//            },-->
-<!--//            function () {-->
-<!--//                $(this).children("#deleteForm").addClass("hidden");-->
-<!--//            });-->
-<!--//         })-->
-
 <!--//inside ajax-->
 <!--// let html = '';-->
 <!--// html += '<div>';-->
