@@ -207,7 +207,7 @@
                               style="width: 900px; height: 150px; resize: none">
                     </textarea>
 
-                    <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"
+                    <input type="hidden" name="id" th:data-edit-comment-id="${comment.id}"
                            th:value="${comment.id}"/>
 
                     <button type="submit" class="editedCommentSubmitBtn">
@@ -238,7 +238,7 @@
                             <textarea class="form-control" id="replyFormBody" name="body"
                                       th:field="*{body}"
                                       th:placeholder="Comment..."
-                                      style="width: 900px; height: 150px; resize: none">
+                                      style="width: 900px; height: 75px; resize: none">
                                 </textarea>
 
                             <div th:if="${#fields.hasErrors('body')}"
@@ -258,13 +258,14 @@
 
             <!--===================================== EDIT COMMENT BUTTON ========================-->
             <!--==================================================================================-->
-
             <div class="editAndDeleteWrapper">
                 <div class="row">
 
+                    <!-- This edit button is only an event trigger. It's not a form submit. -->
+
                     <div class="commentEdit" sec:authorize="isAuthenticated()"
                          th:if="${comment.isOwnedBy(#authentication.principal.id)}">
-                        <a class="editCommentBtn" th:attr="data-edit-comment-id=${comment.id}">
+                        <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}"> <!-- Do I even need this attribute?? -->
                             <i class="far fa-edit"></i> edit
                         </a>
                     </div>
@@ -492,35 +493,34 @@
     <!-- ============================================== EDIT Comment =====================================================-->
     <!-- =================================================================================================================-->
 
-    //When I click on the edit button:
-    //Reveals a textarea in place of the comment.body. Textarea should be populated with the comment text.
-    //Reveals a submit button. When I click on the submit button, data should replace previous data with new data.
+    //The edit button is only an event trigger. When I click on the edit button:
+    //A new textarea is revealed in place of the comment.body. Textarea should be populated with the original comment text. (controller)
+    //When I click on the new submit button, new data should replace the previous data. (controller)
 
-    //grab the content within the comment body. Remove it for now, replace with textarea and cursor
-
-    $('.container').on("click", ".editCommentBtn", function (e) {
+    $('.container').on("click", ".editCommentBtn", function () {
         console.log("edit button clicked");
 
         let $button = $(this);
-        let commentId = $button.parent('[data-comment-id]').data('comment-id');
-        let content = $('[data-comment-id=' + commentId + ']').text();
+        let commentId = $button.data('edit-btn-comment-id');
         console.log("commentid: " + commentId);
-        console.log(content);
-
-        $(".replyTextArea").hide();
-        $button.siblings("#commentBodyText").hide();
-        $button.siblings(".editedCommentForm").show();
 
         //================================== AJAX ==================================
         let request = $.ajax({
             url: '/posts/' + $("#postId").val() + '/comment/' + commentId + '/edit',
             method: 'GET',
             dataType: 'json',
-            data: content
+            contentType: "application/json; charset=utf-8",
+            data: commentId
         });
-        request.done(function () {
+        request.done(function (comment) {
             console.log("hello from edited comment request.done");
-            $button.parent('[data-comment-id=' + commentId + ']').val(content);
+            let $button = $(this);
+            // $('[data-edit-comment-id=' + commentId + ']').val(content);
+            $('#editedCommentBodyText').html(comment.body);
+            $(".replyTextArea").hide(); // hide the reply link
+            $("#commentBodyText").hide(); // hide the original comment body
+            $(".editedCommentForm").show(); // show the edit form. But not just any edit form. The one belonging to this comment.
+
         });
         request.fail((a, b, c) => {
             console.log(a, b, c)
@@ -532,7 +532,7 @@
     <!-- ============================================ SUBMIT EDITED Comment ==============================================-->
     <!-- =================================================================================================================-->
 
-
+    // let content = $('[data-edit-comment-id=' + commentId + ']').text();
 
     <!-- =================================================================================================================-->
     <!-- ============================================== DELETE Comment  ==================================================-->
@@ -542,8 +542,9 @@
         // use event delegation that targets an elements parent, something, that isn't dynamic: .container
         e.preventDefault(); // prevent default form behavior and instead use ajax.
         let commentInformation = $(this).parent().serialize();
-        let $button = $(this);
         console.log(commentInformation);
+
+        let $button = $(this);
         // Look for element with this attribute. We're looking for siblings(other comments) within the container.
         let commentId = $button.siblings('[data-comment-id]').data('comment-id');
         console.log(commentId);
