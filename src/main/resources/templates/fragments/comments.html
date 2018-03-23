@@ -49,26 +49,29 @@
             <span th:text="${#temporals.year(comment.date)}"></span>
         </h5>
 
-        <h5 th:text="${comment.body}" id="commentBodyText"></h5>
+        <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-commentBody-comment-id=${comment.id}"></h5>
 
         <!-- =============================== Edit Form ============================-->
 
         <form
-                th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id}, commentId=${comment.id})}"
+                th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
                 method="POST"
                 th:object="${comment}"
-                class="editedCommentForm">
+                class="editedCommentForm" id="editedCommentFormId" th:attr="data-edit-form-comment-id=${comment.id}">
 
                     <textarea class="form-control editedCommentBodyText" name="body"
                               th:value="${comment.body}"
                               style="width: 900px; height: 150px; resize: none">
                     </textarea>
 
-            <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"
-                   th:value="${comment.id}"/>
+            <input type="hidden" name="id" th:data-edit-form-comment-id="${comment.id}" th:value="${comment.id}"/>
 
-            <button type="submit" class="editedCommentSubmitBtn">
+            <button class="editedCommentSubmitBtn">
                 submit
+            </button>
+
+            <button class="editedCommentCancelBtn">
+                cancel
             </button>
         </form>
 
@@ -114,17 +117,18 @@
     <div class="editAndDeleteWrapper">
         <div class="row">
 
+            <!-- Edit button is an event trigger. There is no form here. -->
             <div class="commentEdit" sec:authorize="isAuthenticated()"
                  th:if="${comment.isOwnedBy(#authentication.principal.id)}">
-                <a id="editCommentBtn">
-                    <!--th:href="${'/posts/' + post.id + '/comment/' + comment.id + '/edit'}">-->
+                <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">
                     <i class="far fa-edit"></i> edit
                 </a>
             </div>
-            <!--==================================== DELETE A COMMENT =======================-->
-            <!--=============================================================================-->
-            <div class="commentDelete" sec:authorize="isAuthenticated()">
 
+            <!--==================================== DELETE COMMENT BUTTON AND FORM =======================-->
+            <!--===========================================================================================-->
+
+            <div class="commentDelete" sec:authorize="isAuthenticated()">
                 <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
                       th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
                       method="POST"
@@ -132,16 +136,18 @@
                       class="deleteCommentForm">
 
                     <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
-                    <!--<input type="hidden" name="id" id="deleteCommentId" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>-->
+                    <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
                     <button type="submit" class="deleteCommentBtn">
                         <i class="fas fa-bomb"></i> delete
                     </button>
-
+                    <!--<i class="fas fa-bomb"></i>-->
+                    <!--<input type="submit" value="delete" class="deleteCommentBtn"/>-->
                 </form>
-
             </div>
+
         </div>
     </div>
+
     <hr class="commentHR"/>
 </div>
 </body>
