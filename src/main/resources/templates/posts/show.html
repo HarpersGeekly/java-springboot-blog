@@ -190,9 +190,7 @@
 
                 <!-- =============================== Comment Body =========================-->
 
-                <h5 th:text="${comment.body}" id="commentBodyText"></h5>
-
-                <!--<form th:if="${comment.isOwnedBy(#authentication.principal.id)}"-->
+                <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-commentBody-comment-id=${comment.id}"></h5>
 
                 <!-- =============================== Edit Form ============================-->
 
@@ -200,18 +198,21 @@
                       th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
                       method="POST"
                       th:object="${comment}"
-                      class="editedCommentForm">
+                      class="editedCommentForm" id="editedCommentFormId" th:attr="data-edit-form-comment-id=${comment.id}">
 
                     <textarea class="form-control editedCommentBodyText" name="body"
                               th:value="${comment.body}"
                               style="width: 900px; height: 150px; resize: none">
                     </textarea>
 
-                    <input type="hidden" name="id" th:data-edit-comment-id="${comment.id}"
-                           th:value="${comment.id}"/>
+                    <input type="hidden" name="id" th:data-edit-form-comment-id="${comment.id}" th:value="${comment.id}"/>
 
-                    <button type="submit" class="editedCommentSubmitBtn">
+                    <button class="editedCommentSubmitBtn">
                         submit
+                    </button>
+
+                    <button class="editedCommentCancelBtn">
+                        cancel
                     </button>
                 </form>
 
@@ -261,11 +262,10 @@
             <div class="editAndDeleteWrapper">
                 <div class="row">
 
-                    <!-- This edit button is only an event trigger. It's not a form submit. -->
-
+                    <!-- Edit button is an event trigger. There is no form here. -->
                     <div class="commentEdit" sec:authorize="isAuthenticated()"
                          th:if="${comment.isOwnedBy(#authentication.principal.id)}">
-                        <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}"> <!-- Do I even need this attribute?? -->
+                        <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">
                             <i class="far fa-edit"></i> edit
                         </a>
                     </div>
@@ -280,8 +280,7 @@
                               th:object="${comment}"
                               class="deleteCommentForm">
 
-                            <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"
-                                   th:value="${comment.id}"/>
+                            <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
                             <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
                             <button type="submit" class="deleteCommentBtn">
                                 <i class="fas fa-bomb"></i> delete
@@ -437,7 +436,7 @@
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <!--<script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>-->
 <script th:inline="javascript">
 
@@ -481,6 +480,7 @@
 
             $('#commentFormBody').val(''); // clear the input field.
             $('#commentsAJAX').prepend(html); //prepend the comment to the top of the div length.
+            $('.editedCommentForm').hide(); //hide the reply form.
             $('.replyTextArea').hide(); // hide the reply text area.
         });
 
@@ -514,12 +514,24 @@
         });
         request.done(function (comment) {
             console.log("hello from edited comment request.done");
-            let $button = $(this);
-            // $('[data-edit-comment-id=' + commentId + ']').val(content);
-            $('#editedCommentBodyText').html(comment.body);
-            $(".replyTextArea").hide(); // hide the reply link
-            $("#commentBodyText").hide(); // hide the original comment body
-            $(".editedCommentForm").show(); // show the edit form. But not just any edit form. The one belonging to this comment.
+            console.log(comment.body);
+
+            let $commentForm = $('[data-edit-form-comment-id=' + commentId + ']');
+            let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
+
+            $commentBody.hide(); // hide the original comment body
+            $commentForm.siblings('.replyTextArea').hide(); // hide the reply link
+            // $(".replyTextArea").hide();
+
+            $commentForm.show(); // I just want to show "this" edit form...
+            $('.editedCommentBodyText').text(comment.body); // put the text of comment.body inside the newly visible textarea.
+
+            $('.editedCommentCancelBtn').on("click", function(e) { // on cancel button click...
+                e.preventDefault();
+                $commentForm.hide(); // hide the edit form
+                $commentBody.show(); // show the original comment back in the html
+                // $commentBody.show(0, comment.body); this also works. very interesting dom error if you remove the 0.
+            })
 
         });
         request.fail((a, b, c) => {
@@ -533,6 +545,8 @@
     <!-- =================================================================================================================-->
 
     // let content = $('[data-edit-comment-id=' + commentId + ']').text();
+
+    // $button.data('edit-form-comment-id')
 
     <!-- =================================================================================================================-->
     <!-- ============================================== DELETE Comment  ==================================================-->
