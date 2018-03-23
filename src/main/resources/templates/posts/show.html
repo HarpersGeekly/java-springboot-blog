@@ -173,15 +173,11 @@
                 </div>
 
             </div>
-
-            <div class="row">
+            
                 <h5 class="postedBy">
                     <a th:href="${'/profile/' + comment.user.id}">
                         <span th:text="${comment.user.username}"></span>
                     </a> |
-                    <!--</h5>-->
-
-                    <!--<h5 class="createdCommentDate">-->
                     <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span> |
                     <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
                     <span th:text="${#temporals.day(comment.date)}"></span>,
@@ -207,55 +203,18 @@
 
                     <input type="hidden" name="id" th:data-edit-form-comment-id="${comment.id}" th:value="${comment.id}"/>
 
-                    <button class="editedCommentSubmitBtn">
-                        submit
-                    </button>
+                    <div class="row editAndDeleteBtnsRow">
 
-                    <button class="editedCommentCancelBtn">
-                        cancel
-                    </button>
+                        <button class="btn btn-primary editedCommentCancelBtn">
+                            CANCEL
+                        </button>
+
+                        <button class="btn btn-primary editedCommentSubmitBtn">
+                            SAVE
+                        </button>
+
+                    </div>
                 </form>
-
-            </div>
-
-            <!--================================== REPLY TO A COMMENT ======================-->
-            <!--============================================================================-->
-
-            <div th:if="${!isLoggedIn}">
-                <a th:href="${'/login'}">
-                    <i class="fas fa-reply"></i> REPLY
-                </a>
-            </div>
-            <div th:if="${isLoggedIn}">
-                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()" th:attr="data-replyButton-comment-id=${comment.id}">
-                <i class="fas fa-reply"></i> REPLY
-                </h5>
-
-                <div class="replyTextArea">
-                    <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post"
-                          th:object="${reply}">
-                        <div class="form-group">
-                            <label for="replyFormBody"></label>
-                            <textarea class="form-control" id="replyFormBody" name="body"
-                                      th:field="*{body}"
-                                      th:placeholder="Comment..."
-                                      style="width: 900px; height: 75px; resize: none">
-                                </textarea>
-
-                            <div th:if="${#fields.hasErrors('body')}"
-                                 class="alert alert-danger alert-dismissible"
-                                 role="alert">
-                                <span th:errors="*{body}"/>
-                            </div>
-                            <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                            <button class="btn btn-primary">
-                                <i class="far fa-comment-alt"></i> Reply
-                            </button>
-
-                        </div>
-                    </form>
-                </div>
-            </div>
 
             <!--===================================== EDIT COMMENT BUTTON ========================-->
             <!--==================================================================================-->
@@ -282,7 +241,7 @@
 
                             <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
                             <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
-                            <button class="deleteCommentBtn">
+                            <button class="deleteCommentBtn" th:attr="data-delete-btn-comment-id=${comment.id}">
                                 <i class="fas fa-bomb"></i> delete
                             </button>
                             <!--<i class="fas fa-bomb"></i>-->
@@ -290,6 +249,45 @@
                         </form>
                     </div>
 
+                </div>
+            </div>
+
+            <!--================================== REPLY TO A COMMENT ======================-->
+            <!--============================================================================-->
+
+            <div th:if="${!isLoggedIn}">
+                <a th:href="${'/login'}">
+                    <i class="fas fa-reply"></i> REPLY
+                </a>
+            </div>
+            <div th:if="${isLoggedIn}">
+                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()" th:attr="data-replyButton-comment-id=${comment.id}">
+                    <i class="fas fa-reply"></i> REPLY
+                </h5>
+
+                <div class="replyTextArea">
+                    <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post"
+                          th:object="${reply}">
+                        <div class="form-group">
+                            <label for="replyFormBody"></label>
+                            <textarea class="form-control" id="replyFormBody" name="body"
+                                      th:field="*{body}"
+                                      th:placeholder="Comment..."
+                                      style="width: 900px; height: 75px; resize: none">
+                                </textarea>
+
+                            <div th:if="${#fields.hasErrors('body')}"
+                                 class="alert alert-danger alert-dismissible"
+                                 role="alert">
+                                <span th:errors="*{body}"/>
+                            </div>
+                            <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
+                            <button class="btn btn-primary">
+                                <i class="far fa-comment-alt"></i> Reply
+                            </button>
+
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -516,11 +514,15 @@
             console.log(comment.body);
 
             let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
-            let $replyButton = $('[data-replyButton-comment-id=' + commentId + ']');
             let $commentForm = $('[data-edit-form-comment-id=' + commentId + ']');
+            let $replyButton = $('[data-replyButton-comment-id=' + commentId + ']');
+            let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
+            let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
 
             $commentBody.hide(); // hide the original comment body
             $replyButton.hide(); // hide the reply link
+            $editBtn.hide(); // hide the edit button
+            $deleteBtn.hide(); // hide the delete button
             $commentForm.show(); // I just want to show "this" edit form
             $('.editedCommentBodyText').text(comment.body); // put the text of comment.body inside the newly visible textarea.
 
@@ -532,6 +534,8 @@
                 $commentForm.hide(); // hide the edit form
                 $commentBody.show(); // show the original comment back in the html
                 $replyButton.show(); // show the reply button again
+                $editBtn.show();// show the edit button
+                $deleteBtn.show();// show the delete button
                 // $commentBody.show(0, comment.body); this also works. very interesting dom error if you remove the 0.
             })
 

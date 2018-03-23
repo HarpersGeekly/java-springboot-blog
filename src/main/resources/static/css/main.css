@@ -117,6 +117,11 @@ ul {
 
 textarea, input {
     border-radius: 0;
+    /*border-color: Transparent;*/
+    /*outline: none;*/
+    /*-webkit-box-shadow: none;*/
+    /*-moz-box-shadow: none;*/
+    /*box-shadow: none;*/
 }
 
 #wrapper {
@@ -302,14 +307,8 @@ textarea, input {
     padding-right: 25px;
 }
 
-.showReplyTextArea {
-    cursor: pointer;
-    color: #999999;
-}
-
-.showReplyTextArea:hover {
-    cursor: pointer;
-    color: #E07A5F;
+.editAndDeleteBtnsRow {
+    margin-left: 1%;
 }
 
 .commentEdit {
@@ -345,6 +344,16 @@ textarea, input {
 
 .fa-edit, .fa-bomb {
     color: #999999;
+}
+
+.showReplyTextArea {
+    cursor: pointer;
+    color: #999999;
+}
+
+.showReplyTextArea:hover {
+    cursor: pointer;
+    color: #E07A5F;
 }
 
 /*=============== Profile page ======================*/
