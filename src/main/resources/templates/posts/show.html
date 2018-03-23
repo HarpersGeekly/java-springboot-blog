@@ -223,12 +223,12 @@
 
             <div th:if="${!isLoggedIn}">
                 <a th:href="${'/login'}">
-                    REPLY
+                    <i class="fas fa-reply"></i> REPLY
                 </a>
             </div>
             <div th:if="${isLoggedIn}">
-                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">
-                    REPLY
+                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()" th:attr="data-replyButton-comment-id=${comment.id}">
+                <i class="fas fa-reply"></i> REPLY
                 </h5>
 
                 <div class="replyTextArea">
@@ -282,7 +282,7 @@
 
                             <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
                             <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
-                            <button type="submit" class="deleteCommentBtn">
+                            <button class="deleteCommentBtn">
                                 <i class="fas fa-bomb"></i> delete
                             </button>
                             <!--<i class="fas fa-bomb"></i>-->
@@ -465,7 +465,6 @@
         let request = $.ajax({
             // crossOrigin: true, //XSS shield.
             url: '/posts/' + $("#postId").val(), // @PostMapping("/posts/{postId}") in PostsController
-
             method: 'POST',
             dataType: 'html', // I'm returning html from the PostsController method postComment()
             // dataType: 'json',
@@ -516,20 +515,23 @@
             console.log("hello from edited comment request.done");
             console.log(comment.body);
 
-            let $commentForm = $('[data-edit-form-comment-id=' + commentId + ']');
             let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
+            let $replyButton = $('[data-replyButton-comment-id=' + commentId + ']');
+            let $commentForm = $('[data-edit-form-comment-id=' + commentId + ']');
 
             $commentBody.hide(); // hide the original comment body
-            $commentForm.siblings('.replyTextArea').hide(); // hide the reply link
-            // $(".replyTextArea").hide();
-
-            $commentForm.show(); // I just want to show "this" edit form...
+            $replyButton.hide(); // hide the reply link
+            $commentForm.show(); // I just want to show "this" edit form
             $('.editedCommentBodyText').text(comment.body); // put the text of comment.body inside the newly visible textarea.
+
+            //================= cancel button ====================
+            //====================================================
 
             $('.editedCommentCancelBtn').on("click", function(e) { // on cancel button click...
                 e.preventDefault();
                 $commentForm.hide(); // hide the edit form
                 $commentBody.show(); // show the original comment back in the html
+                $replyButton.show(); // show the reply button again
                 // $commentBody.show(0, comment.body); this also works. very interesting dom error if you remove the 0.
             })
 
@@ -544,9 +546,33 @@
     <!-- ============================================ SUBMIT EDITED Comment ==============================================-->
     <!-- =================================================================================================================-->
 
-    // let content = $('[data-edit-comment-id=' + commentId + ']').text();
+    $('.container').on("click", ".editedCommentSubmitBtn", function (e) {
+        e.preventDefault();
 
-    // $button.data('edit-form-comment-id')
+        let $button = $(this);
+        let commentId = $button.parent().data('edit-form-comment-id'); // get id
+        // let content = $button.parent().children('textarea').text(); // I don't have to grab the content in the form.
+        let commentForm = $('[data-edit-form-comment-id=' + commentId + ']'); // because I can just get the form
+
+        let request = $.ajax({
+            url: '/posts/' + $("#postId").val() + '/comment/' + commentId + '/edit',
+            method: 'POST',
+            dataType: 'json',
+            data: commentForm.serialize()
+            });
+        request.done(function (comment) {
+            console.log("hello from submitted edited comment request.done");
+            console.log("new comment: " + comment.body);
+
+            let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
+            let $replyButton = $('[data-replyButton-comment-id=' + commentId + ']');
+            let $commentForm = $('[data-edit-form-comment-id=' + commentId + ']');
+
+            $commentForm.hide(); // hide the edit form
+            $commentBody.show().html(comment.body); // show the new updated comment in the html
+            $replyButton.show(); // show the reply button again
+        })
+    });
 
     <!-- =================================================================================================================-->
     <!-- ============================================== DELETE Comment  ==================================================-->

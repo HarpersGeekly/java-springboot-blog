@@ -304,6 +304,7 @@ textarea, input {
 
 .showReplyTextArea {
     cursor: pointer;
+    color: #999999;
 }
 
 .showReplyTextArea:hover {

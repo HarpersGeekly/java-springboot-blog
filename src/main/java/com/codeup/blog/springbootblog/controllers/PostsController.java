@@ -288,15 +288,19 @@ public class PostsController {
 //   ============================================ EDIT A COMMENT  ======================================================
 
     @GetMapping("/posts/{postId}/comment/{commentId}/edit")
-    public @ResponseBody Comment editComment(@PathVariable Long postId, @PathVariable Long commentId, Model viewModel) {
+    public @ResponseBody Comment editComment(@PathVariable Long postId,
+                                             @PathVariable Long commentId, Model viewModel) {
         Comment comment = commentsDao.findOne(commentId);
         viewModel.addAttribute("comment", commentsDao.findOne(commentId));
         return comment;
     }
 
     @PostMapping("/posts/{postId}/comment/{commentId}/edit")
-    public @ResponseBody Comment submitEditedComment(@PathVariable Long postId, @PathVariable Long commentId, Model viewModel) {
+    public @ResponseBody Comment submitEditedComment(@PathVariable Long postId,
+                                                     @PathVariable Long commentId,
+                                                     @RequestParam("body") String body, Model viewModel) {
         Comment comment = commentsDao.findOne(commentId);
+        comment.setBody(body);
         commentsDao.save(comment);
         viewModel.addAttribute("comment", commentsDao.findOne(commentId));
         return comment;
