@@ -173,7 +173,7 @@
                 </div>
 
             </div>
-            
+
                 <h5 class="postedBy">
                     <a th:href="${'/profile/' + comment.user.id}">
                         <span th:text="${comment.user.username}"></span>
@@ -511,7 +511,7 @@
         });
         request.done(function (comment) {
             console.log("hello from edited comment request.done");
-            console.log(comment.body);
+            console.log("comment body: " + comment.body);
 
             let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
             let $commentForm = $('[data-edit-form-comment-id=' + commentId + ']');
@@ -554,7 +554,7 @@
         e.preventDefault();
 
         let $button = $(this);
-        let commentId = $button.parent().data('edit-form-comment-id'); // get id
+        let commentId = $button.parent().parent().data('edit-form-comment-id'); // get id
         // let content = $button.parent().children('textarea').text(); // I don't have to grab the content in the form.
         let commentForm = $('[data-edit-form-comment-id=' + commentId + ']'); // because I can just get the form
 
@@ -571,10 +571,14 @@
             let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
             let $replyButton = $('[data-replyButton-comment-id=' + commentId + ']');
             let $commentForm = $('[data-edit-form-comment-id=' + commentId + ']');
+            let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
+            let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
 
             $commentForm.hide(); // hide the edit form
             $commentBody.show().html(comment.body); // show the new updated comment in the html
             $replyButton.show(); // show the reply button again
+            $editBtn.show();
+            $deleteBtn.show();
         })
     });
 
