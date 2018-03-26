@@ -356,6 +356,20 @@ textarea, input {
     color: #E07A5F;
 }
 
+.showReplyTextAreaCancel {
+    cursor: pointer;
+    color: #E07A5F;
+}
+
+.showReplyTextAreaCancel:hover {
+    cursor: pointer;
+    color: #E07A5F;
+}
+
+.replyTextArea {
+    margin-top: -1.5%;
+}
+
 /*=============== Profile page ======================*/
 
 

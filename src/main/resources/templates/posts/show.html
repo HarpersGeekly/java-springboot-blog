@@ -264,6 +264,9 @@
                 <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()" th:attr="data-replyButton-comment-id=${comment.id}">
                     <i class="fas fa-reply"></i> REPLY
                 </h5>
+                <h5 class="showReplyTextAreaCancel">
+                    <i class="fas fa-times"></i> CANCEL
+                </h5>
 
                 <div class="replyTextArea">
                     <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post"
@@ -440,13 +443,25 @@
 
     $('.replyTextArea').hide(); // hide the reply text area.
     $('.editedCommentForm').hide(); //hide the edit comment form.
+    $('.showReplyTextAreaCancel').hide();
 
     $('.showReplyTextArea').on('click', function () {
-        $(this).text(function (_, oldText) {
-            return oldText === 'CANCEL' ? 'REPLY' : 'CANCEL';
-        });
-        $(this).next().toggle(500);
+        let $this = $(this);
+        $this.hide();
+        $this.siblings('.showReplyTextAreaCancel').show();
+        $this.siblings('.replyTextArea').toggle(250);
     });
+
+    $('.showReplyTextAreaCancel').on('click', function () {
+        let $this = $(this);
+        $this.hide();
+        $this.siblings('.showReplyTextArea').show();
+        $this.siblings('.replyTextArea').toggle(250);
+    });
+        // $this.
+        // $(this).text(function (_, oldText) {
+        //     return oldText === 'CANCEL' ? 'REPLY' : 'CANCEL';
+        // });
 
     $('.form').submit(function () {
         $(".replyTextArea").hide();
