@@ -356,12 +356,7 @@ textarea, input {
     color: #E07A5F;
 }
 
-.showReplyTextAreaCancel {
-    cursor: pointer;
-    color: #E07A5F;
-}
-
-.showReplyTextAreaCancel:hover {
+.showReplyTextAreaCancel, .showReplyTextAreaCancel:hover {
     cursor: pointer;
     color: #E07A5F;
 }
@@ -371,7 +366,6 @@ textarea, input {
 }
 
 /*=============== Profile page ======================*/
-
 
 .profileFrownIcon {
     font-size: 3em;

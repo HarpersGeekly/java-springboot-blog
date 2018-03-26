@@ -80,11 +80,17 @@
     <!--============================================================================-->
 
     <div th:if="${!isLoggedIn}">
-        <a th:href="${'/login'}"> REPLY
+        <a th:href="${'/login'}">
+            <i class="fas fa-reply"></i> REPLY
         </a>
     </div>
     <div th:if="${isLoggedIn}">
-        <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()">REPLY</h5>
+        <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()" th:attr="data-replyButton-comment-id=${comment.id}">
+            <i class="fas fa-reply"></i> REPLY
+        </h5>
+        <h5 class="showReplyTextAreaCancel">
+            <i class="fas fa-times"></i> CANCEL
+        </h5>
 
         <div class="replyTextArea">
             <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post" th:object="${reply}">
