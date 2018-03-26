@@ -49,40 +49,42 @@ public class UsersController {
         return "/users/login";
     }
 
+    // ======================================================================================================
     // 1/18/18: Trying to further validate Login. But, we don't even get here. Where do we further validate?
-    @PostMapping("/login")
-    public String login(@Valid User user,
-                        Errors validation,
-                        Model viewModel,
-                        @RequestParam(value = "username") String username,
-                        @RequestParam(value = "password") String password) {
-
-        System.out.println("postmapping login method");
-        User existingUser = usersDao.findByUsername(username);
-        if (existingUser == null && user.getUsername().equals(username)) {
-            validation.rejectValue(
-                    "username",
-                    "user.username",
-                    "There is no user with that username.");
-        }
-
-        if (!password.equals(existingUser.getPassword())) {
-            validation.rejectValue(
-                    "password",
-                    "user.password",
-                    "Password is incorrect for that user.");
-        }
-
-        if (validation.hasErrors()) {
-            viewModel.addAttribute("errors", validation);
-            viewModel.addAttribute("user", user);
-            viewModel.addAttribute("username", username);
-            viewModel.addAttribute("password", password);
-            return "/users/login";
-        }
-
-        return "redirect:/profile";
-    }
+    // ======================================================================================================
+//    @PostMapping("/login")
+//    public String login(@Valid User user,
+//                        Errors validation,
+//                        Model viewModel,
+//                        @RequestParam(value = "username") String username,
+//                        @RequestParam(value = "password") String password) {
+//
+//        System.out.println("postmapping login method");
+//        User existingUser = usersDao.findByUsername(username);
+//        if (existingUser == null && user.getUsername().equals(username)) {
+//            validation.rejectValue(
+//                    "username",
+//                    "user.username",
+//                    "There is no user with that username.");
+//        }
+//
+//        if (!password.equals(existingUser.getPassword())) {
+//            validation.rejectValue(
+//                    "password",
+//                    "user.password",
+//                    "Password is incorrect for that user.");
+//        }
+//
+//        if (validation.hasErrors()) {
+//            viewModel.addAttribute("errors", validation);
+//            viewModel.addAttribute("user", user);
+//            viewModel.addAttribute("username", username);
+//            viewModel.addAttribute("password", password);
+//            return "/users/login";
+//        }
+//
+//        return "redirect:/profile";
+//    }
 
     // ========================================== REGISTER USER ========================================================
 

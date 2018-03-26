@@ -236,7 +236,6 @@ public class PostsController {
         return renderer.render(parser.parse(content));
     }
 
-    // ==== !!! =====
     //    ==============================================================================================================
     //    =========================================== COMMENT ON A POST ================================================
     //    ==============================================================================================================
@@ -271,15 +270,15 @@ public class PostsController {
         viewModel.addAttribute("replies", repliesDao.repliesToComments(comment.getId()));
         viewModel.addAttribute("comment", comment);
 
-//        if (validation.hasErrors()) {
-//            viewModel.addAttribute("errors", validation);
-//            viewModel.addAttribute("comment", comment);
+        if (validation.hasErrors()) {
+            viewModel.addAttribute("errors", validation);
+            viewModel.addAttribute("comment", comment);
 //            validation.rejectValue(
 //                    "body",
 //                    "comment.body",
 //                    "Comments must be at least 2 characters.");
-//            return "/posts/show";
-//        }
+            return "/posts/show";
+        }
 
 //        return comment;
         return "fragments/comments :: ajaxComment"; // By returning this fragment (comments.html), we get all of our Thymeleaf-operated HTML
