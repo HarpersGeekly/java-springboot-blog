@@ -111,24 +111,17 @@
                               style="width: 900px; height: 150px; resize: none">
                             </textarea>
 
-                    <p th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></p>
-                    <br />
-                    <!--<div-->
-                            <!--th:if="${#fields.hasErrors('body')}"-->
-                            <!--class="alert alert-danger alert-dismissible"-->
-                            <!--role="alert">-->
-                        <!--<span th:errors="*{body}"></span>-->
-                    <!--</div>-->
-
+                    <div id="commentsErrorAJAX"></div>
                     <!-- ======================== submit comment ================================-->
 
                     <input class="form-control" type="hidden" id="postId" th:value="${post.id}"/>
                     <button class="btn btn-primary commentSubmitBtn">
                         <i class="far fa-comment-alt"></i> Comment
                     </button>
-
                 </div>
             </form>
+
+
         </div>
     </div>
 
@@ -272,7 +265,7 @@
 
                 <div class="replyTextArea">
                     <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post"
-                          th:object="${reply}">
+                          th:object="${comment}">
                         <div class="form-group">
                             <label for="replyFormBody"></label>
                             <textarea class="form-control" id="replyFormBody" name="body"
@@ -414,7 +407,14 @@
             //comment id's will always be undefined here because I'm not returning an object, I'm returning html.
 
             $('#commentFormBody').val(''); // clear the input field.
-            $('#commentsAJAX').prepend(html); //prepend the comment to the top of the div length.
+
+            // if statement here to check if html is that error fragment! (html will be both error and comment)
+            if(html) {
+                $('#commentsErrorAJAX').prepend(html);
+                $('#commentsAJAX').prepend(html);
+
+            } //prepend the comment to the top of the div length.
+
             $('.editedCommentForm').hide(); //hide the reply form.
             $('.replyTextArea').hide(); // hide the reply text area.
             $('.showReplyTextAreaCancel').hide();
