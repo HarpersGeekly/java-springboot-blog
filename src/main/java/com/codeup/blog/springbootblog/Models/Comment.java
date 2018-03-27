@@ -34,11 +34,6 @@ public class Comment {
     @Column
     private long voteCount;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment") //if I delete comments, it will delete-cascade the relationship to replies as well.
-//    @JsonIgnore
-////    @JsonBackReference
-//    private List<Reply> replies;
-
     @ManyToOne // many comments will belong to one Post
 //    @JsonManagedReference
     @JsonIgnore

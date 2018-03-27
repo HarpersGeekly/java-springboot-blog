@@ -134,7 +134,7 @@
 
         <div class="replyTextArea">
             <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post"
-                  th:object="${reply}">
+                  th:object="${comment}">
                 <div class="form-group">
                     <label for="replyFormBody"></label>
                     <textarea class="form-control" id="replyFormBody" name="body"
@@ -146,8 +146,9 @@
                     <div th:if="${#fields.hasErrors('body')}"
                          class="alert alert-danger alert-dismissible"
                          role="alert">
-                        <span th:errors="*{body}"/>
+                        <span th:errors="*{body}"></span>
                     </div>
+
                     <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
                     <button class="btn btn-primary">
                         <i class="far fa-comment-alt"></i> Reply

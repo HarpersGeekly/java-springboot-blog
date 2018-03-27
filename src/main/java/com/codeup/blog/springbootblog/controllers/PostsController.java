@@ -2,9 +2,7 @@ package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.Comment;
 import com.codeup.blog.springbootblog.Models.Post;
-import com.codeup.blog.springbootblog.Models.Reply;
 import com.codeup.blog.springbootblog.repositories.CommentsRepository;
-import com.codeup.blog.springbootblog.repositories.RepliesRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
@@ -17,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,8 +42,6 @@ public class PostsController {
 
     private final CommentsRepository commentsDao;
 
-    private final RepliesRepository repliesDao;
-
     // Constructor "dependency injection", passing the PostService object into the PostController constructor,
     // everything ties together now. Services + Controller.
     // Autowiring makes it so we don't have to build the object ourselves in the main method of SpringBlogApplication,
@@ -58,13 +55,12 @@ public class PostsController {
     public PostsController(PostService postSvc,
                            UsersRepository usersDao,
                            UserService userSvc,
-                           CommentsRepository commentsDao,
-                           RepliesRepository repliesDao) {
+                           CommentsRepository commentsDao
+ ) {
         this.postSvc = postSvc;
         this.usersDao = usersDao;
         this.userSvc = userSvc;
         this.commentsDao = commentsDao;
-        this.repliesDao = repliesDao;
     }
 
     //========================================= SHOW ALL POSTS AND SHOW ONE POST =======================================
@@ -103,11 +99,10 @@ public class PostsController {
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("comment", new Comment());
-        viewModel.addAttribute("reply", new Reply());
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
         viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
-        viewModel.addAttribute("replies", repliesDao.repliesToComments(comment.getId()));
+
         return "posts/show";
     }
 
@@ -197,17 +192,14 @@ public class PostsController {
     // ============================================== DELETE POST ======================================================
 
     @PostMapping("/posts/{id}/delete")
-    public String delete(@PathVariable long id, Post post, Comment comment, Reply reply) {
+    public String delete(@PathVariable long id, Post post, Comment comment) {
 
 //  As I delete a post, comments and replies that belong to that post will be deleted too.
 
         // Set id's:
-        reply.setComment(comment);
         comment.setPost(post);
         post.setId(id);
 
-        // Delete the List of replies that belong to the comment id
-        repliesDao.delete(repliesDao.repliesToComments(comment.getId()));
         // Delete the List of comments that belong to the post id
         commentsDao.delete(commentsDao.commentsOnPost(id));
         // Lastly, delete the post.
@@ -243,16 +235,29 @@ public class PostsController {
     @PostMapping("/posts/{postId}")
     public
 //    public @ResponseBody no longer converting the comment into a json string. now returning a template
-    String postComment(@PathVariable Long postId, @Valid Comment comment, Errors validation, Model viewModel) {
+    String postComment(@PathVariable Long postId, @Valid Comment comment, BindingResult validation, Model viewModel) {
 
         Post post = postSvc.findOne(postId);
+        viewModel.addAttribute("post", post);
+        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
+        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
+        viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
+        viewModel.addAttribute("comment", comment);
 
-        System.out.println(comment.getId()); // still getting null.
+        if (validation.hasErrors()) {
+            System.out.println("======got to comment validation here=======");
+//            viewModel.addAttribute("errors", validation); // By using BindingResult validation instead of Error validation, don't need "errors" attritbute
+            System.out.println("====== validation: "+  validation);
+            viewModel.addAttribute("comment", comment);
+//            validation.rejectValue(
+//                    "body",
+//                    "comment.body",
+//                    "Comments must be at least 2 characters.");
 
-//        Current issue: won't allow comments to be created one after the other. The new comment is replacing the old one.
-//        Say I reloaded the page and already had a comment on the page, "comment1". I make a new comment, "comment2". If I delete comment1, comment2 deletes too.
-//        when I reload the page, comment2 is there but comment is deleted.
-//        if no comment is present, a new comment won't be made.
+            // return a fragment with only the errors
+//            return "/posts/show"; //html page.
+            return "fragments/commentError :: ajaxError";
+        }
 
         comment.setPost(post);
         comment.setUser(userSvc.loggedInUser());
@@ -260,28 +265,8 @@ public class PostsController {
         comment.setVoteCount((long)0);
         commentsDao.save(comment);
 
-        System.out.println(comment.getId()); // has an id.
-
-        viewModel.addAttribute("post", post);
-        viewModel.addAttribute("reply", new Reply());
-        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
-        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
-        viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
-        viewModel.addAttribute("replies", repliesDao.repliesToComments(comment.getId()));
-        viewModel.addAttribute("comment", comment);
-
-        if (validation.hasErrors()) {
-            viewModel.addAttribute("errors", validation);
-            viewModel.addAttribute("comment", comment);
-//            validation.rejectValue(
-//                    "body",
-//                    "comment.body",
-//                    "Comments must be at least 2 characters.");
-            return "/posts/show";
-        }
-
 //        return comment;
-        return "fragments/comments :: ajaxComment"; // By returning this fragment (comments.html), we get all of our Thymeleaf-operated HTML
+        return "fragments/comments :: ajaxComment"; // By returning this fragment (fragments/comments.html), we get all of our Thymeleaf-operated HTML
     }
 
 //   ============================================ EDIT A COMMENT  ======================================================
@@ -319,39 +304,4 @@ public class PostsController {
 //        commentsDao.delete(commentId);
 //        return "redirect:/posts/" + postId;
 //    }
-
-    //    ===============================  REPLY TO A COMMENT ON A POST ================================================
-
-    @PostMapping("/posts/{id}/comment/{commentId}")
-    public String replyToComment(@PathVariable Long id, @PathVariable Long commentId,
-                                 @Valid Reply reply, Errors validation, Model viewModel) {
-
-        Comment comment = commentsDao.findOne(commentId);
-        reply.setComment(comment);
-        reply.setUser(userSvc.loggedInUser());
-        reply.setDate(LocalDateTime.now());
-        reply.setVoteCount((long)0);
-        repliesDao.save(reply);
-
-//        if (validation.hasErrors()) {
-//            viewModel.addAttribute("errors", validation);
-//            viewModel.addAttribute("reply", reply);
-//            validation.rejectValue(
-//                    "body",
-//                    "reply.body",
-//                    "Comments must be at least 2 characters.");
-//            return "/posts/show";
-//        }
-
-        return "redirect:/posts/" + id;
-    }
-
-    //   ============================================== DELETE A REPLY =================================================
-
-    @PostMapping("/posts/{postId}/comment/{commentId}/reply/{replyId}/delete")
-    public String deleteReply(@PathVariable Long postId, @PathVariable Long commentId, @PathVariable Long replyId) {
-        repliesDao.delete(replyId);
-        return "redirect:/posts/" + postId;
-    }
-
 }
