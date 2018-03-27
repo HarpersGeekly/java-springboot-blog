@@ -50,9 +50,10 @@ public class User {
     @JsonBackReference
     private List<Comment> comments;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many replies to comments. When User is deleted, these delete too
-    @JsonIgnore
-    private List<Reply> replies;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many replies to comments. When User is deleted, these delete too
+//    @JsonIgnore
+//    private List<Reply> replies;
+
 //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(
 //            name="user_comments_voting",
@@ -85,7 +86,7 @@ public class User {
         this.date = copy.date;
         this.posts = copy.posts;
         this.comments = copy.comments;
-        this.replies = copy.replies;
+//        this.replies = copy.replies;
     }
 
     public Long getId() {

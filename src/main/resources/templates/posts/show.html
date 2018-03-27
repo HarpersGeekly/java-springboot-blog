@@ -111,12 +111,14 @@
                               style="width: 900px; height: 150px; resize: none">
                             </textarea>
 
-                    <div
-                            th:if="${#fields.hasErrors('body')}"
-                            class="alert alert-danger alert-dismissible"
-                            role="alert">
-                        <span th:errors="*{body}"></span>
-                    </div>
+                    <p th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></p>
+                    <br />
+                    <!--<div-->
+                            <!--th:if="${#fields.hasErrors('body')}"-->
+                            <!--class="alert alert-danger alert-dismissible"-->
+                            <!--role="alert">-->
+                        <!--<span th:errors="*{body}"></span>-->
+                    <!--</div>-->
 
                     <!-- ======================== submit comment ================================-->
 
@@ -297,86 +299,7 @@
             <hr class="commentHR"/>
         </div>
     </div>
-
-    <!-- ================================================================================================================-->
-    <!-- =======================  REPLIES TO COMMENTS ON A POST ========================-->
-    <!-- ================================================================================================================-->
-
-    <div style="margin-left: 50px" id="replies" th:each="reply: ${comment.replies}">
-
-        <!--<h5>SHOW REPLIES HERE</h5>-->
-
-        <div class="row commentVoting">
-
-            <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
-            <div th:if="${!isLoggedIn}">
-                <a th:href="${'/login'}">
-                    <i class="far fa-thumbs-up upvote"></i>
-                </a>
-            </div>
-            <!--if logged in: upvote and downvote arrows function normally.-->
-            <div th:if="${isLoggedIn}">
-                <i class="far fa-thumbs-up upvote"></i>
-            </div>
-
-            <div>
-                <h5>
-                    <span class="voteCount" th:text="${reply.voteCount}"></span>
-                </h5>
-            </div>
-
-            <div th:if="${isLoggedIn}">
-                <i class="far fa-thumbs-down downvote"></i>
-            </div>
-
-            <div th:if="${!isLoggedIn}">
-                <a th:href="${'/login'}">
-                    <i class="far fa-thumbs-down downvote"></i>
-                </a>
-            </div>
-
-        </div>
-
-        <div class="row replyBody">
-            <h5 class="postedBy">
-                <a th:href="${'/profile/' + reply.user.id}">
-                    <span th:text="${reply.user.username}"></span>
-                </a> |
-
-                <span th:text="${#temporals.format(reply.date,  'h:mm a')}"></span> |
-                <span th:text="${#temporals.monthNameShort(reply.date)}"></span>
-                <span th:text="${#temporals.day(reply.date)}"></span>,
-                <span th:text="${#temporals.year(reply.date)}"></span>
-            </h5>
-
-            <h5 th:text="${reply.body}"></h5>
-
-        </div>
-
-        <!--==================================== DELETE A REPLY ======================-->
-        <div class="commentDelete" sec:authorize="isAuthenticated()">
-
-            <form id="deleteForm" th:if="${reply.isOwnedBy(#authentication.principal.id)}"
-                  th:action="${'/posts/' + post.id + '/comment/' + comment.id + '/reply/' + reply.id + '/delete'}"
-                  method="POST"
-                  th:object="${reply}">
-
-                <input type="hidden" name="id" th:value="${reply.id}"/>
-                <!--<input type="submit" value="delete" class="deleteCommentBtn"/>-->
-                <button type="submit" class="deleteCommentBtn">
-                    <i class="fas fa-bomb"></i> delete
-                </button>
-            </form>
-        </div>
-
-        <!--===================================== EDIT A REPLY ======================-->
-
-        <hr class="commentHR"/>
-
-    </div> <!-- END OF THE LOOP:  th:each="reply : ${replies}" -->
-</div> <!-- END OF THE LOOP:  th:each="comment : ${page}" -->
-
-
+</div>
 <!-- ================================================================================================================-->
 <!-- =========================================== PAGINATION =========================================================-->
 <!-- ================================================================================================================-->

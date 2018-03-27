@@ -1,7 +1,7 @@
 package com.codeup.blog.springbootblog.repositories;
 
 import com.codeup.blog.springbootblog.Models.Comment;
-import com.codeup.blog.springbootblog.Models.Reply;
+//import com.codeup.blog.springbootblog.Models.Reply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

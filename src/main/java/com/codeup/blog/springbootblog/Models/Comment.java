@@ -22,6 +22,10 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
     private Long id;
 
+//    @Column
+//    private Long parent_comment_id;
+    // all replies are comments, but with a parent_id of the comment they're replying to.
+
     @Column(columnDefinition = "TEXT", length = 2000, nullable = false) // column, text for more, not-null
     @NotBlank(message="Comments cannot be empty.")
     @Size(min = 2, message="Comments must be more than 2 characters.")
@@ -30,10 +34,10 @@ public class Comment {
     @Column
     private long voteCount;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment") //if I delete comments, it will delete-cascade the relationship to replies as well.
-    @JsonIgnore
-//    @JsonBackReference
-    private List<Reply> replies;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment") //if I delete comments, it will delete-cascade the relationship to replies as well.
+//    @JsonIgnore
+////    @JsonBackReference
+//    private List<Reply> replies;
 
     @ManyToOne // many comments will belong to one Post
 //    @JsonManagedReference
@@ -100,11 +104,11 @@ public class Comment {
         this.voteCount = voteCount;
     }
 
-    public List<Reply> getReplies() {
-        return replies;
-    }
-
-    public void setReplies(List<Reply> replies) {
-        this.replies = replies;
-    }
+//    public List<Reply> getReplies() {
+//        return replies;
+//    }
+//
+//    public void setReplies(List<Reply> replies) {
+//        this.replies = replies;
+//    }
 }
