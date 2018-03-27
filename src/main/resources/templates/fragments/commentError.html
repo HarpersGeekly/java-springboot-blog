@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/header :: my-header('title')">
+</head>
+<body>
+
+<!--When making AJAX requests, return these types of fragments when needed. Like comments.html -->
+
+<span th:fragment="ajaxError" th:object="${comment}">
+
+    <div id="commentsErrorAJAX"
+        th:if="${#fields.hasErrors('body')}"
+        class="alert alert-danger alert-dismissible"
+        role="alert"
+    >
+        <span th:errors="*{body}"></span>
+    </div>
+</span>
+
+</body>
+</html>
