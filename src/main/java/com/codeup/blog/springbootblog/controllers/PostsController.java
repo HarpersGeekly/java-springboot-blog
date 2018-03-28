@@ -254,7 +254,7 @@ public class PostsController {
 //                    "comment.body",
 //                    "Comments must be at least 2 characters.");
 
-            // return a fragment with only the errors
+            // return a fragment with only the errors and not:
 //            return "/posts/show"; //html page.
             return "fragments/commentError :: ajaxError";
         }

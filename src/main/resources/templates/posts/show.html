@@ -111,7 +111,7 @@
                               style="width: 900px; height: 150px; resize: none">
                             </textarea>
 
-                    <div id="commentsErrorAJAX"></div>
+                    <div class="commentsErrorAJAX"></div>
                     <!-- ======================== submit comment ================================-->
 
                     <input class="form-control" type="hidden" id="postId" th:value="${post.id}"/>
@@ -120,7 +120,6 @@
                     </button>
                 </div>
             </form>
-
 
         </div>
     </div>
@@ -135,7 +134,7 @@
 
         <!-- =============================== Comment Votes =========================-->
 
-        <div id="commentsAJAX"></div> <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
+        <div class="commentsAJAX"></div> <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
 
         <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}"> <!-- this div should be targeted with unique th:attr -->
 
@@ -400,7 +399,7 @@
             data: $('.commentForm').serialize()
         });
         request.done((html) => {
-        // request.done((comment) => { // no need for confusion here, not returning a comment, but html.
+            // request.done((comment) => { // no need for confusion here, not returning a comment, but html.
 
             console.log("==== hello from ajax comment request.done");
             //console.log(comment.id);
@@ -409,11 +408,16 @@
             $('#commentFormBody').val(''); // clear the input field.
 
             // if statement here to check if html is that error fragment! (html will be both error and comment)
-            if(html) {
-                $('#commentsErrorAJAX').prepend(html);
-                $('#commentsAJAX').prepend(html);
+            if (!(html.includes("commentBodyText"))) {
+                $('.commentsErrorAJAX').html(html).hide().fadeIn(); //prepend the comment to the top of the div length
+            }
 
-            } //prepend the comment to the top of the div length.
+            if (html.includes("commentBodyText")) {
+                if ($('.commentsErrorAJAX').length >= 1) {
+                    $('.commentsErrorAJAX').hide();
+                }
+                $('.commentsAJAX').prepend(html).hide().fadeIn();
+            }
 
             $('.editedCommentForm').hide(); //hide the reply form.
             $('.replyTextArea').hide(); // hide the reply text area.
