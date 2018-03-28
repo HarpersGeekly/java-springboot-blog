@@ -63,7 +63,8 @@ public class PostsController {
         this.commentsDao = commentsDao;
     }
 
-    //========================================= SHOW ALL POSTS AND SHOW ONE POST =======================================
+//================================================ ALL POSTS ===========================================================
+//======================================================================================================================
 
     @GetMapping("/posts")
     public String showAllPosts(Model viewModel,
@@ -90,34 +91,8 @@ public class PostsController {
         return "posts/index";
     }
 
-    @GetMapping("/posts/{id}")
-    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment,
-                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
-                                       Pageable pageable) {
-//        Post post = new Post(1L,"First Title", "First Description");
-        Post post = postSvc.findOne(id);
-        viewModel.addAttribute("post", post);
-        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
-        viewModel.addAttribute("comment", new Comment());
-        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
-        viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
-        viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
-
-        return "posts/show";
-    }
-
-//    @GetMapping("/posts/{id}.json")
-//    public @ResponseBody List<Comment> showAllCommentsInJSONFormat(@PathVariable long id, @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
-//            Pageable pageable) {
-//        return (List<Comment>) commentsDao.postCommentsByPage(id, pageable);
-//    }
-
-//    @GetMapping("/posts/{id}")
-//    public String viewAllAdsWithAjax() {
-//        return "posts/show";
-//    }
-
-    // =============================================== CREATE POST =====================================================
+//================================================ CREATE POST =========================================================
+//======================================================================================================================
 
     @GetMapping("/posts/create")
     public String showCreatePostForm(Model viewModel) {
@@ -160,7 +135,8 @@ public class PostsController {
 //      Now, post will automatically have the title and description that was submitted with the form.
 //      This is why it's good to have an empty constructor Post(){} to handle this.
 
-    // =============================================== EDIT POST =======================================================
+//================================================= EDIT POST ==========================================================
+//======================================================================================================================
 
     @GetMapping("/posts/{id}/edit")
     public String showEditPostForm(@PathVariable Long id, Model viewModel) {
@@ -189,7 +165,8 @@ public class PostsController {
         return "redirect:/posts/{id}";
     }
 
-    // ============================================== DELETE POST ======================================================
+//=================================================== DELETE POST ======================================================
+//======================================================================================================================
 
     @PostMapping("/posts/{id}/delete")
     public String delete(@PathVariable long id, Post post, Comment comment) {
@@ -207,7 +184,8 @@ public class PostsController {
         return "redirect:/profile";
     }
 
-    // ============================================== SEARCH POST ======================================================
+//================================================= SEARCH POST ========================================================
+//======================================================================================================================
 
     @GetMapping("/posts/search")
     public String search(@RequestParam String term, Model viewModel) {
@@ -218,7 +196,8 @@ public class PostsController {
         return "/posts/search";
     }
 
-    // ========================================== MARKDOWN EDITOR PREVIEW ==============================================
+//============================================ MARKDOWN EDITOR PREVIEW =================================================
+//======================================================================================================================
 
     @GetMapping("/posts/description.json")
     @ResponseBody
@@ -228,9 +207,27 @@ public class PostsController {
         return renderer.render(parser.parse(content));
     }
 
-    //    ==============================================================================================================
-    //    =========================================== COMMENT ON A POST ================================================
-    //    ==============================================================================================================
+//================================================= SHOW POST ==========================================================
+//======================================================================================================================
+
+    @GetMapping("/posts/{id}")
+    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment,
+                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
+                                       Pageable pageable) {
+//        Post post = new Post(1L,"First Title", "First Description");
+        Post post = postSvc.findOne(id);
+        viewModel.addAttribute("post", post);
+        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
+        viewModel.addAttribute("comment", new Comment());
+        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
+        viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
+        viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
+
+        return "posts/show";
+    }
+
+//============================================= COMMENT ON A POST ======================================================
+//======================================================================================================================
 
     @PostMapping("/posts/{postId}")
     public
@@ -245,9 +242,7 @@ public class PostsController {
         viewModel.addAttribute("comment", comment);
 
         if (validation.hasErrors()) {
-            System.out.println("======got to comment validation here=======");
 //            viewModel.addAttribute("errors", validation); // By using BindingResult validation instead of Error validation, don't need "errors" attritbute
-            System.out.println("====== validation: "+  validation);
             viewModel.addAttribute("comment", comment);
 //            validation.rejectValue(
 //                    "body",
@@ -269,7 +264,8 @@ public class PostsController {
         return "fragments/comments :: ajaxComment"; // By returning this fragment (fragments/comments.html), we get all of our Thymeleaf-operated HTML
     }
 
-//   ============================================ EDIT A COMMENT  ======================================================
+//=============================================== EDIT A COMMENT  ======================================================
+//======================================================================================================================
 
     @GetMapping("/posts/{postId}/comment/{commentId}/edit")
     public @ResponseBody Comment editComment(@PathVariable Long postId,
@@ -290,7 +286,9 @@ public class PostsController {
         return comment;
     }
 
-//   ============================================== DELETE A COMMENT ===================================================
+//=============================================== DELETE A COMMENT =====================================================
+//======================================================================================================================
+
     @PostMapping("/posts/{postId}/comment/{commentId}/delete")
     public @ResponseBody Comment deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
         Comment comment = commentsDao.findOne(commentId);
@@ -304,4 +302,22 @@ public class PostsController {
 //        commentsDao.delete(commentId);
 //        return "redirect:/posts/" + postId;
 //    }
+
+
+//================================================= POST VOTING ========================================================
+//======================================================================================================================
+
+    @PostMapping("/posts/{postId}/voting")
+    public @ResponseBody Post postUpVoting(@PathVariable Long postId, Model viewModel) {
+        Post post = postSvc.findOne(postId);
+        post.setVoteCount(post.getVoteCount()+1);
+        postSvc.save(post);
+        viewModel.addAttribute("post", post);
+        viewModel.addAttribute("voteCount", postSvc.getPostVoteCount(postId));
+        return post;
+//        return"posts/show";
+    }
+
+//================================================ COMMENT VOTING ======================================================
+//======================================================================================================================
 }

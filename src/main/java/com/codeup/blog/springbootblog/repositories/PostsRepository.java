@@ -28,5 +28,5 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
 
     @Query(nativeQuery = true,
             value="SELECT vote_count FROM posts p WHERE p.id LIKE ?1")
-    Long postVoteCount(Long id);
+    Long getPostVoteCount(Long id);
 }
