@@ -8,7 +8,7 @@
 
 <span th:fragment="ajaxError" th:object="${comment}">
 
-    <div id="commentsErrorAJAX"
+    <div id="commentsErrorAJAXDiv"
         th:if="${#fields.hasErrors('body')}"
         class="alert alert-danger alert-dismissible"
         role="alert"

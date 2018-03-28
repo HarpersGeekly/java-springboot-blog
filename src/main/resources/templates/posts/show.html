@@ -407,16 +407,16 @@
 
             $('#commentFormBody').val(''); // clear the input field.
 
-            // if statement here to check if html is that error fragment! (html will be both error and comment)
-            if (!(html.includes("commentBodyText"))) {
-                $('.commentsErrorAJAX').html(html).hide().fadeIn(); //prepend the comment to the top of the div length
+            // if statement here to check if html is that error fragment! (html could be both error or comment)
+            if (!(html.includes("commentBodyText"))) { // if it's an error,
+                $('.commentsErrorAJAX').html(html).hide().fadeIn() // error belongs in the error div.
             }
 
-            if (html.includes("commentBodyText")) {
-                if ($('.commentsErrorAJAX').length >= 1) {
-                    $('.commentsErrorAJAX').hide();
+            if (html.includes("commentBodyText")) { // if it's a comment...
+                if ($('.commentsErrorAJAX').length >= 1) { // check if error exists first
+                    $('.commentsErrorAJAX').hide(); // if error exists, hide it.
                 }
-                $('.commentsAJAX').prepend(html).hide().fadeIn();
+                $('.commentsAJAX').prepend(html).hide().fadeIn(); // comment belongs in the comment div
             }
 
             $('.editedCommentForm').hide(); //hide the reply form.
