@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // non-logged in users
                 .authorizeRequests()
-                .antMatchers("/posts", "/login", "/register", "/profile/{id}") // anyone can see the home and register page
+                .antMatchers("/posts", "/login", "/register", "/profile/{id}", "/color") // anyone can see the home and register page
                 .permitAll()
                 .and()
 
