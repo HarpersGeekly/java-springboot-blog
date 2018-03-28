@@ -32,6 +32,9 @@ public class Post {
     @Size(min = 5, message="Description must be at least 5 characters.")
     private String description;
 
+    @Column
+    private Long voteCount;
+
     @ManyToOne // many posts can belong to one user.
     // will define the foreign key. This class represents the post table and we need a reference to the user
 //    @JsonManagedReference
@@ -45,7 +48,7 @@ public class Post {
     private LocalDateTime date;
 
     //use when the post is retrieved from the database.
-    public Post(Long id, String title, String description, User user, String image, LocalDateTime date, List<Comment> comments) {
+    public Post(Long id, String title, String description, User user, String image, LocalDateTime date, List<Comment> comments, Long voteCount) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -53,6 +56,7 @@ public class Post {
         this.date = date;
         this.comments = comments;
 //        this.image = image; // may not need this here.
+        this.voteCount = voteCount;
     }
 
     //use on the create form action with Model binding.
@@ -115,6 +119,14 @@ public class Post {
 
     public void setComment(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Long getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(Long voteCount) {
+        this.voteCount = voteCount;
     }
 
 //    public String getImage() {
