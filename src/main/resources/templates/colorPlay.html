@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: my-header('Color Play')">
+</head>
+<body>
+<nav th:include="fragments/navbar :: my-navbar"></nav>
+
+<form th:action="@{/color}" method="POST">
+
+    <label for="pickcolorText">Pick a text color</label>
+        <input id="pickcolorText" name="pickcolorText" type="color"/>
+
+    <label for="pickcolorBackground">Pick a background color</label>
+        <input id="pickcolorBackground" name="pickcolorBackground" type="color"/>
+
+    <input type="submit" value="SUBMIT" class="btn btn-primary" />
+</form>
+
+<footer th:include="fragments/footer :: my-footer"></footer>
+</body>
+</html>
