@@ -299,14 +299,14 @@ textarea, input {
     box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
 
-.upvote, .downvote {
+.postUpvote, .postDownvote, .commentUpvote, .commentDownvote {
     color: #2B2C28;
 }
-.upvote:hover, .downvote:hover {
+.postUpvote:hover, .postDownvote:hover, .commentUpvote:hover, .commentDownvote:hover {
     color: #7DE2D1;
     cursor: pointer;
 }
-.upvote:active, .downvote:active {
+.postUpvote:active, .postDownvote:active, .commentUpvote:active, .commentDownvote:active {
     cursor: pointer;
     color: #339989;
 }
