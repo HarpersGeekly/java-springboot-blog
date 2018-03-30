@@ -147,7 +147,7 @@ public class Post {
         // mapToInt() returns an IntStream consisting of the results of applying the given function to the elements of this stream.
         // PostVote::getType will evaluate to a function that invokes getType() directly without any delegation.
         // There’s a really tiny performance difference due to saving one level of delegation.
-        // reduce() sums the values 
+        // reduce() sums the values
     }
 //=======================
 //    ISSUE: votes are counting extra +1 or -1 ?

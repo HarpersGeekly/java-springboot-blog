@@ -50,6 +50,12 @@ public class User {
     @JsonBackReference
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "user")
+    private List<PostVote> votes; // one user can have many votes.
+
+//    @Column
+//    private boolean hasVoted;
+
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many replies to comments. When User is deleted, these delete too
 //    @JsonIgnore
 //    private List<Reply> replies;
@@ -87,6 +93,7 @@ public class User {
         this.posts = copy.posts;
         this.comments = copy.comments;
 //        this.replies = copy.replies;
+        this.votes = copy.votes;
     }
 
     public Long getId() {
@@ -148,6 +155,22 @@ public class User {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public List<PostVote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<PostVote> votes) {
+        this.votes = votes;
+    }
+
+//    public boolean isHasVoted() {
+//        return hasVoted;
+//    }
+//
+//    public void setHasVoted(boolean hasVoted) {
+//        this.hasVoted = hasVoted;
+//    }
 }
 
 
