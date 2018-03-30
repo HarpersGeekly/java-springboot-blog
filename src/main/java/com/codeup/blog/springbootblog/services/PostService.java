@@ -63,9 +63,6 @@ public class PostService {
         return postsDao.postsByPage(pageable);
     }
 
-    public Long getPostVoteCount(Long id) {
-        return postsDao.getPostVoteCount(id);
-    }
 
     // save takes care of insert and update
 //    public Post update(Post post) {

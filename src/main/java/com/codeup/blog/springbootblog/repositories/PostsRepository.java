@@ -26,7 +26,9 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
                     "SELECT * FROM redwood_blog_db.posts ORDER BY ?#{#pageable} DESC")
     Page<Post> postsByPage(Pageable pageable);
 
-    @Query(nativeQuery = true,
-            value="SELECT vote_count FROM posts p WHERE p.id LIKE ?1")
-    Long getPostVoteCount(Long id);
+//    @Query(nativeQuery = true,
+//            value="SELECT vote_count FROM posts p WHERE p.id LIKE ?1")
+//    Long getPostVoteCount(Long id);
+
+
 }
