@@ -2,6 +2,8 @@ package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.Comment;
 import com.codeup.blog.springbootblog.Models.Post;
+import com.codeup.blog.springbootblog.Models.PostVote;
+import com.codeup.blog.springbootblog.Models.User;
 import com.codeup.blog.springbootblog.repositories.CommentsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
@@ -13,6 +15,7 @@ import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -307,13 +310,20 @@ public class PostsController {
 //================================================= POST VOTING ========================================================
 //======================================================================================================================
 
-    @PostMapping("/posts/{postId}/voting")
-    public @ResponseBody Post postUpVoting(@PathVariable Long postId, Model viewModel) {
+    @PostMapping("/posts/{type}/{postId}")
+    public @ResponseBody Post postVoting(@PathVariable Long postId, @PathVariable String type, Model viewModel) {
+
         Post post = postSvc.findOne(postId);
-        post.setVoteCount(post.getVoteCount()+1);
+
+        if (type.equalsIgnoreCase("upvote")) {
+            post.addVote(PostVote.up(post, userSvc.loggedInUser()));
+        } else {
+            post.addVote(PostVote.down(post, userSvc.loggedInUser())); //or (User) token.getPrincipal()));
+        }
+
         postSvc.save(post);
+
         viewModel.addAttribute("post", post);
-        viewModel.addAttribute("voteCount", postSvc.getPostVoteCount(postId));
         return post;
 //        return"posts/show";
     }
