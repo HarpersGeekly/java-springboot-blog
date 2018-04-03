@@ -25,9 +25,14 @@
             </div>
             <!--if logged in: upvote and downvote arrows function normally.-->
             <div th:if="${isLoggedIn}">
-                <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-upvote-post-id=${post.id}">
+                <form th:if="${hasVoted == false}" th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-upvote-post-id=${post.id}">
                     <i class="far fa-thumbs-up postUpvote"></i>
                 </form>
+
+                <form th:if="${hasVoted}" th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-upvote-post-id=${post.id}">
+                    <i class="far fa-thumbs-up stayActive"></i>
+                </form>
+
             </div>
 
             <div>
@@ -39,6 +44,10 @@
             <div th:if="${isLoggedIn}">
                 <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-downvote-post-id=${post.id}">
                     <i class="far fa-thumbs-down postDownvote"></i>
+                </form>
+
+                <form th:if="${hasVoted}" th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-downvote-post-id=${post.id}">
+                    <i class="far fa-thumbs-up stayActive"></i>
                 </form>
             </div>
 
@@ -582,7 +591,8 @@
     <!-- ============================================== POST VOTING  =====================================================-->
     <!-- =================================================================================================================-->
 
-    $('.container').on("click", ".postUpvote", function (e) {
+    $('.container').on("click", ".postUpvote", function () {
+        // e.preventDefault(); // prevent default form behavior and instead use ajax.
 
         let $button = $(this);
         let postId = $button.parent().data('upvote-post-id');
@@ -592,16 +602,20 @@
 
         let request = $.ajax({
             url: postFormUp.attr('action'), //-> postVoting() in PostsController
+            // url: '/posts/upvote/' + postId,
             method: 'POST',
-            // dataType: 'json', // returning an object by default
-            data: postFormUp.serialize()
+            dataType: 'json', // returning an object by default
+            data: postFormUp.serialize(),
         });
         request.done(function (post) {
 
             console.log("hello from comment upvote");
-            let $postVoteCount = $('[data-voteCount-post-id=' + postId + ']');
-            $postVoteCount.html(post.voteCount());
+            // let $postVoteCount = $('[data-voteCount-post-id=' + postId + ']');
+            $('.postVoteCount').html(post.voteCount);
+            $('.postDownvote').removeClass("stayActive");
+            $('.postUpvote').addClass("stayActive");
 
+            console.log(post.voteCount);
         });
 
         request.fail((a, b, c) => {
@@ -609,25 +623,31 @@
         });
     });
 
-    $('.container').on("click", ".postDownvote", function (e) {
+    $('.container').on("click", ".postDownvote", function () {
+        // e.preventDefault(); // prevent default form behavior and instead use ajax.
 
         let $button = $(this);
         let postId = $button.parent().data('downvote-post-id');
         console.log(postId);
 
-        let postFormDown = $('[data-downvote-post-id=' + postId + ']');
+        let $postFormDown = $('[data-downvote-post-id=' + postId + ']');
 
         let request = $.ajax({
-            url: postFormDown.attr('action'), // -> postVoting() in PostsController
+            url: $postFormDown.attr('action'), // -> postVoting() in PostsController
             method: 'POST',
-            // dataType: 'json', // returning an object by default
-            data: postFormDown.serialize()
+            dataType: 'json', // returning an object by default
+            data: $postFormDown.serialize()
         });
         request.done(function (post) {
 
             console.log("hello from comment downvote");
-            let $postVoteCount = $('[data-voteCount-post-id=' + postId + ']');
-            $postVoteCount.html(post.voteCount());
+
+            // let $postDownvote = $('[data-downvote-post-id=' + postId + ']');
+            $('.postVoteCount').html(post.voteCount);
+            $('.postUpvote').removeClass("stayActive");
+            $('.postDownvote').addClass("stayActive");
+
+            console.log(post.voteCount);
 
         });
 
@@ -639,10 +659,3 @@
 </script>
 </body>
 </html>
-<!--//inside ajax-->
-<!--// let html = '';-->
-<!--// html += '<div>';-->
-<!--// html += '<p>' + comment.body + '</p>';-->
-<!--// // html += '<p>Published by: ' + comment.user.username + '</p>'; //jsonignore user (remove). Ajax isn't doing that much magic. You still need controllers.-->
-<!--// html += '</div>';-->
-<!--// console.log(html);-->

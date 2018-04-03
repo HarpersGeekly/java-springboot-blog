@@ -306,9 +306,14 @@ textarea, input {
     color: #7DE2D1;
     cursor: pointer;
 }
-.postUpvote:active, .postDownvote:active, .commentUpvote:active, .commentDownvote:active, .stayActive {
+.postUpvote:active, .postDownvote:active, .commentUpvote:active, .commentDownvote:active {
     cursor: pointer;
     color: #339989;
+}
+
+.stayActive {
+    color: #7DE2D1;
+    cursor: pointer;
 }
 
 .commentVoting {
