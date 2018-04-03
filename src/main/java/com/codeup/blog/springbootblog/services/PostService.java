@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.services;
 import com.codeup.blog.springbootblog.Models.Post;
 import com.codeup.blog.springbootblog.repositories.PostsRepository;
+import com.codeup.blog.springbootblog.repositories.PostsVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import java.util.List;
 public class PostService {
 
     private final PostsRepository postsDao;
+    private final PostsVotesRepository postsVotesDao;
 
     // property for list
     // private List<Post> posts = new ArrayList<>();
@@ -23,8 +25,9 @@ public class PostService {
     // constructor
     // Now that we have a PostsRepository, we can autowire an instance of it here.
     @Autowired
-    public PostService(PostsRepository postsDao) {
+    public PostService(PostsRepository postsDao, PostsVotesRepository postsVotesDao) {
         this.postsDao = postsDao;
+        this.postsVotesDao = postsVotesDao;
          //createDummy(); // No longer making dummy hardcode
     }
 
@@ -63,7 +66,9 @@ public class PostService {
         return postsDao.postsByPage(pageable);
     }
 
-
+    public boolean hasVoted(Long id) {
+        return postsVotesDao.hasVoted(id) != 0;
+    }
     // save takes care of insert and update
 //    public Post update(Post post) {
 //        post.setId((long)(post.getId() - 1), post);
