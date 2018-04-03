@@ -311,18 +311,20 @@ public class PostsController {
 //======================================================================================================================
 
     @PostMapping("/posts/{type}/{postId}")
-    public @ResponseBody Post postVoting(@PathVariable Long postId, @PathVariable String type, Model viewModel) {
+    public @ResponseBody Post postVoting(@PathVariable Long postId, @PathVariable String type, Model viewModel, Authentication token) {
 
         Post post = postSvc.findOne(postId);
+        User user = (User) token.getPrincipal();
 
         if (type.equalsIgnoreCase("upvote")) {
-            post.addVote(PostVote.up(post, userSvc.loggedInUser()));
+            post.addVote(PostVote.up(post, user));  //userSvc.loggedInUser()));
         } else {
-            post.addVote(PostVote.down(post, userSvc.loggedInUser())); //or (User) token.getPrincipal()));
+            post.addVote(PostVote.down(post, user)); //userSvc.loggedInUser()));
         }
 
         postSvc.save(post);
 
+        viewModel.addAttribute("hasVoted", postSvc.hasVoted(user.getId()));
         viewModel.addAttribute("post", post);
         return post;
 //        return"posts/show";
