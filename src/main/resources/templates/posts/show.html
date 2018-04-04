@@ -25,12 +25,13 @@
             </div>
             <!--if logged in: upvote and downvote arrows function normally.-->
             <div th:if="${isLoggedIn}">
-                <form th:if="${hasVoted == false}" th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-upvote-post-id=${post.id}">
+
+                <form th:if="${hasVoted}" th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-upvote-post-id=${post.id}">
                     <i class="far fa-thumbs-up postUpvote"></i>
                 </form>
 
-                <form th:if="${hasVoted}" th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-upvote-post-id=${post.id}">
-                    <i class="far fa-thumbs-up stayActive"></i>
+                <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-upvote-post-id=${post.id}">
+                    <i class="far fa-thumbs-up postUpvote"></i>
                 </form>
 
             </div>
@@ -42,12 +43,13 @@
             </div>
 
             <div th:if="${isLoggedIn}">
+
+                <!--<form th:if="${hasVoted}" th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-downvote-post-id=${post.id}">-->
+                    <!--<i class="far fa-thumbs-down postDownvote"></i>-->
+                <!--</form>-->
+
                 <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-downvote-post-id=${post.id}">
                     <i class="far fa-thumbs-down postDownvote"></i>
-                </form>
-
-                <form th:if="${hasVoted}" th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-downvote-post-id=${post.id}">
-                    <i class="far fa-thumbs-up stayActive"></i>
                 </form>
             </div>
 
@@ -143,11 +145,12 @@
 
     <hr id="commentHRLeader"/>
 
+    <div class="container commentSection commentsAJAX"></div> <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
+
     <div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">
 
         <!-- =============================== Comment Votes =========================-->
 
-        <div class="commentsAJAX"></div> <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
 
         <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}"> <!-- this div should be targeted with unique th:attr -->
 
