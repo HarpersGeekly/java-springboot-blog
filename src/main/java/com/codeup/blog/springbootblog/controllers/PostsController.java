@@ -21,9 +21,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Iterator;
+import java.util.List;
 //import java.util.List;
 //import java.util.Date;
 //import java.sql.Timestamp;
@@ -216,15 +219,22 @@ public class PostsController {
     @GetMapping("/posts/{id}")
     public String showPostById(@PathVariable Long id, Model viewModel, Comment comment,
                                @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
-                                       Pageable pageable) {
+                                       Pageable pageable, Authentication token) {
 //        Post post = new Post(1L,"First Title", "First Description");
         Post post = postSvc.findOne(id);
+        User user = (User) token.getPrincipal();
+//        PostVote postVote = postSvc.findOne(id);
+
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("comment", new Comment());
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
         viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
+//        viewModel.addAttribute("hasVoted", postSvc.hasVoted(user.getId()));
+        PostVote vote = post.getVoteFrom(user);
+        viewModel.addAttribute("upvote", vote != null && vote.isUpvote());
+        viewModel.addAttribute("downvote", vote != null && vote.isDownVote());
 
         return "posts/show";
     }
@@ -311,23 +321,46 @@ public class PostsController {
 //======================================================================================================================
 
     @PostMapping("/posts/{type}/{postId}")
-    public @ResponseBody Post postVoting(@PathVariable Long postId, @PathVariable String type, Model viewModel, Authentication token) {
+    public @ResponseBody Post postVoting(@PathVariable Long postId, @PathVariable String type,
+                                         Model viewModel,
+                                         Authentication token) {
 
         Post post = postSvc.findOne(postId);
-        User user = (User) token.getPrincipal();
+        User user = (User) token.getPrincipal(); //userSvc.loggedInUser()));
 
         if (type.equalsIgnoreCase("upvote")) {
-            post.addVote(PostVote.up(post, user));  //userSvc.loggedInUser()));
+            post.addVote(PostVote.up(post, user));
         } else {
-            post.addVote(PostVote.down(post, user)); //userSvc.loggedInUser()));
+            post.addVote(PostVote.down(post, user));
         }
 
         postSvc.save(post);
-
-        viewModel.addAttribute("hasVoted", postSvc.hasVoted(user.getId()));
-        viewModel.addAttribute("post", post);
         return post;
 //        return"posts/show";
+    }
+
+    @PostMapping("/posts/{postId}/removeVote")
+    public @ResponseBody Post voteRemoval(@PathVariable Long postId) {
+        System.out.println("Got to the remove vote controller");
+
+        Post post = postSvc.findOne(postId);
+        User user = userSvc.loggedInUser();
+
+        List<PostVote> votes = post.getVotes();
+
+        System.out.println("vote count:" + post.voteCount());
+        System.out.println(votes);
+
+        for(PostVote vote : votes) {
+//             if (vote.getUser().getId() == (user.getId())) {
+                if(vote.voteBelongsTo(user)) {
+                post.removeVote(vote);
+                System.out.println("vote count:" + post.voteCount());
+                break;
+            }
+        }
+        postSvc.save(post);
+        return post;
     }
 
 //================================================ COMMENT VOTING ======================================================
