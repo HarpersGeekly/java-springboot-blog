@@ -118,14 +118,21 @@ ul {
     /*color: #E07A5F;*/
 }
 
-textarea, input {
+textarea, input, .form-control {
     border-radius: 0;
+    border-style: solid;
+}
+
+.form-control:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
     /*border-color: Transparent;*/
     /*outline: none;*/
     /*-webkit-box-shadow: none;*/
     /*-moz-box-shadow: none;*/
     /*box-shadow: none;*/
-}
 
 #wrapper {
     min-height: 100%;
@@ -273,30 +280,40 @@ textarea, input {
 
 /*================= COMMENTS =====================*/
 
-#commentSection {
+.commentSection {
     /*display: inline-block;*/
-
+    width: 70%;
 }
 
 #commentFormBody {
     font-family: 'Roboto', sans-serif;
+    width:70%;
+    border-radius: 0;
+    margin: auto;
+    height: 10em;
+    resize: none;
+}
+
+.commentSubmitBtn {
+    margin-left: 8.55em;
 }
 
 #commentHRLeader {
-    border-top: 6px solid #8c8b8b;
+    /*border-top: 6px solid #8c8b8b;*/
     width: 80%;
 }
 
 .commentHR {
-    display: block;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    margin-left: auto;
-    margin-right: auto;
-    border-style: inset;
-    height: 10px;
-    border: 0;
-    box-shadow: 0 10px 10px -10px #8c8b8b inset;
+    /*display: block;*/
+    /*margin-top: 0.5em;*/
+    /*margin-bottom: 0.5em;*/
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    /*border-style: inset;*/
+    /*height: 1px;*/
+    /*border: 0;*/
+    /*box-shadow: 0 10px 10px -10px #8c8b8b inset;*/
+    border-top: 1px solid #8c8b8b;
 }
 
 .postUpvote, .postDownvote, .commentUpvote, .commentDownvote {
@@ -376,12 +393,33 @@ textarea, input {
     color: #E07A5F;
 }
 
+.replyFormBody {
+    resize: none;
+    border-radius: 0;
+    height: 7em;
+    width: 92%;
+    margin-left: 2.5em;
+}
+
+#replyFormBody {
+    resize: none;
+    border-radius: 0;
+    height: 7em;
+    width: 92%;
+    margin-left: 2.5em;
+}
+
 .replyTextArea {
     margin-top: -1.5%;
 }
 
+.commentReplyBtn {
+    margin-left: 2.5em;
+}
+
 #commentsErrorAJAXDiv {
-    width: 79%
+    width: 79%;
+    margin: auto;
 }
 
 /*=============== Profile page ======================*/

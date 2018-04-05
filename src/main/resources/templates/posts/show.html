@@ -26,30 +26,26 @@
             <!--if logged in: upvote and downvote arrows function normally.-->
             <div th:if="${isLoggedIn}">
 
-                <form th:if="${hasVoted}" th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-upvote-post-id=${post.id}">
-                    <i class="far fa-thumbs-up postUpvote"></i>
-                </form>
-
-                <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-upvote-post-id=${post.id}">
-                    <i class="far fa-thumbs-up postUpvote"></i>
+                <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
+                      th:attr="data-upvote-post-id=${post.id}">
+                    <i th:classappend="${upvote} ? stayActive : postUpvote" class="far fa-thumbs-up postUpvote"></i>
+                    <!--when clicked, stayActive class will be added or removed.-->
                 </form>
 
             </div>
 
             <div>
                 <h5>
-                    <span class="postVoteCount" th:text="${post.voteCount()}" th:attr="data-voteCount-post-id=${post.id}"></span>
+                    <span class="postVoteCount" th:text="${post.voteCount()}"
+                          th:attr="data-voteCount-post-id=${post.id}"></span>
                 </h5>
             </div>
 
             <div th:if="${isLoggedIn}">
 
-                <!--<form th:if="${hasVoted}" th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-downvote-post-id=${post.id}">-->
-                    <!--<i class="far fa-thumbs-down postDownvote"></i>-->
-                <!--</form>-->
-
-                <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-downvote-post-id=${post.id}">
-                    <i class="far fa-thumbs-down postDownvote"></i>
+                <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
+                      th:attr="data-downvote-post-id=${post.id}">
+                    <i th:classappend="${downvote} ? stayActive : postDownvote" class="far fa-thumbs-down postDownvote"></i>
                 </form>
             </div>
 
@@ -145,14 +141,16 @@
 
     <hr id="commentHRLeader"/>
 
-    <div class="container commentSection commentsAJAX"></div> <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
+    <div class="container commentSection commentsAJAX"></div>
+    <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
 
     <div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">
 
         <!-- =============================== Comment Votes =========================-->
 
 
-        <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}"> <!-- this div should be targeted with unique th:attr -->
+        <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
+            <!-- this div should be targeted with unique th:attr -->
 
             <div class="row commentVoting">
 
@@ -184,47 +182,48 @@
 
             </div>
 
-                <h5 class="postedBy">
-                    <a th:href="${'/profile/' + comment.user.id}">
-                        <span th:text="${comment.user.username}"></span>
-                    </a> |
-                    <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span> |
-                    <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
-                    <span th:text="${#temporals.day(comment.date)}"></span>,
-                    <span th:text="${#temporals.year(comment.date)}"></span>
-                </h5>
+            <h5 class="postedBy">
+                <a th:href="${'/profile/' + comment.user.id}">
+                    <span th:text="${comment.user.username}"></span>
+                </a> |
+                <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span> |
+                <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                <span th:text="${#temporals.day(comment.date)}"></span>,
+                <span th:text="${#temporals.year(comment.date)}"></span>
+            </h5>
 
-                <!-- =============================== Comment Body =========================-->
+            <!-- =============================== Comment Body =========================-->
 
-                <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-commentBody-comment-id=${comment.id}"></h5>
+            <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-commentBody-comment-id=${comment.id}"></h5>
 
-                <!-- =============================== Edit Form ============================-->
+            <!-- =============================== Edit Form ============================-->
 
-                <form
-                      th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
-                      method="POST"
-                      th:object="${comment}"
-                      class="editedCommentForm" id="editedCommentFormId" th:attr="data-edit-form-comment-id=${comment.id}">
+            <form
+                    th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
+                    method="POST"
+                    th:object="${comment}"
+                    class="editedCommentForm" id="editedCommentFormId"
+                    th:attr="data-edit-form-comment-id=${comment.id}">
 
                     <textarea class="form-control editedCommentBodyText" name="body"
                               th:value="${comment.body}"
                               style="width: 900px; height: 150px; resize: none">
                     </textarea>
 
-                    <input type="hidden" name="id" th:data-edit-form-comment-id="${comment.id}" th:value="${comment.id}"/>
+                <input type="hidden" name="id" th:data-edit-form-comment-id="${comment.id}" th:value="${comment.id}"/>
 
-                    <div class="row editAndDeleteBtnsRow">
+                <div class="row editAndDeleteBtnsRow">
 
-                        <button class="btn btn-primary editedCommentCancelBtn">
-                            CANCEL
-                        </button>
+                    <button class="btn btn-primary editedCommentCancelBtn">
+                        CANCEL
+                    </button>
 
-                        <button class="btn btn-primary editedCommentSubmitBtn">
-                            SAVE
-                        </button>
+                    <button class="btn btn-primary editedCommentSubmitBtn">
+                        SAVE
+                    </button>
 
-                    </div>
-                </form>
+                </div>
+            </form>
 
             <!--===================================== EDIT COMMENT BUTTON ========================-->
             <!--==================================================================================-->
@@ -249,7 +248,8 @@
                               th:object="${comment}"
                               class="deleteCommentForm">
 
-                            <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
+                            <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"
+                                   th:value="${comment.id}"/>
                             <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
                             <button class="deleteCommentBtn" th:attr="data-delete-btn-comment-id=${comment.id}">
                                 <i class="fas fa-bomb"></i> delete
@@ -271,7 +271,8 @@
                 </a>
             </div>
             <div th:if="${isLoggedIn}">
-                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()" th:attr="data-replyButton-comment-id=${comment.id}">
+                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()"
+                    th:attr="data-replyButton-comment-id=${comment.id}">
                     <i class="fas fa-reply"></i> REPLY
                 </h5>
                 <h5 class="showReplyTextAreaCancel">
@@ -283,11 +284,9 @@
                           th:object="${comment}">
                         <div class="form-group">
                             <label for="replyFormBody"></label>
-                            <textarea class="form-control" id="replyFormBody" name="body"
-                                      th:field="*{body}"
-                                      th:placeholder="Comment..."
-                                      style="width: 900px; height: 75px; resize: none">
-                                </textarea>
+                            <textarea class="form-control replyFormBody" id="replyFormBody" name="body"
+                                      th:field="*{body}">
+                            </textarea>
 
                             <div th:if="${#fields.hasErrors('body')}"
                                  class="alert alert-danger alert-dismissible"
@@ -295,7 +294,7 @@
                                 <span th:errors="*{body}"/>
                             </div>
                             <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                            <button class="btn btn-primary">
+                            <button class="btn btn-primary commentReplyBtn">
                                 <i class="far fa-comment-alt"></i> Reply
                             </button>
 
@@ -389,15 +388,14 @@
         $this.siblings('.showReplyTextArea').show();
         $this.siblings('.replyTextArea').toggle(250);
     });
-        // $this.
-        // $(this).text(function (_, oldText) {
-        //     return oldText === 'CANCEL' ? 'REPLY' : 'CANCEL';
-        // });
+    // $this.
+    // $(this).text(function (_, oldText) {
+    //     return oldText === 'CANCEL' ? 'REPLY' : 'CANCEL';
+    // });
 
     $('.form').submit(function () {
         $(".replyTextArea").hide();
     });
-
 
 
     <!-- =================================================================================================================-->
@@ -504,7 +502,7 @@
             //================= cancel button ====================
             //====================================================
 
-            $('.editedCommentCancelBtn').on("click", function(e) { // on cancel button click...
+            $('.editedCommentCancelBtn').on("click", function (e) { // on cancel button click...
                 e.preventDefault();
                 $commentForm.hide(); // hide the edit form
                 $commentBody.show(); // show the original comment back in the html
@@ -538,7 +536,7 @@
             method: 'POST',
             dataType: 'json',
             data: commentForm.serialize()
-            });
+        });
         request.done(function (comment) {
             console.log("hello from submitted edited comment request.done");
             console.log("new comment: " + comment.body);
@@ -594,69 +592,112 @@
     <!-- ============================================== POST VOTING  =====================================================-->
     <!-- =================================================================================================================-->
 
-    $('.container').on("click", ".postUpvote", function () {
+    $('.container').on("click", ".postUpvote", function (e) {
         // e.preventDefault(); // prevent default form behavior and instead use ajax.
 
-        let $button = $(this);
-        let postId = $button.parent().data('upvote-post-id');
-        console.log(postId);
+        if ($(e.target).hasClass('stayActive')) {
+            //remove vote
+            let $button = $(this);
+            let postId = $button.parent().data('upvote-post-id');
+            console.log("you clicked an active vote on post:" + postId);
 
-        let postFormUp = $('[data-upvote-post-id=' + postId + ']');
+            let $postFormUp = $('[data-upvote-post-id=' + postId + ']');
 
-        let request = $.ajax({
-            url: postFormUp.attr('action'), //-> postVoting() in PostsController
-            // url: '/posts/upvote/' + postId,
-            method: 'POST',
-            dataType: 'json', // returning an object by default
-            data: postFormUp.serialize(),
-        });
-        request.done(function (post) {
+            let request = $.ajax({
+                url: '/posts/' + postId + '/removeVote',
+                method: 'POST',
+                dataType: 'json',
+                data: $postFormUp.serialize()
+            });
+            request.done(function (post) {
 
-            console.log("hello from comment upvote");
-            // let $postVoteCount = $('[data-voteCount-post-id=' + postId + ']');
-            $('.postVoteCount').html(post.voteCount);
-            $('.postDownvote').removeClass("stayActive");
-            $('.postUpvote').addClass("stayActive");
+                console.log("back from voteRemoval()");
+                $('.postVoteCount').html(post.voteCount);
+                $('.postUpvote').removeClass("stayActive");
+            })
+        } else {
+            //upvote
+            let $button = $(this);
+            let postId = $button.parent().data('upvote-post-id');
+            console.log(postId);
 
-            console.log(post.voteCount);
-        });
+            let postFormUp = $('[data-upvote-post-id=' + postId + ']');
 
-        request.fail((a, b, c) => {
-            console.log(a, b, c)
-        });
+            let request = $.ajax({
+                url: postFormUp.attr('action'), //-> postVoting() in PostsController
+                method: 'POST',
+                dataType: 'json', // returning an object by default
+                data: postFormUp.serialize(),
+            });
+            request.done(function (post) {
+
+                console.log("back from postVoting() in controller");
+                $('.postVoteCount').html(post.voteCount);
+                $('.postDownvote').removeClass("stayActive");
+                $('.postUpvote').addClass("stayActive");
+
+                console.log("votecount: " + post.voteCount);
+            });
+
+            request.fail((a, b, c) => {
+                console.log(a, b, c)
+            });
+        }
     });
 
-    $('.container').on("click", ".postDownvote", function () {
+    $('.container').on("click", ".postDownvote", function (e) {
         // e.preventDefault(); // prevent default form behavior and instead use ajax.
 
-        let $button = $(this);
-        let postId = $button.parent().data('downvote-post-id');
-        console.log(postId);
+        if ($(e.target).hasClass('stayActive')) {
+            //remove vote
+            let $button = $(this);
+            let postId = $button.parent().data('downvote-post-id');
+            console.log("you clicked an active vote on post:" + postId);
 
-        let $postFormDown = $('[data-downvote-post-id=' + postId + ']');
+            let $postFormUp = $('[data-downvote-post-id=' + postId + ']');
 
-        let request = $.ajax({
-            url: $postFormDown.attr('action'), // -> postVoting() in PostsController
-            method: 'POST',
-            dataType: 'json', // returning an object by default
-            data: $postFormDown.serialize()
-        });
-        request.done(function (post) {
+            let request = $.ajax({
+                url: '/posts/' + postId + '/removeVote', // -> voteRemoval() in PostsController
+                method: 'POST',
+                dataType: 'json',
+                data: $postFormUp.serialize()
+            });
+            request.done(function (post) {
 
-            console.log("hello from comment downvote");
+                console.log("back from voteRemoval() in controller");
+                $('.postVoteCount').html(post.voteCount);
+                $('.postDownvote').removeClass("stayActive");
+            })
+        } else {
+            //downvote
+            let $button = $(this);
+            let postId = $button.parent().data('downvote-post-id');
+            console.log(postId);
 
-            // let $postDownvote = $('[data-downvote-post-id=' + postId + ']');
-            $('.postVoteCount').html(post.voteCount);
-            $('.postUpvote').removeClass("stayActive");
-            $('.postDownvote').addClass("stayActive");
+            let $postFormDown = $('[data-downvote-post-id=' + postId + ']');
 
-            console.log(post.voteCount);
+            let request = $.ajax({
+                url: $postFormDown.attr('action'), // -> postVoting() in PostsController
+                method: 'POST',
+                dataType: 'json', // returning an object by default
+                data: $postFormDown.serialize()
+            });
+            request.done(function (post) {
 
-        });
+                console.log("back from postVoting() in controller");
 
-        request.fail((a, b, c) => {
-            console.log(a, b, c)
-        });
+                $('.postVoteCount').html(post.voteCount);
+                $('.postUpvote').removeClass("stayActive");
+                $('.postDownvote').addClass("stayActive");
+
+                console.log(post.voteCount);
+
+            });
+
+            request.fail((a, b, c) => {
+                console.log(a, b, c)
+            });
+        }
     });
 
 </script>
