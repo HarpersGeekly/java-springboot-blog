@@ -1,5 +1,7 @@
 package com.codeup.blog.springbootblog.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity @Table(name = "posts_votes")
@@ -41,6 +43,20 @@ public class PostVote {
         return new PostVote(post, user, -1);
     }
 
+    public boolean isUpvote() {
+        return type == 1;
+    }
+
+    public boolean isDownVote() {
+        return type == -1;
+    }
+
+    public boolean voteBelongsTo(User user) {
+        return this.user.getId().equals(user.getId());
+    }
+
+    // why do I have to add JsonIgnore?
+    @JsonIgnore
     public PostVoteId getId() {
         return id;
     }
@@ -49,6 +65,7 @@ public class PostVote {
         this.id = id;
     }
 
+    @JsonIgnore
     public Post getPost() {
         return post;
     }
@@ -57,6 +74,7 @@ public class PostVote {
         this.post = post;
     }
 
+    @JsonIgnore
     public User getUser() {
         return user;
     }
@@ -65,6 +83,7 @@ public class PostVote {
         this.user = user;
     }
 
+    @JsonIgnore
     public int getType() {
         return type;
     }
@@ -72,4 +91,6 @@ public class PostVote {
     public void setType(int type) {
         this.type = type;
     }
+
 }
+
