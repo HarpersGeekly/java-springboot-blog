@@ -1,5 +1,6 @@
 package com.codeup.blog.springbootblog.services;
 import com.codeup.blog.springbootblog.Models.Post;
+import com.codeup.blog.springbootblog.Models.PostVote;
 import com.codeup.blog.springbootblog.repositories.PostsRepository;
 import com.codeup.blog.springbootblog.repositories.PostsVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,8 @@ public class PostService {
     public boolean hasVoted(Long id) {
         return postsVotesDao.hasVoted(id) != 0;
     }
+
+
     // save takes care of insert and update
 //    public Post update(Post post) {
 //        post.setId((long)(post.getId() - 1), post);

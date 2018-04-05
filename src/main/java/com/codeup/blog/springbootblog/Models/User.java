@@ -53,9 +53,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<PostVote> votes; // one user can have many votes.
 
-//    @Column
-//    private boolean hasVoted;
-
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many replies to comments. When User is deleted, these delete too
 //    @JsonIgnore
 //    private List<Reply> replies;
@@ -164,12 +161,25 @@ public class User {
         this.votes = votes;
     }
 
-//    public boolean isHasVoted() {
-//        return hasVoted;
+
+//    private boolean hasVotedUp;
+//
+//    private boolean hasVotedDown;
+//
+//    public boolean isHasVotedUp() {
+//        return hasVotedUp;
 //    }
 //
-//    public void setHasVoted(boolean hasVoted) {
-//        this.hasVoted = hasVoted;
+//    public void setHasVotedUp(boolean hasVotedUp) {
+//        this.hasVotedUp = hasVotedUp;
+//    }
+//
+//    public boolean isHasVotedDown() {
+//        return hasVotedDown;
+//    }
+//
+//    public void setHasVotedDown(boolean hasVotedDown) {
+//        this.hasVotedDown = hasVotedDown;
 //    }
 }
 

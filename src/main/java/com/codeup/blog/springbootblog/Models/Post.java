@@ -45,7 +45,7 @@ public class Post {
     @Column(name = "CREATED_DATE")
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "post", cascade = { CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostVote> votes; // one post can have many votes, if a post is deleted, the votes disappear too.
 
     //use when the post is retrieved from the database.
@@ -130,8 +130,21 @@ public class Post {
         this.votes = votes;
     }
 
+    public PostVote getVoteFrom(User user) {
+        for (PostVote vote : votes) {
+            if (vote.voteBelongsTo(user)) {
+                return vote;
+            }
+        }
+        return null;
+    }
+
     public void addVote(PostVote vote) {
         votes.add(vote);
+    }
+
+    public void removeVote(PostVote vote) {
+        votes.remove(vote);
     }
 
     // VOTING LOGIC =============================================================================
