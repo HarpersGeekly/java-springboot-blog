@@ -143,6 +143,7 @@ textarea, input, .form-control {
 #content {
     /*font-family: Georgia, serif;*/
     font-family: 'Roboto', sans-serif;
+    font-size: 15px;
     margin-left: 1em;
     margin-right: 1em;
     /*overflow: auto;*/
@@ -177,6 +178,7 @@ textarea, input, .form-control {
     text-overflow: ellipsis;
     content: "";
     position:relative;
+    line-height: 1.1em;
     /*border-bottom: 3px solid #777;*/
     max-height:100px;
     /*max-height:200px;*/
@@ -252,6 +254,29 @@ textarea, input, .form-control {
 
 .postedBy {
     font-weight: bold;
+    margin-left: 1.3em;
+}
+
+.postedByNameText {
+    font-size: 1.3em;
+    font-weight: 500;
+    line-height: 1.8em;
+    margin-right: 0.75em;
+    text-decoration: none;
+    color: black;
+}
+
+.postedByDateTime {
+    margin-right: 0.75em;
+    color: #999999;
+}
+
+.postedByDate {
+    color: #999999;
+}
+
+#postTextBody {
+    margin-left: 1.2em;
 }
 
 #editPostBtn {
@@ -285,6 +310,32 @@ textarea, input, .form-control {
     width: 70%;
 }
 
+.commentedByNameText {
+    font-size: 1.1em;
+    line-height: 1.8em;
+    margin-right: 0.75em;
+    color: black;
+}
+
+.commentedByDateTime {
+    margin-right: 0.75em;
+    color: #999999;
+}
+
+.commentedByDate {
+    color: #999999;
+}
+
+.commentBodyWrapper {
+    margin: 1.3em;
+}
+
+#commentBodyText {
+    /*line-height: 1em;*/
+    /*margin-left: 2%;*/
+    font-size: 15px;
+}
+
 #commentFormBody {
     font-family: 'Roboto', sans-serif;
     width:70%;
@@ -304,15 +355,6 @@ textarea, input, .form-control {
 }
 
 .commentHR {
-    /*display: block;*/
-    /*margin-top: 0.5em;*/
-    /*margin-bottom: 0.5em;*/
-    /*margin-left: auto;*/
-    /*margin-right: auto;*/
-    /*border-style: inset;*/
-    /*height: 1px;*/
-    /*border: 0;*/
-    /*box-shadow: 0 10px 10px -10px #8c8b8b inset;*/
     border-top: 1px solid #8c8b8b;
 }
 
@@ -333,14 +375,27 @@ textarea, input, .form-control {
     cursor: pointer;
 }
 
+.postVoting {
+    display: inline-block;
+    float: left;
+    padding-right: 25px;
+}
+
 .commentVoting {
     display: inline-block;
     float: left;
     padding-right: 25px;
 }
 
+.editAndDeleteWrapper {
+    margin-top: 1em;
+    margin-left: 1em;
+    line-height: 2em;
+}
+
 .editAndDeleteBtnsRow {
-    margin-left: 1%;
+    margin-left: 1em;
+    line-height: 2em;
 }
 
 .commentEdit {

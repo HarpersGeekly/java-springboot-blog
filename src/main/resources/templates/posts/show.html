@@ -15,7 +15,7 @@
 
         <!-- ========================================= Post Voting ====================================-->
 
-        <div class="row commentVoting">
+        <div class="row postVoting">
 
             <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
             <div th:if="${!isLoggedIn}">
@@ -60,19 +60,19 @@
         <!-- ====================================== Post User and Time  ============================== -->
 
         <h5 class="postedBy">
-            <a th:href="${'/profile/' + post.user.id}">
-                <span th:text="${post.user.username}"></span>
-            </a> |
+            <a th:href="${'/profile/' + post.user.id}" style="text-decoration: none;">
+                <span class="postedByNameText" th:text="${post.user.username}"></span>
+            </a>
             <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
-            <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span> |
-            <span th:text="${#temporals.monthNameShort(post.date)}"></span>
-            <span th:text="${#temporals.day(post.date)}"></span>,
-            <span th:text="${#temporals.year(post.date)}"></span>
+            <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
+            <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+            <span class="postedByDate" th:text="${#temporals.day(post.date)}">,</span>
+            <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
         </h5>
 
         <!-- ====================================== Post Description =================================-->
 
-        <h5 th:text="${post.description}"></h5>
+        <h5 id="postTextBody" th:text="${post.description}"></h5>
 
         <!-- ====================================== Post Edit and Delete Buttons =====================-->
 
@@ -183,18 +183,20 @@
             </div>
 
             <h5 class="postedBy">
-                <a th:href="${'/profile/' + comment.user.id}">
-                    <span th:text="${comment.user.username}"></span>
-                </a> |
-                <span th:text="${#temporals.format(comment.date,  'h:mm a')}"></span> |
-                <span th:text="${#temporals.monthNameShort(comment.date)}"></span>
-                <span th:text="${#temporals.day(comment.date)}"></span>,
-                <span th:text="${#temporals.year(comment.date)}"></span>
+                <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
+                    <span class="commentedByNameText" th:text="${comment.user.username}"></span>
+                </a>
+                <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}" style="margin-right: 0.75em;"></span>
+                <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
+                <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
             </h5>
 
             <!-- =============================== Comment Body =========================-->
 
-            <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-commentBody-comment-id=${comment.id}"></h5>
+            <div class="commentBodyWrapper">
+                <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-commentBody-comment-id=${comment.id}"></h5>
+            </div>
 
             <!-- =============================== Edit Form ============================-->
 
