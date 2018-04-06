@@ -152,35 +152,35 @@
         <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
             <!-- this div should be targeted with unique th:attr -->
 
-            <div class="row commentVoting">
+            <!--<div class="row commentVoting">-->
 
-                <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
-                <div th:if="${!isLoggedIn}">
-                    <a th:href="${'/login'}">
-                        <i class="far fa-thumbs-up"></i>
-                    </a>
-                </div>
-                <!--if logged in: upvote and downvote arrows function normally.-->
-                <div th:if="${isLoggedIn}">
-                    <i class="far fa-thumbs-up commentUpvote"></i>
-                </div>
+                <!--&lt;!&ndash;if not logged in: upvote and downvote arrows are href's linked to the login page. &ndash;&gt;-->
+                <!--<div th:if="${!isLoggedIn}">-->
+                    <!--<a th:href="${'/login'}">-->
+                        <!--<i class="far fa-thumbs-up"></i>-->
+                    <!--</a>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;if logged in: upvote and downvote arrows function normally.&ndash;&gt;-->
+                <!--<div th:if="${isLoggedIn}">-->
+                    <!--<i class="far fa-thumbs-up commentUpvote"></i>-->
+                <!--</div>-->
 
-                <div>
-                    <h5>
-                        <span class="voteCount" th:text="${comment.voteCount}"></span>
-                    </h5>
-                </div>
+                <!--<div>-->
+                    <!--<h5>-->
+                        <!--<span class="voteCount" th:text="${comment.voteCount}"></span>-->
+                    <!--</h5>-->
+                <!--</div>-->
 
-                <div th:if="${isLoggedIn}">
-                    <i class="far fa-thumbs-down commentDownvote"></i>
-                </div>
-                <div th:if="${!isLoggedIn}">
-                    <a th:href="${'/login'}">
-                        <i class="far fa-thumbs-down"></i>
-                    </a>
-                </div>
+                <!--<div th:if="${isLoggedIn}">-->
+                    <!--<i class="far fa-thumbs-down commentDownvote"></i>-->
+                <!--</div>-->
+                <!--<div th:if="${!isLoggedIn}">-->
+                    <!--<a th:href="${'/login'}">-->
+                        <!--<i class="far fa-thumbs-down"></i>-->
+                    <!--</a>-->
+                <!--</div>-->
 
-            </div>
+            <!--</div>-->
 
             <h5 class="postedBy">
                 <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
@@ -229,6 +229,38 @@
 
             <!--===================================== EDIT COMMENT BUTTON ========================-->
             <!--==================================================================================-->
+
+            <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
+                    <div class="upvoteDiv">
+                                <div th:if="${!isLoggedIn}">
+                                    <a th:href="${'/login'}">
+                                        <i class="far fa-thumbs-up"></i>
+                                    </a>
+                                </div>
+                                <!--if logged in: upvote and downvote arrows function normally.-->
+                                <div th:if="${isLoggedIn}">
+                                    <i class="far fa-thumbs-up commentUpvote"></i>
+                                </div>
+                                </div>
+
+                    <div class="voteCountDiv">
+                                <h5>
+                                    <span class="voteCount" th:text="${comment.voteCount}"></span>
+                                </h5>
+                                </div>
+
+                    <div class="downvoteDiv">
+                                <div th:if="${isLoggedIn}">
+                                    <i class="far fa-thumbs-down commentDownvote"></i>
+                                </div>
+                                <div th:if="${!isLoggedIn}">
+                                    <a th:href="${'/login'}">
+                                        <i class="far fa-thumbs-down"></i>
+                                    </a>
+                                </div>
+                                </div>
+            </div>
+
             <div class="editAndDeleteWrapper">
                 <div class="row">
 
@@ -390,10 +422,6 @@
         $this.siblings('.showReplyTextArea').show();
         $this.siblings('.replyTextArea').toggle(250);
     });
-    // $this.
-    // $(this).text(function (_, oldText) {
-    //     return oldText === 'CANCEL' ? 'REPLY' : 'CANCEL';
-    // });
 
     $('.form').submit(function () {
         $(".replyTextArea").hide();
@@ -437,22 +465,23 @@
                 $('.commentsAJAX').prepend(html).hide().fadeIn(); // comment belongs in the comment div
             }
 
-            $('.editedCommentForm').hide(); //hide the reply form.
-            $('.replyTextArea').hide(); // hide the reply text area.
-            $('.showReplyTextAreaCancel').hide();
+            $('.editedCommentFormAJAX').hide(); //hide the reply form.
+            $('.replyTextAreaAJAX').hide(); // hide the reply text area.
+            $('.showReplyTextAreaCancelAJAX').hide();
 
-            $('.showReplyTextArea').on('click', function () {
+            $('.showReplyTextAreaAJAX').on('click', function () {
                 let $this = $(this);
+                $('#replyFormBodyAJAX').val('');
                 $this.hide();
-                $this.siblings('.showReplyTextAreaCancel').show();
-                $this.siblings('.replyTextArea').toggle(250);
+                $this.siblings('.showReplyTextAreaCancelAJAX').show();
+                $this.siblings('.replyTextAreaAJAX').toggle(250);
             });
 
-            $('.showReplyTextAreaCancel').on('click', function () {
+            $('.showReplyTextAreaCancelAJAX').on('click', function () {
                 let $this = $(this);
                 $this.hide();
-                $this.siblings('.showReplyTextArea').show();
-                $this.siblings('.replyTextArea').toggle(250);
+                $this.siblings('.showReplyTextAreaAJAX').show();
+                $this.siblings('.replyTextAreaAJAX').toggle(250);
             });
         });
 
@@ -490,12 +519,14 @@
 
             let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
             let $commentForm = $('[data-edit-form-comment-id=' + commentId + ']');
+            let $commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
             let $replyButton = $('[data-replyButton-comment-id=' + commentId + ']');
             let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
             let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
 
             $commentBody.hide(); // hide the original comment body
             $replyButton.hide(); // hide the reply link
+            $commentVoting.hide(); // hide the comment votes
             $editBtn.hide(); // hide the edit button
             $deleteBtn.hide(); // hide the delete button
             $commentForm.show(); // I just want to show "this" edit form
@@ -509,6 +540,7 @@
                 $commentForm.hide(); // hide the edit form
                 $commentBody.show(); // show the original comment back in the html
                 $replyButton.show(); // show the reply button again
+                $commentVoting.show(); // show the comment votes again
                 $editBtn.show();// show the edit button
                 $deleteBtn.show();// show the delete button
                 // $commentBody.show(0, comment.body); this also works. very interesting dom error if you remove the 0.

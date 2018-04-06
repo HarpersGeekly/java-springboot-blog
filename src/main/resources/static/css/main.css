@@ -254,7 +254,7 @@ textarea, input, .form-control {
 
 .postedBy {
     font-weight: bold;
-    margin-left: 1.3em;
+    /*margin-left: 1.3em;*/
 }
 
 .postedByNameText {
@@ -327,7 +327,7 @@ textarea, input, .form-control {
 }
 
 .commentBodyWrapper {
-    margin: 1.3em;
+    /*margin: 1.3em;*/
 }
 
 #commentBodyText {
@@ -384,7 +384,23 @@ textarea, input, .form-control {
 .commentVoting {
     display: inline-block;
     float: left;
-    padding-right: 25px;
+    margin-top: 0.55em;
+}
+
+.upvoteDiv {
+    float:left;
+    margin-right:1em;
+}
+
+.voteCountDiv {
+    display:inline-block;
+    margin-right: 1em;
+    margin-top: -1em;
+}
+
+.downvoteDiv {
+    float: right;
+    margin-right: 2em;
 }
 
 .editAndDeleteWrapper {
@@ -394,7 +410,12 @@ textarea, input, .form-control {
 }
 
 .editAndDeleteBtnsRow {
-    margin-left: 1em;
+    margin-left: 0.62em;
+    line-height: 2em;
+}
+
+.editAndDeleteBtnsRow:after {
+    margin-left: 5em;
     line-height: 2em;
 }
 
@@ -433,22 +454,23 @@ textarea, input, .form-control {
     color: #999999;
 }
 
-.showReplyTextArea {
+.showReplyTextArea, .showReplyTextAreaAJAX {
     cursor: pointer;
     color: #999999;
 }
 
-.showReplyTextArea:hover {
+.showReplyTextArea:hover, .showReplyTextAreaAJAX:hover {
     cursor: pointer;
     color: #E07A5F;
 }
 
-.showReplyTextAreaCancel, .showReplyTextAreaCancel:hover {
+.showReplyTextAreaCancel, .showReplyTextAreaCancel:hover,
+.showReplyTextAreaCancelAJAX, .showReplyTextAreaCancelAJAX:hover {
     cursor: pointer;
     color: #E07A5F;
 }
 
-.replyFormBody {
+.replyFormBody, .replyFormBodyAJAX {
     resize: none;
     border-radius: 0;
     height: 7em;
@@ -456,7 +478,7 @@ textarea, input, .form-control {
     margin-left: 2.5em;
 }
 
-#replyFormBody {
+#replyFormBody, #replyFormBodyAJAX {
     resize: none;
     border-radius: 0;
     height: 7em;
@@ -468,7 +490,7 @@ textarea, input, .form-control {
     margin-top: -1.5%;
 }
 
-.commentReplyBtn {
+.commentReplyBtn, .commentReplyBtnAJAX {
     margin-left: 2.5em;
 }
 
