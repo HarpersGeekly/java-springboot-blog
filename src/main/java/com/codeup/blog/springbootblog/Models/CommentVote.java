@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
-@Entity @Table(name = "comments_votes")
+@Entity
+@Table(name = "comments_votes")
 public class CommentVote {
 
     @EmbeddedId
@@ -22,6 +23,12 @@ public class CommentVote {
 
     public CommentVote(){}
 
+    public CommentVote(Comment comment, User user, int type){
+        this.comment = comment;
+        this.user = user;
+        this.type = type;
+    }
+
     // these four things embody a CommentVote object when it's created: an embeddable id,
     // the Comment it belongs to,
     // the User that clicked it,
@@ -31,6 +38,26 @@ public class CommentVote {
         this.user = user;
         this.comment = comment;
         this.type = type;
+    }
+
+    public static CommentVote up(Comment comment, User user) {
+        return new CommentVote(comment, user, 1);
+    }
+
+    public static CommentVote down(Comment comment, User user) {
+        return new CommentVote(comment, user, -1);
+    }
+
+    public boolean isUpvote() {
+        return type == 1;
+    }
+
+    public boolean isDownvote() {
+        return type == -1;
+    }
+
+    public boolean voteBelongsTo(User user) {
+        return this.user.getId().equals(user.getId());
     }
 
     // why do I have to add JsonIgnore on the getters?
