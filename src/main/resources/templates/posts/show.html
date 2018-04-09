@@ -153,36 +153,6 @@
         <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
             <!-- this div should be targeted with unique th:attr -->
 
-            <!--<div class="row commentVoting">-->
-
-                <!--&lt;!&ndash;if not logged in: upvote and downvote arrows are href's linked to the login page. &ndash;&gt;-->
-                <!--<div th:if="${!isLoggedIn}">-->
-                    <!--<a th:href="${'/login'}">-->
-                        <!--<i class="far fa-thumbs-up"></i>-->
-                    <!--</a>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;if logged in: upvote and downvote arrows function normally.&ndash;&gt;-->
-                <!--<div th:if="${isLoggedIn}">-->
-                    <!--<i class="far fa-thumbs-up commentUpvote"></i>-->
-                <!--</div>-->
-
-                <!--<div>-->
-                    <!--<h5>-->
-                        <!--<span class="voteCount" th:text="${comment.voteCount}"></span>-->
-                    <!--</h5>-->
-                <!--</div>-->
-
-                <!--<div th:if="${isLoggedIn}">-->
-                    <!--<i class="far fa-thumbs-down commentDownvote"></i>-->
-                <!--</div>-->
-                <!--<div th:if="${!isLoggedIn}">-->
-                    <!--<a th:href="${'/login'}">-->
-                        <!--<i class="far fa-thumbs-down"></i>-->
-                    <!--</a>-->
-                <!--</div>-->
-
-            <!--</div>-->
-
             <h5 class="postedBy">
                 <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                     <span class="commentedByNameText" th:text="${comment.user.username}"></span>
@@ -240,19 +210,26 @@
                                 </div>
                                 <!--if logged in: upvote and downvote arrows function normally.-->
                                 <div th:if="${isLoggedIn}">
-                                    <i class="far fa-thumbs-up commentUpvote"></i>
+                                    <form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"
+                                          th:attr="data-upvote-comment-id=${comment.id}">
+                                        <i th:classappend="${upvote} ? stayActive : commentUpvote" class="far fa-thumbs-up commentUpvote" th:if="${isLoggedIn}"></i>
+                                    </form>
                                 </div>
                                 </div>
 
                     <div class="voteCountDiv">
                                 <h5>
-                                    <!--<span class="voteCount" th:text="${comment.voteCount}"></span>-->
+                                    <!--<span class="commentVoteCount" th:text="${comment.voteCount()}"-->
+                                           <!--th:attr="data-voteCount-comment-id=${comment.id}"></span>-->
                                 </h5>
                                 </div>
 
                     <div class="downvoteDiv">
                                 <div th:if="${isLoggedIn}">
-                                    <i class="far fa-thumbs-down commentDownvote"></i>
+                                    <form th:action="@{/comment/downvote/{commentId}(commentId=${comment.id})}" method="POST"
+                                          th:attr="data-downvote-comment-id=${comment.id}">
+                                        <i th:classappend="${downvote} ? stayActive : commentDownvote" class="far fa-thumbs-down commentDownvote" th:if="${isLoggedIn}"></i>
+                                    </form>
                                 </div>
                                 <div th:if="${!isLoggedIn}">
                                     <a th:href="${'/login'}">
@@ -734,6 +711,32 @@
             });
         }
     });
+
+    <!-- =================================================================================================================-->
+    <!-- ============================================== COMMENT VOTING  ==================================================-->
+    <!-- =================================================================================================================-->
+
+    $('.container').on("click", ".commentUpvote", function(e) {
+
+        let $button = $(this);
+        let commentId = $button.parent().data('upvote-comment-id');
+        console.log(commentId);
+
+        let commentFormUp = $('[data-upvote-comment-id=' + commentId + ']');
+
+        let request = $.ajax({
+            url: commentFormUp.attr('action'), //-> commentVoting() in PostsController using the action path in the form element
+            method: 'POST',
+            data: commentFormUp.serialize()
+        });
+        request.done(function(comment) {
+
+            console.log("hello from comment upvote response")
+
+        })
+
+    })
+
 
 </script>
 </body>
