@@ -170,6 +170,16 @@ public class Post {
         // There’s a really tiny performance difference due to saving one level of delegation.
         // reduce() sums the values
     }
+
+
+    public List<CommentVote> getCommentVotes() {
+        return commentVotes;
+    }
+
+    public void setCommentVotes(List<CommentVote> commentVotes) {
+        this.commentVotes = commentVotes;
+    }
+
 //=======================
 //    ISSUE: votes are counting extra +1 or -1 ?
 //=======================

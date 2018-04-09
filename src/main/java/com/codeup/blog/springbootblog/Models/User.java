@@ -165,6 +165,14 @@ public class User {
         this.votes = votes;
     }
 
+    public List<CommentVote> getCommentVotes() {
+        return commentVotes;
+    }
+
+    public void setCommentVotes(List<CommentVote> commentVotes) {
+        this.commentVotes = commentVotes;
+    }
+
 
 //    private boolean hasVotedUp;
 //
