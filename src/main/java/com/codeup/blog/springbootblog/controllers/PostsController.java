@@ -1,9 +1,6 @@
 package com.codeup.blog.springbootblog.controllers;
 
-import com.codeup.blog.springbootblog.Models.Comment;
-import com.codeup.blog.springbootblog.Models.Post;
-import com.codeup.blog.springbootblog.Models.PostVote;
-import com.codeup.blog.springbootblog.Models.User;
+import com.codeup.blog.springbootblog.Models.*;
 import com.codeup.blog.springbootblog.repositories.CommentsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.PostService;
@@ -236,6 +233,12 @@ public class PostsController {
             viewModel.addAttribute("downvote", vote != null && vote.isDownVote());
         }
 
+        if (user != null) {
+            CommentVote commentVote = comment.getVoteFrom(user);
+            viewModel.addAttribute("cmtUpvote", commentVote != null && commentVote.isUpvote());
+            viewModel.addAttribute("cmtDownvote", commentVote != null && commentVote.isDownvote());
+        }
+
         return "posts/show";
     }
 
@@ -320,7 +323,6 @@ public class PostsController {
 
     @PostMapping("/posts/{type}/{postId}")
     public @ResponseBody Post postVoting(@PathVariable Long postId, @PathVariable String type,
-                                         Model viewModel,
                                          Authentication token) {
 
         Post post = postSvc.findOne(postId);
@@ -350,8 +352,8 @@ public class PostsController {
         System.out.println(votes);
 
         for(PostVote vote : votes) {
-//             if (vote.getUser().getId() == (user.getId())) {
-                if(vote.voteBelongsTo(user)) {
+//            if (vote.getUser().getId() == (user.getId())) {
+            if(vote.voteBelongsTo(user)) {
                 post.removeVote(vote);
                 System.out.println("vote count:" + post.voteCount());
                 break;
@@ -363,4 +365,30 @@ public class PostsController {
 
 //================================================ COMMENT VOTING ======================================================
 //======================================================================================================================
+
+    @PostMapping("/comment/{type}/{commentId}")
+    public @ResponseBody Comment commentVoting(@PathVariable String type,
+                                               @PathVariable Long commentId) {
+
+        Comment comment = commentsDao.findOne(commentId);
+        User user = userSvc.loggedInUser();
+
+        if (type.equalsIgnoreCase("upvote")) {
+            comment.addVote(CommentVote.up(comment, user));
+        } else {
+            comment.addVote(CommentVote.down(comment, user));
+        }
+
+        commentsDao.save(comment);
+        return comment;
+    }
+
+
+
+
+
 }
+
+
+
+
