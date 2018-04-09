@@ -24,6 +24,7 @@ public class CommentVote {
     public CommentVote(){}
 
     public CommentVote(Comment comment, User user, int type){
+        this.id = new CommentVoteId(comment.getId(), user.getId());
         this.comment = comment;
         this.user = user;
         this.type = type;
@@ -33,12 +34,6 @@ public class CommentVote {
     // the Comment it belongs to,
     // the User that clicked it,
     // and what type of vote it was up or down...
-    public CommentVote(User user, Comment comment, int type) {
-        this.id = new CommentVoteId(comment.getId(), user.getId());
-        this.user = user;
-        this.comment = comment;
-        this.type = type;
-    }
 
     public static CommentVote up(Comment comment, User user) {
         return new CommentVote(comment, user, 1);

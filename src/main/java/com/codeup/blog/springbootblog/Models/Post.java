@@ -166,11 +166,6 @@ public class Post {
         // reduce() sums the values
     }
 
-//=======================
-//    ISSUE: votes are counting extra +1 or -1 ?
-//=======================
-
-
 //    public String getImage() {
 //        return image;
 //    }

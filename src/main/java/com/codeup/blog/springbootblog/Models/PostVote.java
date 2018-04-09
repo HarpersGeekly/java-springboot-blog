@@ -18,8 +18,7 @@ public class PostVote {
     @ManyToOne @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
-//    boolean type; // upvote = true, downvote = false
-    private int type; // upvote = 1, downvote = -1
+    private int type;
 
     public PostVote() {}
 
