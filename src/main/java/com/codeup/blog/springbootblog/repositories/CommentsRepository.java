@@ -31,9 +31,9 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
                     "SELECT * FROM redwood_blog_db.comments c WHERE c.post_id = ?1 ORDER BY ?#{#pageable}")
     Page<Comment> postCommentsByPage(Long id, Pageable pageable);
 
-    @Query(nativeQuery = true,
-            value = "SELECT c.vote_count FROM redwood_blog_db.comments c WHERE c.id = ?1")
-    Long commentVoteCount(Long id);
+//    @Query(nativeQuery = true,
+//            value = "SELECT c.vote_count FROM redwood_blog_db.comments c WHERE c.id = ?1")
+//    Long commentVoteCount(Long id);
 
     @Query(nativeQuery = true,
             value = "SELECT * FROM comments c WHERE c.post_id = ?1 ORDER BY c.id DESC")

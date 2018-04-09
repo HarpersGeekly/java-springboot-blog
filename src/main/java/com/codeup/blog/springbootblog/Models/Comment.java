@@ -109,6 +109,23 @@ public class Comment {
         this.commentVotes = commentVotes;
     }
 
+    public CommentVote getVoteFromUser(User user) {
+        for (CommentVote commentVote : commentVotes) {
+            if (commentVote.voteBelongsTo(user)) {
+                return commentVote;
+            }
+        }
+        return null;
+    }
+
+    public void addVote(CommentVote vote) {
+        commentVotes.add(vote);
+    }
+
+    public void removeVote(CommentVote vote) {
+        commentVotes.remove(vote);
+    }
+
 //    public List<Reply> getReplies() {
 //        return replies;
 //    }
