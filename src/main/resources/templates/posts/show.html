@@ -28,7 +28,7 @@
 
                 <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
                       th:attr="data-upvote-post-id=${post.id}">
-                    <i th:classappend="${upvote} ? stayActive : postUpvote" class="far fa-thumbs-up postUpvote"></i>
+                    <i th:classappend="${upvote} ? stayActive : postUpvote" class="far fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
                     <!--when clicked, stayActive class will be added or removed.-->
                 </form>
 
@@ -45,7 +45,7 @@
 
                 <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
                       th:attr="data-downvote-post-id=${post.id}">
-                    <i th:classappend="${downvote} ? stayActive : postDownvote" class="far fa-thumbs-down postDownvote"></i>
+                    <i th:classappend="${downvote} ? stayActive : postDownvote" class="far fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
                 </form>
             </div>
 
@@ -106,8 +106,9 @@
         <!--============================================== FORM for COMMENTS ================================================-->
         <!-- ================================================================================================================-->
 
-        <div th:if="${!isLoggedIn}">
-            <a th:href="${'/login'}"> REPLY
+        <div th:if="${!isLoggedIn}" class="replyNotLoggedIn">
+            <a th:href="${'/login'}">
+                <i class="fas fa-reply"></i> REPLY
             </a>
         </div>
 
@@ -245,7 +246,7 @@
 
                     <div class="voteCountDiv">
                                 <h5>
-                                    <span class="voteCount" th:text="${comment.voteCount}"></span>
+                                    <!--<span class="voteCount" th:text="${comment.voteCount}"></span>-->
                                 </h5>
                                 </div>
 
@@ -299,7 +300,7 @@
             <!--================================== REPLY TO A COMMENT ======================-->
             <!--============================================================================-->
 
-            <div th:if="${!isLoggedIn}">
+            <div th:if="${!isLoggedIn}"  class="replyNotLoggedIn">
                 <a th:href="${'/login'}">
                     <i class="fas fa-reply"></i> REPLY
                 </a>

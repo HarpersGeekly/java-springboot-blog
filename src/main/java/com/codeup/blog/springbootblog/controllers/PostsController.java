@@ -219,22 +219,22 @@ public class PostsController {
     @GetMapping("/posts/{id}")
     public String showPostById(@PathVariable Long id, Model viewModel, Comment comment,
                                @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
-                                       Pageable pageable, Authentication token) {
+                                       Pageable pageable) {
 //        Post post = new Post(1L,"First Title", "First Description");
         Post post = postSvc.findOne(id);
-        User user = (User) token.getPrincipal();
-//        PostVote postVote = postSvc.findOne(id);
+        User user = userSvc.loggedInUser();
 
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("comment", new Comment());
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
-        viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
-//        viewModel.addAttribute("hasVoted", postSvc.hasVoted(user.getId()));
-        PostVote vote = post.getVoteFrom(user);
-        viewModel.addAttribute("upvote", vote != null && vote.isUpvote());
-        viewModel.addAttribute("downvote", vote != null && vote.isDownVote());
+
+        if (user != null) {
+            PostVote vote = post.getVoteFrom(user);
+            viewModel.addAttribute("upvote", vote != null && vote.isUpvote());
+            viewModel.addAttribute("downvote", vote != null && vote.isDownVote());
+        }
 
         return "posts/show";
     }
@@ -251,7 +251,6 @@ public class PostsController {
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
-        viewModel.addAttribute("voteCount", commentsDao.commentVoteCount(comment.getId()));
         viewModel.addAttribute("comment", comment);
 
         if (validation.hasErrors()) {

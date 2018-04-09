@@ -454,9 +454,14 @@ textarea, input, .form-control {
     color: #c0c0c0;
 }
 
+.replyNotLoggedIn {
+    margin-top: 1.5em;
+}
+
 .showReplyTextArea, .showReplyTextAreaAJAX {
     cursor: pointer;
     color: #888888;
+    margin-top: 1.5em
 }
 
 .showReplyTextArea:hover, .showReplyTextAreaAJAX:hover {
