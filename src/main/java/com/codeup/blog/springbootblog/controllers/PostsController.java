@@ -270,7 +270,6 @@ public class PostsController {
         comment.setPost(post);
         comment.setUser(userSvc.loggedInUser());
         comment.setDate(LocalDateTime.now());
-        comment.setVoteCount((long)0);
         commentsDao.save(comment);
 
 //        return comment;

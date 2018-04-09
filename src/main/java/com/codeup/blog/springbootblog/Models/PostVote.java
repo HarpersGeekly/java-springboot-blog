@@ -21,8 +21,7 @@ public class PostVote {
 //    boolean type; // upvote = true, downvote = false
     private int type; // upvote = 1, downvote = -1
 
-    public PostVote() {
-    }
+    public PostVote() {}
 
     // these four things embody a PostVote object when it's created: an embeddable id,
     // the Post it belongs to,

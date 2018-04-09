@@ -31,9 +31,6 @@ public class Comment {
     @Size(min = 2, message="Comments must be more than 2 characters.")
     private String body;
 
-    @Column
-    private long voteCount;
-
     @ManyToOne // many comments will belong to one Post
 //    @JsonManagedReference
     @JsonIgnore
@@ -46,6 +43,19 @@ public class Comment {
 
     @Column(name = "CREATED_DATE")
     private LocalDateTime date;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentVote> commentVotes;
+
+    public Comment(){}
+
+    public Comment(String body, Post post, User user, LocalDateTime date, List<CommentVote> commentVotes) {
+        this.body = body;
+        this.post = post;
+        this.user = user;
+        this.date = date;
+        this.commentVotes = commentVotes;
+    }
 
     public boolean isOwnedBy(long userId) {
         return getUser() != null && getUser().getId().equals(userId);
@@ -91,12 +101,12 @@ public class Comment {
         this.date = date;
     }
 
-    public long getVoteCount() {
-        return voteCount;
+    public List<CommentVote> getCommentVotes() {
+        return commentVotes;
     }
 
-    public void setVoteCount(long voteCount) {
-        this.voteCount = voteCount;
+    public void setCommentVotes(List<CommentVote> commentVotes) {
+        this.commentVotes = commentVotes;
     }
 
 //    public List<Reply> getReplies() {
