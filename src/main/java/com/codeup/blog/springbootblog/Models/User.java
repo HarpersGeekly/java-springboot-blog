@@ -53,6 +53,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<PostVote> votes; // one user can have many votes.
 
+    @OneToMany(mappedBy = "user")
+    private List<CommentVote> commentVotes;
+
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many replies to comments. When User is deleted, these delete too
 //    @JsonIgnore
 //    private List<Reply> replies;
@@ -91,6 +94,7 @@ public class User {
         this.comments = copy.comments;
 //        this.replies = copy.replies;
         this.votes = copy.votes;
+        this.commentVotes = copy.commentVotes;
     }
 
     public Long getId() {
