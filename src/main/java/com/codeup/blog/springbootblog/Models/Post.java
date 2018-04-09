@@ -48,15 +48,11 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostVote> votes; // one post can have many votes, if a post is deleted, the votes disappear too.
 
-    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
-    private List<CommentVote> commentVotes;
-
     //use when the post is retrieved from the database.
     public Post(Long id, String title, String description, User user, String image,
                 LocalDateTime date,
                 List<Comment> comments,
-                List<PostVote> votes,
-                List<CommentVote> commentVotes) {
+                List<PostVote> votes) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -65,7 +61,6 @@ public class Post {
         this.comments = comments;
 //        this.image = image; // may not need this here.
         this.votes = votes;
-        this.commentVotes = commentVotes;
     }
 
     //use on the create form action with Model binding.
@@ -169,15 +164,6 @@ public class Post {
         // PostVote::getType will evaluate to a function that invokes getType() directly without any delegation.
         // There’s a really tiny performance difference due to saving one level of delegation.
         // reduce() sums the values
-    }
-
-
-    public List<CommentVote> getCommentVotes() {
-        return commentVotes;
-    }
-
-    public void setCommentVotes(List<CommentVote> commentVotes) {
-        this.commentVotes = commentVotes;
     }
 
 //=======================
