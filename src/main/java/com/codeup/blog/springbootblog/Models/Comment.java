@@ -131,6 +131,7 @@ public class Comment {
 
     @JsonGetter("voteCount") // saying that this method is only being used as an attribute in show.html
     public int voteCount() {
+        if(commentVotes == null) return 0;
         return commentVotes.stream().mapToInt(CommentVote::getType).reduce(0, (sum, vote) -> (sum + vote));
         // takes all the votes and adds 1 or -1 (getType). Needs more users in application to vote and see results.
         // http://www.baeldung.com/java-8-double-colon-operator (::)
