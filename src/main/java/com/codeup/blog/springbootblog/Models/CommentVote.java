@@ -55,7 +55,7 @@ public class CommentVote {
         return this.user.getId().equals(user.getId());
     }
 
-    // why do I have to add JsonIgnore on the getters?
+    // why do I have to add JsonIgnore on the getters? Required for incoming comment via ajax
     @JsonIgnore
     public User getUser() {
         return user;

@@ -147,9 +147,6 @@
 
     <div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">
 
-        <!-- =============================== Comment Votes =========================-->
-
-
         <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
             <!-- this div should be targeted with unique th:attr -->
 
@@ -198,8 +195,7 @@
                 </div>
             </form>
 
-            <!--===================================== EDIT COMMENT BUTTON ========================-->
-            <!--==================================================================================-->
+            <!-- =============================== Comment Votes =========================-->
 
             <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
                     <div class="upvoteDiv">
@@ -212,15 +208,15 @@
                                 <div th:if="${isLoggedIn}">
                                     <form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"
                                           th:attr="data-upvote-comment-id=${comment.id}">
-                                        <i th:classappend="${upvote} ? stayActive : commentUpvote" class="far fa-thumbs-up commentUpvote" th:if="${isLoggedIn}"></i>
+                                        <i th:classappend="${cmtupvote} ? stayActive : commentUpvote" class="far fa-thumbs-up commentUpvote" th:if="${isLoggedIn}" th:attr="data-upvoteIcon-comment-id=${comment.id}"></i>
                                     </form>
                                 </div>
                                 </div>
 
                     <div class="voteCountDiv">
                                 <h5>
-                                    <!--<span class="commentVoteCount" th:text="${comment.voteCount()}"-->
-                                           <!--th:attr="data-voteCount-comment-id=${comment.id}"></span>-->
+                                    <span class="commentVoteCount" th:text="${comment.voteCount()}"
+                                           th:attr="data-voteCount-comment-id=${comment.id}"></span>
                                 </h5>
                                 </div>
 
@@ -228,7 +224,7 @@
                                 <div th:if="${isLoggedIn}">
                                     <form th:action="@{/comment/downvote/{commentId}(commentId=${comment.id})}" method="POST"
                                           th:attr="data-downvote-comment-id=${comment.id}">
-                                        <i th:classappend="${downvote} ? stayActive : commentDownvote" class="far fa-thumbs-down commentDownvote" th:if="${isLoggedIn}"></i>
+                                        <i th:classappend="${cmtdownvote} ? stayActive : commentDownvote" class="far fa-thumbs-down commentDownvote" th:if="${isLoggedIn}" th:attr="data-downvoteIcon-comment-id=${comment.id}"></i>
                                     </form>
                                 </div>
                                 <div th:if="${!isLoggedIn}">
@@ -239,9 +235,12 @@
                                 </div>
             </div>
 
+
             <div class="editAndDeleteWrapper">
                 <div class="row">
 
+                    <!--===================================== EDIT COMMENT BUTTON ========================-->
+                    <!--==================================================================================-->
                     <!-- Edit button is an event trigger. There is no form here. -->
                     <div class="commentEdit" sec:authorize="isAuthenticated()"
                          th:if="${comment.isOwnedBy(#authentication.principal.id)}">
@@ -717,6 +716,7 @@
     <!-- =================================================================================================================-->
 
     $('.container').on("click", ".commentUpvote", function(e) {
+        e.preventDefault();
 
         let $button = $(this);
         let commentId = $button.parent().data('upvote-comment-id');
@@ -731,11 +731,45 @@
         });
         request.done(function(comment) {
 
-            console.log("hello from comment upvote response")
+            let $commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
+            let $commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
+            let $commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
+            console.log("hello from comment upvote response");
+            $commentVoteCount.html(comment.voteCount);
+            $commentDownIcon.removeClass("stayActive");
+            $commentUpIcon.addClass("stayActive");
         })
 
-    })
+    });
+
+    $('.container').on("click", ".commentDownvote", function(e) {
+        e.preventDefault();
+
+        let $button = $(this);
+        let commentId = $button.parent().data('downvote-comment-id');
+        console.log(commentId);
+
+        let commentFormDown = $('[data-downvote-comment-id=' + commentId + ']');
+
+        let request = $.ajax({
+            url: commentFormDown.attr('action'),
+            method: 'POST',
+            data: commentFormDown.serialize()
+        });
+        request.done(function(comment) {
+
+            let $commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
+            let $commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
+            let $commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
+
+            console.log("hello from comment downvote response");
+            $commentVoteCount.html(comment.voteCount);
+            $commentUpIcon.removeClass("stayActive");
+            $commentDownIcon.addClass("stayActive");
+        })
+
+    });
 
 
 </script>

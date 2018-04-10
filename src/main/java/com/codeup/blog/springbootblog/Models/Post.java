@@ -117,7 +117,7 @@ public class Post {
         this.date = date;
     }
 
-    public List<Comment> getComment() {
+    public List<Comment> getComments() {
         return comments;
     }
 
