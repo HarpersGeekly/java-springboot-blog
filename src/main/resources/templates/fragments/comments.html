@@ -53,11 +53,13 @@
         </div>
     </form>
 
-    <!--===================================== EDIT COMMENT BUTTON ========================-->
+    <!--===================================== COMMENT VOTING =============================-->
     <!--==================================================================================-->
 
     <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
+
         <div class="upvoteDiv">
+
             <div th:if="${!isLoggedIn}">
                 <a th:href="${'/login'}">
                     <i class="far fa-thumbs-up"></i>
@@ -65,19 +67,29 @@
             </div>
             <!--if logged in: upvote and downvote arrows function normally.-->
             <div th:if="${isLoggedIn}">
-                <i class="far fa-thumbs-up commentUpvote"></i>
+                <form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"
+                      th:attr="data-upvote-comment-id=${comment.id}">
+                    <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isUpvote()} ? stayActive : commentUpvote"
+                       class="far fa-thumbs-up commentUpvote"
+                       th:if="${isLoggedIn}" th:attr="data-upvoteIcon-comment-id=${comment.id}"></i>
+                </form>
             </div>
         </div>
 
         <div class="voteCountDiv">
             <h5>
-                <span class="voteCount" th:text="${comment.voteCount}"></span>
+                <span class="commentVoteCount" th:text="${comment.voteCount()}" th:attr="data-voteCount-comment-id=${comment.id}"></span>
             </h5>
         </div>
 
         <div class="downvoteDiv">
             <div th:if="${isLoggedIn}">
-                <i class="far fa-thumbs-down commentDownvote"></i>
+                <form th:action="@{/comment/downvote/{commentId}(commentId=${comment.id})}" method="POST"
+                      th:attr="data-downvote-comment-id=${comment.id}">
+                    <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isDownvote()} ? stayActive : commentDownvote"
+                       class="far fa-thumbs-down commentDownvote"
+                       th:if="${isLoggedIn}" th:attr="data-downvoteIcon-comment-id=${comment.id}"></i>
+                </form>
             </div>
             <div th:if="${!isLoggedIn}">
                 <a th:href="${'/login'}">
@@ -87,9 +99,12 @@
         </div>
     </div>
 
+
     <div class="editAndDeleteWrapper">
         <div class="row">
 
+            <!--===================================== EDIT COMMENT BUTTON ========================-->
+            <!--==================================================================================-->
             <!-- Edit button is an event trigger. There is no form here. -->
             <div class="commentEdit" sec:authorize="isAuthenticated()"
                  th:if="${comment.isOwnedBy(#authentication.principal.id)}">
@@ -135,7 +150,8 @@
 
         <div class="replyTextAreaAJAX">
             <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post"
-                  th:object="${comment}">
+                  th:object="${comment}"
+                  th:attr="data-reply-form-comment-id=${comment.id}">
                 <div class="form-group">
                     <label for="replyFormBodyAJAX"></label>
                     <textarea class="form-control replyFormBodyAJAX" id="replyFormBodyAJAX" name="body"
@@ -148,7 +164,7 @@
                         <span th:errors="*{body}"/>
                     </div>
                     <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                    <button class="btn btn-primary commentReplyBtnAJAX">
+                    <button class="btn btn-primary commentReplyBtnAJAX" th:attr="data-reply-submitBtn-comment-id=${comment.id}">
                         <i class="far fa-comment-alt"></i> Reply
                     </button>
 
