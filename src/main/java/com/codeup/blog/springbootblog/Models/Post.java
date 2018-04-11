@@ -45,7 +45,8 @@ public class Post {
     @Column(name = "CREATED_DATE")
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+//    , orphanRemoval = true
     private List<PostVote> votes; // one post can have many votes, if a post is deleted, the votes disappear too.
 
     //use when the post is retrieved from the database.
