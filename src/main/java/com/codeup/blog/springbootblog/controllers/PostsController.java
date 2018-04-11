@@ -377,7 +377,7 @@ public class PostsController {
         return comment;
     }
 
-    @PostMapping("/comment/{commentId}/remove")
+    @PostMapping("/comment/{commentId}/removeVote")
     public @ResponseBody Comment commentVoteRemoval(@PathVariable Long commentId) {
 
         Comment comment = commentsDao.findOne(commentId);
