@@ -775,32 +775,55 @@
     $('.container').on("click", ".commentDownvote", function(e) {
         e.preventDefault();
 
-        let $button = $(this);
-        let commentId = $button.parent().data('downvote-comment-id');
-        console.log(commentId);
+        if ($(e.target).hasClass('stayActive')) {
+            //remove vote
+            let $button = $(this);
+            let commentId = $button.parent().data('downvote-comment-id');
+            console.log("you clicked an active vote on comment:" + commentId);
 
-        let commentFormDown = $('[data-downvote-comment-id=' + commentId + ']');
+            let $commentFormUp = $('[data-downvote-comment-id=' + commentId + ']');
 
-        let request = $.ajax({
-            url: commentFormDown.attr('action'),
-            method: 'POST',
-            data: commentFormDown.serialize()
-        });
-        request.done(function(comment) {
+            let request = $.ajax({
+                url: '/comment/' + commentId + '/removeVote',
+                method: 'POST',
+                dataType: 'json',
+                data: $commentFormUp.serialize()
+            });
+            request.done(function (comment) {
 
-            let $commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
-            let $commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
-            let $commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
+                let $commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
+                let $commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
-            console.log("hello from comment downvote response");
-            $commentVoteCount.html(comment.voteCount);
-            $commentUpIcon.removeClass("stayActive");
-            $commentDownIcon.addClass("stayActive");
-        })
+                console.log("back from voteRemoval()");
+                $commentVoteCount.html(comment.voteCount);
+                $commentDownIcon.removeClass("stayActive");
+            })
+        } else {
+            //downvote
+            let $button = $(this);
+            let commentId = $button.parent().data('downvote-comment-id');
+            console.log(commentId);
 
+            let commentFormDown = $('[data-downvote-comment-id=' + commentId + ']');
+
+            let request = $.ajax({
+                url: commentFormDown.attr('action'),
+                method: 'POST',
+                data: commentFormDown.serialize()
+            });
+            request.done(function (comment) {
+
+                let $commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
+                let $commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
+                let $commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
+
+                console.log("hello from comment downvote response");
+                $commentVoteCount.html(comment.voteCount);
+                $commentUpIcon.removeClass("stayActive");
+                $commentDownIcon.addClass("stayActive");
+            })
+        }
     });
-
-
 </script>
 </body>
 </html>
