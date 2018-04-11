@@ -70,7 +70,17 @@
     <div id="profileContent" th:each="post : ${profileUser.posts}">
         <ul>
             <li>
-                <a th:href="@{/posts/{id}(id=${post.id})}"><h4 th:text="${post.title}"></h4></a>
+                <div class="profilePostVoteTitleRow">
+                    <div class="profilePostVoteCountDiv">
+                        <h5 th:text="${post.voteCount()}"></h5>
+                    </div>
+                    <div class="profilePostThumbsUpDiv">
+                        <i class="fas fa-thumbs-up"></i>
+                    </div>
+                    <div class="profilePostTitleDiv">
+                        <a th:href="@{/posts/{id}(id=${post.id})}"><h4 th:text="${post.title}"></h4></a>
+                    </div>
+                </div>
                 <h5 th:text="${post.description}"></h5>
                 <h5 id="createdDate"><strong>created on:
                     <span th:text="${#temporals.monthNameShort(post.date)}"></span>

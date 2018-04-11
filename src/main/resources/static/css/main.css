@@ -527,6 +527,28 @@ textarea, input, .form-control {
     font-size: 3em;
 }
 
+.profilePostVoteTitleRow {
+    display: inline-block;
+}
+
+.profilePostVoteCountDiv {
+    float: left;
+}
+
+.profilePostThumbsUpDiv {
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: 0.5em;
+    float: left;
+    display: inline-block;
+}
+
+.profilePostTitleDiv {
+    float:right;
+    margin-top:-0.25em;
+}
+
+
 .profileEmailIcon {
 
 }
