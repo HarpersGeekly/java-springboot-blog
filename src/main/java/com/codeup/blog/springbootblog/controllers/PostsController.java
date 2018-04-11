@@ -223,7 +223,8 @@ public class PostsController {
 
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
-        viewModel.addAttribute("comment", new Comment());
+        viewModel.addAttribute("comment", comment);
+//        viewModel.addAttribute("comment", new Comment());
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
 
@@ -231,12 +232,6 @@ public class PostsController {
             PostVote vote = post.getVoteFrom(user);
             viewModel.addAttribute("upvote", vote != null && vote.isUpvote());
             viewModel.addAttribute("downvote", vote != null && vote.isDownVote());
-        }
-
-        if (user != null) {
-            CommentVote commentVote = comment.getVoteFrom(user);
-            viewModel.addAttribute("cmtUpvote", commentVote != null && commentVote.isUpvote());
-            viewModel.addAttribute("cmtDownvote", commentVote != null && commentVote.isDownvote());
         }
 
         return "posts/show";
@@ -341,7 +336,6 @@ public class PostsController {
 
     @PostMapping("/posts/{postId}/removeVote")
     public @ResponseBody Post voteRemoval(@PathVariable Long postId) {
-        System.out.println("Got to the remove vote controller");
 
         Post post = postSvc.findOne(postId);
         User user = userSvc.loggedInUser();
@@ -379,6 +373,24 @@ public class PostsController {
             comment.addVote(CommentVote.down(comment, user));
         }
 
+        commentsDao.save(comment);
+        return comment;
+    }
+
+    @PostMapping("/comment/{commentId}/remove")
+    public @ResponseBody Comment commentVoteRemoval(@PathVariable Long commentId) {
+
+        Comment comment = commentsDao.findOne(commentId);
+        User user = userSvc.loggedInUser();
+
+        List<CommentVote> commentVotes = comment.getCommentVotes();
+
+        for(CommentVote vote : commentVotes) {
+            if(vote.voteBelongsTo(user)) {
+                comment.removeVote(vote);
+                break;
+            }
+        }
         commentsDao.save(comment);
         return comment;
     }

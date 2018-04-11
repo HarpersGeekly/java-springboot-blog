@@ -358,14 +358,30 @@ textarea, input, .form-control {
     border-top: 1px solid #8c8b8b;
 }
 
-.postUpvote, .postDownvote, .commentUpvote, .commentDownvote {
+.postUpvote, .postDownvote {
     color: #2B2C28;
 }
-.postUpvote:hover, .postDownvote:hover, .commentUpvote:hover, .commentDownvote:hover {
+
+.postUpvote:hover, .postDownvote:hover {
     color: #7DE2D1;
     cursor: pointer;
 }
-.postUpvote:active, .postDownvote:active, .commentUpvote:active, .commentDownvote:active {
+
+.postUpvote:active, .postDownvote:active {
+    cursor: pointer;
+    color: #339989;
+}
+
+.commentUpvote, .commentDownvote {
+    color: #2B2C28;
+}
+
+.commentUpvote:hover, .commentDownvote:hover {
+    color: #7DE2D1;
+    cursor: pointer;
+}
+
+.commentUpvote:active, .commentDownvote:active {
     cursor: pointer;
     color: #339989;
 }
@@ -473,6 +489,7 @@ textarea, input, .form-control {
 .showReplyTextAreaCancelAJAX, .showReplyTextAreaCancelAJAX:hover {
     cursor: pointer;
     color: #E07A5F;
+    margin-top: 1.5em;
 }
 
 .replyFormBody, .replyFormBodyAJAX {

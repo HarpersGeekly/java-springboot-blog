@@ -198,6 +198,7 @@
             <!-- =============================== Comment Votes =========================-->
 
             <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
+
                     <div class="upvoteDiv">
                                 <div th:if="${!isLoggedIn}">
                                     <a th:href="${'/login'}">
@@ -208,7 +209,13 @@
                                 <div th:if="${isLoggedIn}">
                                     <form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"
                                           th:attr="data-upvote-comment-id=${comment.id}">
-                                        <i th:classappend="${cmtupvote} ? stayActive : commentUpvote" class="far fa-thumbs-up commentUpvote" th:if="${isLoggedIn}" th:attr="data-upvoteIcon-comment-id=${comment.id}"></i>
+
+                                            <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isUpvote()} ? stayActive : commentUpvote"
+
+                                               class="far fa-thumbs-up commentUpvote"
+
+                                               th:if="${isLoggedIn}"
+                                               th:attr="data-upvoteIcon-comment-id=${comment.id}"></i>
                                     </form>
                                 </div>
                                 </div>
@@ -224,7 +231,13 @@
                                 <div th:if="${isLoggedIn}">
                                     <form th:action="@{/comment/downvote/{commentId}(commentId=${comment.id})}" method="POST"
                                           th:attr="data-downvote-comment-id=${comment.id}">
-                                        <i th:classappend="${cmtdownvote} ? stayActive : commentDownvote" class="far fa-thumbs-down commentDownvote" th:if="${isLoggedIn}" th:attr="data-downvoteIcon-comment-id=${comment.id}"></i>
+
+                                        <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isDownvote()} ? stayActive : commentDownvote"
+
+                                           class="far fa-thumbs-down commentDownvote"
+
+                                           th:if="${isLoggedIn}"
+                                           th:attr="data-downvoteIcon-comment-id=${comment.id}"></i>
                                     </form>
                                 </div>
                                 <div th:if="${!isLoggedIn}">
