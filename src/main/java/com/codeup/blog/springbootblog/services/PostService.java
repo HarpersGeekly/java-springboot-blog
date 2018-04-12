@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.services;
 import com.codeup.blog.springbootblog.Models.Post;
 import com.codeup.blog.springbootblog.Models.PostVote;
+import com.codeup.blog.springbootblog.repositories.CommentsRepository;
 import com.codeup.blog.springbootblog.repositories.PostsRepository;
 import com.codeup.blog.springbootblog.repositories.PostsVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class PostService {
 
     private final PostsRepository postsDao;
     private final PostsVotesRepository postsVotesDao;
+    private final CommentsRepository commentsDao;
 
     // property for list
     // private List<Post> posts = new ArrayList<>();
@@ -26,9 +28,10 @@ public class PostService {
     // constructor
     // Now that we have a PostsRepository, we can autowire an instance of it here.
     @Autowired
-    public PostService(PostsRepository postsDao, PostsVotesRepository postsVotesDao) {
+    public PostService(PostsRepository postsDao, PostsVotesRepository postsVotesDao, CommentsRepository commentsDao) {
         this.postsDao = postsDao;
         this.postsVotesDao = postsVotesDao;
+        this.commentsDao = commentsDao;
          //createDummy(); // No longer making dummy hardcode
     }
 
@@ -69,6 +72,10 @@ public class PostService {
 
     public boolean hasVoted(Long id) {
         return postsVotesDao.hasVoted(id) != 0;
+    }
+
+    public int numberofCommentsOnPost(Long id) {
+        return commentsDao.numberOfCommentsOnPost(id);
     }
 
 

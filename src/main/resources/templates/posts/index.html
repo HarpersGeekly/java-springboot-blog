@@ -19,6 +19,8 @@
                     <h4 th:text="${post.title}"  id="postTitle">
                         <!--<a th:href="@{/posts/{id}(id=${post.id})}"</a> -->
                     </h4>
+                    <i class="far fa-comment-alt"></i>
+                    <!--<h5 th:text="${post.commentCount()}"></h5>-->
                     <h5><a th:href="@{/profile/{id}(id=${post.user.id})}">
                         <span th:text="${post.user.username}"></span></a> |
                         <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span> |
