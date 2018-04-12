@@ -74,7 +74,7 @@ public class PostService {
         return postsVotesDao.hasVoted(id) != 0;
     }
 
-    public int numberofCommentsOnPost(Long id) {
+    public long numberofCommentsOnPost(Long id) {
         return commentsDao.numberOfCommentsOnPost(id);
     }
 

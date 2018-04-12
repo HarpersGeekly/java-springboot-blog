@@ -113,9 +113,42 @@ ul {
     text-align: center;
 }
 
-#postTitle {
+.postTitleIndexPage {
     font-size: 18px;
+    margin-right: 1em;
+    display: inline-block;
     /*color: #E07A5F;*/
+}
+
+.postUpVoteIconIndex {
+    color: #888888;
+}
+
+.postVoteCountIndex {
+    margin-right: 1em;
+    display: inline-block;
+    color: #888888;
+}
+
+.postCommentIconIndex {
+    display: inline-block;
+    color: #888888;
+}
+
+.postCommentSizeIndex {
+    display: inline-block;
+    color: #888888;
+}
+
+.postedByNameTextIndex {
+    margin-right: 0.75em;
+    text-decoration: none;
+    color: black;
+}
+
+.postedByNameTextIndex:hover {
+    color: #7DE2D1;
+    text-decoration: none;
 }
 
 textarea, input, .form-control {
@@ -169,9 +202,8 @@ textarea, input, .form-control {
 /*}*/
 
 .postDescription{
-    margin: 0 auto;
     width: 100%;
-    /*margin-bottom: 5px;*/
+    margin: 0 auto 1em;
     /*padding-bottom: 5px;*/
     /*max-height:100px;*/
     overflow:hidden;

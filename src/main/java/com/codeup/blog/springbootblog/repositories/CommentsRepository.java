@@ -41,7 +41,7 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
 
     @Query(nativeQuery = true,
             value="SELECT count(*) FROM redwood_blog_db.comments c WHERE c.post_id = ?1")
-    int numberOfCommentsOnPost(Long id);
+    long numberOfCommentsOnPost(Long id);
 
     //=================================== BEFORE PAGINATION =====================================================
 //    List<Comment> sortAllByTime(Long id);

@@ -16,17 +16,19 @@
         <div id="content" th:each="post : ${page}">
             <ul>
                 <li>
-                    <h4 th:text="${post.title}"  id="postTitle">
+                    <h4 th:text="${post.title}" class="postTitleIndexPage">
                         <!--<a th:href="@{/posts/{id}(id=${post.id})}"</a> -->
                     </h4>
-                    <i class="far fa-comment-alt"></i>
-                    <!--<h5 th:text="${post.commentCount()}"></h5>-->
+                    <i class="far fa-thumbs-up postUpVoteIconIndex"></i>
+                    <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+                    <i class="far fa-comment-alt postCommentIconIndex"></i>
+                    <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
                     <h5><a th:href="@{/profile/{id}(id=${post.user.id})}">
-                        <span th:text="${post.user.username}"></span></a> |
-                        <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span> |
-                        <span th:text="${#temporals.monthNameShort(post.date)}"></span>
-                        <span th:text="${#temporals.day(post.date)}"></span>,
-                        <span th:text="${#temporals.year(post.date)}"></span>
+                        <span class="postedByNameTextIndex" th:text="${post.user.username}"></span></a>
+                        <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
+                        <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+                        <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
+                        <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
                     </h5>
 
                     <div class="gradientBox">

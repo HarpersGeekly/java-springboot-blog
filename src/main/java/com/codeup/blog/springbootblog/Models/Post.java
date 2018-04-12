@@ -38,7 +38,7 @@ public class Post {
 //    @JsonManagedReference
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post") // One post will have many comments
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL) // One post will have many comments
 //    @JsonBackReference
     private List<Comment> comments;
 

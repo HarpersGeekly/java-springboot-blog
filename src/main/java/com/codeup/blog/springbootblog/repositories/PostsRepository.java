@@ -21,9 +21,9 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
     List<Post> searchPostsWithKeyword(String term);
 
     @Query(nativeQuery = true,
-            countQuery = "SELECT count(*) FROM redwood_blog_db.posts", /*need to count rows for pagination */
+            countQuery = "SELECT count(*) FROM redwood_blog_db.posts p ORDER BY id DESC", /*need to count rows for pagination */
             value =
-                    "SELECT * FROM redwood_blog_db.posts ORDER BY ?#{#pageable} DESC")
+                    "SELECT * from redwood_blog_db.posts p ORDER BY ?#{#pageable}")
     Page<Post> postsByPage(Pageable pageable);
 
 }
