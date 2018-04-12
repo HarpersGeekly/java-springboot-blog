@@ -14,24 +14,32 @@
     <th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">
         <h2>Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
 
-        <h3>You are logged in. You can make comments and <a th:href="${'/posts/create'}">create a post.</a></h3>
+        <h3>You are logged in. You can make comments and <a id="profileCreatePostLink" th:href="${'/posts/create'}">create a post.</a></h3>
 
         <h4>
             <i class="far fa-envelope profileEmailIcon"></i>
                 <span th:text="${#authentication.principal.email}"/>
         </h4>
 
-        <i class="fas fa-cog profileCogIcon"></i>
-            <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">change username or email</a> |
-        <i class="fas fa-lock-open profilePasswordIcon"></i>
-            <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">change your password</a>
-
         <h4>
             <i class="far fa-handshake profileJoinIcon"></i>
-                <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
-                <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,
-                <span th:text="${#temporals.year(#authentication.principal.date)}"></span>
+            <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
+            <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,
+            <span th:text="${#temporals.year(#authentication.principal.date)}"></span>
         </h4>
+
+        <div class="profileChangeUsernameDiv">
+            <i class="fas fa-cog profileCogIcon"></i>
+            <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">
+                <h5 id="profileChangeUsernameLink">change username or email</h5>
+            </a>
+        </div>
+        <div class="profileChangePasswordDiv">
+            <i class="fas fa-lock-open profilePasswordIcon"></i>
+            <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">
+                <h5 id="profileChangePasswordLink">change your password</h5>
+            </a>
+        </div>
 
     <hr class="commentHR"/>
 
@@ -44,7 +52,7 @@
 <!--============================================== VIEWING OTHER USERS PROFILES ===========================================-->
 
     <th:block th:if="${!isOwnProfile}">
-        <h2> Viewing <span th:text="${profileUser.username}"></span>'s profile!</h2>
+        <h2><span th:text="${profileUser.username}"></span>'s profile!</h2>
 
         <h4>
             <i class="far fa-envelope profileEmailIcon"></i>
@@ -71,15 +79,27 @@
         <ul>
             <li>
                 <div class="profilePostVoteTitleRow">
+
                     <div class="profilePostVoteCountDiv">
                         <h5 th:text="${post.voteCount()}"></h5>
                     </div>
+
                     <div class="profilePostThumbsUpDiv">
                         <i class="fas fa-thumbs-up"></i>
                     </div>
-                    <div class="profilePostTitleDiv">
-                        <a th:href="@{/posts/{id}(id=${post.id})}"><h4 th:text="${post.title}"></h4></a>
+
+                    <div class="profilePostCommentSizeDiv">
+                        <h5 th:text="${post.getComments().size()}"></h5>
                     </div>
+
+                    <div class="profilePostCommentIconDiv">
+                        <i class="fas fa-comments profilePostCommentIcon"></i>
+                    </div>
+
+                    <div class="profilePostTitleDiv">
+                        <a th:href="@{/posts/{id}(id=${post.id})}"><h4 class="profilePostTitleText" th:text="${post.title}"></h4></a>
+                    </div>
+
                 </div>
                 <h5 th:text="${post.description}"></h5>
                 <h5 id="createdDate"><strong>created on:

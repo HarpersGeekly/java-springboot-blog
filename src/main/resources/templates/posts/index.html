@@ -19,9 +19,9 @@
                     <h4 th:text="${post.title}" class="postTitleIndexPage">
                         <!--<a th:href="@{/posts/{id}(id=${post.id})}"</a> -->
                     </h4>
-                    <i class="far fa-thumbs-up postUpVoteIconIndex"></i>
+                    <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
                     <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
-                    <i class="far fa-comment-alt postCommentIconIndex"></i>
+                    <i class="fas fa-comments postCommentIconIndex"></i>
                     <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
                     <h5><a th:href="@{/profile/{id}(id=${post.user.id})}">
                         <span class="postedByNameTextIndex" th:text="${post.user.username}"></span></a>

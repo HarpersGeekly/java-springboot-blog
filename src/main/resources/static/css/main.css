@@ -391,6 +391,7 @@ textarea, input, .form-control {
 }
 
 .postUpvote, .postDownvote {
+    font-size: 1.2em;
     color: #2B2C28;
 }
 
@@ -405,6 +406,7 @@ textarea, input, .form-control {
 }
 
 .commentUpvote, .commentDownvote {
+    font-size: 1.2em;
     color: #2B2C28;
 }
 
@@ -420,6 +422,11 @@ textarea, input, .form-control {
 
 .stayActive {
     color: #7DE2D1;
+    cursor: pointer;
+}
+
+.stayActive:hover {
+    color: #339989;
     cursor: pointer;
 }
 
@@ -555,6 +562,24 @@ textarea, input, .form-control {
 
 /*=============== Profile page ======================*/
 
+#profileCreatePostLink {
+    color: #E07A5F;
+}
+
+#profileChangeUsernameLink, #profileChangePasswordLink {
+    display: inline-block;
+    color: #999999;
+}
+
+#profileChangeUsernameLink {
+    margin-right: 1em;
+}
+
+.profileChangeUsernameDiv,
+.profileChangePasswordDiv {
+    display: inline-block;
+}
+
 .profileFrownIcon {
     font-size: 3em;
 }
@@ -568,16 +593,31 @@ textarea, input, .form-control {
 }
 
 .profilePostThumbsUpDiv {
-    margin-left: 1em;
+    margin-left: 0.5em;
     margin-right: 1em;
     margin-top: 0.5em;
     float: left;
     display: inline-block;
 }
 
+.profilePostCommentSizeDiv {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    display: inline-block;
+}
+
+.profilePostCommentIconDiv {
+    margin-right: 1em;
+    display: inline-block;
+}
+
 .profilePostTitleDiv {
     float:right;
     margin-top:-0.25em;
+}
+
+.profilePostTitleText {
+    color: #E07A5F;
 }
 
 
@@ -589,10 +629,12 @@ textarea, input, .form-control {
     float: left;
     margin-right: 20px;
     background: none;
+    color: #999999;
 }
 
 #profileDeletePostBtn {
     background: none;
+    color: #999999;
 }
 
 /*=============== Edit User Page ========================*/
