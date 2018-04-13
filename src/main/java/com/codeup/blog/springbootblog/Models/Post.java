@@ -3,6 +3,9 @@ package com.codeup.blog.springbootblog.Models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -26,11 +29,15 @@ public class Post {
 
     @Column(nullable = false, length = 100) // column on table, not-null
     @NotBlank(message="Title cannot be empty")
+    @Size(max = 100, message = "Title is too long")
     private String title;
 
     @Column(columnDefinition = "TEXT", length = 2000, nullable = false) // column, text for more, not-null
     @NotBlank(message="Description cannot be empty :/")
-    @Size(min = 5, message="Description must be at least 5 characters.")
+    @Size.List({
+            @Size(min = 5, message="Description must be at least 5 characters."),
+            @Size(max = 2000, message="Description is too long.")
+    })
     private String description;
 
     @ManyToOne // many posts can belong to one user.
@@ -165,6 +172,12 @@ public class Post {
         // PostVote::getType will evaluate to a function that invokes getType() directly without any delegation.
         // There’s a really tiny performance difference due to saving one level of delegation.
         // reduce() sums the values
+    }
+
+    public String getHtmlDescription() {
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(parser.parse(description));
     }
 
 //    public String getImage() {
