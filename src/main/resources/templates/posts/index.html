@@ -2,9 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/header :: my-header('Posts')">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-
-    </script>
 </head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
@@ -32,7 +29,9 @@
                     </h5>
 
                     <div class="gradientBox">
-                        <p class="postDescription" th:text="${post.description}"></p>
+                        <div class="postDescription">
+                            <p th:utext="${post.htmlDescription}"></p>
+                        </div>
                         <p class="read-more">
                             <i class="fas fa-hand-point-right fa-read-more"></i>
                             <a th:href="@{/posts/{id}(id=${post.id})}">check out the post...</a>
