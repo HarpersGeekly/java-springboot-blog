@@ -10,9 +10,9 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<div class="container createPagePostWrapper">
+<div class="container createPostPageWrapper">
 
-    <h1 class="createPagePostIntro">Create New Post</h1>
+    <h1 class="createPostPageIntro">Create New Post</h1>
 
 
     <form th:action="@{/posts/create}" th:method="POST" th:object="${post}" enctype="multipart/form-data">

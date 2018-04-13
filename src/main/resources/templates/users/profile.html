@@ -81,15 +81,15 @@
                 <div class="profilePostVoteTitleRow">
 
                     <div class="profilePostVoteCountDiv">
-                        <h5 th:text="${post.voteCount()}"></h5>
+                        <h5 class="profilePostVoteCountText" th:text="${post.voteCount()}"></h5>
                     </div>
 
                     <div class="profilePostThumbsUpDiv">
-                        <i class="fas fa-thumbs-up"></i>
+                        <i class="fas fa-thumbs-up profilePostVoteIcon"></i>
                     </div>
 
-                    <div class="profilePostCommentSizeDiv">
-                        <h5 th:text="${post.getComments().size()}"></h5>
+                    <div class="profilePostCommentCountDiv">
+                        <h5 class="profilePostCommentCountText" th:text="${post.getComments().size()}"></h5>
                     </div>
 
                     <div class="profilePostCommentIconDiv">
@@ -101,7 +101,9 @@
                     </div>
 
                 </div>
-                <h5 th:text="${post.description}"></h5>
+                <!--=====markdown parsing:===============-->
+                <h5 th:utext="${post.htmlDescription}"></h5>
+                <!--=====================================-->
                 <h5 id="createdDate"><strong>created on:
                     <span th:text="${#temporals.monthNameShort(post.date)}"></span>
                     <span th:text="${#temporals.day(post.date)}"></span>,
