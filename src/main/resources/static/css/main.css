@@ -266,6 +266,25 @@ textarea, input, .form-control {
 /*rgba(255, 255, 255, 0) 0%,*/
 /*rgb(255, 250, 251) 100%*/
 /*);*/
+/*============== Create Post Page =================*/
+
+.createPostPageWrapper {
+    margin-bottom:5em;
+}
+
+.createPostPageIntro {
+
+}
+
+/*============ Edit Post Page ==================*/
+
+.editPostPageWrapper {
+    margin-bottom: 5em;
+}
+
+.editPostPageIntro {
+
+}
 
 /*=============== Show Page ====================*/
 
@@ -566,9 +585,17 @@ textarea, input, .form-control {
     color: #E07A5F;
 }
 
+#profileCreatePostLink:hover {
+    text-decoration: none;
+}
+
 #profileChangeUsernameLink, #profileChangePasswordLink {
     display: inline-block;
     color: #999999;
+}
+
+#profileChangeUsernameLink:hover, #profileChangePasswordLink:hover {
+    text-decoration: underline;
 }
 
 #profileChangeUsernameLink {
@@ -578,6 +605,13 @@ textarea, input, .form-control {
 .profileChangeUsernameDiv,
 .profileChangePasswordDiv {
     display: inline-block;
+}
+
+.profilePostVoteCountText,
+.profilePostVoteIcon,
+.profilePostCommentIcon,
+.profilePostCommentCountText {
+    color: #999999;
 }
 
 .profileFrownIcon {
@@ -600,7 +634,7 @@ textarea, input, .form-control {
     display: inline-block;
 }
 
-.profilePostCommentSizeDiv {
+.profilePostCommentCountDiv {
     margin-left: 0.5em;
     margin-right: 0.5em;
     display: inline-block;
@@ -620,7 +654,6 @@ textarea, input, .form-control {
     color: #E07A5F;
 }
 
-
 .profileEmailIcon {
 
 }
@@ -635,6 +668,10 @@ textarea, input, .form-control {
 #profileDeletePostBtn {
     background: none;
     color: #999999;
+}
+
+#profileEditPostBtn:hover, #profileDeletePostBtn:hover {
+    text-decoration: underline;
 }
 
 /*=============== Edit User Page ========================*/
