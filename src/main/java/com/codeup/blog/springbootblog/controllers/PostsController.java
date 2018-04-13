@@ -203,7 +203,7 @@ public class PostsController {
 
     @GetMapping("/posts/description.json")
     @ResponseBody
-    public String showContentInForm(@RequestParam(name = "content") String content) {
+    public String showMarkdownPreviewInForm(@RequestParam(name = "content") String content) {
         Parser parser = Parser.builder().build();
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(parser.parse(content));
