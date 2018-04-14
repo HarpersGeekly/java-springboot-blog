@@ -29,6 +29,9 @@
                     th:if="${#fields.hasErrors('title')}"
                     class="alert alert-danger alert-dismissible"
                     role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <span th:errors="*{title}"/>
             </div>
         </div>
@@ -45,6 +48,9 @@
                     th:if="${#fields.hasErrors('description')}"
                     class="alert alert-danger alert-dismissible"
                     role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <span th:errors="*{description}"/>
             </div>
         </div>

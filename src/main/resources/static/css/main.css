@@ -174,11 +174,13 @@ textarea, input, .form-control {
 }
 
 #content {
+    width: 78%;
+    margin: 0 auto;
     /*font-family: Georgia, serif;*/
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
-    margin-left: 1em;
-    margin-right: 1em;
+    /*margin-left: 1em;*/
+    /*margin-right: 1em;*/
     /*overflow: auto;*/
     /*height: 200px;*/
     min-height:50px;

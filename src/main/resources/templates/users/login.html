@@ -15,6 +15,9 @@
     <!--What is param.error? Where does it come from?-->
     <!--Where are the parameters "${username}" and "${password}" coming from? Why isn't there a postmapping method for login?-->
         <div th:if="${param.error}" class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
             Invalid username or password. Have you <strong><a th:href="${'/register'}">registered?</a></strong>
         </div>
 
