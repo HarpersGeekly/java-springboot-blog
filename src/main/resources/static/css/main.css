@@ -167,10 +167,11 @@ textarea, input, .form-control {
     /*-moz-box-shadow: none;*/
     /*box-shadow: none;*/
 
-#wrapper {
+#indexPageWrapper {
     min-height: 100%;
     position: relative;
     margin-bottom: 100px;
+    /*background-color: papayawhip;*/
 }
 
 #content {
@@ -225,6 +226,10 @@ textarea, input, .form-control {
     position: absolute;
     left: 0;
     top: 0;
+    /*background: linear-gradient(transparent 50px, papayawhip);*/
+    /*background-image: -moz-linear-gradient(transparent 50px, papayawhip);*/
+    /*background-image: -o-linear-gradient(transparent 50px, papayawhip);*/
+    /*background-image: -ms-linear-gradient(transparent 50px, papayawhip);*/
     background: linear-gradient(transparent 50px, #FFFAFB);
     background-image: -moz-linear-gradient(transparent 50px, #FFFAFB);
     background-image: -o-linear-gradient(transparent 50px, #FFFAFB);
