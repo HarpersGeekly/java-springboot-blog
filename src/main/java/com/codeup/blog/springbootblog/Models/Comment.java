@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,10 +23,6 @@ public class Comment {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
     private Long id;
-
-//    @Column
-//    private Long parent_comment_id;
-    // all replies are comments, but with a parent_id of the comment they're replying to.
 
     @Column(columnDefinition = "TEXT", length = 2000, nullable = false) // column, text for more, not-null
     @NotBlank(message = "Comments cannot be empty.")
@@ -144,5 +141,56 @@ public class Comment {
         // There’s a really tiny performance difference due to saving one level of delegation.
         // reduce() sums the values
     }
+
+//    //======= replies ==========================
+//    //==========================================
+
+    @OneToMany(mappedBy="parentComment", cascade = CascadeType.ALL)
+    @OrderBy("date ASC")
+    private List<Comment> childrenComments;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "parent_id")
+    private Comment parentComment;
+
+    @JsonIgnore
+    public Comment getParentComment() {
+        return parentComment;
+    }
+
+    public void setParentComment(Comment parentComment) {
+        this.parentComment = parentComment;
+    }
+
+    @JsonIgnore
+    public List<Comment> getChildrenComments() {
+        return childrenComments;
+    }
+
+    public void setChildrenComments(List<Comment> childrenComments) {
+        this.childrenComments = childrenComments;
+    }
+
+    // handle the comment tree:
+    public int commentLevel() {
+        Comment comment = this;
+        int level = 0;
+        while ((comment = comment.getParentComment()) != null)
+            level++; //keep adding another level
+        return level;
+    }
+
+    // Do I need this constructor?
+    public Comment(Comment parentComment, String body, Post post, User user, LocalDateTime date, List<CommentVote> commentVotes, List<Comment> childrenComments) {
+        this.parentComment = parentComment;
+        this.body = body;
+        this.post = post;
+        this.user = user;
+        this.date = date;
+        this.commentVotes = commentVotes;
+        this.childrenComments = childrenComments;
+    }
+//    //==================================================
+//    //==================================================
 
 }
