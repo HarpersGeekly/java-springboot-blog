@@ -147,6 +147,7 @@
     <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
 
     <div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">
+    <!--<div class="container commentSection" th:each="comment : ${comments}">-->
 
         <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
             <!-- this div should be targeted with unique th:attr -->
@@ -287,8 +288,7 @@
                 </a>
             </div>
             <div th:if="${isLoggedIn}">
-                <h5 class="showReplyTextArea" sec:authorize="isAuthenticated()"
-                    th:attr="data-replyButton-comment-id=${comment.id}">
+                <h5 class="showReplyTextArea" th:attr="data-reply-btn-comment-id=${comment.id}">
                     <i class="fas fa-reply"></i> REPLY
                 </h5>
                 <h5 class="showReplyTextAreaCancel">
@@ -296,7 +296,7 @@
                 </h5>
 
                 <div class="replyTextArea">
-                    <form th:action="${'/posts/' + post.id + '/comment/' + comment.id}" method="post"
+                    <form th:action="@{/posts/{postId}/comment/{commentId}/reply(postId=${post.id},commentId=${comment.id})}" method="POST"
                           th:object="${comment}"
                           th:attr="data-reply-form-comment-id=${comment.id}">
                         <div class="form-group">
@@ -311,7 +311,7 @@
                                 <span th:errors="*{body}"/>
                             </div>
                             <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                            <button class="btn btn-primary commentReplyBtn" th:attr="data-reply-submitBtn-comment-id=${comment.id}">
+                            <button class="btn btn-primary commentReplyBtn" th:attr="data-reply-submit-btn-comment-id=${comment.id}">
                                 <i class="far fa-comment-alt"></i> Reply
                             </button>
 
@@ -319,6 +319,9 @@
                     </form>
                 </div>
             </div>
+            <!--<div class="childCommentDiv" style="margin-left: 5em;" th:include="fragments/comments :: ajaxComment (comments=${comment.getChildrenComments()})"></div>-->
+
+            <div class="childCommentDiv" style="margin-left: 5em;" th:attr="data-child-node-comment-id=${comment.id}"></div>
 
             <hr class="commentHR"/>
         </div>
@@ -400,6 +403,7 @@
     });
 
     $('.showReplyTextAreaCancel').on('click', function () {
+        $('.replyFormBody').val('');
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextArea').show();
@@ -503,7 +507,8 @@
             let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
             let $commentForm = $('[data-edit-form-comment-id=' + commentId + ']');
             let $commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
-            let $replyButton = $('[data-replyButton-comment-id=' + commentId + ']');
+            let $replyButton = $('[data-reply-btn-comment-id=' + commentId + ']');
+            let $replyButtonAJAX = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
             let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
             let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
 
@@ -512,7 +517,9 @@
             $editBtn.hide(); // hide the edit button
             $deleteBtn.hide(); // hide the delete button
             $replyButton.hide(); // hide the reply link
+            $replyButtonAJAX.hide();
             $commentForm.show(); // I just want to show "this" edit form
+
             $('.editedCommentBodyText').text(comment.body); // put the text of comment.body inside the newly visible textarea.
 
             //================= cancel button ====================
@@ -558,7 +565,8 @@
             console.log("new comment: " + comment.body);
 
             let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
-            let $replyButton = $('[data-replyButton-comment-id=' + commentId + ']');
+            let $replyButton = $('[data-reply-btn-comment-id=' + commentId + ']');
+            let $replyButtonAJAX = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
             let $commentForm = $('[data-edit-form-comment-id=' + commentId + ']');
             let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
             let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
@@ -570,6 +578,7 @@
             $editBtn.show();
             $deleteBtn.show();
             $replyButton.show();
+            $replyButtonAJAX.show();
         })
     });
 
@@ -672,13 +681,13 @@
             let postId = $button.parent().data('downvote-post-id');
             console.log("you clicked an active vote on post:" + postId);
 
-            let $postFormUp = $('[data-downvote-post-id=' + postId + ']');
+            let $postFormDown = $('[data-downvote-post-id=' + postId + ']');
 
             let request = $.ajax({
-                url: '/posts/' + postId + '/removeVote', // -> voteRemoval() in PostsController
+                url: $postFormDown.attr('action'), // -> voteRemoval() in PostsController
                 method: 'POST',
                 dataType: 'json',
-                data: $postFormUp.serialize()
+                data: $postFormDown.serialize()
             });
             request.done(function (post) {
 
@@ -832,12 +841,54 @@
     <!-- ============================================== REPLY TO COMMENTS  ===============================================-->
     <!-- =================================================================================================================-->
 
-    $('.container').on("click", ".commentReplyButton", function(e) {
-        e.preventDefault()
+    $('.container').on("click", ".commentReplyBtn", function(e) {
+        e.preventDefault();
+
+        let $button = $(this);
+        let commentId = $button.data('reply-submit-btn-comment-id');
+        console.log(commentId);
+        let $replyCommentForm = $('[data-reply-form-comment-id=' + commentId + ']');
+
+        $('.replyTextArea').hide(); // hide the reply text area.
+        $('.showReplyTextAreaCancel').hide();
+        $('.showReplyTextArea').show();
+
+        let request = $.ajax({
+            url: $replyCommentForm.attr('action'),
+            method: 'POST',
+            data: $replyCommentForm.serialize()
+        });
+        request.done((html) => {
+            console.log("hello from reply response");
+
+            let $childCommentDiv = $('[data-child-node-comment-id=' + commentId + ']');
+            $childCommentDiv.prepend(html).hide().fadeIn();
+
+            $('.editedCommentFormAJAX').hide();
+            $('.showReplyTextAreaCancelAJAX').hide();
+            $('.replyTextAreaAJAX').hide();
+
+            $('.showReplyTextAreaAJAX').on('click', function () {
+                let $this = $(this);
+                $('.replyFormBodyAJAX').val('');
+                $this.hide();
+                $this.siblings('.showReplyTextAreaCancelAJAX').show();
+                $this.siblings('.replyTextAreaAJAX').toggle(250);
+            });
+
+            $('.showReplyTextAreaCancelAJAX').on('click', function () {
+                let $this = $(this);
+                $this.hide();
+                $this.siblings('.showReplyTextAreaAJAX').show();
+                $this.siblings('.replyTextAreaAJAX').toggle(250);
+            });
 
 
+        });
 
-
+        request.fail((a, b, c) => {
+            console.log(a, b, c)
+        });
 
     })
 
