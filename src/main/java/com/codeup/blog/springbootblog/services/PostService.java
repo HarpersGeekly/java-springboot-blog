@@ -20,7 +20,6 @@ public class PostService {
 
     private final PostsRepository postsDao;
     private final PostsVotesRepository postsVotesDao;
-    private final CommentsRepository commentsDao;
 
     // property for list
     // private List<Post> posts = new ArrayList<>();
@@ -28,10 +27,9 @@ public class PostService {
     // constructor
     // Now that we have a PostsRepository, we can autowire an instance of it here.
     @Autowired
-    public PostService(PostsRepository postsDao, PostsVotesRepository postsVotesDao, CommentsRepository commentsDao) {
+    public PostService(PostsRepository postsDao, PostsVotesRepository postsVotesDao) {
         this.postsDao = postsDao;
         this.postsVotesDao = postsVotesDao;
-        this.commentsDao = commentsDao;
          //createDummy(); // No longer making dummy hardcode
     }
 
@@ -74,9 +72,7 @@ public class PostService {
         return postsVotesDao.hasVoted(id) != 0;
     }
 
-    public long numberofCommentsOnPost(Long id) {
-        return commentsDao.numberOfCommentsOnPost(id);
-    }
+
 
 
     // save takes care of insert and update

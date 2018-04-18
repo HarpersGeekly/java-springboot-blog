@@ -3,6 +3,8 @@ package com.codeup.blog.springbootblog.controllers;
 import com.codeup.blog.springbootblog.Models.*;
 import com.codeup.blog.springbootblog.repositories.CommentsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
+//import com.codeup.blog.springbootblog.services.CommentService;
+import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
 
@@ -40,9 +42,13 @@ public class PostsController {
 
     private final UsersRepository usersDao; //making queries to database
 
-    private final UserService userSvc; // using methods in the UserService, like isLoggedIn(), etc.
+    private final UserService userSvc; //
+
+    private final CommentService commentSvc;
+    private static final int MAX_COMMENT_LEVEL = 5;
 
     private final CommentsRepository commentsDao;
+
 
     // Constructor "dependency injection", passing the PostService object into the PostController constructor,
     // everything ties together now. Services + Controller.
@@ -57,11 +63,13 @@ public class PostsController {
     public PostsController(PostService postSvc,
                            UsersRepository usersDao,
                            UserService userSvc,
+                           CommentService commentSvc,
                            CommentsRepository commentsDao
  ) {
         this.postSvc = postSvc;
         this.usersDao = usersDao;
         this.userSvc = userSvc;
+        this.commentSvc = commentSvc;
         this.commentsDao = commentsDao;
     }
 
@@ -180,7 +188,7 @@ public class PostsController {
         post.setId(id);
 
         // Delete the List of comments that belong to the post id
-        commentsDao.delete(commentsDao.commentsOnPost(id));
+//        commentSvc.delete(commentSvc.commentsOnPost(id));
         // Lastly, delete the post.
         postSvc.delete(id);
         return "redirect:/profile";
@@ -226,6 +234,8 @@ public class PostsController {
 //        viewModel.addAttribute("comment", new Comment());
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
+//        viewModel.addAttribute("comments", commentsDao.commentsOnPost(id));
+        viewModel.addAttribute("children", comment.getChildrenComments());
 
         if (user != null) {
             PostVote vote = post.getVoteFrom(user);
@@ -392,6 +402,25 @@ public class PostsController {
         }
         commentsDao.save(comment);
         return comment;
+    }
+
+//=============================================== COMMENT REPLIES ======================================================
+//======================================================================================================================
+
+    @PostMapping("posts/{postId}/comment/{parentId}/reply")
+    public String reply(@PathVariable Long postId, @PathVariable Long parentId, @RequestParam("body") String body, Model viewModel) {
+        System.out.println("Get to reply controller");
+
+        Post post = postSvc.findOne(postId);
+        Comment parent = commentSvc.findOne(parentId);
+
+        Comment comment = commentSvc.saveNewComment(parent, post, body); // saving in the comment service
+        viewModel.addAttribute("comment", comment);
+        viewModel.addAttribute("post", post);
+        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser()));
+        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
+        viewModel.addAttribute("children", comment.getChildrenComments());
+        return "fragments/comments :: ajaxComment";
     }
 
 
