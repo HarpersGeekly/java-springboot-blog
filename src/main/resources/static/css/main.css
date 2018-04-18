@@ -491,7 +491,9 @@ textarea, input, .form-control {
 }
 
 .editAndDeleteBtnsRow {
-    margin-left: 0.62em;
+    /*margin-left: 0.0em;*/
+    margin-right: 4.85em;
+    float:right;
     line-height: 2em;
 }
 
@@ -505,26 +507,26 @@ textarea, input, .form-control {
     margin-right: 1em;
 }
 
-.deleteCommentBtn {
+.deleteCommentBtn, .deleteCommentBtnAJAX {
     color: #c0c0c0;
     border: none;
     background-color: #FFFAFB;
     text-decoration: none;
 }
 
-.editCommentBtn {
+.editCommentBtn, .editCommentBtnAJAX {
     color: #c0c0c0;
     text-decoration: none;
 }
 
-.deleteCommentBtn:hover, .editCommentBtn:hover {
+.deleteCommentBtn:hover, .editCommentBtn:hover, .deleteCommentBtnAJAX:hover, .editCommentBtnAJAX:hover {
     background-color: #FFFAFB;
     color: #E07A5F;
     text-decoration: none;
     cursor: pointer;
 }
 
-.deleteCommentBtn:active, .editCommentBtn:active {
+.deleteCommentBtn:active, .editCommentBtn:active, .deleteCommentBtnAJAX:active, .editCommentBtnAJAX:active {
     background-color: #FFFAFB;
     color: #E07A5F;
     text-decoration: none;
@@ -584,6 +586,11 @@ textarea, input, .form-control {
 #commentsErrorAJAXDiv {
     width: 79%;
     margin: auto;
+}
+
+.repliesErrorAJAX {
+    width: 116.6%;
+    margin-left: -6em;
 }
 
 /*=============== Profile page ======================*/
