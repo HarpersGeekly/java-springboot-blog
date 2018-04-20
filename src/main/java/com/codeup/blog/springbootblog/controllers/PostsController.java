@@ -217,6 +217,15 @@ public class PostsController {
         return renderer.render(parser.parse(content));
     }
 
+//============================================ MARKDOWN EDITOR IMAGE UPLOAD =================================================
+//======================================================================================================================
+
+    @GetMapping("/posts/image.json")
+    @ResponseBody
+    public String showMarkdownImageInForm(){
+        return "";
+    }
+
 //================================================= SHOW POST ==========================================================
 //======================================================================================================================
 
@@ -234,8 +243,6 @@ public class PostsController {
 //        viewModel.addAttribute("comment", new Comment());
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
-//        viewModel.addAttribute("comments", commentsDao.commentsOnPost(id));
-        viewModel.addAttribute("children", comment.getChildrenComments());
 
         if (user != null) {
             PostVote vote = post.getVoteFrom(user);
@@ -408,11 +415,14 @@ public class PostsController {
 //======================================================================================================================
 
     @PostMapping("posts/{postId}/comment/{parentId}/reply")
-    public String reply(@PathVariable Long postId, @PathVariable Long parentId, @RequestParam("body") String body, @Valid Comment comment, BindingResult validation, Model viewModel) {
+    public String reply(@PathVariable Long postId, @PathVariable Long parentId, @RequestParam("body") String body, @Valid Comment comment,
+                        BindingResult validation,
+                        Model viewModel) {
         System.out.println("Get to reply controller");
 
         Post post = postSvc.findOne(postId);
         Comment parent = commentSvc.findOne(parentId);
+//        List<Comment> children = parent.getChildrenComments();
 
         if (validation.hasErrors()) {
             viewModel.addAttribute("comment", comment);
@@ -421,10 +431,11 @@ public class PostsController {
 
         Comment newComment = commentSvc.saveNewComment(parent, post, body); // saving in the comment service
         viewModel.addAttribute("comment", newComment);
+//        viewModel.addAttribute("children", children);
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser()));
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
-        viewModel.addAttribute("children", newComment.getChildrenComments());
+//        viewModel.addAttribute("comments", commentsDao.commentsOnPost(post.getId()));
         return "fragments/comments :: ajaxComment";
     }
 

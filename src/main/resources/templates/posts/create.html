@@ -77,6 +77,8 @@
     //$('#myEditor').markdownEditor();
     $('#myEditor').markdownEditor({
         // Activate the preview:
+        imageUpload: true, // Activate the option
+        uploadPath: '/posts/image.json', // Path of the server side script that receive the files
         preview: true,
         // This callback is called when the user click on the preview button:
         onPreview: function (content, callback) {
@@ -86,8 +88,6 @@
                 type: 'GET',
                 dataType: 'html',
                 data: {content: content},
-//                imageUpload: true, // Activate the option
-//                uploadPath: '/posts/image.json' // Path of the server side script that receive the files
             })
                 .done(function(content) {
                     // Return the html:
