@@ -53,7 +53,13 @@ public class CommentService {
     }
 
     public Comment saveNewComment(Comment parent, Post post, String body) {
-        int level = parent.commentLevel();
+//      if (parent.getId() != null) {
+//            Comment parentComment = findOne(parent.getId());
+//
+//            int level = parentComment.commentLevel();
+//
+//            parent.setParentComment(level < MAX_COMMENT_LEVEL ? parentComment : parentComment.getParentComment());
+//        }
 
         Comment comment = new Comment();
         comment.setBody(body);

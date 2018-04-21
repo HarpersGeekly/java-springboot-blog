@@ -146,7 +146,7 @@ public class Comment {
 //    //==========================================
 
     @OneToMany(mappedBy="parentComment", cascade = CascadeType.ALL)
-    @OrderBy("date ASC")
+//    @OrderBy("date DESC")
     private List<Comment> childrenComments;
 
     @ManyToOne(fetch = FetchType.EAGER)
