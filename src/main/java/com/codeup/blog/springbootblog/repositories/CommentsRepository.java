@@ -26,9 +26,9 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
     // @Query uses Hibernate "HQL" object relationships not database relationships
     // nativeQuery = true makes it SQL compatible
     @Query(nativeQuery = true,
-            countQuery = "SELECT count(*) FROM redwood_blog_db.comments c WHERE c.post_id = ?1", /*need to count rows for pagination */
+            countQuery = "SELECT count(*) FROM redwood_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null", /*need to count rows for pagination */
             value =
-                    "SELECT * FROM redwood_blog_db.comments c WHERE c.post_id = ?1 ORDER BY ?#{#pageable}")
+                    "SELECT * FROM redwood_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null ORDER BY ?#{#pageable}")
     Page<Comment> postCommentsByPage(Long id, Pageable pageable);
 
 //    @Query(nativeQuery = true,
@@ -43,6 +43,9 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
             value="SELECT count(*) FROM redwood_blog_db.comments c WHERE c.post_id = ?1")
     long numberOfCommentsOnPost(Long id);
 
+//    @Query(nativeQuery = true,
+//            value = "SELECT * FROM redwood_blog_db.comments c WHERE c.parent_id = ?1")
+//    void deleteChildren(Long id);
     //=================================== BEFORE PAGINATION =====================================================
 //    List<Comment> sortAllByTime(Long id);
 //    "Time" only means the comment id in descending order...
