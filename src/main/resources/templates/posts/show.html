@@ -166,7 +166,7 @@
             <!-- =============================== Comment Body =========================-->
 
             <div class="commentBodyWrapper">
-                <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-commentBody-comment-id=${comment.id}"></h5>
+                <h5 th:text="${comment.body}"></h5>
             </div>
 
             <!-- =============================== Edit Form ============================-->
@@ -304,6 +304,7 @@
                           th:attr="data-reply-form-comment-id=${comment.id}">
                         <div class="form-group">
                             <label for="replyFormBody"></label>
+
                             <textarea class="form-control replyFormBody" id="replyFormBody" name="body"
                                       th:field="*{body}"
                                       th:attr="data-reply-form-body-comment-id=${comment.id}">
@@ -402,10 +403,11 @@
     $('.showReplyTextAreaCancel').hide();
 
     $('.container').on("click", ".showReplyTextArea", function () {
-            let $this = $(this);
-            $this.hide();
-            $this.siblings('.showReplyTextAreaCancel').first().show();
-            $this.siblings('.replyTextArea').first().toggle(250);
+        $('.replyFormBody').val('');
+        let $this = $(this);
+        $this.hide();
+        $this.siblings('.showReplyTextAreaCancel').first().show();
+        $this.siblings('.replyTextArea').first().toggle(250);
     });
 
     $('.container').on("click", ".showReplyTextAreaCancel", function () {
@@ -423,6 +425,10 @@
     $('.commentSubmitBtn').on("click", function (e) {
         console.log($('.commentForm').serialize());
         e.preventDefault();
+
+        let commentId = $('.comment-wrapper').data('[data-edit-delete-comment-id]');
+        let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
+        $replyFormBody.val('');
 
         let request = $.ajax({
             // crossOrigin: true, //XSS shield.
@@ -453,9 +459,14 @@
                 $('.commentsAJAX').prepend(html).hide().fadeIn(); // comment belongs in the comment div
             }
 
-            $('.editedCommentForm').hide(); //hide the reply form.
+            $('.editedCommentForm').hide(); //hide the edit form.
             $('.replyTextArea').hide(); // hide the reply text area.
             $('.showReplyTextAreaCancel').hide();
+            $('.replyFormBody').val('');
+
+            // let commentId = $('.comment-wrapper').data('[data-edit-delete-comment-id]');
+            // let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
+            // $replyFormBody.val('');
 
         });
 
@@ -491,11 +502,10 @@
             console.log("hello from edited comment request.done");
             console.log("comment body: " + comment.body);
 
-            let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
+            let $commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
             let $commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
             let $commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
             let $replyButton = $('[data-show-reply-comment-id=' + commentId + ']');
-            // let $replyButtonAJAX = $('[data-show-reply-ajax-comment-id=' + commentId + ']');
             let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
             let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
             let $editedCommentBodyText = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
@@ -505,7 +515,6 @@
             $editBtn.css("display","none"); // hide the edit button
             $deleteBtn.css("display","none"); // hide the delete button
             $replyButton.css("display","none"); // hide the reply link
-            // $replyButtonAJAX.css("display","none");
             $commentEditForm.css("display","block"); // I just want to show "this" edit form
 
             $editedCommentBodyText.text(comment.body); // put the text of comment.body inside the newly visible textarea.
@@ -552,9 +561,8 @@
             console.log("hello from submitted edited comment request.done");
             console.log("new comment: " + comment.body);
 
-            let $commentBody = $('[data-commentBody-comment-id=' + commentId + ']');
+            let $commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
             let $replyButton = $('[data-show-reply-comment-id=' + commentId + ']');
-            // let $replyButtonAJAX = $('[data-show-reply-ajax-comment-id=' + commentId + ']');
             let $commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
             let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
             let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
@@ -566,7 +574,6 @@
             $editBtn.css("display","block");
             $deleteBtn.css("display","block");
             $replyButton.css("display","block");
-            // $replyButtonAJAX.css("display","block");
         })
     });
 
@@ -595,7 +602,9 @@
 
             console.log("hello from delete request.done");
             console.log($button);
-            $('[data-edit-delete-comment-id=' + commentId + ']').remove(); // new way targets element directly.
+            $('[data-edit-delete-comment-id=' + commentId + ']').fadeOut("slow", function() {
+                $('[data-edit-delete-comment-id=' + commentId + ']').remove(); // new way targets element directly.
+            })
             // $button.parent().parent().parent().parent().parent().remove(); // removes from html (old way/bad way)
         });
         request.fail((a, b, c) => {
@@ -608,7 +617,7 @@
     <!-- =================================================================================================================-->
 
     $('.container').on("click", ".postUpvote", function (e) {
-        // e.preventDefault(); // prevent default form behavior and instead use ajax.
+        e.preventDefault(); // prevent default form behavior and instead use ajax.
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
@@ -621,7 +630,7 @@
             let request = $.ajax({
                 url: '/posts/' + postId + '/removeVote',
                 method: 'POST',
-                dataType: 'json',
+                //dataType: 'json',
                 data: $postFormUp.serialize()
             });
             request.done(function (post) {
@@ -641,7 +650,6 @@
             let request = $.ajax({
                 url: postFormUp.attr('action'), //-> postVoting() in PostsController
                 method: 'POST',
-                dataType: 'json', // returning an object by default
                 data: postFormUp.serialize(),
             });
             request.done(function (post) {
@@ -661,7 +669,7 @@
     });
 
     $('.container').on("click", ".postDownvote", function (e) {
-        // e.preventDefault(); // prevent default form behavior and instead use ajax.
+        e.preventDefault(); // prevent default form behavior and instead use ajax.
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
@@ -672,9 +680,8 @@
             let $postFormDown = $('[data-downvote-post-id=' + postId + ']');
 
             let request = $.ajax({
-                url: $postFormDown.attr('action'), // -> voteRemoval() in PostsController
+                url: '/posts/' + postId + '/removeVote', // -> voteRemoval() in PostsController
                 method: 'POST',
-                dataType: 'json',
                 data: $postFormDown.serialize()
             });
             request.done(function (post) {
@@ -694,7 +701,7 @@
             let request = $.ajax({
                 url: $postFormDown.attr('action'), // -> postVoting() in PostsController
                 method: 'POST',
-                dataType: 'json', // returning an object by default
+                //dataType: 'json', // returning an object by default
                 data: $postFormDown.serialize()
             });
             request.done(function (post) {
@@ -848,19 +855,13 @@
             let $replyWrapper = $('[data-wrapper-reply-textarea-comment-id=' + commentId + ']');
             let $replyError = $('[data-reply-error-comment-id=' + commentId + ']');
             let $replyForm = $('[data-reply-form-comment-id=' + commentId + ']');
-            let $replyFormBody = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
+            let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
             let $showReply = $('[data-show-reply-comment-id=' + commentId + ']');
             let $cancelReply = $('[data-cancel-reply-comment-id=' + commentId + ']');
 
             let $commentEditFormWrapper = $('[data-edit-form-wrapper-comment-id=' + commentId + ']');
             let $commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
             let $commentEditFormTextarea = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
-
-            // let $editFormAJAX = $('[data-edit-form-ajax-comment-id=' + commentId + ']');
-            // let $replyWrapperAJAX = $('[data-wrapper-reply-textarea-ajax-comment-id=' + commentId + ']');
-            // let $replyFormBodyAJAX = $('[data-show-reply-textarea-ajax-comment-id=' + commentId + ']');
-            // let $showReplyAJAX = $('[data-show-reply-ajax-comment-id=' + commentId + ']');
-            // let $cancelReplyAJAX = $('[data-cancel-reply-ajax-comment-id=' + commentId + ']');
 
             let $childCommentDiv = $('[data-child-node-comment-id=' + commentId + ']');
 
@@ -881,8 +882,10 @@
             $('html, body').animate({
                 scrollTop: $childCommentDiv.offset().top - $(window).height()/2
             }, 100);
+
+            $replyFormBody.val('');
             $('.showReplyTextArea').show();
-            $('.editedCommentForm').hide(); //hide the reply form.
+            $('.editedCommentForm').hide(); //hide the edit form.
             $('.replyTextArea').hide(); // hide the reply text area.
             $('.showReplyTextAreaCancel').hide();
         });
