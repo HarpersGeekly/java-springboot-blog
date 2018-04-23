@@ -38,6 +38,8 @@ public class UserWithRoles extends User implements UserDetails { // UserDetails 
     // Overriding methods in UserDetails interface, which we don't need to know much about!
     @Override
     public boolean isAccountNonExpired() {
+
+//        logic like when was the last time a user logged in, etc
         return true;
     }
 

@@ -1,9 +1,6 @@
 package com.codeup.blog.springbootblog.Models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.hibernate.validator.constraints.NotBlank;
@@ -41,26 +38,34 @@ public class Post {
     private String description;
 
     @ManyToOne // many posts can belong to one user.
-    // will define the foreign key. This class represents the post table and we need a reference to the user
-//    @JsonManagedReference
+    // will define the foreign key. This Post class represents the posts table and we need a reference to the user
+    @JsonManagedReference //allows Jackson to better handle the relation.
+    // Is the forward part of reference – the one that gets serialized normally.
     private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL) // One post will have many comments
-//    @JsonBackReference
+    @JsonBackReference //is the back part of reference – it will be omitted from serialization.
     private List<Comment> comments;
 
     @Column(name = "CREATED_DATE")
+//    @JsonFormat
+//            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime date;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 //    , orphanRemoval = true
     private List<PostVote> votes; // one post can have many votes, if a post is deleted, the votes disappear too.
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @JsonIgnore //annotation to simply ignore one of the sides of the relationship, thus breaking the chain.
+    private List<PostImage> postImages;
+
     //use when the post is retrieved from the database.
-    public Post(Long id, String title, String description, User user, String image,
+    public Post(Long id, String title, String description, User user,
                 LocalDateTime date,
                 List<Comment> comments,
-                List<PostVote> votes) {
+                List<PostVote> votes,
+                List<PostImage> postImages) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -69,6 +74,7 @@ public class Post {
         this.comments = comments;
 //        this.image = image; // may not need this here.
         this.votes = votes;
+        this.postImages = postImages;
     }
 
     //use on the create form action with Model binding.
@@ -123,6 +129,14 @@ public class Post {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public List<PostImage> getPostImages() {
+        return postImages;
+    }
+
+    public void setPostImages(List<PostImage> postImages) {
+        this.postImages = postImages;
     }
 
     public List<Comment> getComments() {
