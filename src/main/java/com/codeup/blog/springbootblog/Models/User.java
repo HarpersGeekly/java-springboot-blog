@@ -56,18 +56,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<CommentVote> commentVotes;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many replies to comments. When User is deleted, these delete too
-//    @JsonIgnore
-//    private List<Reply> replies;
-
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name="user_comments_voting",
-//            joinColumns = {@JoinColumn(name = "user_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "comment_id")}
-//    )
-//    private List<Comment> comments;
-
     @Column(name = "JOINED_DATE")
     private LocalDateTime date;
 
@@ -173,26 +161,6 @@ public class User {
         this.commentVotes = commentVotes;
     }
 
-
-//    private boolean hasVotedUp;
-//
-//    private boolean hasVotedDown;
-//
-//    public boolean isHasVotedUp() {
-//        return hasVotedUp;
-//    }
-//
-//    public void setHasVotedUp(boolean hasVotedUp) {
-//        this.hasVotedUp = hasVotedUp;
-//    }
-//
-//    public boolean isHasVotedDown() {
-//        return hasVotedDown;
-//    }
-//
-//    public void setHasVotedDown(boolean hasVotedDown) {
-//        this.hasVotedDown = hasVotedDown;
-//    }
 }
 
 

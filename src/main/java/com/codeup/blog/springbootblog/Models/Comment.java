@@ -30,13 +30,13 @@ public class Comment {
     private String body;
 
     @ManyToOne // many comments will belong to one Post
-//    @JsonManagedReference
-    @JsonIgnore
+    @JsonManagedReference
+//    @JsonIgnore
     private Post post; // this is the mappedBy "post"
 
     @ManyToOne // many comments will belong to one User
-//    @JsonManagedReference
-    @JsonIgnore
+    @JsonManagedReference
+//    @JsonIgnore
     private User user;
 
     @Column(name = "CREATED_DATE")
