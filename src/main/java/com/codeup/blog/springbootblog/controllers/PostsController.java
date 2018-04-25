@@ -299,6 +299,11 @@ public class PostsController {
 //=============================================== EDIT A COMMENT  ======================================================
 //======================================================================================================================
 
+    //    @GetMapping("/comment")
+//    public @ResponseBody Comment test() {
+//        return commentSvc.findOne(1225L);
+//    }
+
     @GetMapping("/posts/{postId}/comment/{commentId}/edit")
     public @ResponseBody Comment editComment(@PathVariable Long postId,
                                              @PathVariable Long commentId, Model viewModel) {
