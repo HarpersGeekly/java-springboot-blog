@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 //import java.util.Date;
 //import java.sql.Timestamp;
@@ -30,7 +33,7 @@ public class Post {
     private String title;
 
     @Column(columnDefinition = "TEXT", length = 2000, nullable = false) // column, text for more, not-null
-    @NotBlank(message="Description cannot be empty :/")
+    @NotBlank(message="Description cannot be empty")
     @Size.List({
             @Size(min = 5, message="Description must be at least 5 characters."),
             @Size(max = 2000, message="Description is too long.")
@@ -56,6 +59,14 @@ public class Post {
 //    , orphanRemoval = true
     private List<PostVote> votes; // one post can have many votes, if a post is deleted, the votes disappear too.
 
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "posts_categories",
+            joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
+    @OrderBy("name ASC")
+    @NotEmpty(message="Categories cannot be empty")
+    private List<Category> categories;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @JsonIgnore //annotation to simply ignore one of the sides of the relationship, thus breaking the chain.
     private List<PostImage> postImages;
@@ -65,22 +76,29 @@ public class Post {
                 LocalDateTime date,
                 List<Comment> comments,
                 List<PostVote> votes,
-                List<PostImage> postImages) {
+                List<PostImage> postImages,
+                List<Category> categories) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.user = user; // this gives me access to properties from user, user.getUsername()
         this.date = date;
         this.comments = comments;
-//        this.image = image; // may not need this here.
         this.votes = votes;
         this.postImages = postImages;
+        this.categories = categories;
     }
 
     //use on the create form action with Model binding.
     public Post(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    public Post(String title, String description, List<Category> categories) {
+        this.title = title;
+        this.description = description;
+        this.categories = categories;
     }
 
     //use for Spring magic.
@@ -145,6 +163,14 @@ public class Post {
 
     public void setComment(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public List<PostVote> getVotes() {

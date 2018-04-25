@@ -80,7 +80,6 @@ public class User {
         this.date = copy.date;
         this.posts = copy.posts;
         this.comments = copy.comments;
-//        this.replies = copy.replies;
         this.votes = copy.votes;
         this.commentVotes = copy.commentVotes;
     }
