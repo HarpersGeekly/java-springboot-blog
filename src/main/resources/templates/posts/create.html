@@ -45,7 +45,7 @@
             <label for="tags">Tags:</label>
 
             <select id="tags" class="selectpicker" multiple="multiple" data-max-options="3" name="categories" th:field="*{categories}">
-                    <option class="postTag" th:each="tag : ${categories}" th:value="${tag.id}" th:text="${tag.name}"></option>
+                    <option th:each="tag : ${categories}" th:value="${tag.id}" th:text="${tag.name}"></option>
             </select>
 
             <div
