@@ -30,6 +30,10 @@
                         <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
                     </h5>
 
+                    <div class="post-tags">
+                        <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts(tagged=${tag.name})}"></a>
+                    </div>
+
                     <div class="gradientBox">
                         <div class="postDescription">
                             <p th:utext="${post.htmlDescription}"></p>
@@ -37,6 +41,7 @@
                                 <!--<img th:src="${image.path}"/>-->
                             <!--</div>-->
                         </div>
+
                         <p class="read-more">
                             <i class="fas fa-hand-point-right fa-read-more"></i>
                             <a th:href="@{/posts/{id}(id=${post.id})}">check out the post...</a>

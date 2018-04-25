@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.*;
+import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
 import com.codeup.blog.springbootblog.repositories.CommentsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 //import com.codeup.blog.springbootblog.services.CommentService;
@@ -49,6 +50,8 @@ public class PostsController {
 
     private final CommentsRepository commentsDao;
 
+    private final CategoriesRepository categoriesDao;
+
 
     // Constructor "dependency injection", passing the PostService object into the PostController constructor,
     // everything ties together now. Services + Controller.
@@ -64,13 +67,15 @@ public class PostsController {
                            UsersRepository usersDao,
                            UserService userSvc,
                            CommentService commentSvc,
-                           CommentsRepository commentsDao
+                           CommentsRepository commentsDao,
+                           CategoriesRepository categoriesDao
  ) {
         this.postSvc = postSvc;
         this.usersDao = usersDao;
         this.userSvc = userSvc;
         this.commentSvc = commentSvc;
         this.commentsDao = commentsDao;
+        this.categoriesDao = categoriesDao;
     }
 
 //================================================ ALL POSTS ===========================================================
@@ -104,27 +109,29 @@ public class PostsController {
 //================================================ CREATE POST =========================================================
 //======================================================================================================================
 
+//      Essentially we see a blank form when we load the page.
+//      We are displaying the 'title' and 'description' properties of a new Post(), which doesn't
+//      have any values set for these properties.
+//      We have to make it have an empty object to fill.
+//      So we need to first prepare the form to have a Post object to be submitted (and later, Category)
+//      Therefore on the create.html we use a thymeleaf object <form th:object="${post}">, and the thymeleaf fields:
+//      th:field:*{title}, th:field:*{description}. the * means post.title, post.description
     @GetMapping("/posts/create")
     public String showCreatePostForm(Model viewModel) {
         viewModel.addAttribute("post", new Post());
+        viewModel.addAttribute("category", new Category());
+        viewModel.addAttribute("categories", categoriesDao.findAll());
         return "posts/create";
     }
-//      Essentially we see a blank form when we load the page.
-//      We are displaying the 'title' and 'description' properties of a new post, which doesn't
-//      have any values set for these properties.
-//      We have to make it have an empty object to fill.
-//      So we need to first prepare the form to have a Post object to be submitted.
-//      Therefore on the create.html we use a thymeleaf object <form th:object="${post}">, and the thymeleaf fields:
-//      th:field:*{title}, th:field:*{description}. the * means post.title, post.description
-//      and we get the "post" from:
 
-    // We also need to set the User of the post to the user who is logged in!
-
+//      Now in @PostMapping, Post will automatically have the title and description that was submitted with the form.
+//      This is why it's good to have an empty constructor Post(){} to handle this.
+//      Also set the User of the Post to the User who is logged in, and set the Date.
     @PostMapping("/posts/create")
     public String createPost(@Valid Post post,
                              Errors validation, Model viewModel) {
+//      @Valid Post post now calls @ModelAttribute Post post first/instead and calls the validations!
 
-        // @Valid Post post now calls @ModelAttribute Post post first/instead and calls the validations!
         // Validation:
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
@@ -135,15 +142,13 @@ public class PostsController {
 //        XSSPrevent xp = new XSSPrevent();
 //        xp.setAsText(post.getTitle());
 //        post.setDescription(xp.getAsText());
-        // This XSSPrevent isn't allowing me to update my code? What gives?
+//        This XSSPrevent isn't allowing me to update my code? What gives?
 
         post.setUser(userSvc.loggedInUser());
         post.setDate(LocalDateTime.now());
         postSvc.save(post);
         return "redirect:/posts";
     }
-//      Now, post will automatically have the title and description that was submitted with the form.
-//      This is why it's good to have an empty constructor Post(){} to handle this.
 
 //================================================= EDIT POST ==========================================================
 //======================================================================================================================
@@ -181,15 +186,14 @@ public class PostsController {
     @PostMapping("/posts/{id}/delete")
     public String delete(@PathVariable long id, Post post, Comment comment) {
 
-//  As I delete a post, comments and replies that belong to that post will be deleted too.
+//      As I delete a post, comments and replies that belong to that post will be deleted too.
 
         // Set id's:
         comment.setPost(post);
         post.setId(id);
 
-        // Delete the List of comments that belong to the post id
-//        commentSvc.delete(commentSvc.commentsOnPost(id));
-        // Lastly, delete the post.
+//      Delete the List of comments that belong to the post id -- UPDATE: relationship cascades manage this.
+//      commentSvc.delete(commentSvc.commentsOnPost(id));
         postSvc.delete(id);
         return "redirect:/profile";
     }

@@ -145,7 +145,7 @@ public class Comment {
 //    //======= replies ==========================
 //    //==========================================
 
-    @OneToMany(mappedBy="parentComment", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
 //    @OrderBy("date DESC")
     private List<Comment> childrenComments;
 
