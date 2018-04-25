@@ -140,6 +140,17 @@ ul {
     color: #888888;
 }
 
+.post-tag {
+    font-size: 0.8em;
+    background-color: lightgray;
+    padding: 0.25em;
+    border-radius: 3px;
+}
+
+.post-tag:hover {
+    text-decoration: none;
+}
+
 .postedByNameTextIndex {
     margin-right: 0.75em;
     text-decoration: none;
