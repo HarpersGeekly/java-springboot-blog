@@ -11,54 +11,11 @@
     <!-- ================================================================================================================-->
     <div class="container">
 
-        <h4 th:text="${post.title}" id="showPageIntro"></h4>
-
-        <!-- ========================================= Post Voting ====================================-->
-
-        <div class="row postVoting">
-
-            <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
-            <div th:if="${!isLoggedIn}">
-                <a th:href="${'/login'}">
-                    <i class="far fa-thumbs-up"></i>
-                </a>
-            </div>
-            <!--if logged in: upvote and downvote arrows function normally.-->
-            <div th:if="${isLoggedIn}">
-
-                <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
-                      th:attr="data-upvote-post-id=${post.id}">
-                    <i th:classappend="${upvote} ? stayActive : postUpvote" class="far fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
-                    <!--when clicked, stayActive class will be added or removed.-->
-                </form>
-
-            </div>
-
-            <div>
-                <h5>
-                    <span class="postVoteCount" th:text="${post.voteCount()}"
-                          th:attr="data-voteCount-post-id=${post.id}"></span>
-                </h5>
-            </div>
-
-            <div th:if="${isLoggedIn}">
-
-                <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
-                      th:attr="data-downvote-post-id=${post.id}">
-                    <i th:classappend="${downvote} ? stayActive : postDownvote" class="far fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
-                </form>
-            </div>
-
-            <div th:if="${!isLoggedIn}">
-                <a th:href="${'/login'}">
-                    <i class="far fa-thumbs-down"></i>
-                </a>
-            </div>
-
-        </div>
-
         <!-- ====================================== Post User and Time  ============================== -->
 
+        <div class="post-tags">
+            <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts(tagged=${tag.name})}"></a>
+        </div>
         <h5 class="postedBy">
             <a th:href="${'/profile/' + post.user.id}" style="text-decoration: none;">
                 <span class="postedByNameText" th:text="${post.user.username}"></span>
@@ -70,12 +27,62 @@
             <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
         </h5>
 
+        <h4 th:text="${post.title}" id="showPageIntro"></h4>
         <!-- ====================================== Post Description =================================-->
 
         <!--<h5 id="postTextBody" th:text="${post.description}"></h5>-->
         <h5 id="postTextBody" th:utext="${post.htmlDescription}"></h5>
 
         <!-- ====================================== Post Edit and Delete Buttons =====================-->
+
+        <!-- ========================================= Post Voting ====================================-->
+
+        <div class="postVoting">
+
+            <div class="upvoteDiv">
+
+                <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
+                <div th:if="${!isLoggedIn}">
+                    <a th:href="${'/login'}">
+                        <i class="far fa-thumbs-up"></i>
+                    </a>
+                </div>
+                <!--if logged in: upvote and downvote arrows function normally.-->
+                <div th:if="${isLoggedIn}">
+                    <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
+                          th:attr="data-upvote-post-id=${post.id}">
+                        <i th:classappend="${upvote} ? stayActive : postUpvote" class="far fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
+                        <!--when clicked, stayActive class will be added or removed.-->
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="voteCountDiv">
+                <h5>
+                    <span class="postVoteCount" th:text="${post.voteCount()}"
+                          th:attr="data-voteCount-post-id=${post.id}"></span>
+                </h5>
+            </div>
+
+            <div class="downvoteDiv">
+                <div th:if="${isLoggedIn}">
+
+                    <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
+                          th:attr="data-downvote-post-id=${post.id}">
+                        <i th:classappend="${downvote} ? stayActive : postDownvote" class="far fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
+                    </form>
+                </div>
+
+                <div th:if="${!isLoggedIn}">
+                    <a th:href="${'/login'}">
+                        <i class="far fa-thumbs-down"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
 
         <div sec:authorize="isAuthenticated()">
             <div th:if="${isPostOwner}">
@@ -113,27 +120,29 @@
             </a>
         </div>
 
-        <div sec:authorize="isAuthenticated()">
+        <div class="container commentFormWrapper">
+            <div sec:authorize="isAuthenticated()">
 
-            <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
-                <div class="form-group">
-                    <label for="commentFormBody"></label>
-                    <textarea class="form-control" id="commentFormBody" name="body"
-                              th:field="*{body}"
-                              th:placeholder="Comment..."
-                              style="width: 900px; height: 150px; resize: none">
-                            </textarea>
+                <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
+                    <div class="form-group">
+                        <label for="commentFormBody"></label>
+                        <textarea class="form-control" id="commentFormBody" name="body"
+                                  th:field="*{body}"
+                                  th:placeholder="Comment..."
+                                  style="width: 900px; height: 150px; resize: none">
+                                </textarea>
 
-                    <div class="commentsErrorAJAX"></div>
-                    <!-- ======================== submit comment ================================-->
+                        <div class="commentsErrorAJAX"></div>
+                        <!-- ======================== submit comment ================================-->
 
-                    <input class="form-control" type="hidden" id="postId" th:value="${post.id}"/>
-                    <button class="btn btn-primary commentSubmitBtn">
-                        <i class="far fa-comment-alt"></i> Comment
-                    </button>
-                </div>
-            </form>
+                        <input class="form-control" type="hidden" id="postId" th:value="${post.id}"/>
+                        <button class="btn btn-primary commentSubmitBtn">
+                            <i class="far fa-comment-alt"></i> Comment
+                        </button>
+                    </div>
+                </form>
 
+            </div>
         </div>
     </div>
 
@@ -165,7 +174,7 @@
 
             <!-- =============================== Comment Body =========================-->
 
-            <div class="commentBodyWrapper">
+            <div class="commentBodyWrapper" th:attr="data-comment-body-comment-id=${comment.id}">
                 <h5 th:text="${comment.body}"></h5>
             </div>
 
@@ -327,6 +336,7 @@
                 <div style="margin-left: 2em;" th:each="child : ${comment.getChildrenComments()}">
                     <div th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
                 </div>
+        <div class="childCommentDiv" style="margin-left: 2em;" th:attr="data-child-node-comment-id=${comment.id}"></div>
 
     </div>
 </div>

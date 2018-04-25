@@ -10,7 +10,7 @@
 
         <h2 id="postIntro">recent posts</h2>
 
-        <div id="content" th:each="post : ${page}">
+        <div class="content" th:each="post : ${page}">
 
             <ul>
                 <li>
@@ -51,6 +51,7 @@
                 <!--// wanna use a button to send to edit here? -->
                     <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
             </ul>
+        <!--<hr class="commentHR"/>-->
         </div>
 
         <!--<!=================================== PAGINATION =========================================================-->

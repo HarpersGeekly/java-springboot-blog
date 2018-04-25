@@ -114,7 +114,9 @@ ul {
 }
 
 .postTitleIndexPage {
-    font-size: 18px;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.3em;
     margin-right: 1em;
     display: inline-block;
     /*color: #E07A5F;*/
@@ -141,14 +143,17 @@ ul {
 }
 
 .post-tag {
-    font-size: 0.8em;
-    background-color: lightgray;
+    color: #E07A5F;
+    font-size: 0.9em;
+    font-weight: normal;
+    background-color: papayawhip;
     padding: 0.25em;
     border-radius: 3px;
 }
 
 .post-tag:hover {
     text-decoration: none;
+    color: #339989;
 }
 
 .postedByNameTextIndex {
@@ -185,7 +190,8 @@ textarea, input, .form-control {
     /*background-color: papayawhip;*/
 }
 
-#content {
+.content {
+    /*border: 1px solid #ccc!important;*/
     width: 78%;
     margin: 0 auto;
     /*font-family: Georgia, serif;*/
@@ -248,11 +254,11 @@ textarea, input, .form-control {
 }
 
 .fa-read-more {
-    color: #E07A5F;
+    color: #339989;
 }
 .read-more > a {
     text-decoration: underline;
-    color: #E07A5F;
+    color: #339989;
 }
 
 
@@ -308,6 +314,9 @@ textarea, input, .form-control {
 
 #showPageIntro {
     text-align: left;
+    margin-bottom: 1em;
+    font-style: italic;
+    font-weight: bold;
 }
 
 #showPageWrapper {
@@ -317,6 +326,7 @@ textarea, input, .form-control {
 #profileWrap {
     overflow: hidden;
 }
+
 #profileContent {
 
 }
@@ -352,6 +362,7 @@ textarea, input, .form-control {
     font-family: 'Roboto', sans-serif;
     float: left;
     margin-right: 1em;
+    margin-top: 0.55em;
     background: none;
     color: #888888;
 }
@@ -365,6 +376,7 @@ textarea, input, .form-control {
     font-family: 'Roboto', sans-serif;
     background: none;
     border: none;
+    margin-top: 0.55em;
     color: #888888;
 }
 
@@ -403,6 +415,15 @@ textarea, input, .form-control {
     /*line-height: 1em;*/
     /*margin-left: 2%;*/
     font-size: 15px;
+}
+
+/*.commentFormWrapper {*/
+    /*margin-top: 1em;*/
+    /*!*margin-top: 2em;*!*/
+/*}*/
+
+.form-group {
+    margin-top:1.5em;
 }
 
 #commentFormBody {
@@ -470,7 +491,8 @@ textarea, input, .form-control {
 .postVoting {
     display: inline-block;
     float: left;
-    padding-right: 25px;
+    margin-top: 0.55em;
+    /*padding-right: 25px;*/
 }
 
 .commentVoting {
