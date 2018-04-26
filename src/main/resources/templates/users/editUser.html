@@ -11,6 +11,23 @@
 
         <div id="editUserFormWrapper">
 
+            <form th:action="@{'/profile/edit/fileupload'}" method="POST" enctype="multipart/form-data"
+                  id="data-edit-profile-picture-form">
+
+                <input id="file" name="file" type="file"/>
+                <br />
+                <button type="submit" class="btn btn-secondary submit" id="upload-button">Upload New Picture</button>
+                <input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}"/>
+
+            </form>
+
+            <span th:if="${#authentication.principal.profilePicture} == null">
+                <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
+            </span>
+            <span th:if="${#authentication.principal.profilePicture} != null">
+                <img class="profilePic" th:src="@{'/uploads/' + ${user.profilePicture}}" width="150px" height="150px"/>
+            </span>
+
             <form th:action="@{'/profile/' + ${user.id} + '/edit'}" method="POST" th:object="${user}" id="editUserForm">
 
                 <div class="form-group">
@@ -153,16 +170,102 @@
 
 
 </div>
-
+<!--<script src="/../js/resizeImage.js"></script>-->
 <script>
-    $(document).ready(function(){
 
-        $("#myBtn3").click(function(){
-            $("#myModal3").modal({backdrop: "static"});
-        });
+    // let fsClient = filestack.init('AWUHsCYN0RTqie9Mjn74Gz');
 
+$(document).ready(function() {
+
+    $("#myBtn3").click(function () {
+        $("#myModal3").modal({backdrop: "static"});
     });
+
+    // $("#upload-button").on("change", uploadFile);
+    //
+    // function uploadFile(e) {
+    //     e.preventDefault();
+    //
+    //     let request = $.ajax({
+    //         url: "/profile/edit/fileupload",
+    //         type: "POST",
+    //         data: new FormData($("#data-edit-profile-picture-form")[0]),
+    //         enctype: 'multipart/form-data',
+    //         processData: false,
+    //         contentType: false,
+    //         cache: false,
+    //     });
+    //         request.done(function (file) {
+    //
+    //             console.log("back from profile request.done");
+    //             console.log("file: " + file);
+    //             $('.profile-edit-picture').html(file);
+    //
+    //         });
+    //
+    //     request.fail((a, b, c) => {
+    //         console.log(a, b, c)
+    //     });
+    // }
+
+
+    // document.getElementById('file').onchange = function(evt) {
+    //     ImageTools.resize(this.files[0], {
+    //         width: 320, // maximum width
+    //         height: 240 // maximum height
+    //     }, function(blob, didItResize) {
+    //         // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
+    //         document.getElementById('preview').src = window.URL.createObjectURL(blob);
+    //         // you can also now upload this blob using an XHR.
+    //     });
+    // };
+
+});
+        // function changePic() {
+        //
+        //     let link = event.fpfile.url;
+        //     console.log(link);
+        //
+        //     $("#url").val(link);
+        //     $(".profilePic").attr("src", event.fpfile.url);
+        //
+        //     $("#hiddenForm").submit();
+        //
+        // }
+        // const addLink = function (file) {
+        //     $('.user-image-display').src = file.url;
+        //     $('#temp-display').src = file.url;
+        // };
+
+
+
+        // $('#upload-button').click(function () {
+        //     openPicker();
+        //     // console.log("click me")
+        // });
+        // function openPicker() {
+        //     fsClient.pick({
+        //         //Only accepting files with a mimetype 'image/*'
+        //         accept: 'image/*',
+        //         //Only accepting at most 1 file
+        //         maxFiles:1,
+        //         fromSources:["local_file_system","imagesearch","facebook","instagram","dropbox"]
+        //     }).then(function(response) {
+        //         console.log(response.filesUploaded[0].url);
+        //         let image = {
+        //             url: response.filesUploaded[0].url
+        //         };
+        //         $.post("/profile/image", image).done(function(response) {
+        //             localStorage.clear();
+        //             window.location.reload(true);
+        //             window.location = "/profile/edit";
+        //             // handleFilestack(response);
+        //             console.log(response)
+        //         });
+        //     });
+        // }
 </script>
 </body>
 </html>
 
+<!--A1JDvoVpERDyNr0Ob75a1z-->
