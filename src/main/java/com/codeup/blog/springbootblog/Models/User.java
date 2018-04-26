@@ -59,7 +59,15 @@ public class User {
     @Column(name = "JOINED_DATE")
     private LocalDateTime date;
 
+    @Column
+    private String profilePicture;
+
     public User(){}
+
+    public User(Long id, String profilePicture){
+        this.id = id;
+        this.profilePicture = profilePicture;
+    }
 
     // use this constructor for update profile form.
     public User(Long id, String username, String email, LocalDateTime date) {
@@ -82,6 +90,7 @@ public class User {
         this.comments = copy.comments;
         this.votes = copy.votes;
         this.commentVotes = copy.commentVotes;
+        this.profilePicture = copy.profilePicture;
     }
 
     public Long getId() {
@@ -158,6 +167,14 @@ public class User {
 
     public void setCommentVotes(List<CommentVote> commentVotes) {
         this.commentVotes = commentVotes;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
 }
