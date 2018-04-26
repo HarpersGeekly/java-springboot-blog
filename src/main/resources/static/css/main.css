@@ -407,6 +407,20 @@ textarea, input, .form-control {
     width: 70%;
 }
 
+.comment-wrapper {
+
+}
+
+.commentedBy {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.parentComment {
+    background-color: papayawhip;
+    font-weight: bold;
+}
+
 .commentedByNameText {
     font-size: 1.1em;
     line-height: 1.8em;
@@ -424,7 +438,8 @@ textarea, input, .form-control {
 }
 
 .commentBodyWrapper {
-    /*margin: 1.3em;*/
+    margin-top: 2em;
+    margin-bottom: 1.5em;
 }
 
 #commentBodyText {
@@ -514,7 +529,7 @@ textarea, input, .form-control {
 .commentVoting {
     display: inline-block;
     float: left;
-    margin-top: 0.55em;
+    margin-top: 0.3em;
 }
 
 .upvoteDiv {
@@ -587,13 +602,14 @@ textarea, input, .form-control {
 }
 
 .replyNotLoggedIn {
-    margin-top: 1.5em;
+    margin-top: 1.4em;
 }
 
 .showReplyTextArea, .showReplyTextAreaAJAX {
     cursor: pointer;
     color: #888888;
-    margin-top: 1.5em
+    margin-top: 1.4em;
+    margin-bottom: 3em;
 }
 
 .showReplyTextArea:hover, .showReplyTextAreaAJAX:hover {
@@ -605,7 +621,7 @@ textarea, input, .form-control {
 .showReplyTextAreaCancelAJAX, .showReplyTextAreaCancelAJAX:hover {
     cursor: pointer;
     color: #E07A5F;
-    margin-top: 1.5em;
+    margin-top: 1.4em;
 }
 
 .replyFormBody, .replyFormBodyAJAX {
@@ -640,10 +656,6 @@ textarea, input, .form-control {
 .repliesErrorAJAX {
     width: 116.6%;
     margin-left: -6em;
-}
-
-.parentComment {
-    background-color: papayawhip;
 }
 
 /*=============== Profile page ======================*/

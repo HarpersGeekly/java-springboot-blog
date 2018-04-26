@@ -161,8 +161,8 @@
         <!--th:attr allows me to target this element specifically in show.html's ajax request-->
         <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
             <!-- this div should be targeted with unique th:attr -->
-            <!--class="postedBy">${comment.get}-->
-            <h5 th:classappend="${isParentComment} ? parentComment : postedBy">
+
+            <h5 th:classappend="${isParentComment} ? parentComment : commentedBy">
                 <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                     <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                 </a>
@@ -330,7 +330,7 @@
                     </form>
                 </div>
             </div>
-            <hr class="commentHR"/>
+            <!--<hr class="commentHR"/>-->
 
         </div>
                 <div style="margin-left: 2em;" th:each="child : ${comment.getChildrenComments()}">
