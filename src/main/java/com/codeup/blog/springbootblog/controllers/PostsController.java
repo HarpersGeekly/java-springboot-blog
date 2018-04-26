@@ -247,6 +247,7 @@ public class PostsController {
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("comment", comment);
+        viewModel.addAttribute("isParentComment", comment.isParentComment(comment));
 //        viewModel.addAttribute("comment", new Comment());
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
