@@ -153,6 +153,10 @@ public class Comment {
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
+    public boolean isParentComment(Comment comment) {
+        return getParentComment() == null;
+    }
+
     @JsonIgnore
     public Comment getParentComment() {
         return parentComment;
