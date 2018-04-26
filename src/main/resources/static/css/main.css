@@ -28,6 +28,9 @@ html {
     /*font-family: Futura, serif;*/
     font-family: 'Roboto', sans-serif;
     text-decoration: none;
+    transition: color 0.1s linear;
+    -webkit-transition: color 0.1s linear;
+    -moz-transition: color 0.1s linear;
 }
 
 .navbar-default .navbar-brand:hover,
@@ -50,6 +53,9 @@ html {
     color: #7DE2D1 !important;
     /*font-family: Futura, serif;*/
     font-family: 'Roboto', sans-serif;
+    transition: color 0.1s linear;
+    -webkit-transition: color 0.1s linear;
+    -moz-transition: color 0.1s linear;
 }
 
 .nav > li > a:hover, .nav > li > a:active  {
@@ -72,6 +78,9 @@ html {
     background-color: transparent;
     outline: none;
     text-decoration: none;
+    transition: color 0.1s linear;
+    -webkit-transition: color 0.1s linear;
+    -moz-transition: color 0.1s linear;
 }
 
 #logout:hover, #logout:active {
@@ -153,18 +162,17 @@ ul {
 
 .post-tag:hover {
     text-decoration: none;
-    color: #339989;
+    color: #7DE2D1;
 }
 
 .postedByNameTextIndex {
     margin-right: 0.75em;
-    text-decoration: none;
     color: black;
 }
 
 .postedByNameTextIndex:hover {
-    color: #7DE2D1;
     text-decoration: none;
+    color: #7DE2D1;
 }
 
 textarea, input, .form-control {
@@ -256,9 +264,17 @@ textarea, input, .form-control {
 .fa-read-more {
     color: #339989;
 }
-.read-more > a {
+
+.read-more {
     text-decoration: underline;
     color: #339989;
+    transition: color 0.1s linear;
+    -webkit-transition: color 0.1s linear;
+    -moz-transition: color 0.1s linear;
+}
+
+.read-more:hover {
+    color: #7DE2D1;
 }
 
 
@@ -626,6 +642,10 @@ textarea, input, .form-control {
     margin-left: -6em;
 }
 
+.parentComment {
+    background-color: papayawhip;
+}
+
 /*=============== Profile page ======================*/
 
 #profileCreatePostLink {
@@ -783,7 +803,7 @@ textarea, input, .form-control {
     background-color: #7DE2D1;
     color: #131515;
     border: hidden #a1a1a1;
-    outline:none
+    outline:none;
 }
 
 .btn:hover, .btn:active {
@@ -830,3 +850,11 @@ textarea, input, .form-control {
     margin-left: 5px;
 }
 
+
+/*.profile-right{     background: #fff;*/
+    /*border: solid 1px rgba(151, 151, 151, 0.1);*/
+    /*word-wrap: break-word;*/
+    /*overflow-wrap: break-word;*/
+    /*padding: 19px 16px 16px;*/
+    /*font-size: 15px;*/
+/*}*/
