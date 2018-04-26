@@ -12,7 +12,30 @@
 <!--Reminder: #authentication.principal is the currently logged-in/session user-->
 
     <th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">
+
         <h2>Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
+
+        <!--I'm very confused about image uploading.-->
+        <!--Should I be saving profile pictures to the database?-->
+            <!--Yes. Or use filestack...which is limiting-->
+
+        <!--What should the column look like, a path, or filename?-->
+
+        <!--What is the path at "Users/RyanHarper/tmp/uploads" mean? Will this be for every user?-->
+                <!--No. It's just a path, and certainly shouldn't be a path on IntelliJ
+                because it would never be reached.
+                When deployed, the path will be changed to be housed on the server. So every user can have a picture -->
+
+        <!--Why can't the page display my image on the page?-->
+
+        <div class="profile-picture-wrapper">
+            <span th:if="${#authentication.principal.profilePicture} == null">
+                <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
+            </span>
+            <span th:if="${#authentication.principal.profilePicture} != null">
+                <img class="profilePic" th:src="@{'/uploads/' + ${#authentication.principal.profilePicture}}" width="150px" height="150px"/>
+            </span>
+        </div>
 
         <h3>You are logged in. You can make comments and <a id="profileCreatePostLink" th:href="${'/posts/create'}">create a post.</a></h3>
 
@@ -31,7 +54,7 @@
         <div class="profileChangeUsernameDiv">
             <i class="fas fa-cog profileCogIcon"></i>
             <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">
-                <h5 id="profileChangeUsernameLink">change username or email</h5>
+                <h5 id="profileChangeUsernameLink">edit account</h5>
             </a>
         </div>
         <div class="profileChangePasswordDiv">
@@ -53,6 +76,13 @@
 
     <th:block th:if="${!isOwnProfile}">
         <h2><span th:text="${profileUser.username}"></span>'s profile!</h2>
+
+        <span th:if="${profileUser.profilePicture} == null">
+                <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
+            </span>
+        <span th:if="${profileUser.profilePicture} != null">
+                <img class="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}" width="150px" height="150px"/>
+            </span>
 
         <h4>
             <i class="far fa-envelope profileEmailIcon"></i>
