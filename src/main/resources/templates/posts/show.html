@@ -5,113 +5,112 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<div id="showPageWrapper">
+<div class="showPageWrapper">
     <!-- ================================================================================================================-->
     <!-- ====================================================  SHOW THE POST ============================================-->
     <!-- ================================================================================================================-->
     <div class="container">
+        <div class="postWrapper">
+            <div class="postPicWrapper">
 
-        <!-- ====================================== Post User and Time  ============================== -->
-
-        <div class="post-tags">
-            <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts(tagged=${tag.name})}"></a>
-        </div>
-
-            <span th:if="${post.user.profilePicture} == null">
-                <img class="profilePicPost" src="/../images/user.png"/>
-            </span>
-            <span th:if="${post.user.profilePicture} != null">
-                <img class="profilePicPost" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>
-            </span>
-
-        <h5 class="postedBy">
-            <a th:href="${'/profile/' + post.user.id}" style="text-decoration: none;">
-                <span class="postedByNameText" th:text="${post.user.username}"></span>
-            </a>
-            <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
-            <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
-            <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
-            <span class="postedByDate" th:text="${#temporals.day(post.date)}">,</span>
-            <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
-        </h5>
-
-        <h4 th:text="${post.title}" id="showPageIntro"></h4>
-        <!-- ====================================== Post Description =================================-->
-
-        <!--<h5 id="postTextBody" th:text="${post.description}"></h5>-->
-        <h5 id="postTextBody" th:utext="${post.htmlDescription}"></h5>
-
-        <!-- ====================================== Post Edit and Delete Buttons =====================-->
-
-        <!-- ========================================= Post Voting ====================================-->
-
-        <div class="postVoting">
-
-            <div class="upvoteDiv">
-
-                <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
-                <div th:if="${!isLoggedIn}">
-                    <a th:href="${'/login'}">
-                        <i class="far fa-thumbs-up"></i>
-                    </a>
-                </div>
-                <!--if logged in: upvote and downvote arrows function normally.-->
-                <div th:if="${isLoggedIn}">
-                    <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
-                          th:attr="data-upvote-post-id=${post.id}">
-                        <i th:classappend="${upvote} ? stayActive : postUpvote" class="far fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
-                        <!--when clicked, stayActive class will be added or removed.-->
-                    </form>
-                </div>
+                <span th:if="${post.user.profilePicture} == null">
+                    <img class="profilePicPost" src="/../images/user.png"/>
+                </span>
+                <span th:if="${post.user.profilePicture} != null">
+                    <img class="profilePicPost" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>
+                </span>
 
             </div>
+            <!-- ====================================== Poster Credentials  ================================== -->
+            <div class="postInfoWrapper">
+                <h5 class="postedBy">
 
-            <div class="voteCountDiv">
-                <h5>
+                    <a th:href="${'/profile/' + post.user.id}" style="text-decoration: none;">
+                        <span class="postedByNameText" th:text="${post.user.username}"></span>
+                    </a>
+                    <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
+                    <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
+                    <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+                    <span class="postedByDate" th:text="${#temporals.day(post.date)}">,</span>
+                    <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
+                    <!--<div class="post-tags">-->
+                        <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts(tagged=${tag.name})}" style="margin-left:1em"></a>
+                    <!--</div>-->
+
+                </h5>
+                <!-- ====================================== Post Title =======================================-->
+
+                <h4 th:text="${post.title}" class="showPageIntro"></h4>
+
+                <!-- ====================================== Post Description =================================-->
+
+                <!--<h5 id="postTextBody" th:text="${post.description}"></h5>-->
+                <div class="postTextBodyDiv"><span class="postTextBodyInnerText" th:utext="${post.htmlDescription}"></span></div>
+
+                <!-- ====================================== Post Voting ======================================-->
+
+                <div class="postVoting">
+                    <div class="upvoteDiv">
+
+                        <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
+                        <div th:if="${!isLoggedIn}">
+                            <a th:href="${'/login'}">
+                                <i class="far fa-thumbs-up"></i>
+                            </a>
+                        </div>
+                        <!--if logged in: upvote and downvote arrows function normally.-->
+                        <div th:if="${isLoggedIn}">
+                            <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
+                                  th:attr="data-upvote-post-id=${post.id}">
+                                <i th:classappend="${upvote} ? stayActive : postUpvote" class="far fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
+                                <!--when clicked, stayActive class will be added or removed.-->
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <div class="voteCountDiv">
+                        <h5>
                     <span class="postVoteCount" th:text="${post.voteCount()}"
                           th:attr="data-voteCount-post-id=${post.id}"></span>
-                </h5>
-            </div>
+                        </h5>
+                    </div>
 
-            <div class="downvoteDiv">
-                <div th:if="${isLoggedIn}">
+                    <div class="downvoteDiv">
+                        <div th:if="${isLoggedIn}">
 
-                    <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
-                          th:attr="data-downvote-post-id=${post.id}">
-                        <i th:classappend="${downvote} ? stayActive : postDownvote" class="far fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
-                    </form>
-                </div>
-
-                <div th:if="${!isLoggedIn}">
-                    <a th:href="${'/login'}">
-                        <i class="far fa-thumbs-down"></i>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-
-
-        <div sec:authorize="isAuthenticated()">
-            <div th:if="${isPostOwner}">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm">
-                            <a id="editPostBtn" th:href="${'/posts/' + post.id + '/edit'}">
-                                <i class="far fa-edit"></i> edit
-                            </a>
-
-                            <!--========================== Post Delete Button ================-->
-
-                            <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post">
-                                <!--th:object="${post}"-->
-                                <!--<input type="hidden" name="id" th:field="*{id}" />-->
-                                <button type="submit" id="deletePostBtn">
-                                    <i class="fas fa-bomb"></i> delete
-                                </button>
-
-                                <!-- <input th:if="${isEditable}"-->
+                            <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
+                                  th:attr="data-downvote-post-id=${post.id}">
+                                <i th:classappend="${downvote} ? stayActive : postDownvote" class="far fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
                             </form>
+                        </div>
+
+                        <div th:if="${!isLoggedIn}">
+                            <a th:href="${'/login'}">
+                                <i class="far fa-thumbs-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ====================================== Post Edit and Delete Buttons =====================-->
+
+                <div sec:authorize="isAuthenticated()">
+                    <div th:if="${isPostOwner}">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <a id="editPostBtn" th:href="${'/posts/' + post.id + '/edit'}">
+                                        <i class="far fa-edit"></i> edit
+                                    </a>
+
+                                    <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post">
+                                        <button type="submit" id="deletePostBtn">
+                                            <i class="fas fa-bomb"></i> delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -167,25 +166,28 @@
     <!--<div class="container commentSection" th:each="comment : ${comments}">-->
 
         <!--th:attr allows me to target this element specifically in show.html's ajax request-->
-        <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
+        <div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
             <!-- this div should be targeted with unique th:attr -->
+            <div class="commentPicWrapper">
+                <span th:if="${comment.user.profilePicture} == null">
+                    <img class="profilePicComment" src="/../images/user.png"/>
+                </span>
+                <span th:if="${comment.user.profilePicture} != null">
+                    <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
+                </span>
+            </div>
 
-            <span th:if="${comment.user.profilePicture} == null">
-                <img class="profilePicComment" src="/../images/user.png"/>
-            </span>
-            <span th:if="${comment.user.profilePicture} != null">
-                <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
-            </span>
+            <div class="commentInfoWrapper">
+                <h5 th:classappend="${isParentComment} ? parentComment : commentedBy">
+                    <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
+                        <span class="commentedByNameText" th:text="${comment.user.username}"></span>
+                    </a>
+                    <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}" style="margin-right: 0.75em;"></span>
+                    <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                    <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
+                    <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
+                </h5>
 
-            <h5 th:classappend="${isParentComment} ? parentComment : commentedBy">
-                <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
-                    <span class="commentedByNameText" th:text="${comment.user.username}"></span>
-                </a>
-                <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}" style="margin-right: 0.75em;"></span>
-                <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
-                <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
-                <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
-            </h5>
 
             <!-- =============================== Comment Body =========================-->
 
@@ -347,10 +349,12 @@
             </div>
             <!--<hr class="commentHR"/>-->
 
+        </div><!--end of commentInfoWrapper-->
         </div>
-                <div style="margin-left: 2em;" th:each="child : ${comment.getChildrenComments()}">
-                    <div th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
-                </div>
+
+        <div style="margin-left: 2em;" th:each="child : ${comment.getChildrenComments()}">
+            <div th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
+        </div>
         <div class="childCommentDiv" style="margin-left: 2em;" th:attr="data-child-node-comment-id=${comment.id}"></div>
 
     </div>
@@ -420,8 +424,38 @@
 <!-- ================================================================================================================-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-<!--<script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>-->
+<script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>
 <script th:inline="javascript">
+
+    $('.postTextBodyDiv img').each(function() {
+
+        let maxWidth = 700;
+        let ratio = 0;
+        let img = $(this);
+
+        if(img.width() > maxWidth) {
+            ratio = img.height() / img.width();
+            img.css("height", (maxWidth * ratio));
+            img.css("width", maxWidth);
+            // img.attr("height", (maxWidth * ratio));
+            // img.attr("width", maxWidth);
+        }
+    });
+
+    $('.postTextBodyDiv img').load(function() {
+
+        let maxWidth = 700;
+        let ratio = 0;
+        let img = $(this);
+
+        if(img.width() > maxWidth) {
+            ratio = img.height() / img.width();
+            img.css("height", (maxWidth * ratio));
+            img.css("width", maxWidth);
+            // img.attr("height", (maxWidth * ratio));
+            // img.attr("width", maxWidth);
+        }
+    });
 
     $('.replyTextArea').hide(); // hide the reply text area.
     $('.editedCommentForm').hide(); //hide the edit comment form.

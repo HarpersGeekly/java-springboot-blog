@@ -10,15 +10,19 @@
 
 <th:block th:fragment="ajaxComment(comment)">
 
-    <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
+    <div th:attr="data-edit-delete-comment-id=${comment.id}">
+    <div class="commentWrapper">
 
-        <span th:if="${comment.user.profilePicture} == null">
-            <img class="profilePicComment" src="/../images/user.png"/>
-        </span>
-        <span th:if="${comment.user.profilePicture} != null">
-            <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
-        </span>
+        <div class="commentPicWrapper">
+            <span th:if="${comment.user.profilePicture} == null">
+                <img class="profilePicComment" src="/../images/user.png"/>
+            </span>
+            <span th:if="${comment.user.profilePicture} != null">
+                <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
+            </span>
+        </div>
 
+        <div class="commentInfoWrapper">
         <h5 class="commentedBy">
             <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                 <span class="commentedByNameText" th:text="${comment.user.username}"></span>
@@ -187,7 +191,9 @@
                     </div>
                 </form>
             </div>
+        </div> <!--end of comment Info wrapper-->
         </div>
+    </div>
         <!--<hr class="commentHR"/>-->
         <div style="margin-left: 2em;" th:each="child : ${comment.getChildrenComments()}">
             <div th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
