@@ -8,50 +8,63 @@
 
     <div id="indexPageWrapper">
 
-        <h2 id="postIntro">recent posts</h2>
+        <h2 id="postIntro">recent harps of the day...</h2>
 
         <div class="content" th:each="post : ${page}">
 
-            <ul>
-                <li>
-                    <h4 th:text="${post.title}" class="postTitleIndexPage">
-                        <!--<a th:href="@{/posts/{id}(id=${post.id})}"</a> -->
-                    </h4>
+            <div class="postWrapper">
+                <div class="postPicWrapper">
+                    <!--<span th:if="${post.user.profilePicture} == null">-->
+                        <!--<img class="profilePicPostIndex" src="/../images/user.png"/>-->
+                    <!--</span>-->
+                    <!--<span th:if="${post.user.profilePicture} != null">-->
+                        <!--<img class="profilePicPostIndex" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>-->
+                    <!--</span>-->
+                </div>
 
-                    <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                    <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
-                    <i class="fas fa-comments postCommentIconIndex"></i>
-                    <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
-                    <div class="post-tags">
-                        <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts(tagged=${tag.name})}"></a>
-                    </div>
-                    <h5><a th:href="@{/profile/{id}(id=${post.user.id})}">
-                        <span class="postedByNameTextIndex" th:text="${post.user.username}"></span></a>
-                        <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
-                        <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
-                        <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
-                        <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
-                    </h5>
+                <div class="postInfoWrapper">
+                    <ul>
+                        <li>
+                            <h4 th:text="${post.title}" class="postTitleIndexPage">
+                                <!--<a th:href="@{/posts/{id}(id=${post.id})}"</a> -->
+                            </h4>
 
-                    <div class="gradientBox">
-                        <div class="postDescription">
-                            <p th:utext="${post.htmlDescription}"></p>
-                            <!--<div th:each="image : ${post.postImages}">-->
-                                <!--<img th:src="${image.path}"/>-->
-                            <!--</div>-->
-                        </div>
+                            <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
+                            <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+                            <i class="fas fa-comments postCommentIconIndex"></i>
+                            <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+                            <div class="post-tags">
+                                <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts(tagged=${tag.name})}"></a>
+                            </div>
+                            <h5><a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+                                <span th:text="${post.user.username}"></span></a>
+                                <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
+                                <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+                                <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
+                                <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
+                            </h5>
 
-                        <p class="read-more">
-                            <i class="fas fa-hand-point-right fa-read-more"></i>
-                            <a th:href="@{/posts/{id}(id=${post.id})}">check out the post...</a>
-                        </p>
-                    </div>
-                        <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
-                </li>
-                <!--// wanna use a button to send to edit here? -->
-                    <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
-            </ul>
+                            <div class="gradientBox">
+                                <div class="postDescription">
+                                    <p th:utext="${post.htmlDescription}"></p>
+                                    <!--<div th:each="image : ${post.postImages}">-->
+                                        <!--<img th:src="${image.path}"/>-->
+                                    <!--</div>-->
+                                </div>
+
+                                <p>
+                                    <i class="fas fa-hand-point-right fa-read-more"></i>
+                                    <a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">check out the post...</a>
+                                </p>
+                            </div>
+                                <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
+                        </li>
+                        <!--// wanna use a button to send to edit here? -->
+                            <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
+                    </ul>
+                </div>
         <!--<hr class="commentHR"/>-->
+        </div>
         </div>
 
         <!--<!=================================== PAGINATION =========================================================-->

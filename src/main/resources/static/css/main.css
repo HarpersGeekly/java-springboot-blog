@@ -107,19 +107,38 @@ html {
 /*========================================================== POSTS =====================================================*/
 
 .gradientBox {
-    margin-right: 6em;
     margin-left: 2em;
     margin-bottom: 2em;
 }
 
 /*==================Index Page ================*/
 
+.postWrapper {
+    margin: 0 auto;
+    display: flex;
+    width: 95%;
+}
+
+.profilePicPostIndex {
+    margin-top: 1em;
+    width: 50px;
+    height: 50px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 100px;
+}
+
 ul {
+    padding-left: 1em;
     list-style: none;
 }
 
 #postIntro {
     text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 2.3em;
+    margin-bottom:2em;
 }
 
 .postTitleIndexPage {
@@ -238,7 +257,8 @@ textarea, input, .form-control {
     text-overflow: ellipsis;
     content: "";
     position:relative;
-    line-height: 1.1em;
+    /*line-height: 1.1em;*/
+    line-height: 24px;
     /*border-bottom: 3px solid #777;*/
     max-height:100px;
     /*max-height:200px;*/
@@ -328,25 +348,20 @@ textarea, input, .form-control {
 
 /*=============== Show Page ====================*/
 
-#showPageIntro {
+.showPageIntro {
     text-align: left;
     margin-bottom: 1em;
     font-style: italic;
     font-weight: bold;
 }
 
-#showPageWrapper {
+.showPageWrapper {
     margin-left: 1em;
 }
 
-#profileWrap {
-    overflow: hidden;
+.postInfoWrapper {
+    padding-left:1.5em;
 }
-
-#profileContent {
-
-}
-
 .postedBy {
     font-weight: bold;
     /*margin-left: 1.3em;*/
@@ -370,8 +385,14 @@ textarea, input, .form-control {
     color: #999999;
 }
 
-#postTextBody {
+.postTextBodyDiv {
+    width: 82%;
     margin-left: 1.2em;
+    margin-right: 1.2em;
+}
+
+.postTextBodyInnerText {
+    line-height: 24px;
 }
 
 #editPostBtn {
@@ -407,24 +428,33 @@ textarea, input, .form-control {
     width: 70%;
 }
 
-.comment-wrapper {
+.commentWrapper {
+    display:flex;
+}
 
+.commentPicWrapper {
+    flex:1;
+}
+
+.commentInfoWrapper {
+    flex:14;
 }
 
 .commentedBy {
-    background-color: #f4f4f4;
-    font-weight: bold;
+    /*background-color: #ebebeb;*/
+    /*font-weight: bold;*/
 }
 
 .parentComment {
     background-color: papayawhip;
-    font-weight: bold;
 }
 
 .commentedByNameText {
     font-size: 1.1em;
+    font-weight: bold;
     line-height: 1.8em;
     margin-right: 0.75em;
+    padding-left: 0.5em;
     color: black;
 }
 
@@ -664,6 +694,52 @@ textarea, input, .form-control {
     color: #E07A5F;
 }
 
+#profilePageWrapper {
+    overflow: hidden;
+}
+
+.profile-upper-wrapper {
+    display: flex;
+    overflow: hidden;
+}
+
+.profile-picture-wrapper {
+    float: left;
+    /*border-style: solid;*/
+    /*width: 13.7%;*/
+}
+
+.profilePic {
+    width: 200px;
+    height: 200px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 100px;
+}
+
+.profilePicPost {
+    margin-top:1em;
+    width: 70px;
+    height: 70px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 100px;
+}
+
+.profilePicComment {
+    width: 50px;
+    height: 50px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 100px;
+
+}
+
+.profile-info-wrapper {
+    float: right;
+    padding-left: 3em;
+}
+
 #profileCreatePostLink:hover {
     text-decoration: none;
 }
@@ -757,7 +833,27 @@ textarea, input, .form-control {
 
 #editUserFormWrapper {
     display: block;
-    text-align: center;
+}
+
+#file {
+    border: none;
+}
+
+input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
 }
 
 #editUserForm {
