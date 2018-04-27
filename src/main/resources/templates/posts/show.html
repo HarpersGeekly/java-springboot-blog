@@ -16,6 +16,14 @@
         <div class="post-tags">
             <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts(tagged=${tag.name})}"></a>
         </div>
+
+            <span th:if="${post.user.profilePicture} == null">
+                <img class="profilePicPost" src="/../images/user.png"/>
+            </span>
+            <span th:if="${post.user.profilePicture} != null">
+                <img class="profilePicPost" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>
+            </span>
+
         <h5 class="postedBy">
             <a th:href="${'/profile/' + post.user.id}" style="text-decoration: none;">
                 <span class="postedByNameText" th:text="${post.user.username}"></span>
@@ -161,6 +169,13 @@
         <!--th:attr allows me to target this element specifically in show.html's ajax request-->
         <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
             <!-- this div should be targeted with unique th:attr -->
+
+            <span th:if="${comment.user.profilePicture} == null">
+                <img class="profilePicComment" src="/../images/user.png"/>
+            </span>
+            <span th:if="${comment.user.profilePicture} != null">
+                <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
+            </span>
 
             <h5 th:classappend="${isParentComment} ? parentComment : commentedBy">
                 <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">

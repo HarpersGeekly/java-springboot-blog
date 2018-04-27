@@ -12,6 +12,13 @@
 
     <div class="comment-wrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
 
+        <span th:if="${comment.user.profilePicture} == null">
+            <img class="profilePicComment" src="/../images/user.png"/>
+        </span>
+        <span th:if="${comment.user.profilePicture} != null">
+            <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
+        </span>
+
         <h5 class="commentedBy">
             <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                 <span class="commentedByNameText" th:text="${comment.user.username}"></span>
