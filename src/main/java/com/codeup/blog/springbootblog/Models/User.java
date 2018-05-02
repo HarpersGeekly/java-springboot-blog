@@ -64,17 +64,13 @@ public class User {
 
     public User(){}
 
-    public User(Long id, String profilePicture){
-        this.id = id;
-        this.profilePicture = profilePicture;
-    }
-
     // use this constructor for update profile form.
-    public User(Long id, String username, String email, LocalDateTime date) {
+    public User(Long id, String username, String email, LocalDateTime date, String profilePicture) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.date = date;
+        this.profilePicture = profilePicture;
     }
 
     // security files will need the next constructor. It makes clones/copies. Why?
@@ -176,7 +172,6 @@ public class User {
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
-
 }
 
 
