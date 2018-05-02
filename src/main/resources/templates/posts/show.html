@@ -424,38 +424,9 @@
 <!-- ================================================================================================================-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<!--resize images in markdown:-->
 <script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>
 <script th:inline="javascript">
-
-    $('.postTextBodyDiv img').each(function() {
-
-        let maxWidth = 700;
-        let ratio = 0;
-        let img = $(this);
-
-        if(img.width() > maxWidth) {
-            ratio = img.height() / img.width();
-            img.css("height", (maxWidth * ratio));
-            img.css("width", maxWidth);
-            // img.attr("height", (maxWidth * ratio));
-            // img.attr("width", maxWidth);
-        }
-    });
-
-    $('.postTextBodyDiv img').load(function() {
-
-        let maxWidth = 700;
-        let ratio = 0;
-        let img = $(this);
-
-        if(img.width() > maxWidth) {
-            ratio = img.height() / img.width();
-            img.css("height", (maxWidth * ratio));
-            img.css("width", maxWidth);
-            // img.attr("height", (maxWidth * ratio));
-            // img.attr("width", maxWidth);
-        }
-    });
 
     $('.replyTextArea').hide(); // hide the reply text area.
     $('.editedCommentForm').hide(); //hide the edit comment form.
@@ -485,7 +456,7 @@
         console.log($('.commentForm').serialize());
         e.preventDefault();
 
-        let commentId = $('.comment-wrapper').data('[data-edit-delete-comment-id]');
+        let commentId = $('.commentWrapper').data('[data-edit-delete-comment-id]');
         let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
         $replyFormBody.val('');
 
@@ -522,8 +493,9 @@
             $('.replyTextArea').hide(); // hide the reply text area.
             $('.showReplyTextAreaCancel').hide();
             $('.replyFormBody').val('');
+            $('.commentedBy').css("background-color", "papayawhip");
 
-            // let commentId = $('.comment-wrapper').data('[data-edit-delete-comment-id]');
+            // let commentId = $('.commentWrapper').data('[data-edit-delete-comment-id]');
             // let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
             // $replyFormBody.val('');
 
