@@ -6,84 +6,70 @@
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
 <div class="container">
-
+    
     <h1 style="margin-top: 50px;">Edit Profile:</h1>
 
-        <div id="editUserFormWrapper">
+    <div id="editUserFormWrapper">
+            <div id="editUserNamePassWrapper">
 
-            <form th:action="@{'/profile/edit/fileupload'}" method="POST" enctype="multipart/form-data"
-                  id="data-edit-profile-picture-form">
+                <form th:action="@{'/profile/' + ${user.id} + '/edit'}" method="POST" th:object="${user}" id="editUserForm">
 
-                <input id="file" name="file" type="file"/>
-                <br />
-                <button type="submit" class="btn btn-secondary submit" id="upload-button">Upload New Picture</button>
-                <input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}"/>
-
-            </form>
-
-            <span th:if="${#authentication.principal.profilePicture} == null">
-                <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
-            </span>
-            <span th:if="${#authentication.principal.profilePicture} != null">
-                <img class="profilePic" th:src="@{'/uploads/' + ${user.profilePicture}}" width="150px" height="150px"/>
-            </span>
-
-            <form th:action="@{'/profile/' + ${user.id} + '/edit'}" method="POST" th:object="${user}" id="editUserForm">
-
-                <div class="form-group">
-                    <label for="editFormUsername">Username</label>
-                    <input type="text" id="editFormUsername" name="username" class="form-control" th:value="${user.username}"/>
-                    <!--th:field="*{username}"-->
-                    <div
-                            th:if="${#fields.hasErrors('username')}"
-                            class="alert alert-danger alert-dismissible"
-                            role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <span th:errors="*{username}"/>
+                    <div class="form-group">
+                        <label for="editFormUsername">Username</label>
+                        <input type="text" id="editFormUsername" name="username" class="form-control" th:value="${user.username}"/>
+                        <!--th:field="*{username}"-->
+                        <div
+                                th:if="${#fields.hasErrors('username')}"
+                                class="alert alert-danger alert-dismissible"
+                                role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <span th:errors="*{username}"/>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="editFormEmail">Email</label>
-                    <input type="text" id="editFormEmail" name="email" class="form-control" th:value="${user.email}"/>
-                    <!--th:field="*{email}"-->
-                    <div
-                            th:if="${#fields.hasErrors('email')}"
-                            class="alert alert-danger alert-dismissible"
-                            role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <span th:errors="*{email}"/>
+                    <div class="form-group">
+                        <label for="editFormEmail">Email</label>
+                        <input type="text" id="editFormEmail" name="email" class="form-control" th:value="${user.email}"/>
+                        <!--th:field="*{email}"-->
+                        <div
+                                th:if="${#fields.hasErrors('email')}"
+                                class="alert alert-danger alert-dismissible"
+                                role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <span th:errors="*{email}"/>
+                        </div>
                     </div>
-                </div>
 
-                <input type="hidden" id="editFormPassword" name="password" class="form-control" th:field="*{password}"/>
-                <input type="hidden" id="date" name="date" class="form-control" th:field="*{date}"/>
+                    <input type="hidden" id="editFormPassword" name="password" class="form-control" th:field="*{password}"/>
+                    <input type="hidden" id="date" name="date" class="form-control" th:field="*{date}"/>
+                    <input type="hidden" id="profilePicture" name="profilePicture" class="form-control" th:field="*{profilePicture}"/>
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
 
-                            <button type="submit" class="btn btn-primary" id="updateUserBtn">
-                                <i class="fas fa-wrench"></i> Update</button>
-                             <a th:href="@{/profile}" class="btn btn-primary" id="updateUserCancelBtn">
-                                 <i class="fas fa-ban"></i> Cancel
-                             </a>
+                                <button type="submit" class="btn btn-primary" id="updateUserBtn">
+                                    <i class="fas fa-wrench"></i> Update</button>
+                                 <a th:href="@{/profile}" class="btn btn-primary" id="updateUserCancelBtn">
+                                     <i class="fas fa-ban"></i> Cancel
+                                 </a>
 
-                            <div th:if="${success}" class="alert alert-success fade in">
-                                <strong th:text="${successMsg}"></strong><a th:href="@{/profile}" class="alert-link"> Go to your profile.</a>
-                            </div>
-                         </div>
+                                <div th:if="${success}" class="alert alert-success fade in">
+                                    <strong th:text="${successMsg}"></strong><a th:href="@{/profile}" class="alert-link"> Go to your profile.</a>
+                                </div>
+                             </div>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
 
         </div>
 
-    <!--=================================== DELETE BUTTON =========================================-->
+    <!--=================================== DELETE ACCOUNT BUTTON =========================================-->
 
     <h3 style="margin-top: 50px;">
         <span><i class="fas fa-exclamation-circle fa-danger-zone"></i></span> Danger Zone:
@@ -149,121 +135,15 @@
         </div>
     </div>
 
-
-    <!--&lt;!&ndash; Modal Trigger &ndash;&gt;-->
-    <!--<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>-->
-
-    <!--&lt;!&ndash; Modal Trigger &ndash;&gt;-->
-    <!--<button data-target="modal1" class="btn modal-trigger">Modal</button>-->
-
-    <!--&lt;!&ndash; Modal Structure &ndash;&gt;-->
-    <!--<div id="modal1" class="modal modal-fixed-footer">-->
-        <!--<div class="modal-content">-->
-            <!--<h4>Modal Header</h4>-->
-            <!--<p>A bunch of text</p>-->
-        <!--</div>-->
-        <!--<div class="modal-footer">-->
-            <!--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>-->
-        <!--</div>-->
-    <!--</div>-->
-
-
-
 </div>
-<!--<script src="/../js/resizeImage.js"></script>-->
+
+<footer th:include="fragments/footer :: my-footer"></footer>
 <script>
-
-    // let fsClient = filestack.init('AWUHsCYN0RTqie9Mjn74Gz');
-
-$(document).ready(function() {
 
     $("#myBtn3").click(function () {
         $("#myModal3").modal({backdrop: "static"});
     });
 
-    // $("#upload-button").on("change", uploadFile);
-    //
-    // function uploadFile(e) {
-    //     e.preventDefault();
-    //
-    //     let request = $.ajax({
-    //         url: "/profile/edit/fileupload",
-    //         type: "POST",
-    //         data: new FormData($("#data-edit-profile-picture-form")[0]),
-    //         enctype: 'multipart/form-data',
-    //         processData: false,
-    //         contentType: false,
-    //         cache: false,
-    //     });
-    //         request.done(function (file) {
-    //
-    //             console.log("back from profile request.done");
-    //             console.log("file: " + file);
-    //             $('.profile-edit-picture').html(file);
-    //
-    //         });
-    //
-    //     request.fail((a, b, c) => {
-    //         console.log(a, b, c)
-    //     });
-    // }
-
-
-    // document.getElementById('file').onchange = function(evt) {
-    //     ImageTools.resize(this.files[0], {
-    //         width: 320, // maximum width
-    //         height: 240 // maximum height
-    //     }, function(blob, didItResize) {
-    //         // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
-    //         document.getElementById('preview').src = window.URL.createObjectURL(blob);
-    //         // you can also now upload this blob using an XHR.
-    //     });
-    // };
-
-});
-        // function changePic() {
-        //
-        //     let link = event.fpfile.url;
-        //     console.log(link);
-        //
-        //     $("#url").val(link);
-        //     $(".profilePic").attr("src", event.fpfile.url);
-        //
-        //     $("#hiddenForm").submit();
-        //
-        // }
-        // const addLink = function (file) {
-        //     $('.user-image-display').src = file.url;
-        //     $('#temp-display').src = file.url;
-        // };
-
-
-
-        // $('#upload-button').click(function () {
-        //     openPicker();
-        //     // console.log("click me")
-        // });
-        // function openPicker() {
-        //     fsClient.pick({
-        //         //Only accepting files with a mimetype 'image/*'
-        //         accept: 'image/*',
-        //         //Only accepting at most 1 file
-        //         maxFiles:1,
-        //         fromSources:["local_file_system","imagesearch","facebook","instagram","dropbox"]
-        //     }).then(function(response) {
-        //         console.log(response.filesUploaded[0].url);
-        //         let image = {
-        //             url: response.filesUploaded[0].url
-        //         };
-        //         $.post("/profile/image", image).done(function(response) {
-        //             localStorage.clear();
-        //             window.location.reload(true);
-        //             window.location = "/profile/edit";
-        //             // handleFilestack(response);
-        //             console.log(response)
-        //         });
-        //     });
-        // }
 </script>
 </body>
 </html>
