@@ -39,22 +39,22 @@ public class FileUploadController {
 //        }
 
         @PostMapping("/profile/edit/fileupload")
-        public String saveFile(
-                @RequestParam(name = "file") MultipartFile uploadedFile,
+        public @ResponseBody User saveFile(
+                @RequestParam(name = "croppedImage") MultipartFile uploadedFile,
                 Model model
         ) {
+            User loggedInUser = userSvc.loggedInUser(); // is a user from the session
+            loggedInUser = usersDao.findById(loggedInUser.getId()); //now is a user from the database
 
-            String filename = uploadedFile.getOriginalFilename();
-
-            String filepath = Paths.get(uploadPath, filename).toString();
+//            String filename = uploadedFile.getOriginalFilename(); ////comment this out
+            String filepath = Paths.get(uploadPath, loggedInUser.getProfilePicture()).toString();
+//            String filepath = Paths.get(uploadPath, filename).toString();////comment this out
 
             File destinationFile = new File(filepath);
 
-            User loggedInUser = userSvc.loggedInUser();
-            User user = usersDao.findOne(loggedInUser.getId());
-
-            user.setProfilePicture(filename);
-            usersDao.save(user);
+//            User user = usersDao.findOne(loggedInUser.getId());
+//            loggedInUser.setProfilePicture(filepath); //we deleted this.////comment this out
+//            usersDao.save(loggedInUser);//we deleted this.////comment this out
             try {
                 uploadedFile.transferTo(destinationFile);
                 model.addAttribute("message", "File successfully uploaded!");
@@ -62,7 +62,7 @@ public class FileUploadController {
                 e.printStackTrace();
                 model.addAttribute("message", "Oops! Something went wrong! " + e);
             }
-            return "redirect:/profile";
+            return loggedInUser;
         }
     }
 
