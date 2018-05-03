@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.User;
+import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,14 @@ public class UsersController {
     private UsersRepository usersDao;
     private PasswordEncoder passwordEncoder;
     private UserService userSvc;
+    private CategoriesRepository categoriesDao;
 
     @Autowired
-    public UsersController(UsersRepository usersDao, PasswordEncoder passwordEncoder, UserService userSvc) {
+    public UsersController(UsersRepository usersDao, PasswordEncoder passwordEncoder, UserService userSvc, CategoriesRepository categoriesDao) {
         this.usersDao = usersDao;
         this.passwordEncoder = passwordEncoder;
         this.userSvc = userSvc;
+        this.categoriesDao = categoriesDao;
     }
 
     // ============================================= LOGGING IN USER ===================================================
@@ -151,6 +154,7 @@ public class UsersController {
         User user = usersDao.findById(userLoggedIn.getId());
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
+//        viewModel.addAttribute("activeIn", categoriesDao.)
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
         viewModel.addAttribute("profileUser", user);
