@@ -744,12 +744,23 @@ textarea, input, .form-control {
     text-decoration: none;
 }
 
-#profileChangeUsernameLink, #profileChangePasswordLink {
+#profileChangeUsernameLink, #profileChangePasswordLink, #profileChangePictureLink {
     display: inline-block;
     color: #999999;
 }
 
-#profileChangeUsernameLink:hover, #profileChangePasswordLink:hover {
+#profileChangePictureLink{
+    margin-left: 1em;
+    font-weight: 500;
+}
+
+.uploadIcon {
+    padding-right: 0.5em;
+    color: black;
+}
+
+#profileChangeUsernameLink:hover, #profileChangePasswordLink:hover, #profileChangePictureLink:hover {
+    cursor: pointer;
     text-decoration: underline;
 }
 
@@ -839,16 +850,17 @@ textarea, input, .form-control {
     border: none;
 }
 
-input[type="file"] {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    border: 0;
-}
+/*input[type="file"] {*/
+    /*position: absolute;*/
+    /*width: 1px;*/
+    /*height: 1px;*/
+    /*padding: 0;*/
+    /*margin: -1px;*/
+    /*overflow: hidden;*/
+    /*clip: rect(0,0,0,0);*/
+    /*border: 0;*/
+/*}*/
+
 .custom-file-upload {
     border: 1px solid #ccc;
     display: inline-block;
@@ -880,6 +892,7 @@ input[type="file"] {
 #editUserDeleteDeclineButton, #editUserDeleteDeclineButton:active {
     background-color: #E07A5F;
 }
+
 
 /*=============== Edit Password Page ===================*/
 
@@ -965,4 +978,38 @@ input[type="file"] {
     /*overflow-wrap: break-word;*/
     /*padding: 19px 16px 16px;*/
     /*font-size: 15px;*/
+/*}*/
+
+/*.page {*/
+    /*margin: 1em auto;*/
+    /*max-width: 768px;*/
+    /*display: flex;*/
+    /*align-items: flex-start;*/
+    /*flex-wrap: wrap;*/
+    /*height: 100%;*/
+/*}*/
+
+/*.box {*/
+    /*padding: 0.5em;*/
+    /*width: 100%;*/
+    /*margin:0.5em;*/
+/*}*/
+
+/*.box-2 {*/
+    /*padding: 0.5em;*/
+    /*width: calc(100%/2 - 1em);*/
+/*}*/
+
+/*.options label,*/
+/*.options input{*/
+    /*width:4em;*/
+    /*padding:0.5em 1em;*/
+/*}*/
+
+/*.hide {*/
+    /*display: none;*/
+/*}*/
+
+/*img {*/
+    /*max-width: 100%;*/
 /*}*/
