@@ -42,6 +42,12 @@ public class User {
     @JsonIgnore
     private String password;
 
+    @Column(name = "JOINED_DATE")
+    private LocalDateTime date;
+
+    @Column
+    private String profilePicture;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts. When User is deleted, these delete too
     @JsonBackReference
     private List<Post> posts;
@@ -55,12 +61,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<CommentVote> commentVotes;
-
-    @Column(name = "JOINED_DATE")
-    private LocalDateTime date;
-
-    @Column
-    private String profilePicture;
 
     public User(){}
 
