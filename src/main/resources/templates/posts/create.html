@@ -11,6 +11,8 @@
     <link href="/bower_components/bootstrap-markdown-editor/dist/css/bootstrap-markdown-editor.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/fontawesome-all.css" type="text/css"/>
     <link rel="stylesheet" href="/css/main.css" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css" type="text/css"/>
+
 
 
 
@@ -26,7 +28,7 @@
     <form th:action="@{/posts/create}" th:method="POST" th:object="${post}" enctype="multipart/form-data">
 
         <div class="form-group">
-            <label for="title">Title</label>
+            <label for="title">Title:</label>
             <input type="text" id="title" name="title" class="form-control" th:field="*{title}"/>
             <!--<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />-->
             <!--more fancy bootstrap alerts:-->
@@ -42,11 +44,10 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="tags">Tags:</label>
-
+        <label for="tags">Categories:</label>
+            <div class="form-group" id="categories-selector">
             <select id="tags" class="selectpicker" multiple="multiple" data-max-options="4" name="categories" th:field="*{categories}">
-                    <option th:each="tag : ${categories}" th:value="${tag.id}" th:text="${tag.name}"></option>
+                <option th:each="tag : ${categories}" th:value="${tag.id}" th:text="${tag.name}"></option>
             </select>
 
             <div
@@ -63,7 +64,7 @@
 
 
         <div class="form-group">
-            <label for="myEditor">Description</label>
+            <label for="myEditor">Description:</label>
             <textarea type="text" name="description" class="form-control" id="myEditor" th:field="*{description}"  style="width: 1140px; height: 300px; resize: none"></textarea>
             <div
                     th:if="${#fields.hasErrors('description')}"
@@ -94,27 +95,36 @@
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>
 <script>
-    //$('#myEditor').markdownEditor();
-    $('#myEditor').markdownEditor({
-        // Activate the preview:
-        imageUpload: true, // Activate the option
-        // uploadPath: '/posts/image.json', // Path of the server side script that receives the files
-        uploadPath: '/posts/image', // Path of the server side script that receives the files
-        preview: true,
-        // This callback is called when the user click on the preview button:
-        onPreview: function (content, callback) {
-            // Example of implementation with ajax:
-            $.ajax({
-                url: '/posts/description.json',
-                type: 'GET',
-                dataType: 'html',
-                data: {content: content},
-            })
-                .done(function(content) {
-                    // Return the html:
-                    callback(content);
-                });
-        }
+    $( document ).ready(function() {
+
+        $('.selectpicker').selectpicker(
+            {
+                noneSelectedText: 'Select a category'
+            }
+        );
+
+        //$('#myEditor').markdownEditor();
+        $('#myEditor').markdownEditor({
+            // Activate the preview:
+            imageUpload: true, // Activate the option
+            // uploadPath: '/posts/image.json', // Path of the server side script that receives the files
+            uploadPath: '/posts/image', // Path of the server side script that receives the files
+            preview: true,
+            // This callback is called when the user click on the preview button:
+            onPreview: function (content, callback) {
+                // Example of implementation with ajax:
+                $.ajax({
+                    url: '/posts/description.json',
+                    type: 'GET',
+                    dataType: 'html',
+                    data: {content: content},
+                })
+                    .done(function (content) {
+                        // Return the html:
+                        callback(content);
+                    });
+            }
+        });
     });
 
 </script>
