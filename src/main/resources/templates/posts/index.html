@@ -127,8 +127,22 @@
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
+    // $( document ).ready(function() {
+    $('.postDescription img').each(function () {
 
-    $(function(){ /* to make sure the script runs after page load */
+        let maxWidth = 700;
+        let ratio = 0;
+        let img = $(this);
+
+        if (img.width() > maxWidth) {
+            ratio = img.height() / img.width();
+            img.css("height", (maxWidth * ratio));
+            img.css("width", maxWidth);
+            // img.attr("height", (maxWidth * ratio));
+            // img.attr("width", maxWidth);
+        }
+    });
+    // });
 
 
 //        var showChar = 100;
@@ -166,7 +180,6 @@
 //        });
 
 
-    });
 
 </script>
 </body>
