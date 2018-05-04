@@ -169,8 +169,18 @@ public class User {
         return profilePicture;
     }
 
+    public String profilePicturePath() {
+        return profilePicture == null ? String.format("%s.png", username) : profilePicture;
+    }
+
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public void updateProfilePicture() {
+        if (profilePicture == null) {
+            profilePicture = profilePicturePath();
+        }
     }
 }
 
