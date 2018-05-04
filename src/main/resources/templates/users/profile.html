@@ -1,13 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:include="fragments/header :: my-header('Profile')">
+    <style>
+
+        .page {
+            margin: 1em auto;
+            max-width: 768px;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            height: 100%;
+        }
+
+        .box {
+            padding: 0.5em;
+            width: 100%;
+            margin:0.5em;
+        }
+
+        .box-2 {
+            padding: 0.5em;
+            width: calc(100%/2 - 1em);
+        }
+
+        .options label,
+        .options input{
+            width:4em;
+            padding:0.5em 1em;
+        }
+        .btn{
+            background:white;
+            color:black;
+            border:1px solid black;
+            padding: 0.5em 1em;
+            text-decoration:none;
+            margin:0.8em 0.3em;
+            display:inline-block;
+            cursor:pointer;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+    </style>
 </head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
 <!-- Show different words or features based on whether you're on your profile or someone else's -->
 
-<div class="container" id="profileWrap">
+<div class="container" id="profilePageWrapper">
+
 <!--============================================ VIEWING LOGGED IN USERS PROFILE ========================================-->
 <!--Reminder: #authentication.principal is the currently logged-in/session user-->
 
@@ -15,53 +63,112 @@
 
         <h2>Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
 
-        <!--I'm very confused about image uploading.-->
-        <!--Should I be saving profile pictures to the database?-->
-            <!--Yes. Or use filestack...which is limiting-->
+        <div class="cropper-container">
+            <!-- Modal -->
+            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" id="modal-header">
+                            <h5 class="modal-title" id="modalLabel"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="page">
+                                <form th:action="@{'/profile/edit/fileupload'}" method="POST" enctype="multipart/form-data"
+                                      id="data-edit-profile-picture-form">
+                                    <input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}"/>
+                                <!-- input file -->
+                                    <div class="box" id="modalUploadPicBtnBox">
+                                        <label for="file-input" class="custom-file-upload btn btn-secondary">
+                                            <i class="fas fa-upload" style="padding-right: 1em"></i>Upload Profile Picture
+                                            <input id="file-input" name="file" type="file" style="display:none;"/>
+                                        </label>
+                                    </div>
+                                <!-- leftbox -->
+                                    <div class="box-2">
+                                        <div class="result"></div>
+                                    </div>
+                                    <!--rightbox-->
+                                    <div class="box-2 img-result hide">
 
-        <!--What should the column look like, a path, or filename?-->
+                                        <!-- result of crop -->
+                                        <img name="croppedImage" class="cropped" src="" alt=""/>
 
-        <!--What is the path at "Users/RyanHarper/tmp/uploads" mean? Will this be for every user?-->
-                <!--No. It's just a path, and certainly shouldn't be a path on IntelliJ
-                because it would never be reached.
-                When deployed, the path will be changed to be housed on the server. So every user can have a picture -->
 
-        <!--Why can't the page display my image on the page?-->
+                                    </div>
+                                    <!-- input file -->
+                                    <div class="box">
+                                        <div class="options hide">
+                                            <!--<label> Width</label>-->
+                                            <!--<input type="number" class="img-w" value="300" min="100" max="1200" />-->
+                                        </div>
+                                        <!-- save btn -->
+                                        <button class="btn save hide">Save</button>
+                                        <!-- download btn -->
+                                        <a href="" class="btn download hide">Download</a>
+                                        <!--confirm selection-->
+                                        <button type="button" class="btn confirm hide" data-dismiss="modal">Confirm Selection</button>
+                                        <div th:if="${fileFailure}" class="alert alert-success fade in">
+                                            <strong th:text="${message}"></strong>
+                                        </div>
+                                    </div>
+                                </form>
 
-        <div class="profile-picture-wrapper">
-            <span th:if="${#authentication.principal.profilePicture} == null">
-                <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
-            </span>
-            <span th:if="${#authentication.principal.profilePicture} != null">
-                <img class="profilePic" th:src="@{'/uploads/' + ${#authentication.principal.profilePicture}}" width="150px" height="150px"/>
-            </span>
+                            </div>
+                        </div>
+                        <div class="modal-footer" id="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <h3>You are logged in. You can make comments and <a id="profileCreatePostLink" th:href="${'/posts/create'}">create a post.</a></h3>
+        <div class="profile-upper-wrapper">
+            <div class="profile-picture-wrapper">
+                <span th:if="${#authentication.principal.profilePicture} == null">
+                    <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
+                </span>
+                <span th:if="${#authentication.principal.profilePicture} != null">
+                    <img class="profilePic" th:src="@{'/uploads/' + ${#authentication.principal.profilePicture}}" width="150px" height="150px"/>
+                </span>
+            </div>
 
-        <h4>
-            <i class="far fa-envelope profileEmailIcon"></i>
-                <span th:text="${#authentication.principal.email}"/>
-        </h4>
+            <div class="profile-info-wrapper">
+                <h3>You are logged in. You can make comments and <a id="profileCreatePostLink" th:href="${'/posts/create'}">create a post.</a></h3>
+                <h4>
+                    <i class="far fa-envelope profileEmailIcon"></i>
+                        <span th:text="${#authentication.principal.email}"/>
+                </h4>
 
-        <h4>
-            <i class="far fa-handshake profileJoinIcon"></i>
-            <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
-            <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,
-            <span th:text="${#temporals.year(#authentication.principal.date)}"></span>
-        </h4>
+                <h4>
+                    <i class="far fa-handshake profileJoinIcon"></i>
+                    <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
+                    <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,
+                    <span th:text="${#temporals.year(#authentication.principal.date)}"></span>
+                </h4>
 
-        <div class="profileChangeUsernameDiv">
-            <i class="fas fa-cog profileCogIcon"></i>
-            <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">
-                <h5 id="profileChangeUsernameLink">edit account</h5>
-            </a>
-        </div>
-        <div class="profileChangePasswordDiv">
-            <i class="fas fa-lock-open profilePasswordIcon"></i>
-            <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">
-                <h5 id="profileChangePasswordLink">change your password</h5>
-            </a>
+                <div class="profileChangeUsernameDiv">
+                    <i class="fas fa-cog profileCogIcon"></i>
+                    <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">
+                        <h5 id="profileChangeUsernameLink">edit account</h5>
+                    </a>
+                </div>
+                <div class="profileChangePasswordDiv">
+                    <i class="fas fa-lock-open profilePasswordIcon"></i>
+                    <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">
+                        <h5 id="profileChangePasswordLink">change password</h5>
+                    </a>
+                </div>
+                <label id="profileChangePictureLink" data-target="#modal" data-toggle="modal">
+                    <i class="fas fa-upload uploadIcon"></i>change profile picture
+                </label>
+                <!-- Button trigger modal -->
+                <!--<input id="file" onchange="previewFile()" name="file" type="file" style="display:none;"/>-->
+
+            </div>
         </div>
 
     <hr class="commentHR"/>
@@ -77,23 +184,29 @@
     <th:block th:if="${!isOwnProfile}">
         <h2><span th:text="${profileUser.username}"></span>'s profile!</h2>
 
-        <span th:if="${profileUser.profilePicture} == null">
-                <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
-            </span>
-        <span th:if="${profileUser.profilePicture} != null">
-                <img class="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}" width="150px" height="150px"/>
-            </span>
+        <div class="profile-upper-wrapper">
+            <div class="profile-picture-wrapper">
+                <span th:if="${profileUser.profilePicture} == null">
+                        <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
+                </span>
+                <span th:if="${profileUser.profilePicture} != null">
+                        <img id="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}" width="150px" height="150px"/>
+                </span>
+            </div>
 
-        <h4>
-            <i class="far fa-envelope profileEmailIcon"></i>
-                <span th:text="${profileUser.email}"></span>
-        </h4>
-        <h4>
-            <i class="far fa-handshake profileJoinIcon"></i>
-                <span th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
-                <span th:text="${#temporals.day(profileUser.date)}"></span>,
-                <span th:text="${#temporals.year(profileUser.date)}"></span>
-        </h4>
+            <div class="profile-info-wrapper">
+                <h4>
+                    <i class="far fa-envelope profileEmailIcon"></i>
+                        <span th:text="${profileUser.email}"></span>
+                </h4>
+                <h4>
+                    <i class="far fa-handshake profileJoinIcon"></i>
+                        <span th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
+                        <span th:text="${#temporals.day(profileUser.date)}"></span>,
+                        <span th:text="${#temporals.year(profileUser.date)}"></span>
+                </h4>
+            </div>
+        </div>
 
     <hr class="commentHR"/>
 
@@ -132,7 +245,9 @@
 
                 </div>
                 <!--=====markdown parsing:===============-->
-                <h5 th:utext="${post.htmlDescription}"></h5>
+                <div class="postTextBodyDiv">
+                    <h5 th:utext="${post.htmlDescription}"></h5>
+                </div>
                 <!--=====================================-->
                 <h5 id="createdDate"><strong>created on:
                     <span th:text="${#temporals.monthNameShort(post.date)}"></span>
@@ -166,8 +281,11 @@
             </li>
         </ul>
     </div>
-
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
+<script src="/js/image-cropper.js">
+</script>
 </body>
 </html>
+
