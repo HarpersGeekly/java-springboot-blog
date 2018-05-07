@@ -4,11 +4,15 @@
     <meta charset="UTF-8"/>
     <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico"/>
     <!-- Latest compiled and minified CSS -->
-    <link href="/bower_components/bootstrap-markdown-editor/dist/css/bootstrap-markdown-editor.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css"/>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+
+    <link href="/bower_components/bootstrap-markdown-editor/dist/css/bootstrap-markdown-editor.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/fontawesome-all.css" type="text/css"/>
     <link rel="stylesheet" href="/css/main.css" type="text/css"/>
+
 
     <title>Edit Post</title>
 </head>
@@ -40,10 +44,9 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="tags">Tags:</label>
-
-            <select id="tags" class="selectpicker" multiple="multiple" data-max-options="3" name="categories" th:field="*{categories}">
+        <label for="tags">Categories:</label>
+        <div class="form-group" id="categories-selector">
+            <select id="tags" class="selectpicker" multiple="multiple" data-max-options="4" name="categories" th:field="*{categories}">
                 <option th:each="tag : ${categories}" th:value="${tag.id}" th:text="${tag.name}"></option>
             </select>
 
@@ -89,17 +92,6 @@
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>
-
-<script src="/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="/bower_components/ace-builds/src-min/ace.js"></script>
-<script src="/bower_components/bootstrap-markdown-editor/dist/js/bootstrap-markdown-editor.js"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
-
 <script>
     //$('#myEditor').markdownEditor();
     $('#myEditor').markdownEditor({

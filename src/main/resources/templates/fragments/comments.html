@@ -35,9 +35,9 @@
 
         <!-- =============================== Comment Body =========================-->
 
-        <div class="commentBodyWrapper">
-            <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
-        </div>
+            <div class="commentBodyWrapper">
+                <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
+            </div>
 
         <!-- =============================== Edit Form ============================-->
 
@@ -195,10 +195,11 @@
         </div>
     </div>
         <!--<hr class="commentHR"/>-->
-        <div style="margin-left: 2em;" th:each="child : ${comment.getChildrenComments()}">
+        <div class="eachChildCommentDiv" th:each="child : ${comment.getChildrenComments()}">
             <div th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
         </div>
-        <div class="childCommentDiv" style="margin-left: 2em;" th:attr="data-child-node-comment-id=${comment.id}"></div>
+        <div class="childCommentDiv" th:attr="data-child-node-comment-id=${comment.id}"></div>
+        <div class="lastBranchCommentDiv" th:attr="data-last-branch-comment-id=${comment.id}"></div>
 
     </div>
 </th:block>

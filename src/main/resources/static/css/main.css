@@ -68,6 +68,12 @@ html {
     margin-left: 5px;
 }
 
+#srch-term {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    color: white;
+}
 /* ================== Logout Button =========== */
 
 #logout {
@@ -142,9 +148,10 @@ ul {
 }
 
 .postTitleIndexPage {
+    font-family: PT serif;
     font-style: italic;
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: 1.8em;
     margin-right: 1em;
     display: inline-block;
     /*color: #E07A5F;*/
@@ -258,7 +265,7 @@ textarea, input, .form-control {
     content: "";
     position:relative;
     /*line-height: 1.1em;*/
-    line-height: 24px;
+    line-height: 1.5em;
     /*border-bottom: 3px solid #777;*/
     max-height:100px;
     /*max-height:200px;*/
@@ -336,6 +343,10 @@ textarea, input, .form-control {
 
 }
 
+#categories-selector {
+    margin-top: -0.1em;
+}
+
 /*============ Edit Post Page ==================*/
 
 .editPostPageWrapper {
@@ -392,7 +403,8 @@ textarea, input, .form-control {
 }
 
 .postTextBodyInnerText {
-    line-height: 24px;
+    line-height: 1.5em;
+    font-size: 1.1em;
 }
 
 #editPostBtn {
@@ -430,6 +442,7 @@ textarea, input, .form-control {
 
 .commentWrapper {
     display:flex;
+    min-width: 300px;
 }
 
 .commentPicWrapper {
@@ -473,9 +486,16 @@ textarea, input, .form-control {
 }
 
 #commentBodyText {
-    /*line-height: 1em;*/
-    /*margin-left: 2%;*/
-    font-size: 15px;
+    line-height: 1.5em;
+    font-size: 1.1em;
+}
+
+.editedCommentBodyText {
+    width: 900px;
+    height: 150px;
+    resize: none;
+    line-height: 1.5em;
+    font-size: 1.1em;
 }
 
 /*.commentFormWrapper {*/
@@ -688,6 +708,13 @@ textarea, input, .form-control {
     margin-left: -6em;
 }
 
+.eachChildCommentDiv {
+    margin-left:4em;
+}
+.childCommentDiv {
+    margin-left:4em;
+}
+
 /*=============== Profile page ======================*/
 
 #profileCreatePostLink {
@@ -840,6 +867,16 @@ textarea, input, .form-control {
     text-decoration: underline;
 }
 
+#modal-header {
+    border:none;
+}
+
+#modal-footer{
+    border:none;
+}
+#modalUploadPicBtnBox {
+    text-align:center;
+}
 /*=============== Edit User Page ========================*/
 
 #editUserFormWrapper {

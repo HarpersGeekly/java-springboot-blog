@@ -191,8 +191,8 @@
 
             <!-- =============================== Comment Body =========================-->
 
-            <div class="commentBodyWrapper" th:attr="data-comment-body-comment-id=${comment.id}">
-                <h5 th:text="${comment.body}"></h5>
+            <div class="commentBodyWrapper">
+                <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
             </div>
 
             <!-- =============================== Edit Form ============================-->
@@ -352,10 +352,11 @@
         </div><!--end of commentInfoWrapper-->
         </div>
 
-        <div style="margin-left: 2em;" th:each="child : ${comment.getChildrenComments()}">
+        <div class="eachChildCommentDiv" th:each="child : ${comment.getChildrenComments()}">
             <div th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
         </div>
-        <div class="childCommentDiv" style="margin-left: 2em;" th:attr="data-child-node-comment-id=${comment.id}"></div>
+        <div class="childCommentDiv" th:attr="data-child-node-comment-id=${comment.id}"></div>
+        <div class="lastBranchCommentDiv" th:attr="data-last-branch-comment-id=${comment.id}"></div>
 
     </div>
 </div>
@@ -431,22 +432,26 @@
     $('.replyTextArea').hide(); // hide the reply text area.
     $('.editedCommentForm').hide(); //hide the edit comment form.
     $('.showReplyTextAreaCancel').hide();
+    $('#srch-term').val('');
 
     $('.container').on("click", ".showReplyTextArea", function () {
         $('.replyFormBody').val('');
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextAreaCancel').first().show();
-        $this.siblings('.replyTextArea').first().toggle(250);
+        $this.siblings('.replyTextArea').first().toggle(250).swing();
     });
-
     $('.container').on("click", ".showReplyTextAreaCancel", function () {
         $('.replyFormBody').val('');
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextArea').first().show();
-        $this.siblings('.replyTextArea').first().toggle(250);
+        $this.siblings('.replyTextArea').first().toggle(250).swing();
     });
+
+    // let curText = $this.text();
+    // let newText = $this.data('text-swap');
+    // $this.text(newText).data('text-swap', curText);
 
     <!-- =================================================================================================================-->
     <!-- ============================================== SUBMIT Comment ===================================================-->
@@ -895,6 +900,7 @@
             let $commentEditFormTextarea = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
 
             let $childCommentDiv = $('[data-child-node-comment-id=' + commentId + ']');
+            let $lastBranchCommentDiv = $('[data-last-branch-comment-id=' + commentId + ']');
 
             // if statement here to check if html is that error fragment! (html could be both error or comment)
             if (!(html.includes("commentBodyText"))) { // if it's an error,
@@ -919,6 +925,23 @@
             $('.editedCommentForm').hide(); //hide the edit form.
             $('.replyTextArea').hide(); // hide the reply text area.
             $('.showReplyTextAreaCancel').hide();
+
+            let commentWrapper = document.querySelector('.commentWrapper');
+            let commentSection = document.querySelector('.commentSection');
+            if($(commentSection).has(commentWrapper).length){
+                //do something
+                        }
+                    else{
+                //do something
+                        }
+
+            if(!$.contains(commentSection,commentWrapper)) {
+
+            }
+            if (!isInViewport(commentWrapper)) {
+                $childCommentDiv.css("margin-left: 0em");
+            }
+
         });
 
         request.fail((a, b, c) => {
