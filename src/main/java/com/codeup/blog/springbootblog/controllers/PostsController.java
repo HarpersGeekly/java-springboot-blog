@@ -119,7 +119,6 @@ public class PostsController {
     @GetMapping("/posts/create")
     public String showCreatePostForm(Model viewModel) {
         viewModel.addAttribute("post", new Post());
-        viewModel.addAttribute("category", new Category());
         viewModel.addAttribute("categories", categoriesDao.findAll());
         return "posts/create";
     }
