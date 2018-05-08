@@ -435,11 +435,12 @@
     $('#srch-term').val('');
 
     $('.container').on("click", ".showReplyTextArea", function () {
-        $('.replyFormBody').val('');
+        $('.replyFormBody').val('').focus();
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextAreaCancel').first().show();
-        $this.siblings('.replyTextArea').first().toggle(250).swing();
+        $this.siblings('.replyTextArea').first().toggle(250).focus();
+
     });
     $('.container').on("click", ".showReplyTextAreaCancel", function () {
         $('.replyFormBody').val('');
@@ -911,21 +912,23 @@
             if (html.includes("commentBodyText")) { // if it's a comment...
                 if ($replyError.length >= 1) { // check if error exists first
                     $replyError.css("display","none"); // if error exists, hide it.
+                    $replyFormBody.val('');
+                    $('.showReplyTextArea').show();
+                    $('.editedCommentForm').hide(); //hide the edit form.
+                    $('.replyTextArea').hide(); // hide the reply text area.
+                    $('.showReplyTextAreaCancel').hide();
                     console.log("response was a comment.")
                 }
                 $childCommentDiv.append(html).hide().fadeIn(1500);
             }
 
+            //scroll to reply when commented
             $('html, body').animate({
                 scrollTop: $childCommentDiv.offset().top - $(window).height()/2
             }, 100);
 
-            $replyFormBody.val('');
-            $('.showReplyTextArea').show();
-            $('.editedCommentForm').hide(); //hide the edit form.
-            $('.replyTextArea').hide(); // hide the reply text area.
-            $('.showReplyTextAreaCancel').hide();
-
+            //=====================================================================================================
+            // W.I.P: the following is code to restrict the comment tree to get out of hand and run off the screen.
             let commentWrapper = document.querySelector('.commentWrapper');
             let commentSection = document.querySelector('.commentSection');
             if($(commentSection).has(commentWrapper).length){
@@ -941,7 +944,7 @@
             if (!isInViewport(commentWrapper)) {
                 $childCommentDiv.css("margin-left: 0em");
             }
-
+            //=====================================================================================================
         });
 
         request.fail((a, b, c) => {
