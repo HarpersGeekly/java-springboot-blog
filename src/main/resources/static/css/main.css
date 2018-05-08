@@ -74,6 +74,18 @@ html {
     border-bottom: 1px solid #ddd;
     color: white;
 }
+
+#searchSubmitBtn {
+    background: transparent;
+}
+
+#searchBtnIcon {
+    color: #7DE2D1;
+}
+
+#searchBtnIcon:hover {
+    color: #339989;
+}
 /* ================== Logout Button =========== */
 
 #logout {
@@ -677,17 +689,32 @@ textarea, input, .form-control {
 .replyFormBody, .replyFormBodyAJAX {
     resize: none;
     border-radius: 0;
-    height: 7em;
     width: 92%;
     margin-left: 2.5em;
+    border-style: none;
+    overflow: auto;
+    border-bottom: 3px solid black;
+    height: 3em;
+    position: relative;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    max-width: 100%;
+    background: transparent;
+
 }
 
 #replyFormBody, #replyFormBodyAJAX {
-    resize: none;
-    border-radius: 0;
-    height: 7em;
-    width: 92%;
-    margin-left: 2.5em;
+    border-style: none;
+    overflow: auto;
+    border-bottom: 3px solid black;
+    height: 3em;
+    position: relative;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    max-width: 100%;
+    background: transparent;
 }
 
 .replyTextArea {
