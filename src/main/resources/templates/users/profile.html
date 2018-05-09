@@ -105,13 +105,18 @@
                                             <!--<input type="number" class="img-w" value="300" min="100" max="1200" />-->
                                         </div>
                                         <!-- save btn -->
-                                        <button class="btn save hide">Save</button>
+                                        <button class="btn save hide"><i class="fa fa-spinner fa-spin saving-gif hide" style="font-size:1em"></i> Save</button>
+
                                         <!-- download btn -->
                                         <a href="" class="btn download hide">Download</a>
                                         <!--confirm selection-->
                                         <button type="button" class="btn confirm hide" data-dismiss="modal">Confirm Selection</button>
-                                        <div th:if="${fileFailure}" class="alert alert-success fade in">
-                                            <strong th:text="${message}"></strong>
+                                        <div id="profilePictureError"
+                                             class="alert alert-danger alert-dismissible hidden"
+                                             role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -125,6 +130,26 @@
                 </div>
             </div>
         </div>
+
+        <!--<div class="modal" id="modal2" tabindex="-1" role="dialog">-->
+            <!--<div class="modal-dialog" role="document">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<h5 class="modal-title">Modal title</h5>-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                            <!--<span aria-hidden="true">&times;</span>-->
+                        <!--</button>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<p>Modal body text goes here.</p>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                        <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="profile-upper-wrapper">
             <div class="profile-picture-wrapper">
@@ -153,13 +178,13 @@
                 <div class="profileChangeUsernameDiv">
                     <i class="fas fa-cog profileCogIcon"></i>
                     <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">
-                        <h5 id="profileChangeUsernameLink">edit account</h5>
+                        <h5 id="profileChangeUsernameLink" data-target="#modal2" data-toggle="modal2">edit account</h5>
                     </a>
                 </div>
                 <div class="profileChangePasswordDiv">
                     <i class="fas fa-lock-open profilePasswordIcon"></i>
                     <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">
-                        <h5 id="profileChangePasswordLink">change password</h5>
+                        <h5 id="profileChangePasswordLink" data-target="#modal3" data-toggle="modal3">change password</h5>
                     </a>
                 </div>
                 <label id="profileChangePictureLink" data-target="#modal" data-toggle="modal">
