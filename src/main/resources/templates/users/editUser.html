@@ -16,8 +16,9 @@
 
                     <div class="form-group">
                         <label for="editFormUsername">Username</label>
-                        <input type="text" id="editFormUsername" name="username" class="form-control" th:value="${user.username}"/>
-                        <!--th:field="*{username}"-->
+                        <input type="text" id="editFormUsername" name="username" class="form-control" th:field="*{username}"/>
+                        <!--<input type="text" id="editFormUsername" name="username" class="form-control" th:value="${user.username}"/>-->
+                        <!--th:field="*{username}" takes care of both the name and value attribute. If th:field is used instead, can delete name attribute-->
                         <div
                                 th:if="${#fields.hasErrors('username')}"
                                 class="alert alert-danger alert-dismissible"
@@ -31,7 +32,7 @@
 
                     <div class="form-group">
                         <label for="editFormEmail">Email</label>
-                        <input type="text" id="editFormEmail" name="email" class="form-control" th:value="${user.email}"/>
+                        <input type="text" id="editFormEmail" name="email" class="form-control" th:field="*{email}"/>
                         <!--th:field="*{email}"-->
                         <div
                                 th:if="${#fields.hasErrors('email')}"
