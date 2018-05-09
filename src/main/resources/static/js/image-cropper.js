@@ -22,7 +22,7 @@ $(document).ready(function () {
                     // create new image
                     let img = document.createElement('img');
                     img.id = 'image';
-                    img.src = e.target.result
+                    img.src = e.target.result;
                     // clean result before
                     result.innerHTML = '';
                     // append new image
@@ -30,7 +30,6 @@ $(document).ready(function () {
                     // show save btn and options
                     save.classList.remove('hide');
                     options.classList.remove('hide');
-                    confirm.classList.remove('hide');
                     // init cropper
                     cropper = new Cropper(img);
                 }
@@ -39,11 +38,10 @@ $(document).ready(function () {
         }
     });
 
-    var file;
+    let file;
+    let spinner = $('.saving-gif');
 
-    // save on click
-    save.addEventListener('click', (e) => {
-        e.preventDefault();
+    let croppingImage = function() {
         // get result to data uri
         let imgSrc = cropper.getCroppedCanvas({
             // width: img_w.value // input value
@@ -57,17 +55,28 @@ $(document).ready(function () {
         file = new Blob([new Uint8Array(array)], {type: 'image/png'});
 
         // remove hide class of img
+        spinner.addClass('hide');
         cropped.classList.remove('hide');
         img_result.classList.remove('hide');
         // show image cropped
         cropped.src = imgSrc;
+        confirm.classList.remove('hide');
         dwn.classList.remove('hide');
         dwn.download = 'imagename.png';
         dwn.setAttribute('href', imgSrc);
+    };
+    // save on click
+    $('.container').on("click", ".save", (e) => {
+        e.preventDefault();
+        spinner.removeClass("hide");
+        setTimeout(croppingImage, 500);
+
     });
 
-    $('.confirm').on("click", function (e) {
+    $('.container').on("click", ".confirm", (e) => {
         e.preventDefault();
+
+        $('.confirm').addClass("pulse");
 
         // let croppedImage = $('.cropped').attr('src');
         // console.log(croppedImage);
@@ -81,6 +90,7 @@ $(document).ready(function () {
             type: "POST",
             data: form,
             enctype: 'multipart/form-data',
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             processData: false,
             contentType: false,
             cache: false,
@@ -93,14 +103,21 @@ $(document).ready(function () {
             console.log(user.id);
             console.log(user.profilePicture);
 
+
             // select the image with jquery
             // change the src attr
             // with user.profile_picture
             $('.profilePic').attr("src", '/uploads/' + user.profilePicture);
+            // console.log(successMsg);
 
+            // alert(data.files[data.index].error);
+            // $('.modal.in').modal('toggle');
         });
 
         request.fail((a, b, c) => {
+            alert("File size too large");
+            $('#profilePictureError').removeClass('hidden');
+        // .css("display","none");
             console.log(a, b, c)
         });
         return false;
