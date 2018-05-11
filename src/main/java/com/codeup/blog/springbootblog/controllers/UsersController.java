@@ -3,6 +3,8 @@ package com.codeup.blog.springbootblog.controllers;
 import com.codeup.blog.springbootblog.Models.User;
 import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
+import com.codeup.blog.springbootblog.services.CommentService;
+import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,13 +29,22 @@ public class UsersController {
     private PasswordEncoder passwordEncoder;
     private UserService userSvc;
     private CategoriesRepository categoriesDao;
+    private CommentService commentSvc;
+    private PostService postSvc;
 
     @Autowired
-    public UsersController(UsersRepository usersDao, PasswordEncoder passwordEncoder, UserService userSvc, CategoriesRepository categoriesDao) {
+    public UsersController(UsersRepository usersDao,
+                           PasswordEncoder passwordEncoder,
+                           UserService userSvc,
+                           CategoriesRepository categoriesDao,
+                           CommentService commentSvc,
+                           PostService postSvc) {
         this.usersDao = usersDao;
         this.passwordEncoder = passwordEncoder;
         this.userSvc = userSvc;
         this.categoriesDao = categoriesDao;
+        this.commentSvc = commentSvc;
+        this.postSvc = postSvc;
     }
 
     // ============================================= LOGGING IN USER ===================================================
@@ -152,9 +163,14 @@ public class UsersController {
     public String showProfilePage(Model viewModel) {
         User userLoggedIn = userSvc.loggedInUser(); // Grab the loggedInUser from the service and assign them a name, userLoggedIn.
         User user = usersDao.findById(userLoggedIn.getId());
+        long commentKarma = commentSvc.totalCommentKarmaForUser(user.getId());
+        long postKarma = postSvc.totalPostKarmaForUser(user.getId());
+        long totalKarma = commentKarma + postKarma;
+
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
 //        viewModel.addAttribute("activeIn", categoriesDao.)
+        viewModel.addAttribute("karma", totalKarma);
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
         viewModel.addAttribute("profileUser", user);
@@ -164,8 +180,14 @@ public class UsersController {
     @GetMapping("/profile/{id}")
     public String showOtherUsersProfilePage(@PathVariable Long id, Model viewModel) {
         User user = usersDao.findById(id); // find the User from the id in the url profile/{id}/edit
+        long commentKarma = commentSvc.totalCommentKarmaForUser(user.getId());
+        long postKarma = postSvc.totalPostKarmaForUser(user.getId());
+        long totalKarma = commentKarma + postKarma;
+
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
+
+        viewModel.addAttribute("karma", totalKarma);
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
         // ^this is a boolean^, true, but false if passing another id.

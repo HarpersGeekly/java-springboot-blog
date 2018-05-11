@@ -53,7 +53,7 @@ public class CommentService {
     }
 
     public long totalCommentKarmaForUser(Long id) {
-        return commentsVoteDao.totalPostKarmaForUser(id);
+        return commentsVoteDao.totalCommentKarmaForUser(id);
     }
 
     public Comment saveNewComment(Comment parent, Post post, String body) {
