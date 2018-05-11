@@ -76,6 +76,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="page">
+                                <!-- ======================== Upload Image Form ============================================ -->
                                 <form th:action="@{'/profile/edit/fileupload'}" method="POST" enctype="multipart/form-data"
                                       id="data-edit-profile-picture-form">
                                     <input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}"/>
@@ -92,10 +93,8 @@
                                     </div>
                                     <!--rightbox-->
                                     <div class="box-2 img-result hide">
-
                                         <!-- result of crop -->
                                         <img name="croppedImage" class="cropped" src="" alt=""/>
-
 
                                     </div>
                                     <!-- input file -->
@@ -309,8 +308,7 @@
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
-<script src="/js/image-cropper.js">
-</script>
+<script src="/js/image-cropper.js"></script>
 </body>
 </html>
 
