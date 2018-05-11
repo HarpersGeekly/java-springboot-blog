@@ -15,9 +15,6 @@ public interface PostsVotesRepository extends CrudRepository<PostVote, PostVoteI
     int hasVoted(Long id);
 
     @Query(nativeQuery = true,
-            value = "SELECT SUM(type) FROM posts_votes pv " +
-                    "LEFT JOIN posts p ON p.id = pv.post_id " +
-                    "inner JOIN users u ON u.id = p.user_id " +
-                    "WHERE u.id = ?1;")
+            value = "SELECT SUM(type) FROM posts_votes pv LEFT JOIN posts p ON p.id = pv.post_id inner JOIN users u ON u.id = p.user_id WHERE u.id LIKE ?1")
     long totalPostKarmaForUser(Long id);
 }

@@ -8,9 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface CommentsVotesRepository extends CrudRepository<CommentVote, CommentVoteId> {
 
     @Query(nativeQuery = true,
-            value = "SELECT SUM(type) FROM comments_votes cv " +
-                    "LEFT JOIN comments c ON c.id = cv.comment_id " +
-                    "inner JOIN users u ON u.id = c.user_id " +
-                    "WHERE u.id = ?1;")
-    long totalPostKarmaForUser(Long id);
+            value = "SELECT SUM(type) FROM comments_votes cv LEFT JOIN comments c ON c.id = cv.comment_id inner JOIN users u ON u.id = c.user_id WHERE u.id LIKE ?1")
+    long totalCommentKarmaForUser(Long id);
 }
