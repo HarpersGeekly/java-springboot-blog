@@ -72,6 +72,10 @@ public class PostService {
         return postsVotesDao.hasVoted(id) != 0;
     }
 
+    public long totalPostKarmaByUser(Long id) {
+        return postsVotesDao.totalPostKarmaForUser(id);
+    }
+
 
 
 

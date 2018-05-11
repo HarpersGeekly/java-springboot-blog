@@ -3,6 +3,7 @@ package com.codeup.blog.springbootblog.services;
 import com.codeup.blog.springbootblog.Models.Comment;
 import com.codeup.blog.springbootblog.Models.Post;
 import com.codeup.blog.springbootblog.repositories.CommentsRepository;
+import com.codeup.blog.springbootblog.repositories.CommentsVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,16 +15,15 @@ import java.util.List;
 @Service("commentService")
 public class CommentService {
 
+    private final CommentsRepository commentsDao;
+    private final CommentsVotesRepository commentsVoteDao;
+    private final UserService userSvc;
 
     @Autowired
-    private CommentsRepository commentsDao;
-
-    @Autowired
-    private UserService userSvc;
-
-    CommentService(CommentsRepository commentsDao, UserService userSvc) {
+    CommentService(CommentsRepository commentsDao, UserService userSvc, CommentsVotesRepository commentsVoteDao) {
         this.commentsDao = commentsDao;
         this.userSvc = userSvc;
+        this.commentsVoteDao = commentsVoteDao;
     }
 
     private static final int MAX_COMMENT_LEVEL = 5;
@@ -50,6 +50,10 @@ public class CommentService {
 
     public long numberofCommentsOnPost(Long id) {
         return commentsDao.numberOfCommentsOnPost(id);
+    }
+
+    public long totalCommentKarmaForUser(Long id) {
+        return commentsVoteDao.totalPostKarmaForUser(id);
     }
 
     public Comment saveNewComment(Comment parent, Post post, String body) {
