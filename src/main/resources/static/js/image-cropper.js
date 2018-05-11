@@ -1,3 +1,9 @@
+// File upload box drops down. Once user selects a file, javascript checks if it's a valid image type: jpg, jpeg, png, gif.' +
+// ' It also checks file size is less than 5MB along with resetting the forms on both conditions. ' +
+// 'Using Cropper.js the image can now be cropped. After clicking 'save', the cropped image is compressed by 90% and once ' +
+// ''confirm' is clicked, the file is appended to the form and sent via ajax to the FileUploadController where it will be ' +
+// 'saved as a users profile.
+
 $(document).ready(function () {
     // vars
     let result = document.querySelector('.result'),
@@ -10,42 +16,65 @@ $(document).ready(function () {
         dwn = document.querySelector('.download'),
         upload = document.querySelector('#file-input'),
         confirm = document.querySelector('.confirm'),
+        form = document.querySelector('data-edit-profile-picture-form'),
         cropper = '';
 
     // on change show image with crop options
-    upload.addEventListener('change', (e) => {
-        if (e.target.files.length) {
-            // start file reader
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                if (e.target.result) {
-                    // create new image
-                    let img = document.createElement('img');
-                    img.id = 'image';
-                    img.src = e.target.result;
-                    // clean result before
-                    result.innerHTML = '';
-                    // append new image
-                    result.appendChild(img);
-                    // show save btn and options
-                    save.classList.remove('hide');
-                    options.classList.remove('hide');
-                    // init cropper
-                    cropper = new Cropper(img);
+        upload.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+
+                let file = event.target.files[0];
+
+                if(file.size>5*1024*1024) {
+                    alert("Images must be less than 5MB please");
+                    $(form).get(0).reset();
+                    return;
                 }
-            };
-            reader.readAsDataURL(e.target.files[0]);
-        }
-    });
+
+                if(!file.type.match(/gif|png|jpg|jpeg/)) {
+                    alert("Not a valid image type");
+                    $(form).get(0).reset();
+                    return;
+                    }
+
+                // start file reader
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    if (e.target.result) {
+                        // create new image
+                        let img = document.createElement('img');
+                        img.id = 'image';
+                        img.src = e.target.result;
+                        // clean result before
+                        result.innerHTML = '';
+                        // append new image
+                        result.appendChild(img);
+                        // show save btn and options
+                        save.classList.remove('hide');
+                        options.classList.remove('hide');
+                        // init cropper
+                        cropper = new Cropper(img);
+                    }
+                };
+                reader.readAsDataURL(e.target.files[0]);
+                console.log(e.target.files[0].size / 1024 / 1024 + "MB");
+            }
+        });
 
     let file;
     let spinner = $('.saving-gif');
+
+    // $('#file-input').bind('change', function() {
+    //     if(this.files[0].size > 3145728) {
+    //         alert('Hold up! This file is too large at: ' + this.files[0].size / 1024 / 1024 + "MB. Please select a file less than 3MB.");
+    //     }
+    // });
 
     let croppingImage = function() {
         // get result to data uri
         let imgSrc = cropper.getCroppedCanvas({
             // width: img_w.value // input value
-        }).toDataURL();
+        }).toDataURL("image/jpeg",0.9);
 
         let blobBin = atob(imgSrc.split(',')[1]);
         let array = [];
@@ -54,8 +83,9 @@ $(document).ready(function () {
         }
         file = new Blob([new Uint8Array(array)], {type: 'image/png'});
 
-        // remove hide class of img
+        console.log("file size: " + file.size / 1024 / 1024 + "MB");
         spinner.addClass('hide');
+        // remove hide class of img
         cropped.classList.remove('hide');
         img_result.classList.remove('hide');
         // show image cropped
@@ -70,21 +100,14 @@ $(document).ready(function () {
         e.preventDefault();
         spinner.removeClass("hide");
         setTimeout(croppingImage, 500);
-
     });
 
     $('.container').on("click", ".confirm", (e) => {
         e.preventDefault();
 
-        $('.confirm').addClass("pulse");
-
-        // let croppedImage = $('.cropped').attr('src');
-        // console.log(croppedImage);
-        // let croppedImageName = $('.cropped').attr('name');
-        // console.log("cropped name attribute: " + croppedImageName);
-
         let form = new FormData($("#data-edit-profile-picture-form")[0]);
         form.append("croppedImage", file);
+
         let request = $.ajax({
             url: "/profile/edit/fileupload",
             type: "POST",
@@ -98,26 +121,16 @@ $(document).ready(function () {
         request.done(function (user) {
 
             console.log("back from profile request.done");
-            console.log(user);
-            console.log(user.username);
-            console.log(user.id);
-            console.log(user.profilePicture);
-
-
             // select the image with jquery
             // change the src attr
             // with user.profile_picture
             $('.profilePic').attr("src", '/uploads/' + user.profilePicture);
-            // console.log(successMsg);
 
-            // alert(data.files[data.index].error);
-            // $('.modal.in').modal('toggle');
         });
 
         request.fail((a, b, c) => {
             alert("File size too large");
             $('#profilePictureError').removeClass('hidden');
-        // .css("display","none");
             console.log(a, b, c)
         });
         return false;
