@@ -78,7 +78,7 @@ public class PostsController {
         this.categoriesDao = categoriesDao;
     }
 
-//================================================ ALL POSTS ===========================================================
+//================================================ ALL POSTS ==================================================== /posts
 //======================================================================================================================
 
     @GetMapping("/posts")
@@ -103,10 +103,11 @@ public class PostsController {
 //        }
 //        viewModel.addAttribute("posts", postSvc.findAll());
         viewModel.addAttribute("page", postSvc.postsByPage(pageable));
+        viewModel.addAttribute("categories", categoriesDao.findAll());
         return "posts/index";
     }
 
-//================================================ CREATE POST =========================================================
+//================================================ CREATE POST =========================================== /posts/create
 //======================================================================================================================
 
 //      Essentially we see a blank form when we load the page.
@@ -149,7 +150,7 @@ public class PostsController {
         return "redirect:/posts";
     }
 
-//================================================= EDIT POST ==========================================================
+//================================================= EDIT POST ========================================= /posts/{id}/edit
 //======================================================================================================================
 
     @GetMapping("/posts/{id}/edit")
@@ -205,10 +206,11 @@ public class PostsController {
 
     @GetMapping("/posts/search")
     public String search(@RequestParam String term, Model viewModel) {
-        // return "list of posts where title is like ? or description is like ? or username is like ?"
+        // return "list of posts where title is like ? or description is like ? or username is like ? etc etc"
         // Go to PostRepository and make a query method.
         // Go to PostService and implement it there too. Call it here and pass it to the view:
         viewModel.addAttribute("searchedContent", postSvc.searchPostsByKeyword(term));
+        viewModel.addAttribute("categories", categoriesDao.findAll());
         return "/posts/search";
     }
 
@@ -232,7 +234,7 @@ public class PostsController {
         return "";
     }
 
-//================================================= SHOW POST ==========================================================
+//================================================= SHOW POST ============================================== /posts/{id}
 //======================================================================================================================
 
     @GetMapping("/posts/{id}")
@@ -250,6 +252,7 @@ public class PostsController {
 //        viewModel.addAttribute("comment", new Comment());
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
+        viewModel.addAttribute("categories", categoriesDao.findAll());
 
         if (user != null) {
             PostVote vote = post.getVoteFrom(user);
@@ -292,11 +295,12 @@ public class PostsController {
         comment.setDate(LocalDateTime.now());
         commentsDao.save(comment);
 
-//        return comment;
-        return "fragments/comments :: ajaxComment"; // By returning this fragment (fragments/comments.html), we get all of our Thymeleaf-operated HTML
+//      return comment;
+//      By returning this fragment (fragments/comments.html), we get all of our Thymeleaf-operated HTML
+        return "fragments/comments :: ajaxComment";
     }
 
-//=============================================== EDIT A COMMENT  ======================================================
+//=============================================== EDIT A COMMENT  ==============/posts/{postId}/comment/{commentId}/edit
 //======================================================================================================================
 
     //    @GetMapping("/comment")

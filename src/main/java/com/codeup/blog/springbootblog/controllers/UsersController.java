@@ -166,32 +166,32 @@ public class UsersController {
         long commentKarma = commentSvc.totalCommentKarmaForUser(user.getId());
         long postKarma = postSvc.totalPostKarmaForUser(user.getId());
         long totalKarma = commentKarma + postKarma;
+        viewModel.addAttribute("karma", totalKarma);
 
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
 //        viewModel.addAttribute("activeIn", categoriesDao.)
-        viewModel.addAttribute("karma", totalKarma);
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
         viewModel.addAttribute("profileUser", user);
+        viewModel.addAttribute("categories", categoriesDao.findAll());
         return "users/profile";
     }
 
     @GetMapping("/profile/{id}")
     public String showOtherUsersProfilePage(@PathVariable Long id, Model viewModel) {
         User user = usersDao.findById(id); // find the User from the id in the url profile/{id}/edit
-        long commentKarma = commentSvc.totalCommentKarmaForUser(user.getId());
-        long postKarma = postSvc.totalPostKarmaForUser(user.getId());
-        long totalKarma = commentKarma + postKarma;
-
+//        long commentKarma = commentSvc.totalCommentKarmaForUser(user.getId());
+//        long postKarma = postSvc.totalPostKarmaForUser(user.getId());
+//        long totalKarma = commentKarma + postKarma;
+//        viewModel.addAttribute("karma", totalKarma);
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
-
-        viewModel.addAttribute("karma", totalKarma);
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
         // ^this is a boolean^, true, but false if passing another id.
         viewModel.addAttribute("profileUser", user);
+        viewModel.addAttribute("categories", categoriesDao.findAll());
         return "users/profile";
     }
 
