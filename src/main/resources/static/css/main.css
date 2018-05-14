@@ -1,6 +1,6 @@
 body {
     /*!*margin: 0;*!*/
-    padding-top: 65px;
+    padding-top: 50px;
     /*min-height: 100vh;*/
     background: #fffafb;
     /*font-family: Georgia, serif;*/
@@ -22,9 +22,9 @@ html {
 
 .navbar-default {
     border: none;
-    background-color: #2B2C28;
+    background-color: #3f403c;
     /*border-bottom: #FFFAFB solid 10px;*/
-    box-shadow: 0px 0px 30px #333;
+    /*box-shadow: 0px 0px 30px #333;*/
 }
 
 .navbar-default .navbar-brand {
@@ -118,6 +118,7 @@ html {
 #formLoginDiv {
     display: block;
     text-align: center;
+    margin-top: 6em;
 }
 #loginForm {
     display: inline-block;
@@ -134,6 +135,32 @@ html {
 }
 
 /*==================Index Page ================*/
+.indexCategoriesListWrapper {
+    background-color: papayawhip;
+    text-align: center;
+    height: 2em;
+    box-shadow: 0px 0px 20px darkgrey;
+    overflow: scroll;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.indexEachCategory {
+    color: #E07A5F;
+    font-size: 0.9em;
+    font-weight: normal;
+    background-color: papayawhip;
+    padding: 1.25em;
+}
+
+.indexEachCategory:hover {
+    text-decoration: none;
+    color: #7DE2D1;
+}
 
 .postWrapper {
     margin: 0 auto;
@@ -235,6 +262,7 @@ textarea, input, .form-control {
 
 #indexPageWrapper {
     min-height: 100%;
+    margin-top:5em;
     position: relative;
     margin-bottom: 100px;
     /*background-color: papayawhip;*/
@@ -384,6 +412,7 @@ textarea, input, .form-control {
 
 .showPageWrapper {
     margin-left: 1em;
+    margin-top:5em;
 }
 
 .postInfoWrapper {
@@ -754,6 +783,7 @@ textarea, input, .form-control {
 
 #profilePageWrapper {
     overflow: hidden;
+    margin-top: 4.5em;
 }
 
 .profile-upper-wrapper {
