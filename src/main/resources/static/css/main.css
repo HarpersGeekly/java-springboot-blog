@@ -90,6 +90,16 @@ html {
 #searchBtnIcon:hover {
     color: #339989;
 }
+
+/* ================= Search Results Page ====== */
+
+#emptySearchDiv {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+}
 /* ================== Logout Button =========== */
 
 #logout {
