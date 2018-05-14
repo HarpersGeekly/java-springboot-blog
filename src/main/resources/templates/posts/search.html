@@ -3,6 +3,9 @@
 <head th:include="fragments/header :: my-header('Search Results')"></head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
+<div class="indexCategoriesListWrapper">
+    <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
+</div>
 
 <div id="indexPageWrapper">
 

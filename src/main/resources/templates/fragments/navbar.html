@@ -75,6 +75,9 @@
 
         </div><!-- /.navbar-collapse -->
     </nav>
+    <!--<div class="indexCategoriesListWrapper">-->
+        <!--<a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>-->
+    <!--</div>-->
 </div>
 </body>
 </html>

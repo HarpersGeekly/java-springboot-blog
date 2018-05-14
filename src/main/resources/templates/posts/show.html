@@ -4,6 +4,9 @@
 </head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
+<div class="indexCategoriesListWrapper">
+    <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
+</div>
 
 <div class="showPageWrapper">
     <!-- ================================================================================================================-->
@@ -429,30 +432,51 @@
 <script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>
 <script th:inline="javascript">
 
-    $('.replyTextArea').hide(); // hide the reply text area.
-    $('.editedCommentForm').hide(); //hide the edit comment form.
-    $('.showReplyTextAreaCancel').hide();
+    $('.replyTextArea').hide(); // hide the reply text area on load.
+    $('.editedCommentForm').hide(); //hide the edit comment form on load.
+    $('.showReplyTextAreaCancel').hide(); // hide the Cancel button on load.
     $('#srch-term').val('');
 
+    //click on Reply it changes to Cancel, etc:
     $('.container').on("click", ".showReplyTextArea", function () {
-        $('.replyFormBody').val('').focus();
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextAreaCancel').first().show();
-        $this.siblings('.replyTextArea').first().toggle(250).focus();
+        $this.siblings('.replyTextArea').first().toggle(250);
 
+        // you cannot focus on an element that is not yet visible. Order it
+        $('.replyFormBody').val('').focus();
     });
+
+    //click on Cancel it changes to Reply, etc:
     $('.container').on("click", ".showReplyTextAreaCancel", function () {
         $('.replyFormBody').val('');
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextArea').first().show();
-        $this.siblings('.replyTextArea').first().toggle(250).swing();
+        $this.siblings('.replyTextArea').first().toggle(250);
     });
 
-    // let curText = $this.text();
-    // let newText = $this.data('text-swap');
-    // $this.text(newText).data('text-swap', curText);
+    //expand and retract textarea with content
+    document.addEventListener("input", function (event) {
+        if (event.target.tagName.toLowerCase() !== 'textarea') return;
+        autoExpand(event.target);
+    }, false);
+
+    let autoExpand = function (field) {
+        // Do things...
+        // Reset field height
+        field.style.height = 'inherit';
+        // Get the computed styles for the element
+        let computed = window.getComputedStyle(field);
+        // Calculate the height
+        let height = parseInt(computed.getPropertyValue('border-top-width'), 10)
+            + parseInt(computed.getPropertyValue('padding-top'), 10)
+            + field.scrollHeight
+            + parseInt(computed.getPropertyValue('padding-bottom'), 10)
+            + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
+        field.style.height = height + 'px';
+    };
 
     <!-- =================================================================================================================-->
     <!-- ============================================== SUBMIT Comment ===================================================-->
@@ -921,6 +945,12 @@
                 }
                 $childCommentDiv.append(html).hide().fadeIn(1500);
             }
+
+            $replyFormBody.val('');
+            $('.showReplyTextArea').show();
+            $('.editedCommentForm').hide(); //hide the edit form.
+            $('.replyTextArea').hide(); // hide the reply text area.
+            $('.showReplyTextAreaCancel').hide();
 
             //scroll to reply when commented
             $('html, body').animate({
