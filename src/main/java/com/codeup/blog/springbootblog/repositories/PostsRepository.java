@@ -26,4 +26,16 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
                     "SELECT * from redwood_blog_db.posts p ORDER BY p.id DESC, ?#{#pageable}")
     Page<Post> postsByPage(Pageable pageable);
 
+    @Query(nativeQuery = true,
+            value = "SELECT p.id from posts p JOIN comments c ON p.id = c.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
+    List<Post> popularPostsByCommentActivity();
 }
+
+//
+//    SELECT c.id, c.city
+//        FROM cities c
+//        JOIN ( SELECT city, COUNT(*) AS cnt
+//        FROM cities
+//        GROUP BY city
+//        ) c2 ON ( c2.city = c.city )
+//        ORDER BY c2.cnt DESC;
