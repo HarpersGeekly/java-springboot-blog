@@ -32,11 +32,11 @@ public class Post {
     @Size(max = 100, message = "Title is too long")
     private String title;
 
-    @Column(columnDefinition = "TEXT", length = 2000, nullable = false) // column, text for more, not-null
+    @Column(columnDefinition = "TEXT", length = 5000, nullable = false) // column, text for more, not-null
     @NotBlank(message="Description cannot be empty")
     @Size.List({
             @Size(min = 5, message="Description must be at least 5 characters."),
-            @Size(max = 2000, message="Description is too long.")
+            @Size(max = 5000, message="Description is too long.")
     })
     private String description;
 
