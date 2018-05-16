@@ -94,6 +94,7 @@ html {
 /* ================= Search Results Page ====== */
 
 #emptySearchDiv {
+    /*aligns in the middle of the page, vertically and horizontally*/
     height: 50vh;
     display: flex;
     align-items: center;
@@ -145,6 +146,7 @@ html {
 }
 
 /*==================Index Page ================*/
+
 .indexCategoriesListWrapper {
     background-color: papayawhip;
     text-align: center;
@@ -170,6 +172,58 @@ html {
 .indexEachCategory:hover {
     text-decoration: none;
     color: #7DE2D1;
+}
+
+/*wraps the whole index page*/
+.indexPageWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 6em;
+}
+
+/*popularity column on left side of screen*/
+.popularityWrapper {
+    padding-left: 3em;
+    padding-right: 2.5em;
+    width:40%;
+}
+
+/*.wrap-each:after {*/
+    /*content: '';*/
+    /*display: table;*/
+    /*clear: both;*/
+/*}*/
+
+/*.wrap-each div {*/
+    /*float: left;*/
+/*}*/
+/*.wrap-each div:last-child {*/
+    /*float: right;*/
+/*}*/
+
+.popularTitle {
+    font-size: 1em;
+    font-weight: bold;
+    float: left;
+    padding-right: 1em;
+}
+
+/*each post*/
+.content {
+    /*border: 1px solid #ccc!important;*/
+    width: 90%;
+    /*margin: 0 auto;*/
+    /*font-family: Georgia, serif;*/
+    /*font-family: 'Roboto', sans-serif;*/
+    /*font-size: 15px;*/
+    /*margin-left: 1em;*/
+    /*margin-right: 1em;*/
+    /*overflow: auto;*/
+    /*height: 200px;*/
+    /*min-height:50px;*/
+    /*overflow:hidden;*/
+    /*margin-bottom: 155px;*/
 }
 
 .postWrapper {
@@ -270,44 +324,6 @@ textarea, input, .form-control {
     /*-moz-box-shadow: none;*/
     /*box-shadow: none;*/
 
-#indexPageWrapper {
-    min-height: 100%;
-    margin-top:5em;
-    position: relative;
-    margin-bottom: 100px;
-    /*background-color: papayawhip;*/
-}
-
-.content {
-    /*border: 1px solid #ccc!important;*/
-    width: 78%;
-    margin: 0 auto;
-    /*font-family: Georgia, serif;*/
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
-    /*margin-left: 1em;*/
-    /*margin-right: 1em;*/
-    /*overflow: auto;*/
-    /*height: 200px;*/
-    min-height:50px;
-    overflow:hidden;
-    /*margin-bottom: 155px;*/
-}
-
-/*overflow: auto;*/
-/*height: 200px;*/
-/*#content {*/
-/*max-height: 250px;*/
-/*overflow: hidden;*/
-/*text-overflow: ellipsis;*/
-/*content: "";*/
-/*}*/
-/*#content:before {*/
-    /*background: -webkit-linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0));*/
-    /*-webkit-background-clip: text;*/
-    /*-webkit-text-fill-color: transparent;*/
-    /*!*margin-bottom: 200px;*!*/
-/*}*/
 
 .postDescription{
     width: 100%;

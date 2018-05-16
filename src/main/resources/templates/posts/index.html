@@ -9,7 +9,49 @@
     <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
 </div>
 
-    <div id="indexPageWrapper">
+<div class="indexPageWrapper flex-container">
+    <div class="popularityWrapper">
+        <div class="popularPostsByComments">
+            <h4 style="text-align: center">Popular Posts</h4>
+            <div th:each="post : ${popularPosts}">
+
+                <div>
+                    <a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">
+                        <h4 class="popularTitle" th:text="${post.title}"></h4>
+                    </a>
+                        <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+                            <span th:text="${post.user.username}"></span>
+                        </a>
+
+                    <i class="fas fa-comments postCommentIconIndex"></i>
+                        <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="popularPostsByLikes">
+            <h4 style="text-align: center">Top Rated Posts</h4>
+            <div th:each="post : ${popularPosts}">
+                <h4 class="popularTitle" th:text="${post.title}"></h4>
+                <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+                    <span th:text="${post.user.username}"></span></a>
+                <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
+                <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+            </div>
+        </div>
+        <div class="popularUsers">
+            <h4 style="text-align: center">Top Rated Users</h4>
+            <div th:each="post : ${popularPosts}">
+                <h4 class="popularTitle" th:text="${post.title}"></h4>
+                <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+                    <span th:text="${post.user.username}"></span></a>
+                <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
+                <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+            </div>
+        </div>
+    </div>
+    <div id="indexPagePostsWrapper">
 
         <!--<h2 id="postIntro">recent harps of the day...</h2>-->
 
@@ -29,7 +71,7 @@
                     <ul>
                         <li>
                             <h4 th:text="${post.title}" class="postTitleIndexPage">
-                                <!--<a th:href="@{/posts/{id}(id=${post.id})}"</a> -->
+                                <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
                             </h4>
 
                             <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
@@ -66,11 +108,11 @@
                             <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
                     </ul>
                 </div>
+            </div>
         <!--<hr class="commentHR"/>-->
         </div>
-        </div>
-
     </div>
+</div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
