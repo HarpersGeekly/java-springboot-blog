@@ -104,6 +104,7 @@ public class PostsController {
 //        viewModel.addAttribute("posts", postSvc.findAll());
         viewModel.addAttribute("page", postSvc.postsByPage(pageable));
         viewModel.addAttribute("categories", categoriesDao.findAll());
+        viewModel.addAttribute("popularPosts", postSvc.popularPostsByCommentActivity());
         return "posts/index";
     }
 
@@ -169,8 +170,9 @@ public class PostsController {
         // @Valid now calls @ModelAttribute first/instead and calls the validations!
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
+            viewModel.addAttribute("categories", categoriesDao.findAll());
             viewModel.addAttribute("post", post);
-            return "/posts/create";
+            return "/posts/edit";
         }
 
 //        XSSPrevent xp = new XSSPrevent();

@@ -76,6 +76,8 @@ public class PostService {
         return postsVotesDao.totalPostKarmaForUser(id);
     }
 
+    public List<Post> popularPostsByCommentActivity() {
+        return postsDao.popularPostsByCommentActivity(); }
 
 
 
