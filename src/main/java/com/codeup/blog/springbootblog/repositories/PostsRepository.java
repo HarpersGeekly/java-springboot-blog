@@ -29,6 +29,10 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
     @Query(nativeQuery = true,
             value = "SELECT p.id from posts p JOIN comments c ON p.id = c.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
     List<Post> popularPostsByCommentActivity();
+
+    @Query(nativeQuery = true,
+            value = "SELECT SUM(type) from posts_votes pv LEFT JOIN posts p ON p.id = pv.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
+    List<Post> popularPostsByLikes();
 }
 
 //
