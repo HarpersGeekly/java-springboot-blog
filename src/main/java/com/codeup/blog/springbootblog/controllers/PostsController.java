@@ -104,7 +104,14 @@ public class PostsController {
 //        viewModel.addAttribute("posts", postSvc.findAll());
         viewModel.addAttribute("page", postSvc.postsByPage(pageable));
         viewModel.addAttribute("categories", categoriesDao.findAll());
-        viewModel.addAttribute("popularPosts", postSvc.popularPostsByCommentActivity());
+        viewModel.addAttribute("mostCommentedPosts", postSvc.popularPostsByCommentActivity());
+        viewModel.addAttribute("mostLikedPosts", postSvc.popularPostsByLikes());
+
+//        List<User> users = (List<User>) usersDao.findAll();
+//        for(User user : users) {
+//            long id = user.getId();
+//            long karma = usersDao.totalKarma(id);
+//        }
         return "posts/index";
     }
 
@@ -253,7 +260,7 @@ public class PostsController {
         viewModel.addAttribute("isParentComment", comment.isParentComment(comment));
 //        viewModel.addAttribute("comment", new Comment());
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
-        viewModel.addAttribute("page", commentsDao.postCommentsByPage(id, pageable));
+        viewModel.addAttribute("page", commentSvc.postCommentsByPage(id, pageable));
         viewModel.addAttribute("categories", categoriesDao.findAll());
 
         if (user != null) {
@@ -295,7 +302,7 @@ public class PostsController {
         comment.setPost(post);
         comment.setUser(userSvc.loggedInUser());
         comment.setDate(LocalDateTime.now());
-        commentsDao.save(comment);
+        commentSvc.save(comment);
 
 //      return comment;
 //      By returning this fragment (fragments/comments.html), we get all of our Thymeleaf-operated HTML
