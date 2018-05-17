@@ -14,7 +14,4 @@ public interface PostsVotesRepository extends CrudRepository<PostVote, PostVoteI
             value="SELECT CASE WHEN COUNT(post_id) > 0 THEN 1 ELSE 0 END FROM posts_votes WHERE user_id =?1")
     int hasVoted(Long id);
 
-    @Query(nativeQuery = true,
-            value = "SELECT SUM(type) FROM posts_votes pv LEFT JOIN posts p ON p.id = pv.post_id inner JOIN users u ON u.id = p.user_id WHERE u.id LIKE ?1")
-    long totalPostKarmaForUser(Long id);
 }
