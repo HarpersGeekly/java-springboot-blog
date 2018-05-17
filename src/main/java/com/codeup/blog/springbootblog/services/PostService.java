@@ -75,7 +75,8 @@ public class PostService {
     public List<Post> popularPostsByCommentActivity() {
         return postsDao.popularPostsByCommentActivity(); }
 
-
+    public List<Post> popularPostsByLikes() {
+        return postsDao.popularPostsByLikes(); }
 
     // save takes care of insert and update
 //    public Post update(Post post) {
