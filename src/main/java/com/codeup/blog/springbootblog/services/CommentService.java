@@ -40,20 +40,8 @@ public class CommentService {
         commentsDao.delete(id);
     }
 
-    public List<Comment> commentsOnPost(Long postId) {
-        return commentsDao.commentsOnPost(postId);
-    }
-
     public Page<Comment> postCommentsByPage(Long id, Pageable pageable) {
         return commentsDao.postCommentsByPage(id, pageable);
-    }
-
-    public long numberofCommentsOnPost(Long id) {
-        return commentsDao.numberOfCommentsOnPost(id);
-    }
-
-    public long totalCommentKarmaForUser(Long id) {
-        return commentsVoteDao.totalCommentKarmaForUser(id);
     }
 
     public Comment saveNewComment(Comment parent, Post post, String body) {
@@ -73,6 +61,16 @@ public class CommentService {
         comment.setUser(userSvc.loggedInUser());
         commentsDao.save(comment);
         return comment;
+    }
+
+    //Deprecated:
+    public List<Comment> commentsOnPost(Long postId) {
+        return commentsDao.commentsOnPost(postId);
+    }
+
+    //Deprecated:
+    public long numberofCommentsOnPost(Long id) {
+        return commentsDao.numberOfCommentsOnPost(id);
     }
 
 
