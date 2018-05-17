@@ -7,6 +7,7 @@ import com.codeup.blog.springbootblog.repositories.UsersRepository;
 //import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.PostService;
+import com.codeup.blog.springbootblog.services.PostVoteService;
 import com.codeup.blog.springbootblog.services.UserService;
 
 import org.commonmark.parser.Parser;
@@ -41,6 +42,8 @@ public class PostsController {
     // this is the service placeholder that will be final, it'll never change.
     private final PostService postSvc;
 
+    private final PostVoteService postVoteSvc;
+
     private final UsersRepository usersDao; //making queries to database
 
     private final UserService userSvc; //
@@ -64,6 +67,7 @@ public class PostsController {
     // findAll(), findOne(), save(), delete(). These are in the Service
 
     public PostsController(PostService postSvc,
+                           PostVoteService postVoteSvc,
                            UsersRepository usersDao,
                            UserService userSvc,
                            CommentService commentSvc,
@@ -71,6 +75,7 @@ public class PostsController {
                            CategoriesRepository categoriesDao
  ) {
         this.postSvc = postSvc;
+        this.postVoteSvc = postVoteSvc;
         this.usersDao = usersDao;
         this.userSvc = userSvc;
         this.commentSvc = commentSvc;
@@ -388,12 +393,13 @@ public class PostsController {
         List<PostVote> votes = post.getVotes();
 
         System.out.println("vote count:" + post.voteCount());
-        System.out.println(votes);
 
         for(PostVote vote : votes) {
 //            if (vote.getUser().getId() == (user.getId())) {
             if(vote.voteBelongsTo(user)) {
                 post.removeVote(vote);
+                postVoteSvc.delete(vote);
+                postSvc.save(post);
                 System.out.println("vote count:" + post.voteCount());
                 break;
             }
