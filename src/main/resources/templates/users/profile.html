@@ -170,19 +170,10 @@
                         <span th:text="${#authentication.principal.email}"></span>
                 </h4>
 
-                <h4 th:if="${karma > 0}">
+                <h4>
                     <i class="far fa-hand-peace"></i>
-                    <!--<i class="fas fa-sync"></i>-->
-                    <!--<img src="/static/images/favicon.ico"/>-->
-                        <span th:text="${karma}"></span>
+                    <span th:text="${karma}"></span>
                 </h4>
-
-                <!--<h4 th:if="${karma == 0}">-->
-                    <!--<i class="far fa-hand-peace"></i>-->
-                    <!--&lt;!&ndash;<i class="fas fa-sync"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<img src="/static/images/favicon.ico"/>&ndash;&gt;-->
-                    <!--<span>0</span>-->
-                <!--</h4>-->
 
                 <h4>
                     <i class="far fa-handshake profileJoinIcon"></i>
@@ -231,7 +222,7 @@
                         <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
                 </span>
                 <span th:if="${profileUser.profilePicture} != null">
-                        <img id="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}" width="150px" height="150px"/>
+                        <img class="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}" width="150px" height="150px"/>
                 </span>
             </div>
 
@@ -240,6 +231,12 @@
                     <i class="far fa-envelope profileEmailIcon"></i>
                         <span th:text="${profileUser.email}"></span>
                 </h4>
+
+                <h4>
+                    <i class="far fa-hand-peace"></i>
+                    <span th:text="${karma}"></span>
+                </h4>
+
                 <h4>
                     <i class="far fa-handshake profileJoinIcon"></i>
                         <span th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
