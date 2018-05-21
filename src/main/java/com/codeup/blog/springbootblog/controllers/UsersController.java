@@ -163,14 +163,11 @@ public class UsersController {
     public String showProfilePage(Model viewModel) {
         User userLoggedIn = userSvc.loggedInUser(); // Grab the loggedInUser from the service and assign them a name, userLoggedIn.
         User user = usersDao.findById(userLoggedIn.getId());
-        long commentKarma = commentSvc.totalCommentKarmaForUser(user.getId());
-        long postKarma = postSvc.totalPostKarmaForUser(user.getId());
-        long totalKarma = commentKarma + postKarma;
+        long totalKarma = usersDao.totalKarma(user.getId());
         viewModel.addAttribute("karma", totalKarma);
-
-        //if posts are empty:
+            //if posts are empty
         boolean postsAreEmpty = user.getPosts().isEmpty();
-//        viewModel.addAttribute("activeIn", categoriesDao.)
+//       viewModel.addAttribute("activeIn", categoriesDao.)
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
         viewModel.addAttribute("profileUser", user);
@@ -181,10 +178,9 @@ public class UsersController {
     @GetMapping("/profile/{id}")
     public String showOtherUsersProfilePage(@PathVariable Long id, Model viewModel) {
         User user = usersDao.findById(id); // find the User from the id in the url profile/{id}/edit
-//        long commentKarma = commentSvc.totalCommentKarmaForUser(user.getId());
-//        long postKarma = postSvc.totalPostKarmaForUser(user.getId());
-//        long totalKarma = commentKarma + postKarma;
-//        viewModel.addAttribute("karma", totalKarma);
+        long totalKarma = usersDao.totalKarma(user.getId());
+        viewModel.addAttribute("karma", totalKarma);
+
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
