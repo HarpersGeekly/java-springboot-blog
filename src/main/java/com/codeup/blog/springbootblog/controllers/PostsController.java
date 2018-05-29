@@ -4,7 +4,6 @@ import com.codeup.blog.springbootblog.Models.*;
 import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
 import com.codeup.blog.springbootblog.repositories.CommentsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
-//import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.PostVoteService;
@@ -25,12 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-//import java.util.List;
-//import java.util.Date;
-//import java.sql.Timestamp;
-//import java.time.LocalDateTime;
 
 /**
  * Created by RyanHarper on 11/2/17.
@@ -111,12 +105,7 @@ public class PostsController {
         viewModel.addAttribute("categories", categoriesDao.findAll());
         viewModel.addAttribute("mostCommentedPosts", postSvc.popularPostsByCommentActivity());
         viewModel.addAttribute("mostLikedPosts", postSvc.popularPostsByLikes());
-
-//        List<User> users = (List<User>) usersDao.findAll();
-//        for(User user : users) {
-//            long id = user.getId();
-//            long karma = usersDao.totalKarma(id);
-//        }
+//        viewModel.addAttribute("popularUsers",)
         return "posts/index";
     }
 
