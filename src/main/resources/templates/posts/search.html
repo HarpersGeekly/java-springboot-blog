@@ -7,15 +7,15 @@
     <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
 </div>
 
-<div id="indexPageWrapper">
+<div id="searchResultPageWrapper">
 
     <div id="emptySearchDiv" th:if="${searchedContent.isEmpty()}">
         <p id="emptySearchedContent"><i class="far fa-frown profileFrownIcon"></i> There are no posts for this category yet. <a th:href="${'/posts/create'}">Get posting!</a></p>
     </div>
 
-    <div class="content" th:each="post : ${searchedContent}">
+    <div th:each="post : ${searchedContent}">
 
-        <div class="postWrapper">
+        <div class="searchResultsPagePostWrapper">
             <div class="postPicWrapper">
                 <!--<span th:if="${post.user.profilePicture} == null">-->
                 <!--<img class="profilePicPostIndex" src="/../images/user.png"/>-->
