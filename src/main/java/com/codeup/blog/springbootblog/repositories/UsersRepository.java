@@ -28,8 +28,9 @@ public interface UsersRepository extends CrudRepository<User, Long> {
                     " + (SELECT IFNULL(SUM(type), 0) FROM comments_votes cv LEFT JOIN comments c ON c.id = cv.comment_id inner JOIN users u ON u.id = c.user_id WHERE u.id LIKE ?1)")
     long totalKarma(Long id);
 
-//    @Query()
-//    List<User> popularUsersByKarma;
+    // select all from users where totalKarma ORDER BY DESC LIMIT 3
+    @Query(nativeQuery = true, value = "")
+    List<User> popularUsersByKarma();
 
 
 //    @Query("select * from users u where u.email = ?1")

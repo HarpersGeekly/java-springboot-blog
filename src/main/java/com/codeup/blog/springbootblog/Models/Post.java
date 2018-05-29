@@ -219,12 +219,4 @@ public class Post {
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(parser.parse(description));
     }
-
-//    public String getImage() {
-//        return image;
-//    }
-
-//    public void setImage(String image) {
-//        this.image = image;
-//    }
 }
