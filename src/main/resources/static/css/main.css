@@ -92,6 +92,15 @@ html {
 }
 
 /* ================= Search Results Page ====== */
+#searchResultPageWrapper {
+    margin-top: 6em;
+}
+
+.searchResultsPagePostWrapper {
+    margin: 0 auto;
+    display: flex;
+    width: 75%;
+}
 
 #emptySearchDiv {
     /*aligns in the middle of the page, vertically and horizontally*/
@@ -202,11 +211,31 @@ html {
     /*float: right;*/
 /*}*/
 
+.popularTitleLink {
+    text-decoration: underline;
+    color: #888888;
+    transition: color 0.1s linear;
+    -webkit-transition: color 0.1s linear;
+    -moz-transition: color 0.1s linear;
+}
+
+.popularTitleLink:hover {
+    color: #7DE2D1;
+}
+
 .popularTitle {
     font-size: 1em;
     font-weight: bold;
     float: left;
     padding-right: 1em;
+}
+
+.popularUsers {
+    display: flex;
+}
+
+.popularKarmas {
+    color: #888888;
 }
 
 /*each post*/
