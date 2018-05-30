@@ -138,8 +138,7 @@
                         <label for="commentFormBody"></label>
                         <textarea class="form-control" id="commentFormBody" name="body"
                                   th:field="*{body}"
-                                  th:placeholder="Comment..."
-                                  style="width: 900px; height: 150px; resize: none">
+                                  th:placeholder="Comment...">
                                 </textarea>
 
                         <div class="commentsErrorAJAX"></div>
@@ -209,13 +208,12 @@
                         th:attr="data-edit-form-comment-id=${comment.id}">
 
                         <textarea class="form-control editedCommentBodyText" name="body" th:attr="data-edit-comment-form-textarea-comment-id=${comment.id}"
-                                  th:value="${comment.body}"
-                                  style="width: 900px; height: 150px; resize: none">
+                                  th:value="${comment.body}">
                         </textarea>
 
                     <input type="hidden" name="id" th:value="${comment.id}"/>
 
-                    <div class="row editAndDeleteBtnsRow">
+                    <div class="editAndDeleteBtnsRow">
 
                         <button class="btn btn-primary editedCommentCancelBtn">
                             CANCEL
@@ -437,18 +435,18 @@
     $('.showReplyTextAreaCancel').hide(); // hide the Cancel button on load.
     $('#srch-term').val('');
 
-    //click on Reply it changes to Cancel, etc:
+    //click on Reply, text changes to Cancel, etc:
     $('.container').on("click", ".showReplyTextArea", function () {
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextAreaCancel').first().show();
         $this.siblings('.replyTextArea').first().toggle(250);
 
-        // you cannot focus on an element that is not yet visible. Order it
+        // you cannot focus on an element that is not yet visible. Order this last.
         $('.replyFormBody').val('').focus();
     });
 
-    //click on Cancel it changes to Reply, etc:
+    //click on Cancel, text changes to Reply, etc:
     $('.container').on("click", ".showReplyTextAreaCancel", function () {
         $('.replyFormBody').val('');
         let $this = $(this);
@@ -547,8 +545,11 @@
     $('.container').on("click", ".editCommentBtn", function () {
         console.log("edit button clicked");
 
+
         let $button = $(this);
         let commentId = $button.data('edit-btn-comment-id');
+        let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
+        $showReplyTextArea.css("display","none");
         console.log("commentid: " + commentId);
 
         //================================== AJAX ==================================
@@ -566,7 +567,7 @@
             let $commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
             let $commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
             let $commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
-            let $replyButton = $('[data-show-reply-comment-id=' + commentId + ']');
+            let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
             let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
             let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
             let $editedCommentBodyText = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
@@ -575,9 +576,7 @@
             $commentVoting.css("display","none"); // hide the comment votes
             $editBtn.css("display","none"); // hide the edit button
             $deleteBtn.css("display","none"); // hide the delete button
-            $replyButton.css("display","none"); // hide the reply link
             $commentEditForm.css("display","block"); // I just want to show "this" edit form
-
             $editedCommentBodyText.text(comment.body); // put the text of comment.body inside the newly visible textarea.
 
             //================= cancel button ====================
@@ -591,7 +590,7 @@
                 $commentVoting.css("display","block"); // show the comment votes again
                 $editBtn.css("display","block");// show the edit button
                 $deleteBtn.css("display","block");// show the delete button
-                $replyButton.css("display","block"); // show the reply button again
+                $showReplyTextArea.css("display","block"); // show the reply again
             })
         });
         request.fail((a, b, c) => {
@@ -623,7 +622,6 @@
             console.log("new comment: " + comment.body);
 
             let $commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
-            let $replyButton = $('[data-show-reply-comment-id=' + commentId + ']');
             let $commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
             let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
             let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
@@ -634,7 +632,6 @@
             $commentVoting.css("display","block");
             $editBtn.css("display","block");
             $deleteBtn.css("display","block");
-            $replyButton.css("display","block");
         })
     });
 
@@ -917,7 +914,7 @@
             let $replyError = $('[data-reply-error-comment-id=' + commentId + ']');
             let $replyForm = $('[data-reply-form-comment-id=' + commentId + ']');
             let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
-            let $showReply = $('[data-show-reply-comment-id=' + commentId + ']');
+            let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
             let $cancelReply = $('[data-cancel-reply-comment-id=' + commentId + ']');
 
             let $commentEditFormWrapper = $('[data-edit-form-wrapper-comment-id=' + commentId + ']');
