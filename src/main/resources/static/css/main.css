@@ -591,17 +591,11 @@ textarea, input, .form-control {
 }
 
 .editedCommentBodyText {
-    width: 900px;
-    height: 150px;
+    width: 100%;
     resize: none;
     line-height: 1.5em;
     font-size: 1.1em;
 }
-
-/*.commentFormWrapper {*/
-    /*margin-top: 1em;*/
-    /*!*margin-top: 2em;*!*/
-/*}*/
 
 .form-group {
     margin-top:1.5em;
@@ -609,10 +603,10 @@ textarea, input, .form-control {
 
 #commentFormBody {
     font-family: 'Roboto', sans-serif;
-    width:70%;
     border-radius: 0;
     margin: auto;
-    height: 10em;
+    width:79%;
+    height: 5em;
     resize: none;
 }
 
@@ -673,7 +667,6 @@ textarea, input, .form-control {
     display: inline-block;
     float: left;
     margin-top: 0.55em;
-    /*padding-right: 25px;*/
 }
 
 .commentVoting {
@@ -705,8 +698,6 @@ textarea, input, .form-control {
 }
 
 .editAndDeleteBtnsRow {
-    /*margin-left: 0.0em;*/
-    margin-right: 4.85em;
     float:right;
     line-height: 2em;
 }
