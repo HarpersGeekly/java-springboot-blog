@@ -164,7 +164,7 @@ public class UsersController {
     public String showProfilePage(Model viewModel) {
         User userLoggedIn = userSvc.loggedInUser(); // Grab the loggedInUser from the service and assign them a name, userLoggedIn.
         User user = usersDao.findById(userLoggedIn.getId());
-        long totalKarma = usersDao.totalKarma(user.getId());
+        long totalKarma = usersDao.totalKarmaByUser(user.getId());
         viewModel.addAttribute("karma", totalKarma);
             //if posts are empty
         boolean postsAreEmpty = user.getPosts().isEmpty();
@@ -179,7 +179,7 @@ public class UsersController {
     @GetMapping("/profile/{id}")
     public String showOtherUsersProfilePage(@PathVariable Long id, Model viewModel) {
         User user = usersDao.findById(id); // find the User from the id in the url profile/{id}/edit
-        long totalKarma = usersDao.totalKarma(user.getId());
+        long totalKarma = usersDao.totalKarmaByUser(user.getId());
         viewModel.addAttribute("karma", totalKarma);
 
         //if posts are empty:
