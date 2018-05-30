@@ -42,16 +42,21 @@
                 <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
             </div>
         </div>
+            <h4 style="text-align: center">Top Rated Users</h4>
         <div class="popularUsers">
 
-            <h4 style="text-align: center">Top Rated Users</h4>
-
-            <div th:each="user : ${popularUsers}">
-            <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${user.id})}">
-                <span th:text="${user.username}"></span>
-            </a>
-                <i class="far fa-hand-peace"></i>
-                <h5 class="postVoteCountIndex"></h5>
+            <div class="popularNames">
+                <div th:each="user : ${popularUsers}">
+                <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${user.id})}">
+                    <span th:text="${user.username}"></span>
+                </a>
+                </div>
+            </div>
+            <div class="popularKarmas">
+                <div th:each="karma : ${karmas}">
+                    <i class="far fa-hand-peace karma-icon-index-page"></i>
+                    <span th:text="${karma}"></span>
+                </div>
             </div>
         </div>
     </div>
