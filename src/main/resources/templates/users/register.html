@@ -61,6 +61,21 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label for="regBio">Bio</label><span id="optionalBio">(optional)</span>
+            <textarea id="regBio" name="regBio" class="form-control" th:field="*{bio}" style="resize:none" maxlength="1500"></textarea>
+            <span id="chars">1500</span> characters remaining
+            <div
+                    th:if="${#fields.hasErrors('bio')}"
+                    class="alert alert-danger alert-dismissible"
+                    role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span th:errors="*{bio}"/>
+            </div>
+        </div>
+
         <input class="form-control" type="hidden" id="date" name="date" th:field="*{date}"/>
         <input type="submit" value="Register" class="btn btn-primary" />
 
@@ -69,3 +84,12 @@
 </div>
 </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    let maxLength = 1500;
+    $('textarea').keyup(function() {
+        let length = $(this).val().length;
+        let length2 = maxLength-length;
+        $('#chars').text(length2);
+    });
+</script>
