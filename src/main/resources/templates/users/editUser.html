@@ -45,6 +45,21 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="editFormBio">Bio</label>
+                        <textarea id="editFormBio" name="bio" class="form-control" th:field="*{bio}" style="resize:none" maxlength="1500"></textarea>
+                        <span id="chars"></span><span>characters remaining</span>
+                        <div
+                                th:if="${#fields.hasErrors('bio')}"
+                                class="alert alert-danger alert-dismissible"
+                                role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <span th:errors="*{bio}"/>
+                        </div>
+                    </div>
+
                     <input type="hidden" id="editFormPassword" name="password" class="form-control" th:field="*{password}"/>
                     <input type="hidden" id="date" name="date" class="form-control" th:field="*{date}"/>
                     <input type="hidden" id="profilePicture" name="profilePicture" class="form-control" th:field="*{profilePicture}"/>
@@ -139,10 +154,21 @@
 </div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 
     $("#myBtn3").click(function () {
         $("#myModal3").modal({backdrop: "static"});
+    });
+
+    let maxBioLength = 1500;
+    $('textarea').keyup(function() {
+        let length = $(this).val().length;
+        let length2 = maxBioLength-length;
+        if(length > 0) {
+            $('#chars').text(length);
+        }
+        $('#chars').text(length2);
     });
 
 </script>
