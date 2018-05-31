@@ -195,7 +195,16 @@ html {
 .popularityWrapper {
     padding-left: 3em;
     padding-right: 2.5em;
-    width:40%;
+    width: 40%;
+}
+
+.popularityHeader {
+    text-align: center;
+    font-weight: bold;
+}
+
+.eachPopularSection {
+    margin-bottom: 3em;
 }
 
 /*.wrap-each:after {*/
@@ -228,6 +237,10 @@ html {
     font-weight: bold;
     float: left;
     padding-right: 1em;
+}
+
+.eachPopularPost {
+    margin-bottom: 0.8em;
 }
 
 .popularPostTitleWrapper {
