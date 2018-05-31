@@ -48,6 +48,9 @@ public class User {
     @Column
     private String profilePicture;
 
+    @Column
+    private String bio;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts. When User is deleted, these delete too
     @JsonBackReference
     private List<Post> posts;
@@ -65,12 +68,13 @@ public class User {
     public User(){}
 
     // use this constructor for update profile form.
-    public User(Long id, String username, String email, LocalDateTime date, String profilePicture) {
+    public User(Long id, String username, String email, LocalDateTime date, String profilePicture, String bio) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.date = date;
         this.profilePicture = profilePicture;
+        this.bio = bio;
     }
 
     // security files will need the next constructor. It makes clones/copies. Why?
@@ -87,6 +91,7 @@ public class User {
         this.votes = copy.votes;
         this.commentVotes = copy.commentVotes;
         this.profilePicture = copy.profilePicture;
+        this.bio = copy.bio;
     }
 
     public Long getId() {
@@ -181,6 +186,14 @@ public class User {
         if (profilePicture == null) {
             profilePicture = profilePicturePath();
         }
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }
 
