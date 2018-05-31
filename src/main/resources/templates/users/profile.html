@@ -164,22 +164,27 @@
             </div>
 
             <div class="profile-info-wrapper">
-                <h3>You are logged in. You can make comments and <a id="profileCreatePostLink" th:href="${'/posts/create'}">create a post.</a></h3>
+                <h3 class="profileLoggedInMessage">You are logged in. You can make comments and <a id="profileCreatePostLink" th:href="${'/posts/create'}">create a post.</a></h3>
                 <h4>
                     <i class="far fa-envelope profileEmailIcon"></i>
-                        <span th:text="${#authentication.principal.email}"></span>
+                        <span class="profileInfoText" th:text="${#authentication.principal.email}"></span>
                 </h4>
 
                 <h4>
                     <i class="far fa-hand-peace"></i>
-                    <span th:text="${karma}"></span>
+                    <span class="profileInfoText" th:text="${karma}"></span>
                 </h4>
 
                 <h4>
                     <i class="far fa-handshake profileJoinIcon"></i>
-                    <span th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
-                    <span th:text="${#temporals.day(#authentication.principal.date)}"></span>,
-                    <span th:text="${#temporals.year(#authentication.principal.date)}"></span>
+                    <span class="profileInfoText" th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
+                    <span class="profileInfoText" th:text="${#temporals.day(#authentication.principal.date)}"></span>,
+                    <span class="profileInfoText" th:text="${#temporals.year(#authentication.principal.date)}"></span>
+                </h4>
+
+                <h4>
+                    <i class="far fa-address-card"></i>
+                    <span class="profileInfoText" th:text="${#authentication.principal.bio}"></span>
                 </h4>
 
                 <div class="profileChangeUsernameDiv">
@@ -229,7 +234,7 @@
             <div class="profile-info-wrapper">
                 <h4>
                     <i class="far fa-envelope profileEmailIcon"></i>
-                        <span th:text="${profileUser.email}"></span>
+                        <span class="profileInfoText" th:text="${profileUser.email}"></span>
                 </h4>
 
                 <h4>
@@ -239,9 +244,14 @@
 
                 <h4>
                     <i class="far fa-handshake profileJoinIcon"></i>
-                        <span th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
-                        <span th:text="${#temporals.day(profileUser.date)}"></span>,
-                        <span th:text="${#temporals.year(profileUser.date)}"></span>
+                        <span class="profileInfoText" th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
+                        <span class="profileInfoText" th:text="${#temporals.day(profileUser.date)}"></span>,
+                        <span class="profileInfoText" th:text="${#temporals.year(profileUser.date)}"></span>
+                </h4>
+
+                <h4>
+                    <i class="far fa-address-card"></i>
+                    <span class="profileInfoText" th:text="${profileUser.bio}"></span>
                 </h4>
             </div>
         </div>
