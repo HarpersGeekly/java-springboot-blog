@@ -230,8 +230,27 @@ html {
     padding-right: 1em;
 }
 
+.popularPostTitleWrapper {
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.popularPostUserWrapper {
+    margin-top: -0.6em;
+}
+
 .popularUsers {
     display: flex;
+}
+
+.popularNamesLink {
+    color:black;
+    padding-right:1em;
+}
+
+.popularNamesLink:hover {
+    color: #7DE2D1;
+    text-decoration: none;
 }
 
 .popularKarmas {
@@ -872,6 +891,13 @@ textarea, input, .form-control {
 .profile-info-wrapper {
     float: right;
     padding-left: 3em;
+}
+
+.profileLoggedInMessage {
+    font-size: 1.3em;
+}
+.profileInfoText {
+    font-size: .8em;
 }
 
 #profileCreatePostLink:hover {
