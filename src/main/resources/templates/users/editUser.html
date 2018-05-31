@@ -48,7 +48,7 @@
                     <div class="form-group">
                         <label for="editFormBio">Bio</label>
                         <textarea id="editFormBio" name="bio" class="form-control" th:field="*{bio}" style="resize:none" maxlength="1500"></textarea>
-                        <span id="chars"></span><span>characters remaining</span>
+                        <span id="chars"></span><span> characters remaining</span>
                         <div
                                 th:if="${#fields.hasErrors('bio')}"
                                 class="alert alert-danger alert-dismissible"
