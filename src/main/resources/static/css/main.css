@@ -207,18 +207,27 @@ html {
     margin-bottom: 3em;
 }
 
-/*.wrap-each:after {*/
-    /*content: '';*/
-    /*display: table;*/
-    /*clear: both;*/
-/*}*/
+.eachPopularPost {
+    margin-bottom: 0.8em;
+}
 
-/*.wrap-each div {*/
-    /*float: left;*/
-/*}*/
-/*.wrap-each div:last-child {*/
-    /*float: right;*/
-/*}*/
+.popularPostTitleWrapper {
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.popularPostCountsWrapper {
+    padding-right: 1em;
+}
+
+.popularPostCountIcon {
+    color: #888888;
+}
+
+.popularPostCount{
+    display: inline-block;
+    color: #888888;
+}
 
 .popularTitleLink {
     text-decoration: underline;
@@ -232,24 +241,15 @@ html {
     color: #7DE2D1;
 }
 
-.popularTitle {
+.popularTitleText {
     font-size: 1em;
     font-weight: bold;
     float: left;
     padding-right: 1em;
 }
 
-.eachPopularPost {
-    margin-bottom: 0.8em;
-}
-
-.popularPostTitleWrapper {
-    display:flex;
-    flex-wrap:wrap;
-}
-
 .popularPostUserWrapper {
-    margin-top: -0.6em;
+    margin-top: -0.4em;
 }
 
 .popularUsers {
@@ -267,6 +267,7 @@ html {
 }
 
 .popularKarmas {
+    padding-right: 1em;
     color: #888888;
 }
 
@@ -326,11 +327,12 @@ ul {
 }
 
 .postUpVoteIconIndex {
+    display: inline-block;
     color: #888888;
 }
 
 .postVoteCountIndex {
-    margin-right: 1em;
+    padding-right: 1em;
     display: inline-block;
     color: #888888;
 }

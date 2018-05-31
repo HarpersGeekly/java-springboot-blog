@@ -18,13 +18,15 @@
 
             <div class="eachPopularPost" th:each="post : ${mostCommentedPosts}">
                 <div class="popularPostTitleWrapper">
-                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                        <h4 class="popularTitle" th:text="${post.title}"></h4>
-                    </a>
-                    <div>
-                        <i class="fas fa-comments postCommentIconIndex"></i>
-                        <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+
+                    <div class="popularPostCountsWrapper">
+                        <i class="fas fa-comments popularPostCountIcon"></i>
+                        <h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>
                     </div>
+
+                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                        <h4 class="popularTitleText" th:text="${post.title}"></h4>
+                    </a>
                 </div>
 
                 <div class="popularPostUserWrapper">
@@ -41,13 +43,15 @@
 
             <div class="eachPopularPost" th:each="post : ${mostLikedPosts}">
                 <div class="popularPostTitleWrapper">
-                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                        <h4 class="popularTitle" th:text="${post.title}"></h4>
-                    </a>
-                    <div>
-                        <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                        <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+
+                    <div class="popularPostCountsWrapper">
+                        <i class="fas fa-thumbs-up popularPostCountIcon"></i>
+                        <h5 class="popularPostCount" th:text="${post.voteCount()}"></h5>
                     </div>
+
+                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                        <h4 class="popularTitleText" th:text="${post.title}"></h4>
+                    </a>
                 </div>
 
                 <div class="popularPostUserWrapper">
@@ -63,17 +67,18 @@
         <div class="eachPopularSection">
             <div class="popularUsers">
 
+                <div class="popularKarmas">
+                    <div th:each="karma : ${karmas}">
+                        <i class="fas fa-hand-peace karma-icon-index-page"></i>
+                        <span th:text="${karma}"></span>
+                    </div>
+                </div>
+
                 <div class="popularNames">
                     <div th:each="user : ${popularUsers}">
                         <a class="popularNamesLink" th:href="@{/profile/{id}(id=${user.id})}">
                             <span th:text="${user.username}"></span>
                         </a>
-                    </div>
-                </div>
-                <div class="popularKarmas">
-                    <div th:each="karma : ${karmas}">
-                        <i class="fas fa-hand-peace karma-icon-index-page"></i>
-                        <span th:text="${karma}"></span>
                     </div>
                 </div>
             </div>
