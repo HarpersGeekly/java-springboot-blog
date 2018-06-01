@@ -7,6 +7,16 @@
 <div class="indexCategoriesListWrapper">
     <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
 </div>
+<div id="dropdown" class="dropdown-content">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Categories
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div class="navDropdownEachCategory" id="tags" th:field="*{categories}" th:each="category : ${categories}">
+            <a th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
+        </div>
+    </div>
+</div>
 
 <div class="showPageWrapper">
     <!-- ================================================================================================================-->
@@ -319,12 +329,14 @@
             </div>
             <div th:if="${isLoggedIn}">
                 <h5 class="showReplyTextArea" th:attr="data-show-reply-textarea-comment-id=${comment.id}">
+                    <!--data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
                     <i class="fas fa-reply"></i> REPLY
                 </h5>
                 <h5 class="showReplyTextAreaCancel" th:attr="data-cancel-reply-textarea-comment-id=${comment.id}">
                     <i class="fas fa-times"></i> CANCEL
                 </h5>
 
+                <!--<div class="replyTextArea collapse" id="collapseExample" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">-->
                 <div class="replyTextArea" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">
                     <form th:action="@{/posts/{postId}/comment/{commentId}/reply(postId=${post.id},commentId=${comment.id})}" method="post"
                           th:object="${comment}"
@@ -440,7 +452,7 @@
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextAreaCancel').first().show();
-        $this.siblings('.replyTextArea').first().toggle(250);
+        $this.siblings('.replyTextArea').first().toggle(250); ////USE BOOTSTRAP COLLAPSE??
 
         // you cannot focus on an element that is not yet visible. Order this last.
         $('.replyFormBody').val('').focus();
@@ -452,7 +464,7 @@
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextArea').first().show();
-        $this.siblings('.replyTextArea').first().toggle(250);
+        $this.siblings('.replyTextArea').first().toggle(250); ////USE BOOTSTRAP COLLAPSE??
     });
 
     //expand and retract textarea with content
