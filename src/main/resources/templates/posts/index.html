@@ -8,6 +8,16 @@
 <div class="indexCategoriesListWrapper">
     <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
 </div>
+<div id="dropdown" class="dropdown-content">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Categories
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div class="navDropdownEachCategory" id="tags" th:field="*{categories}" th:each="category : ${categories}">
+            <a th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
+        </div>
+    </div>
+</div>
 
 <div class="indexPageWrapper flex-container">
 
