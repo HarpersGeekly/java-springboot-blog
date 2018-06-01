@@ -10,7 +10,7 @@
 </div>
 <div id="dropdown" class="dropdown-content">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Categories
+        <span>Categories</span><i class="fas fa-caret-down categoriesDropdownDown"></i><i class="fas fa-caret-up categoriesDropdownUp"></i>
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <div class="navDropdownEachCategory" id="tags" th:field="*{categories}" th:each="category : ${categories}">
