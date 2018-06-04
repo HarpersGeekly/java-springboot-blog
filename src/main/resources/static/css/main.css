@@ -108,7 +108,7 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 /* ================== Logout Button =========== */
 
@@ -172,7 +172,7 @@ html {
 
 .indexEachCategory {
     color: #E07A5F;
-    font-size: 0.9em;
+    font-size: 1em;
     font-weight: normal;
     background-color: papayawhip;
     padding: 1.25em;
@@ -199,8 +199,8 @@ html {
 }
 
 .popularityHeader {
+    font-family: Oswald, sans-serif;
     text-align: center;
-    font-weight: bold;
 }
 
 .eachPopularSection {
@@ -243,7 +243,6 @@ html {
 
 .popularTitleText {
     font-size: 1em;
-    font-weight: bold;
     float: left;
     padding-right: 1em;
 }
@@ -273,6 +272,7 @@ html {
 
 /*each post*/
 .content {
+
     /*border: 1px solid #ccc!important;*/
     width: 90%;
     /*margin: 0 auto;*/
@@ -317,10 +317,9 @@ ul {
 }
 
 .postTitleIndexPage {
-    font-family: PT serif;
-    font-style: italic;
-    font-weight: bold;
-    font-size: 1.8em;
+    font-family: Oswald, sans-serif;
+    font-size: 2.5em;
+    /*font-size:6vw;*/
     margin-right: 1em;
     display: inline-block;
     /*color: #E07A5F;*/
@@ -387,8 +386,9 @@ textarea, input, .form-control {
     /*-moz-box-shadow: none;*/
     /*box-shadow: none;*/
 
-
 .postDescription{
+    font-size: 16px;
+    line-height: 1.7;
     width: 100%;
     margin: 0 auto 1em;
     /*padding-bottom: 5px;*/
@@ -398,7 +398,7 @@ textarea, input, .form-control {
     content: "";
     position:relative;
     /*line-height: 1.1em;*/
-    line-height: 1.5em;
+    /*line-height: 1.5em;*/
     /*border-bottom: 3px solid #777;*/
     max-height:100px;
     /*max-height:200px;*/
@@ -493,10 +493,10 @@ textarea, input, .form-control {
 /*=============== Show Page ====================*/
 
 .showPageIntro {
+    font-family: 'Oswald', sans-serif;
     text-align: left;
     margin-bottom: 1em;
-    font-style: italic;
-    font-weight: bold;
+    font-size:1.8em;
 }
 
 .showPageWrapper {
@@ -513,6 +513,7 @@ textarea, input, .form-control {
 }
 
 .postedByNameText {
+    font-family: 'Roboto', sans-serif;
     font-size: 1.3em;
     font-weight: 500;
     line-height: 1.8em;
@@ -537,6 +538,7 @@ textarea, input, .form-control {
 }
 
 .postTextBodyInnerText {
+    font-family: 'Roboto', sans-serif;
     line-height: 1.5em;
     font-size: 1.1em;
 }
@@ -565,6 +567,10 @@ textarea, input, .form-control {
 
 #deletePostBtn:hover {
     color: #E07A5F;
+}
+
+.postVoteCount {
+    font-family: 'Roboto', sans-serif;
 }
 
 /*================= COMMENTS =====================*/
@@ -620,6 +626,7 @@ textarea, input, .form-control {
 }
 
 #commentBodyText {
+    font-family: 'Roboto', sans-serif;
     line-height: 1.5em;
     font-size: 1.1em;
 }
@@ -700,7 +707,7 @@ textarea, input, .form-control {
 .postVoting {
     display: inline-block;
     float: left;
-    margin-top: 0.55em;
+    margin-top: 1em;
 }
 
 .commentVoting {
@@ -718,6 +725,10 @@ textarea, input, .form-control {
     display:inline-block;
     margin-right: 1em;
     margin-top: -1em;
+}
+
+.commentVoteCount {
+    font-family: 'Roboto', sans-serif;
 }
 
 .downvoteDiv {
@@ -1127,13 +1138,13 @@ textarea, input, .form-control {
 /*===================================================== FOOTER ========================================================*/
 
 #clearingDiv {
-    height: 100px;
+    height: 150px;
 }
 
 #footer {
     /*border-top: #00aeff solid 10px;*/
     background: #131515;
-    height: 100px;
+    /*height: 100px;*/
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1198,3 +1209,94 @@ textarea, input, .form-control {
 /*img {*/
     /*max-width: 100%;*/
 /*}*/
+
+.dropdown{
+    display: none;
+}
+
+#dropdownMenuButton {
+    background-color: papayawhip;
+    height: 2em;
+    box-shadow: 0px 0px 20px darkgrey;
+    overflow: scroll;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    color: #E07A5F;
+}
+
+.scrollUp {
+    position:fixed;
+    width: 58px;
+    height: 48px;
+    bottom: 100px;
+    right: 20px;
+    display: none;
+    font-size: 3em;
+    color: black;
+    /*background: url('../images/codeup-arrow.png') transparent;*/
+}
+
+.scrollUp:hover {
+    color:black;
+    cursor:pointer;
+}
+
+@media screen and (max-width: 600px) {
+
+    .scrollUp {
+        position: fixed;
+        width: 58px;
+        height: 48px;
+        bottom: 100px;
+        right:0px;
+        display: none;
+        font-size: 3em;
+        color:black;
+    }
+
+    .scrollUp:hover {
+        color: black;
+        cursor:pointer;
+    }
+
+    .dropdown {
+        display: block;
+    }
+
+    .dropdown-menu {
+        background-color:papayawhip;
+    }
+
+    .navDropdownEachCategory {
+        text-align:center;
+    }
+
+    .dropdown-menu>li>a {
+        color: #E07A5F;
+        padding:1em;
+    }
+
+    .navDropdownCategoryLink:hover {
+        text-decoration: none;
+    }
+
+    .indexPageWrapper {
+        margin-top: 4em;
+    }
+
+    .indexCategoriesListWrapper {
+        display:none;
+    }
+
+    .popularityWrapper {
+        display: none;
+    }
+
+    .postTitleIndexPage {
+        font-size: 6vw;
+    }
+}
+

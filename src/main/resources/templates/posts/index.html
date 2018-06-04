@@ -153,12 +153,13 @@
                             <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
                     </ul>
                 </div>
+
             </div>
         <!--<hr class="commentHR"/>-->
         </div>
+        <a href="#" class="scrollUp"><i class="fas fa-arrow-circle-up"></i></a>
     </div>
 </div>
-
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
     // $( document ).ready(function() {
@@ -176,6 +177,21 @@
             // img.attr("width", maxWidth);
         }
     });
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 500) {
+            $('.scrollUp').fadeIn();
+        } else {
+            $('.scrollUp').fadeOut();
+        }
+    });
+    $('.scrollUp').click(function () {
+        $("html, body").animate({
+            scrollTop: 0
+        }, 500);
+        return false;
+    });
+
     // });
 //        var showChar = 100;
 //        var ellipsestext = "...";
