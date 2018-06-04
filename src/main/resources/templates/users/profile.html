@@ -54,15 +54,15 @@
 <div class="indexCategoriesListWrapper">
     <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
 </div>
-<div id="dropdown" class="dropdown-content">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Categories
+<div class="dropdown btn-group">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span>Categories</span><i class="fas fa-caret-down categoriesDropdownDown"></i>
     </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <div class="navDropdownEachCategory" id="tags" th:field="*{categories}" th:each="category : ${categories}">
-            <a th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
-        </div>
-    </div>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li class="navDropdownEachCategory" th:field="*{categories}" th:each="category : ${categories}">
+            <a class="navDropdownCategoryLink" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
+        </li>
+    </ul>
 </div>
 
 <!-- Show different words or features based on whether you're on your profile or someone else's -->
@@ -229,7 +229,7 @@
 <!--============================================== VIEWING OTHER USERS PROFILES ===========================================-->
 
     <th:block th:if="${!isOwnProfile}">
-        <h2><span th:text="${profileUser.username}"></span>'s profile!</h2>
+        <h2><span th:text="${profileUser.username}"></span>'s profile</h2>
 
         <div class="profile-upper-wrapper">
             <div class="profile-picture-wrapper">
