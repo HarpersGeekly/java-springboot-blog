@@ -1298,5 +1298,42 @@ textarea, input, .form-control {
     .postTitleIndexPage {
         font-size: 6vw;
     }
+
+
+    /*================ profile page ===============*/
+    /*================ profile page ===============*/
+
+    .profileWelcome {
+        text-align:center;
+    }
+
+    .profilePic {
+        width: 128px;
+        height: 128px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 100px;
+    }
+
+    #profilePageWrapper {
+        margin-top: 2.5em;
+    }
+
+    .profile-picture-wrapper {
+        position: absolute;
+        left: 32%;
+    }
+
+    .profile-info-wrapper {
+        margin-top: 125px;
+        padding-left: 1em;
+    }
+
+    #profileChangePictureLink {
+        margin-left: 0em;
+        font-weight: 500;
+    }
+    /*================ profile page ===============*/
+    /*================ profile page ===============*/
 }
 

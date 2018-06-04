@@ -74,7 +74,7 @@
 
     <th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">
 
-        <h2>Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
+        <h2 class="profileWelcome">Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
 
         <div class="cropper-container">
             <!-- Modal -->
@@ -229,7 +229,7 @@
 <!--============================================== VIEWING OTHER USERS PROFILES ===========================================-->
 
     <th:block th:if="${!isOwnProfile}">
-        <h2><span th:text="${profileUser.username}"></span>'s profile</h2>
+        <h2 class="profileWelcome"><span th:text="${profileUser.username}"></span>'s profile</h2>
 
         <div class="profile-upper-wrapper">
             <div class="profile-picture-wrapper">
