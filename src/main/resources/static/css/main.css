@@ -53,6 +53,10 @@ html {
 
 /* ================ Navbar Links ===============*/
 
+/*.nav > li {*/
+    /*display: inline-block;*/
+/*}*/
+
 .nav > li > a {
     color: #7DE2D1 !important;
     /*font-family: Futura, serif;*/
@@ -158,6 +162,7 @@ html {
 
 .indexCategoriesListWrapper {
     background-color: papayawhip;
+    /*background-color:#d5ffdc;*/
     text-align: center;
     height: 2em;
     box-shadow: 0px 0px 20px darkgrey;
@@ -175,6 +180,7 @@ html {
     font-size: 1em;
     font-weight: normal;
     background-color: papayawhip;
+    /*background-color:#d5ffdc;*/
     padding: 1.25em;
 }
 
@@ -195,7 +201,7 @@ html {
 .popularityWrapper {
     padding-left: 3em;
     padding-right: 2.5em;
-    width: 40%;
+    flex:1;
 }
 
 .popularityHeader {
@@ -269,6 +275,11 @@ html {
     padding-right: 1em;
     color: #888888;
 }
+
+#indexPagePostsWrapper {
+    flex:5;
+}
+
 
 /*each post*/
 .content {
@@ -582,7 +593,6 @@ textarea, input, .form-control {
 
 .commentWrapper {
     display:flex;
-    min-width: 300px;
 }
 
 .commentPicWrapper {
@@ -594,7 +604,7 @@ textarea, input, .form-control {
 }
 
 .commentedBy {
-    /*background-color: #ebebeb;*/
+    /*background-color: #b0b0b0;*/
     /*font-weight: bold;*/
 }
 
@@ -621,20 +631,20 @@ textarea, input, .form-control {
 }
 
 .commentBodyWrapper {
-    margin-top: 2em;
+    margin-top: 1.5em;
     margin-bottom: 1.5em;
 }
 
-#commentBodyText {
+.commentBodyText {
     font-family: 'Roboto', sans-serif;
-    line-height: 1.5em;
+    line-height: 1.3em;
     font-size: 1.1em;
 }
 
 .editedCommentBodyText {
     width: 100%;
     resize: none;
-    line-height: 1.5em;
+    line-height: 1.3em;
     font-size: 1.1em;
 }
 
@@ -737,14 +747,15 @@ textarea, input, .form-control {
 }
 
 .editAndDeleteWrapper {
-    margin-top: 1em;
-    margin-left: 1em;
+    /*margin-top: 1em;*/
+    /*margin-left: 1em;*/
     line-height: 2em;
 }
 
 .editAndDeleteBtnsRow {
     float:right;
     line-height: 2em;
+    width: 17%;
 }
 
 .editAndDeleteBtnsRow:after {
@@ -860,7 +871,9 @@ textarea, input, .form-control {
 }
 
 .eachChildCommentDiv {
-    margin-left:4em;
+    /*margin-left: 5%;*/
+    /*padding-left: 0;*/
+    /*width: 95%;*/
 }
 .childCommentDiv {
     margin-left:4em;
@@ -1231,7 +1244,7 @@ textarea, input, .form-control {
     position:fixed;
     width: 58px;
     height: 48px;
-    bottom: 100px;
+    bottom: 110px;
     right: 20px;
     display: none;
     font-size: 3em;
@@ -1244,12 +1257,17 @@ textarea, input, .form-control {
     cursor:pointer;
 }
 
+.popularityWrapperMobile {
+    display:none;
+}
+
+
 @media screen and (max-width: 600px) {
 
     .scrollUp {
         position: fixed;
         width: 58px;
-        height: 48px;
+        height: 90px;
         bottom: 100px;
         right:0px;
         display: none;
@@ -1283,22 +1301,32 @@ textarea, input, .form-control {
         text-decoration: none;
     }
 
-    .indexPageWrapper {
-        margin-top: 4em;
-    }
-
     .indexCategoriesListWrapper {
         display:none;
+    }
+
+
+    .indexPageWrapper {
+        margin-top: 4em;
     }
 
     .popularityWrapper {
         display: none;
     }
 
+    .popularityWrapperMobile {
+        display: block;
+    }
+
+    .eachPopularSection {
+        padding-right: 2em;
+        padding-left: 2em;
+        margin-bottom: 3em;
+    }
+
     .postTitleIndexPage {
         font-size: 6vw;
     }
-
 
     /*================ profile page ===============*/
     /*================ profile page ===============*/
