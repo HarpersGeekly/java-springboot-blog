@@ -41,6 +41,10 @@ public class PostService {
         return postsDao.findAll();
     }
 
+    public List<Post> postsByResultSet() {
+        return postsDao.postsByResultRest();
+    }
+
     public Post findOne(Long id) {
         // return posts.get((int) (id - 1));
         // PRE-REPOSITORY: why minus 1? Must take into account the +1 I made when I created the post.
@@ -64,9 +68,9 @@ public class PostService {
         return postsDao.searchPostsWithKeyword("%" + term + "%");
     }
 
-    public Page<Post> postsByPage(Pageable pageable) {
-        return postsDao.postsByPage(pageable);
-    }
+//    public Page<Post> postsByPage(Pageable pageable) {
+//        return postsDao.postsByPage(pageable);
+//    }
 
     public boolean hasVoted(Long id) {
         return postsVotesDao.hasVoted(id) != 0;
