@@ -204,7 +204,7 @@
             <!-- =============================== Comment Body =========================-->
 
             <div class="commentBodyWrapper">
-                <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
+                <h5 th:text="${comment.body}" class="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
             </div>
 
             <!-- =============================== Edit Form ============================-->
@@ -369,7 +369,7 @@
             <div th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
         </div>
         <div class="childCommentDiv" th:attr="data-child-node-comment-id=${comment.id}"></div>
-        <div class="lastBranchCommentDiv" th:attr="data-last-branch-comment-id=${comment.id}"></div>
+        <!--<div class="lastBranchCommentDiv" th:attr="data-last-branch-comment-id=${comment.id}"></div>-->
 
     </div>
 </div>
@@ -453,7 +453,6 @@
         $this.hide();
         $this.siblings('.showReplyTextAreaCancel').first().show();
         $this.siblings('.replyTextArea').first().toggle(250); ////USE BOOTSTRAP COLLAPSE??
-
         // you cannot focus on an element that is not yet visible. Order this last.
         $('.replyFormBody').val('').focus();
     });
@@ -488,6 +487,8 @@
         field.style.height = height + 'px';
     };
 
+    //=============== prevent div from leaving the container ==========
+
     <!-- =================================================================================================================-->
     <!-- ============================================== SUBMIT Comment ===================================================-->
     <!-- =================================================================================================================-->
@@ -517,8 +518,8 @@
 
             $('#commentFormBody').val(''); // clear the input field.
 
-            // if statement here to check if html is that error fragment! (html could be both error or comment)
-            if (!(html.includes("commentBodyText"))) { // if it's an error,
+            // check if html is that error fragment. (html could be both error or comment):
+            if (!(html.includes("commentBodyText"))) { // if it's an error...
                 $('.commentsErrorAJAX').html(html).hide().fadeIn() // error belongs in the error div.
             }
 
@@ -533,7 +534,7 @@
             $('.replyTextArea').hide(); // hide the reply text area.
             $('.showReplyTextAreaCancel').hide();
             $('.replyFormBody').val('');
-            $('.commentedBy').css("background-color", "papayawhip");
+            $('#commentedBy').css("background-color", "papayawhip");
 
             // let commentId = $('.commentWrapper').data('[data-edit-delete-comment-id]');
             // let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
@@ -638,12 +639,14 @@
             let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
             let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
             let $commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
+            let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
 
             $commentEditForm.css("display","none"); // hide the edit form
             $commentBody.show().html(comment.body); // show the new updated comment in the html
             $commentVoting.css("display","block");
             $editBtn.css("display","block");
             $deleteBtn.css("display","block");
+            $showReplyTextArea.css("display","block");
         })
     });
 
@@ -934,7 +937,7 @@
             let $commentEditFormTextarea = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
 
             let $childCommentDiv = $('[data-child-node-comment-id=' + commentId + ']');
-            let $lastBranchCommentDiv = $('[data-last-branch-comment-id=' + commentId + ']');
+            // let $lastBranchCommentDiv = $('[data-last-branch-comment-id=' + commentId + ']');
 
             // if statement here to check if html is that error fragment! (html could be both error or comment)
             if (!(html.includes("commentBodyText"))) { // if it's an error,
