@@ -81,8 +81,9 @@ public class PostsController {
 //======================================================================================================================
 
     @GetMapping("/posts")
-    public String showAllPosts(Model viewModel,
-                               @PageableDefault(value = 11, direction = Sort.Direction.DESC) Pageable pageable) {
+    public String showAllPosts(Model viewModel
+//                               @PageableDefault(value = 7, direction = Sort.Direction.DESC) Pageable pageable) {
+                               ) {
 
 //        Before making the PostService we had all of this:
 //        ArrayList<Post> posts  = new ArrayList<>();
@@ -101,7 +102,8 @@ public class PostsController {
 //
 //        }
 //        viewModel.addAttribute("posts", postSvc.findAll());
-        viewModel.addAttribute("page", postSvc.postsByPage(pageable));
+//        viewModel.addAttribute("page", postSvc.postsByPage(pageable));
+        viewModel.addAttribute("posts", postSvc.postsByResultSet());
         viewModel.addAttribute("categories", categoriesDao.findAll());
         viewModel.addAttribute("mostCommentedPosts", postSvc.popularPostsByCommentActivity());
         viewModel.addAttribute("mostLikedPosts", postSvc.popularPostsByLikes());
