@@ -3,6 +3,7 @@ package com.codeup.blog.springbootblog.Models;
 import com.fasterxml.jackson.annotation.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -40,7 +41,8 @@ public class Post {
     })
     private String description;
 
-    @ManyToOne // many posts can belong to one user.
+    @ManyToOne
+//    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE) // many posts can belong to one user.
     // will define the foreign key. This Post class represents the posts table and we need a reference to the user
     @JsonManagedReference //allows Jackson to better handle the relation.
     // Is the forward part of reference – the one that gets serialized normally.
@@ -50,7 +52,7 @@ public class Post {
     @JsonBackReference //is the back part of reference – it will be omitted from serialization.
     private List<Comment> comments;
 
-    @Column(name = "CREATED_DATE")
+    @Column(name = "created_date")
 //    @JsonFormat
 //            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime date;
