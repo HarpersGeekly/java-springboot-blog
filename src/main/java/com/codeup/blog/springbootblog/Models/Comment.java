@@ -154,7 +154,7 @@ public class Comment {
     private Comment parentComment;
 
     public boolean isParentComment(Comment comment) {
-        return getParentComment() == null;
+        return comment.getParentComment() == null;
     }
 
     @JsonIgnore
