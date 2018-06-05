@@ -23,7 +23,7 @@
         </div>
 
         <div class="commentInfoWrapper">
-        <h5 class="commentedBy">
+        <h5 id="commentedBy">
             <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                 <span class="commentedByNameText" th:text="${comment.user.username}"></span>
             </a>
@@ -36,7 +36,7 @@
         <!-- =============================== Comment Body =========================-->
 
             <div class="commentBodyWrapper">
-                <h5 th:text="${comment.body}" id="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
+                <h5 th:text="${comment.body}" class="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
             </div>
 
         <!-- =============================== Edit Form ============================-->
@@ -50,13 +50,12 @@
                     th:attr="data-edit-form-comment-id=${comment.id}">
 
                         <textarea class="form-control editedCommentBodyText" name="body" th:attr="data-edit-comment-form-textarea-comment-id=${comment.id}"
-                                  th:value="${comment.body}"
-                                  style="width: 900px; height: 150px; resize: none">
+                                  th:value="${comment.body}">
                         </textarea>
 
                 <input type="hidden" name="id" th:value="${comment.id}"/>
 
-                <div class="row editAndDeleteBtnsRow">
+                <div class="editAndDeleteBtnsRow">
 
                     <button class="btn btn-primary editedCommentCancelBtn">
                         CANCEL
@@ -199,7 +198,7 @@
             <div th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
         </div>
         <div class="childCommentDiv" th:attr="data-child-node-comment-id=${comment.id}"></div>
-        <div class="lastBranchCommentDiv" th:attr="data-last-branch-comment-id=${comment.id}"></div>
+        <!--<div class="lastBranchCommentDiv" th:attr="data-last-branch-comment-id=${comment.id}"></div>-->
 
     </div>
 </th:block>
