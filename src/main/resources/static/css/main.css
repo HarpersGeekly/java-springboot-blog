@@ -601,6 +601,12 @@ textarea, input, .form-control {
 
 .commentInfoWrapper {
     flex:14;
+    /*???????*/
+    box-sizing: border-box;
+    padding:1em;
+    margin-bottom: 2em;
+    background-color: #3333330f;
+    border-radius: 25px;
 }
 
 .commentedBy {
@@ -771,7 +777,8 @@ textarea, input, .form-control {
 .deleteCommentBtn, .deleteCommentBtnAJAX {
     color: #c0c0c0;
     border: none;
-    background-color: #FFFAFB;
+    /*background-color: #FFFAFB;*/
+    background-color: #f4eef0;
     text-decoration: none;
 }
 
@@ -781,14 +788,16 @@ textarea, input, .form-control {
 }
 
 .deleteCommentBtn:hover, .editCommentBtn:hover, .deleteCommentBtnAJAX:hover, .editCommentBtnAJAX:hover {
-    background-color: #FFFAFB;
+    /*background-color: #FFFAFB;*/
+    background-color: #f4eef0;
     color: #E07A5F;
     text-decoration: none;
     cursor: pointer;
 }
 
 .deleteCommentBtn:active, .editCommentBtn:active, .deleteCommentBtnAJAX:active, .editCommentBtnAJAX:active {
-    background-color: #FFFAFB;
+    /*background-color: #FFFAFB;*/
+    background-color: #f4eef0;
     color: #E07A5F;
     text-decoration: none;
     cursor: pointer;
@@ -871,7 +880,8 @@ textarea, input, .form-control {
 }
 
 .eachChildCommentDiv {
-    /*margin-left: 5%;*/
+    /*delete margin-left to have one stream of comments, no indentation...*/
+    margin-left: 5%;
     /*padding-left: 0;*/
     /*width: 95%;*/
 }
@@ -1242,19 +1252,21 @@ textarea, input, .form-control {
 
 .scrollUp {
     position:fixed;
+    z-index: 9999;
     width: 58px;
     height: 48px;
-    bottom: 110px;
+    bottom: 20px;
     right: 20px;
     display: none;
     font-size: 3em;
-    color: black;
+    color: #E07A5F;
     /*background: url('../images/codeup-arrow.png') transparent;*/
 }
 
 .scrollUp:hover {
-    color:black;
+    color: papayawhip;
     cursor:pointer;
+    z-index: 9999;
 }
 
 .popularityWrapperMobile {
@@ -1265,19 +1277,22 @@ textarea, input, .form-control {
 @media screen and (max-width: 600px) {
 
     .scrollUp {
-        position: fixed;
+        position:fixed;
+        z-index: 9999;
         width: 58px;
-        height: 90px;
-        bottom: 100px;
-        right:0px;
+        height: 48px;
+        bottom: 20px;
+        right: 20px;
         display: none;
         font-size: 3em;
-        color:black;
+        color: #E07A5F;
+        /*background: url('../images/codeup-arrow.png') transparent;*/
     }
 
     .scrollUp:hover {
-        color: black;
+        color: papayawhip;
         cursor:pointer;
+        z-index: 9999;
     }
 
     .dropdown {
@@ -1363,5 +1378,10 @@ textarea, input, .form-control {
     }
     /*================ profile page ===============*/
     /*================ profile page ===============*/
+
+    .commentSection {
+        /*display: inline-block;*/
+        width: 100%;
+    }
 }
 

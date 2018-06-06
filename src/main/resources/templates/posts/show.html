@@ -7,6 +7,9 @@
 <div class="indexCategoriesListWrapper">
     <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
 </div>
+
+<a href="#" class="scrollUp"><i class="fas fa-arrow-circle-up"></i></a>
+
 <div class="dropdown btn-group">
     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span>Categories</span><i class="fas fa-caret-down categoriesDropdownDown"></i>
@@ -466,7 +469,9 @@
         $this.siblings('.replyTextArea').first().toggle(250); ////USE BOOTSTRAP COLLAPSE??
     });
 
-    //expand and retract textarea with content
+    //==================================================================================================================
+    //===================================== textarea expands as user types =============================================
+    //==================================================================================================================
     document.addEventListener("input", function (event) {
         if (event.target.tagName.toLowerCase() !== 'textarea') return;
         autoExpand(event.target);
@@ -487,7 +492,24 @@
         field.style.height = height + 'px';
     };
 
-    //=============== prevent div from leaving the container ==========
+    //==================================================================================================================
+    //========================================== scroll up on arrow click ==============================================
+    //==================================================================================================================
+
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 500) {
+            $('.scrollUp').fadeIn("slow");
+        } else {
+            $('.scrollUp').fadeOut();
+        }
+    });
+    $('.scrollUp').click(function () {
+        $("html, body").animate({
+            scrollTop: 0
+        }, 500);
+        return false;
+    });
 
     <!-- =================================================================================================================-->
     <!-- ============================================== SUBMIT Comment ===================================================-->
