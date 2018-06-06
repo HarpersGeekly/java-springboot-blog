@@ -593,29 +593,34 @@ textarea, input, .form-control {
 
 .commentWrapper {
     display:flex;
+    min-width: 500px;
 }
 
 .commentPicWrapper {
-    flex:1;
+    /*flex:1;*/
+    margin-right: 10px;
 }
 
 .commentInfoWrapper {
     flex:14;
     /*???????*/
     box-sizing: border-box;
-    padding:1em;
+    /*border-left: solid rgba(0,0,0,.5);*/
+    padding-top: 1em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
     margin-bottom: 2em;
     background-color: #3333330f;
     border-radius: 25px;
 }
 
-.commentedBy {
-    /*background-color: #b0b0b0;*/
-    /*font-weight: bold;*/
-}
-
 .parentComment {
     background-color: papayawhip;
+    border-radius: 20px;
+}
+
+#commentedBy {
+    border-radius: 20px;
 }
 
 .commentedByNameText {
@@ -881,13 +886,28 @@ textarea, input, .form-control {
 
 .eachChildCommentDiv {
     /*delete margin-left to have one stream of comments, no indentation...*/
-    margin-left: 5%;
+    /*margin-left: 5%;*/
     /*padding-left: 0;*/
     /*width: 95%;*/
 }
-.childCommentDiv {
-    margin-left:4em;
+
+/*.eachChildCommentDiv > .child-comment:nth-child(1) {*/
+    /*background: red;*/
+    /*margin-left: 20px;*/
+/*}*/
+
+.child-comment:nth-child(n+1) {
+    margin-left:10%;
 }
+
+.childCommentDiv {
+    margin-left:10%;
+}
+
+/*.indent-comment {*/
+    /*margin-left: 5%;*/
+/*}*/
+
 
 /*=============== Profile page ======================*/
 
@@ -1272,7 +1292,6 @@ textarea, input, .form-control {
 .popularityWrapperMobile {
     display:none;
 }
-
 
 @media screen and (max-width: 600px) {
 

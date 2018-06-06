@@ -368,11 +368,13 @@
         </div><!--end of commentInfoWrapper-->
         </div>
 
+        <!--SHOW CHILD COMMENTS UNDERNEATH PARENT COMMENT:-->
         <div class="eachChildCommentDiv" th:each="child : ${comment.getChildrenComments()}">
-            <div th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
+            <div class="child-comment" th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
         </div>
+
+        <!--ALL NEW CHILD COMMENTS COMING IN ARE APPENDED HERE-->
         <div class="childCommentDiv" th:attr="data-child-node-comment-id=${comment.id}"></div>
-        <!--<div class="lastBranchCommentDiv" th:attr="data-last-branch-comment-id=${comment.id}"></div>-->
 
     </div>
 </div>
@@ -510,6 +512,12 @@
         }, 500);
         return false;
     });
+
+    //==================================================================================================================
+    //========================================== comment tree ==========================================================
+    //==================================================================================================================
+
+    // if div has more than 5 children, start removing the indentation of the children??
 
     <!-- =================================================================================================================-->
     <!-- ============================================== SUBMIT Comment ===================================================-->
@@ -959,15 +967,14 @@
             let $commentEditFormTextarea = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
 
             let $childCommentDiv = $('[data-child-node-comment-id=' + commentId + ']');
-            // let $lastBranchCommentDiv = $('[data-last-branch-comment-id=' + commentId + ']');
 
             // if statement here to check if html is that error fragment! (html could be both error or comment)
-            if (!(html.includes("commentBodyText"))) { // if it's an error,
+            if (!(html.includes("commentBodyText"))) { // if html is an error,
                 $replyError.html(html).hide().fadeIn(); // error belongs in the error div.
                 console.log("the response was an error. error validation in place.")
             }
 
-            if (html.includes("commentBodyText")) { // if it's a comment...
+            if (html.includes("commentBodyText")) { // if html is a comment...
                 if ($replyError.length >= 1) { // check if error exists first
                     $replyError.css("display","none"); // if error exists, hide it.
                     $replyFormBody.val('');
@@ -977,7 +984,7 @@
                     $('.showReplyTextAreaCancel').hide();
                     console.log("response was a comment.")
                 }
-                $childCommentDiv.append(html).hide().fadeIn(1500);
+                $childCommentDiv.append(html).hide().fadeIn(1500); //append the comment in the childCommentDiv
             }
 
             $replyFormBody.val('');
