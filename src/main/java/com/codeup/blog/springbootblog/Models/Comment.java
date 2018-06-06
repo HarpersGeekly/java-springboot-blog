@@ -176,13 +176,14 @@ public class Comment {
     }
 
     // handle the comment tree:
-    public int commentLevel() {
-        Comment comment = this;
-        int level = 0;
-        while ((comment = comment.getParentComment()) != null)
-            level++; //keep adding another level
-        return level;
-    }
+    // Deprecated
+//    public int commentLevel() {
+//        Comment comment = this;
+//        int level = 0;
+//        while ((comment = comment.getParentComment()) != null)
+//            level++; //keep adding another level
+//        return level;
+//    }
 
     // Do I need this constructor?
     public Comment(Comment parentComment, String body, Post post, User user, LocalDateTime date, List<CommentVote> commentVotes, List<Comment> childrenComments) {
