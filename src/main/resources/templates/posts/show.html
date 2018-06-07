@@ -5,18 +5,21 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 <div class="indexCategoriesListWrapper">
-    <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
+    <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}"
+       th:href="@{/posts/search(term=${category.name})}"></a>
 </div>
 
 <a href="#" class="scrollUp"><i class="fas fa-arrow-circle-up"></i></a>
 
 <div class="dropdown btn-group">
-    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
         <span>Categories</span><i class="fas fa-caret-down categoriesDropdownDown"></i>
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li class="navDropdownEachCategory" th:field="*{categories}" th:each="category : ${categories}">
-            <a class="navDropdownCategoryLink" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
+            <a class="navDropdownCategoryLink" th:text="${category.name}"
+               th:href="@{/posts/search(term=${category.name})}"></a>
         </li>
     </ul>
 </div>
@@ -50,7 +53,8 @@
                     <span class="postedByDate" th:text="${#temporals.day(post.date)}">,</span>
                     <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
                     <!--<div class="post-tags">-->
-                        <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts(tagged=${tag.name})}" style="margin-left:1em"></a>
+                    <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}"
+                       th:href="@{/posts(tagged=${tag.name})}" style="margin-left:1em"></a>
                     <!--</div>-->
 
                 </h5>
@@ -61,7 +65,8 @@
                 <!-- ====================================== Post Description =================================-->
 
                 <!--<h5 id="postTextBody" th:text="${post.description}"></h5>-->
-                <div class="postTextBodyDiv"><span class="postTextBodyInnerText" th:utext="${post.htmlDescription}"></span></div>
+                <div class="postTextBodyDiv"><span class="postTextBodyInnerText"
+                                                   th:utext="${post.htmlDescription}"></span></div>
 
                 <!-- ====================================== Post Voting ======================================-->
 
@@ -78,7 +83,8 @@
                         <div th:if="${isLoggedIn}">
                             <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
                                   th:attr="data-upvote-post-id=${post.id}">
-                                <i th:classappend="${upvote} ? stayActive : postUpvote" class="far fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
+                                <i th:classappend="${upvote} ? stayActive : postUpvote"
+                                   class="far fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
                                 <!--when clicked, stayActive class will be added or removed.-->
                             </form>
                         </div>
@@ -97,7 +103,8 @@
 
                             <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
                                   th:attr="data-downvote-post-id=${post.id}">
-                                <i th:classappend="${downvote} ? stayActive : postDownvote" class="far fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
+                                <i th:classappend="${downvote} ? stayActive : postDownvote"
+                                   class="far fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
                             </form>
                         </div>
 
@@ -177,8 +184,10 @@
     <div class="container commentSection commentsAJAX"></div>
     <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
 
-    <div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">
-    <!--<div class="container commentSection" th:each="comment : ${comments}">-->
+    <div class="container commentSection" th:each="comment : ${comments}" th:data="*{comment}">
+        <!--// PAGINATION-->
+        <!--<div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">-->
+        <!--PAGINATION \\-->
 
         <!--th:attr allows me to target this element specifically in show.html's ajax request-->
         <div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
@@ -197,52 +206,55 @@
                     <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                         <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                     </a>
-                    <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}" style="margin-right: 0.75em;"></span>
+                    <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
+                          style="margin-right: 0.75em;"></span>
                     <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
                     <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
                     <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
                 </h5>
 
 
-            <!-- =============================== Comment Body =========================-->
+                <!-- =============================== Comment Body =========================-->
 
-            <div class="commentBodyWrapper">
-                <h5 th:text="${comment.body}" class="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
-            </div>
+                <div class="commentBodyWrapper">
+                    <h5 th:text="${comment.body}" class="commentBodyText"
+                        th:attr="data-comment-body-comment-id=${comment.id}"></h5>
+                </div>
 
-            <!-- =============================== Edit Form ============================-->
+                <!-- =============================== Edit Form ============================-->
 
-            <div class="editedCommentFormWrapper" th:attr="data-edit-form-wrapper-comment-id=${comment.id}">
-                <form
-                        th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
-                        method="POST"
-                        th:object="${comment}"
-                        class="editedCommentForm" id="editedCommentFormId"
-                        th:attr="data-edit-form-comment-id=${comment.id}">
+                <div class="editedCommentFormWrapper" th:attr="data-edit-form-wrapper-comment-id=${comment.id}">
+                    <form
+                            th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
+                            method="POST"
+                            th:object="${comment}"
+                            class="editedCommentForm" id="editedCommentFormId"
+                            th:attr="data-edit-form-comment-id=${comment.id}">
 
-                        <textarea class="form-control editedCommentBodyText" name="body" th:attr="data-edit-comment-form-textarea-comment-id=${comment.id}"
+                        <textarea class="form-control editedCommentBodyText" name="body"
+                                  th:attr="data-edit-comment-form-textarea-comment-id=${comment.id}"
                                   th:value="${comment.body}">
                         </textarea>
 
-                    <input type="hidden" name="id" th:value="${comment.id}"/>
+                        <input type="hidden" name="id" th:value="${comment.id}"/>
 
-                    <div class="editAndDeleteBtnsRow">
+                        <div class="editAndDeleteBtnsRow">
 
-                        <button class="btn btn-primary editedCommentCancelBtn">
-                            CANCEL
-                        </button>
+                            <button class="btn btn-primary editedCommentCancelBtn">
+                                CANCEL
+                            </button>
 
-                        <button class="btn btn-primary editedCommentSubmitBtn">
-                            SAVE
-                        </button>
+                            <button class="btn btn-primary editedCommentSubmitBtn">
+                                SAVE
+                            </button>
 
-                    </div>
-                </form>
-            </div>
+                        </div>
+                    </form>
+                </div>
 
-            <!-- =============================== Comment Votes =========================-->
+                <!-- =============================== Comment Votes =========================-->
 
-            <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
+                <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
 
                     <div class="upvoteDiv">
 
@@ -251,7 +263,7 @@
                                 <i class="far fa-thumbs-up"></i>
                             </a>
                         </div>
-                                <!--if logged in: upvote and downvote arrows function normally.-->
+                        <!--if logged in: upvote and downvote arrows function normally.-->
                         <div th:if="${isLoggedIn}">
                             <form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"
                                   th:attr="data-upvote-comment-id=${comment.id}">
@@ -264,7 +276,8 @@
 
                     <div class="voteCountDiv">
                         <h5>
-                            <span class="commentVoteCount" th:text="${comment.voteCount()}" th:attr="data-voteCount-comment-id=${comment.id}"></span>
+                            <span class="commentVoteCount" th:text="${comment.voteCount()}"
+                                  th:attr="data-voteCount-comment-id=${comment.id}"></span>
                         </h5>
                     </div>
 
@@ -283,89 +296,91 @@
                             </a>
                         </div>
                     </div>
-            </div>
-
-            <div class="editAndDeleteWrapper">
-                <div class="row">
-
-                    <!--===================================== EDIT COMMENT BUTTON ========================-->
-                    <!--==================================================================================-->
-                    <!-- Edit button is an event trigger. There is no form here. -->
-                    <div class="commentEdit" sec:authorize="isAuthenticated()"
-                         th:if="${comment.isOwnedBy(#authentication.principal.id)}">
-                        <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">
-                            <i class="far fa-edit"></i> edit
-                        </a>
-                    </div>
-
-                    <!--==================================== DELETE COMMENT BUTTON AND FORM =======================-->
-                    <!--===========================================================================================-->
-
-                    <div class="commentDelete" sec:authorize="isAuthenticated()">
-                        <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
-                              th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
-                              method="POST"
-                              th:object="${comment}"
-                              class="deleteCommentForm">
-
-                            <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"
-                                   th:value="${comment.id}"/>
-                            <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
-                            <button class="deleteCommentBtn" th:attr="data-delete-btn-comment-id=${comment.id}">
-                                <i class="fas fa-bomb"></i> delete
-                            </button>
-                            <!--<i class="fas fa-bomb"></i>-->
-                            <!--<input type="submit" value="delete" class="deleteCommentBtn"/>-->
-                        </form>
-                    </div>
-
                 </div>
-            </div>
 
-            <!--================================== REPLY TO A COMMENT ======================-->
-            <!--============================================================================-->
+                <div class="editAndDeleteWrapper">
+                    <div class="row">
 
-            <div th:if="${!isLoggedIn}"  class="replyNotLoggedIn">
-                <a th:href="${'/login'}">
-                    <i class="fas fa-reply"></i> REPLY
-                </a>
-            </div>
-            <div th:if="${isLoggedIn}">
-                <h5 class="showReplyTextArea" th:attr="data-show-reply-textarea-comment-id=${comment.id}">
-                    <!--data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
-                    <i class="fas fa-reply"></i> REPLY
-                </h5>
-                <h5 class="showReplyTextAreaCancel" th:attr="data-cancel-reply-textarea-comment-id=${comment.id}">
-                    <i class="fas fa-times"></i> CANCEL
-                </h5>
+                        <!--===================================== EDIT COMMENT BUTTON ========================-->
+                        <!--==================================================================================-->
+                        <!-- Edit button is an event trigger. There is no form here. -->
+                        <div class="commentEdit" sec:authorize="isAuthenticated()"
+                             th:if="${comment.isOwnedBy(#authentication.principal.id)}">
+                            <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">
+                                <i class="far fa-edit"></i> edit
+                            </a>
+                        </div>
 
-                <!--<div class="replyTextArea collapse" id="collapseExample" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">-->
-                <div class="replyTextArea" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">
-                    <form th:action="@{/posts/{postId}/comment/{commentId}/reply(postId=${post.id},commentId=${comment.id})}" method="post"
-                          th:object="${comment}"
-                          th:attr="data-reply-form-comment-id=${comment.id}">
-                        <div class="form-group">
-                            <label for="replyFormBody"></label>
+                        <!--==================================== DELETE COMMENT BUTTON AND FORM =======================-->
+                        <!--===========================================================================================-->
 
-                            <textarea class="form-control replyFormBody" id="replyFormBody" name="body"
-                                      th:field="*{body}"
-                                      th:attr="data-reply-form-body-comment-id=${comment.id}">
+                        <div class="commentDelete" sec:authorize="isAuthenticated()">
+                            <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
+                                  th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
+                                  method="POST"
+                                  th:object="${comment}"
+                                  class="deleteCommentForm">
+
+                                <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"
+                                       th:value="${comment.id}"/>
+                                <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
+                                <button class="deleteCommentBtn" th:attr="data-delete-btn-comment-id=${comment.id}">
+                                    <i class="fas fa-bomb"></i> delete
+                                </button>
+                                <!--<i class="fas fa-bomb"></i>-->
+                                <!--<input type="submit" value="delete" class="deleteCommentBtn"/>-->
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--================================== REPLY TO A COMMENT ======================-->
+                <!--============================================================================-->
+
+                <div th:if="${!isLoggedIn}" class="replyNotLoggedIn">
+                    <a th:href="${'/login'}">
+                        <i class="fas fa-reply"></i> REPLY
+                    </a>
+                </div>
+                <div th:if="${isLoggedIn}">
+                    <h5 class="showReplyTextArea" th:attr="data-show-reply-textarea-comment-id=${comment.id}">
+                        <!--data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
+                        <i class="fas fa-reply"></i> REPLY
+                    </h5>
+                    <h5 class="showReplyTextAreaCancel" th:attr="data-cancel-reply-textarea-comment-id=${comment.id}">
+                        <i class="fas fa-times"></i> CANCEL
+                    </h5>
+
+                    <!--<div class="replyTextArea collapse" id="collapseExample" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">-->
+                    <div class="replyTextArea" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">
+                        <form th:action="@{/posts/{postId}/comment/{commentId}/reply(postId=${post.id},commentId=${comment.id})}"
+                              method="post"
+                              th:object="${comment}"
+                              th:attr="data-reply-form-comment-id=${comment.id}">
+                            <div class="form-group">
+                                <label for="replyFormBody"></label>
+
+                                <textarea class="form-control replyFormBody" id="replyFormBody" name="body"
+                                          th:field="*{body}"
+                                          th:attr="data-reply-form-body-comment-id=${comment.id}">
                             </textarea>
 
-                            <div class="repliesErrorAJAX" th:attr="data-reply-error-comment-id=${comment.id}"></div>
+                                <div class="repliesErrorAJAX" th:attr="data-reply-error-comment-id=${comment.id}"></div>
 
-                            <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
-                            <button class="btn btn-primary commentReplyBtn" th:attr="data-reply-submit-btn-comment-id=${comment.id}">
-                                <i class="far fa-comment-alt"></i> Reply
-                            </button>
+                                <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
+                                <button class="btn btn-primary commentReplyBtn"
+                                        th:attr="data-reply-submit-btn-comment-id=${comment.id}">
+                                    <i class="far fa-comment-alt"></i> Reply
+                                </button>
 
-                        </div>
-                    </form>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <!--<hr class="commentHR"/>-->
+                <!--<hr class="commentHR"/>-->
 
-        </div><!--end of commentInfoWrapper-->
+            </div><!--end of commentInfoWrapper-->
         </div>
 
         <!--SHOW CHILD COMMENTS UNDERNEATH PARENT COMMENT:-->
@@ -381,60 +396,60 @@
 <!-- ================================================================================================================-->
 <!-- =========================================== PAGINATION =========================================================-->
 <!-- ================================================================================================================-->
-<nav class="text-center">
-    <ul class="pagination">
+<!--<nav class="text-center">-->
+<!--<ul class="pagination">-->
 
-        <li th:class="${page.isFirst()}? 'disabled' : ''">
-            <span th:if='${page.isFirst()}'>← First</span>
-            <a th:if='${not page.isFirst()}' th:href="'?page=0'">
-                ← First
-            </a>
-        </li>
-        <li th:class="${page.hasPrevious()}? '' : 'disabled'">
-            <span th:if='${not page.hasPrevious()}'>«</span>
-            <a
-                    th:if='${page.hasPrevious()}'
-                    th:href="'?page=' + ${page.getNumber() - 1}"
-                    title='Go to previous page'
-            >
-                «
-            </a>
-        </li>
-        <!--<li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">-->
-        <li th:each="i : ${#numbers.sequence(page.getNumber(), page.getTotalPages())}">
-                <span
-                        th:if='${(i - 1) == param.page}'
-                        th:text='${i}'>
-                    1
-                </span>
-            <a
-                    th:if='${not ((i - 1) == param.page)}'
-                    th:href="'?page=' + ${(i -1)}"
-            >
-                <span th:text='${i}'>1</span>
-            </a>
-        </li>
-        <li th:class="${page.hasNext()} ? '' : 'disabled'">
-            <span th:if='${not page.hasNext()}'>»</span>
-            <a
-                    th:if='${page.hasNext()}'
-                    th:href="'?page=' + ${page.getNumber() + 1}"
-                    title='Go to next page'
-            >
-                »
-            </a>
-        </li>
-        <li th:class="${page.isLast()}? 'disabled' : ''">
-            <span th:if='${page.isLast()}'>Last →</span>
-            <a
-                    th:if='${not page.isLast()}'
-                    th:href="'?page=' + ${page.getTotalPages() - 1}"
-            >
-                Last →
-            </a>
-        </li>
-    </ul>
-</nav>
+<!--<li th:class="${page.isFirst()}? 'disabled' : ''">-->
+<!--<span th:if='${page.isFirst()}'>← First</span>-->
+<!--<a th:if='${not page.isFirst()}' th:href="'?page=0'">-->
+<!--← First-->
+<!--</a>-->
+<!--</li>-->
+<!--<li th:class="${page.hasPrevious()}? '' : 'disabled'">-->
+<!--<span th:if='${not page.hasPrevious()}'>«</span>-->
+<!--<a-->
+<!--th:if='${page.hasPrevious()}'-->
+<!--th:href="'?page=' + ${page.getNumber() - 1}"-->
+<!--title='Go to previous page'-->
+<!--&gt;-->
+<!--«-->
+<!--</a>-->
+<!--</li>-->
+<!--&lt;!&ndash;<li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">&ndash;&gt;-->
+<!--<li th:each="i : ${#numbers.sequence(page.getNumber(), page.getTotalPages())}">-->
+<!--<span-->
+<!--th:if='${(i - 1) == param.page}'-->
+<!--th:text='${i}'>-->
+<!--1-->
+<!--</span>-->
+<!--<a-->
+<!--th:if='${not ((i - 1) == param.page)}'-->
+<!--th:href="'?page=' + ${(i -1)}"-->
+<!--&gt;-->
+<!--<span th:text='${i}'>1</span>-->
+<!--</a>-->
+<!--</li>-->
+<!--<li th:class="${page.hasNext()} ? '' : 'disabled'">-->
+<!--<span th:if='${not page.hasNext()}'>»</span>-->
+<!--<a-->
+<!--th:if='${page.hasNext()}'-->
+<!--th:href="'?page=' + ${page.getNumber() + 1}"-->
+<!--title='Go to next page'-->
+<!--&gt;-->
+<!--»-->
+<!--</a>-->
+<!--</li>-->
+<!--<li th:class="${page.isLast()}? 'disabled' : ''">-->
+<!--<span th:if='${page.isLast()}'>Last →</span>-->
+<!--<a-->
+<!--th:if='${not page.isLast()}'-->
+<!--th:href="'?page=' + ${page.getTotalPages() - 1}"-->
+<!--&gt;-->
+<!--Last →-->
+<!--</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</nav>-->
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 
@@ -555,7 +570,7 @@
 
             if (html.includes("commentBodyText")) { // if it's a comment...
                 if ($('.commentsErrorAJAX').length >= 1) { // check if error exists first
-                    $('.commentsErrorAJAX').css("display","none"); // if error exists, hide it.
+                    $('.commentsErrorAJAX').css("display", "none"); // if error exists, hide it.
                 }
                 $('.commentsAJAX').prepend(html).hide().fadeIn(); // comment belongs in the comment div
             }
@@ -592,7 +607,7 @@
         let $button = $(this);
         let commentId = $button.data('edit-btn-comment-id');
         let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
-        $showReplyTextArea.css("display","none");
+        $showReplyTextArea.css("display", "none");
         console.log("commentid: " + commentId);
 
         //================================== AJAX ==================================
@@ -615,11 +630,11 @@
             let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
             let $editedCommentBodyText = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
 
-            $commentBody.css("display","none"); // hide the original comment body
-            $commentVoting.css("display","none"); // hide the comment votes
-            $editBtn.css("display","none"); // hide the edit button
-            $deleteBtn.css("display","none"); // hide the delete button
-            $commentEditForm.css("display","block"); // I just want to show "this" edit form
+            $commentBody.css("display", "none"); // hide the original comment body
+            $commentVoting.css("display", "none"); // hide the comment votes
+            $editBtn.css("display", "none"); // hide the edit button
+            $deleteBtn.css("display", "none"); // hide the delete button
+            $commentEditForm.css("display", "block"); // I just want to show "this" edit form
             $editedCommentBodyText.text(comment.body); // put the text of comment.body inside the newly visible textarea.
 
             //================= cancel button ====================
@@ -628,12 +643,12 @@
             $('.editedCommentCancelBtn').on("click", function (e) { // on cancel button click...
                 e.preventDefault();
 
-                $commentEditForm.css("display","none"); // hide the edit form
-                $commentBody.css("display","block"); // show the original comment back in the html
-                $commentVoting.css("display","block"); // show the comment votes again
-                $editBtn.css("display","block");// show the edit button
-                $deleteBtn.css("display","block");// show the delete button
-                $showReplyTextArea.css("display","block"); // show the reply again
+                $commentEditForm.css("display", "none"); // hide the edit form
+                $commentBody.css("display", "block"); // show the original comment back in the html
+                $commentVoting.css("display", "block"); // show the comment votes again
+                $editBtn.css("display", "block");// show the edit button
+                $deleteBtn.css("display", "block");// show the delete button
+                $showReplyTextArea.css("display", "block"); // show the reply again
             })
         });
         request.fail((a, b, c) => {
@@ -671,12 +686,12 @@
             let $commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
             let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
 
-            $commentEditForm.css("display","none"); // hide the edit form
+            $commentEditForm.css("display", "none"); // hide the edit form
             $commentBody.show().html(comment.body); // show the new updated comment in the html
-            $commentVoting.css("display","block");
-            $editBtn.css("display","block");
-            $deleteBtn.css("display","block");
-            $showReplyTextArea.css("display","block");
+            $commentVoting.css("display", "block");
+            $editBtn.css("display", "block");
+            $deleteBtn.css("display", "block");
+            $showReplyTextArea.css("display", "block");
         })
     });
 
@@ -705,7 +720,7 @@
 
             console.log("hello from delete request.done");
             console.log($button);
-            $('[data-edit-delete-comment-id=' + commentId + ']').fadeOut("slow", function() {
+            $('[data-edit-delete-comment-id=' + commentId + ']').fadeOut("slow", function () {
                 $('[data-edit-delete-comment-id=' + commentId + ']').remove(); // new way targets element directly.
             })
             // $button.parent().parent().parent().parent().parent().remove(); // removes from html (old way/bad way)
@@ -829,7 +844,7 @@
     <!-- ============================================== COMMENT VOTING  ==================================================-->
     <!-- =================================================================================================================-->
 
-    $('.container').on("click", ".commentUpvote", function(e) {
+    $('.container').on("click", ".commentUpvote", function (e) {
         e.preventDefault();
 
         if ($(e.target).hasClass('stayActive')) {
@@ -882,7 +897,7 @@
         }
     });
 
-    $('.container').on("click", ".commentDownvote", function(e) {
+    $('.container').on("click", ".commentDownvote", function (e) {
         e.preventDefault();
 
         if ($(e.target).hasClass('stayActive')) {
@@ -939,7 +954,7 @@
     <!-- ============================================== REPLY TO COMMENTS  ===============================================-->
     <!-- =================================================================================================================-->
 
-    $('.container').on("click", ".commentReplyBtn", function(e) {
+    $('.container').on("click", ".commentReplyBtn", function (e) {
         e.preventDefault();
 
         let $button = $(this);
@@ -976,7 +991,7 @@
 
             if (html.includes("commentBodyText")) { // if html is a comment...
                 if ($replyError.length >= 1) { // check if error exists first
-                    $replyError.css("display","none"); // if error exists, hide it.
+                    $replyError.css("display", "none"); // if error exists, hide it.
                     $replyFormBody.val('');
                     $('.showReplyTextArea').show();
                     $('.editedCommentForm').hide(); //hide the edit form.
@@ -995,21 +1010,21 @@
 
             //scroll to reply when commented
             $('html, body').animate({
-                scrollTop: $childCommentDiv.offset().top - $(window).height()/2
+                scrollTop: $childCommentDiv.offset().top - $(window).height() / 2
             }, 100);
 
             // W.I.P: the following is code to restrict the comment tree to get out of hand and run off the screen.
             //=====================================================================================================
             let commentWrapper = document.querySelector('.commentWrapper');
             let commentSection = document.querySelector('.commentSection');
-            if($(commentSection).has(commentWrapper).length){
+            if ($(commentSection).has(commentWrapper).length) {
                 //do something
-                        }
-                    else{
+            }
+            else {
                 //do something
-                        }
+            }
 
-            if(!$.contains(commentSection,commentWrapper)) {
+            if (!$.contains(commentSection, commentWrapper)) {
 
             }
             if (!isInViewport(commentWrapper)) {
