@@ -244,9 +244,9 @@ public class PostsController {
 //======================================================================================================================
 
     @GetMapping("/posts/{id}")
-    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment,
-                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
-                                       Pageable pageable) {
+    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment) {
+//                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
+//                                       Pageable pageable) {
 //        Post post = new Post(1L,"First Title", "First Description");
         Post post = postSvc.findOne(id);
         User user = userSvc.loggedInUser();
@@ -257,7 +257,8 @@ public class PostsController {
         viewModel.addAttribute("isParentComment", comment.isParentComment(comment));
 //        viewModel.addAttribute("comment", new Comment());
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
-        viewModel.addAttribute("page", commentSvc.postCommentsByPage(id, pageable));
+//        viewModel.addAttribute("page", commentSvc.postCommentsByPage(id, pageable));
+        viewModel.addAttribute("comments", commentSvc.commentsOnPost(id));
         viewModel.addAttribute("categories", categoriesDao.findAll());
 
         if (user != null) {
