@@ -213,7 +213,6 @@
                     <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
                 </h5>
 
-
                 <!-- =============================== Comment Body =========================-->
 
                 <div class="commentBodyWrapper">
@@ -361,10 +360,11 @@
                             <div class="form-group">
                                 <label for="replyFormBody"></label>
 
-                                <textarea class="form-control replyFormBody" id="replyFormBody" name="body"
+                                <!--<div contenteditable="true">-->
+                                <textarea contenteditable="true" class="form-control replyFormBody" id="replyFormBody" name="body"
                                           th:field="*{body}"
                                           th:attr="data-reply-form-body-comment-id=${comment.id}">
-                            </textarea>
+                                </textarea>
 
                                 <div class="repliesErrorAJAX" th:attr="data-reply-error-comment-id=${comment.id}"></div>
 
@@ -467,7 +467,7 @@
     $('.showReplyTextAreaCancel').hide(); // hide the Cancel button on load.
     $('#srch-term').val('');
 
-    //click on Reply, text changes to Cancel, etc:
+    //click on Reply, text changes to Cancel and opens textarea for reply form:
     $('.container').on("click", ".showReplyTextArea", function () {
         let $this = $(this);
         $this.hide();
@@ -475,9 +475,20 @@
         $this.siblings('.replyTextArea').first().toggle(250); ////USE BOOTSTRAP COLLAPSE??
         // you cannot focus on an element that is not yet visible. Order this last.
         $('.replyFormBody').val('').focus();
+
+        // send an ajax request to retrieve the username of the owner of the post:
+        let commentId = $this.data('show-reply-textarea-comment-id');
+        console.log("comment id:" + commentId);
+
+        $.get( '/posts/retrieveUsername/comment/' + commentId, function(user) {
+            $('.replyFormBody').val('@' + user.username + '   ');
+        });
     });
 
-    //click on Cancel, text changes to Reply, etc:
+    //be able to send a notification to a user. Once reply is submitted to controller, search for the string "@username" anywhere?
+    // and then search the database for that user then submit the body of the message or a custom message or both
+
+    //click on Cancel, text changes to Reply and closes textarea for reply form:
     $('.container').on("click", ".showReplyTextAreaCancel", function () {
         $('.replyFormBody').val('');
         let $this = $(this);
@@ -602,7 +613,6 @@
 
     $('.container').on("click", ".editCommentBtn", function () {
         console.log("edit button clicked");
-
 
         let $button = $(this);
         let commentId = $button.data('edit-btn-comment-id');
@@ -982,6 +992,7 @@
             let $commentEditFormTextarea = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
 
             let $childCommentDiv = $('[data-child-node-comment-id=' + commentId + ']');
+            let $commentBodyText = $('[data-comment-body-comment-id=' + commentId + ']');
 
             // if statement here to check if html is that error fragment! (html could be both error or comment)
             if (!(html.includes("commentBodyText"))) { // if html is an error,
@@ -1013,24 +1024,6 @@
                 scrollTop: $childCommentDiv.offset().top - $(window).height() / 2
             }, 100);
 
-            // W.I.P: the following is code to restrict the comment tree to get out of hand and run off the screen.
-            //=====================================================================================================
-            let commentWrapper = document.querySelector('.commentWrapper');
-            let commentSection = document.querySelector('.commentSection');
-            if ($(commentSection).has(commentWrapper).length) {
-                //do something
-            }
-            else {
-                //do something
-            }
-
-            if (!$.contains(commentSection, commentWrapper)) {
-
-            }
-            if (!isInViewport(commentWrapper)) {
-                $childCommentDiv.css("margin-left: 0em");
-            }
-            //=====================================================================================================
         });
 
         request.fail((a, b, c) => {
