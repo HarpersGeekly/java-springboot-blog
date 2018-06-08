@@ -40,11 +40,11 @@ public class CommentService {
         commentsDao.delete(id);
     }
 
-    public Page<Comment> postCommentsByPage(Long id, Pageable pageable) {
-        return commentsDao.postCommentsByPage(id, pageable);
+    public List<Comment> commentsOnPost(Long postId) {
+        return commentsDao.commentsOnPost(postId);
     }
 
-    public Comment saveNewComment(Comment parent, Post post, String body) {
+    public Comment saveNewComment(Post post, Comment parent, String body) {
 //      if (parent.getId() != null) {
 //            Comment parentComment = findOne(parent.getId());
 //
@@ -63,15 +63,15 @@ public class CommentService {
         return comment;
     }
 
-    //Deprecated:
-    public List<Comment> commentsOnPost(Long postId) {
-        return commentsDao.commentsOnPost(postId);
+
+    public Page<Comment> postCommentsByPage(Long id, Pageable pageable) {
+        return commentsDao.postCommentsByPage(id, pageable);
     }
 
-    //Deprecated:
     public long numberofCommentsOnPost(Long id) {
         return commentsDao.numberOfCommentsOnPost(id);
     }
+
 
 
 
