@@ -452,12 +452,14 @@ public class PostsController {
         Comment parent = commentSvc.findOne(parentId);
 //        List<Comment> children = parent.getChildrenComments();
 
+        viewModel.addAttribute("replyToUser", parent.getUser());
+
         if (validation.hasErrors()) {
             viewModel.addAttribute("comment", comment);
             return "fragments/commentError :: ajaxError";
         }
 
-        Comment newComment = commentSvc.saveNewComment(parent, post, body); // saving in the comment service
+        Comment newComment = commentSvc.saveNewComment(post, parent, body); // saving in the comment service
         viewModel.addAttribute("comment", newComment);
 //        viewModel.addAttribute("children", children);
         viewModel.addAttribute("post", post);
@@ -465,6 +467,12 @@ public class PostsController {
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
 //        viewModel.addAttribute("comments", commentsDao.commentsOnPost(post.getId()));
         return "fragments/comments :: ajaxComment";
+    }
+
+    @GetMapping("posts/retrieveUsername/comment/{commentId}")
+    public @ResponseBody User retrieveUsernameForReplyTextarea(@PathVariable Long commentId) {
+        Comment comment = commentSvc.findOne(commentId);
+        return comment.getUser();
     }
 
 
