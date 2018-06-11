@@ -62,7 +62,7 @@
 
                     <input type="hidden" id="editFormPassword" name="password" class="form-control" th:field="*{password}"/>
                     <input type="hidden" id="date" name="date" class="form-control" th:field="*{date}"/>
-                    <input type="hidden" id="profilePicture" name="profilePicture" class="form-control" th:field="*{profilePicture}"/>
+                    <input th:if="${user.getProfilePicture() != null}" type="hidden" id="profilePicture" name="profilePicture" class="form-control" th:field="*{profilePicture}"/>
 
                     <div class="container">
                         <div class="row">
@@ -154,8 +154,8 @@
 </div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<script type="text/javascript">
 
     $("#myBtn3").click(function () {
         $("#myModal3").modal({backdrop: "static"});
