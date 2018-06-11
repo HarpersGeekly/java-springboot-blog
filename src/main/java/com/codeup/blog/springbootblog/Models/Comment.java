@@ -48,13 +48,13 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String body, Post post, User user, LocalDateTime date, List<CommentVote> commentVotes) {
-        this.body = body;
-        this.post = post;
-        this.user = user;
-        this.date = date;
-        this.commentVotes = commentVotes;
-    }
+//    public Comment(String body, Post post, User user, LocalDateTime date, List<CommentVote> commentVotes) {
+//        this.body = body;
+//        this.post = post;
+//        this.user = user;
+//        this.date = date;
+//        this.commentVotes = commentVotes;
+//    }
 
     public boolean isOwnedBy(long userId) {
         return getUser() != null && getUser().getId().equals(userId);
@@ -153,11 +153,12 @@ public class Comment {
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
+//  if you don't have a parent comment, null, then you're a child comment.
     public boolean isParentComment(Comment comment) {
         return comment.getParentComment() == null;
     }
 
-    @JsonIgnore
+    @JsonIgnore ////jsonignore is just for the columns not for the whole object
     public Comment getParentComment() {
         return parentComment;
     }
@@ -176,17 +177,18 @@ public class Comment {
     }
 
     // handle the comment tree:
-    // Deprecated
-//    public int commentLevel() {
-//        Comment comment = this;
-//        int level = 0;
-//        while ((comment = comment.getParentComment()) != null)
-//            level++; //keep adding another level
-//        return level;
-//    }
+    @Deprecated
+    public int commentLevel() {
+        Comment comment = this;
+        int level = 0;
+        while ((comment = comment.getParentComment()) != null)
+            level++; //keep adding another level
+        return level;
+    }
 
     // Do I need this constructor?
-    public Comment(Comment parentComment, String body, Post post, User user, LocalDateTime date, List<CommentVote> commentVotes, List<Comment> childrenComments) {
+    public Comment(Long id, Comment parentComment, String body, Post post, User user, LocalDateTime date, List<CommentVote> commentVotes, List<Comment> childrenComments) {
+        this.id = id;
         this.parentComment = parentComment;
         this.body = body;
         this.post = post;
