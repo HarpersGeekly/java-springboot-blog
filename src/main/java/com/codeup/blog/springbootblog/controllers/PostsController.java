@@ -251,14 +251,16 @@ public class PostsController {
         Post post = postSvc.findOne(id);
         User user = userSvc.loggedInUser();
 
+        System.out.println("get to show.html controller");
+
         viewModel.addAttribute("post", post);
+        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("comment", comment);
+        viewModel.addAttribute("comments", commentSvc.commentsOnPost(id));
         viewModel.addAttribute("isParentComment", comment.isParentComment(comment));
 //        viewModel.addAttribute("comment", new Comment());
-        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
 //        viewModel.addAttribute("page", commentSvc.postCommentsByPage(id, pageable));
-        viewModel.addAttribute("comments", commentSvc.commentsOnPost(id));
         viewModel.addAttribute("categories", categoriesDao.findAll());
 
         if (user != null) {
@@ -451,8 +453,8 @@ public class PostsController {
         Post post = postSvc.findOne(postId);
         Comment parent = commentSvc.findOne(parentId);
 //        List<Comment> children = parent.getChildrenComments();
-
-        viewModel.addAttribute("replyToUser", parent.getUser());
+        viewModel.addAttribute("replyToUserId", parent.getUser().getId());
+        viewModel.addAttribute("replyToUserUsername", parent.getUser().getUsername());
 
         if (validation.hasErrors()) {
             viewModel.addAttribute("comment", comment);
@@ -465,6 +467,7 @@ public class PostsController {
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser()));
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
+
 //        viewModel.addAttribute("comments", commentsDao.commentsOnPost(post.getId()));
         return "fragments/comments :: ajaxComment";
     }

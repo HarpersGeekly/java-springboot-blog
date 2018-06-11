@@ -36,6 +36,7 @@
         <!-- =============================== Comment Body =========================-->
 
             <div class="commentBodyWrapper">
+                <a th:href="${'/profile/' + replyToUserId}" th:text="${'@' + replyToUserUsername}"></a>
                 <h5 th:text="${comment.body}" class="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
             </div>
 
