@@ -136,12 +136,13 @@
                                 <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
                             </h5>
 
+                            <!--<div th:each="image : ${post.postImage}">-->
+                                <!--<img th:src="${image.path}"/>-->
+                            <!--</div>-->
+
                             <div class="gradientBox">
                                 <div class="postDescription">
                                     <p th:utext="${post.htmlDescription}"></p>
-                                    <!--<div th:each="image : ${post.postImages}">-->
-                                        <!--<img th:src="${image.path}"/>-->
-                                    <!--</div>-->
                                 </div>
 
                                 <p>
