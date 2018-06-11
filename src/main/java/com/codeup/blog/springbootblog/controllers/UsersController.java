@@ -301,7 +301,7 @@ public class UsersController {
 
         // alert the user that they are no more...
         boolean success = (usersDao.findById(id) == null);
-        String deleteSuccess = "Your account has been deactivated.";
+        String deleteSuccess = "Sorry to see you go! Your account has been deactivated.";
         viewModel.addAttribute("user", new User()); //empty user. Still needed for view.
         viewModel.addAttribute("successDelete", success);
         viewModel.addAttribute("successMessage", deleteSuccess);
