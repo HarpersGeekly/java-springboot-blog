@@ -24,7 +24,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    @Pattern(regexp = "(?=^.{3,20}$)^[a-zA-Z][a-zA-Z0-9]*[._-]?[a-zA-Z0-9]+$", message = "")
+    @Pattern(regexp = "(?=^.{3,20}$)^[a-zA-Z][a-zA-Z0-9 ]*[._-]?[a-zA-Z0-9 ]+$", message = "")
     @NotBlank(message="Please enter a username.")
     private String username;
 
