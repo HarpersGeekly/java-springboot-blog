@@ -30,7 +30,7 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
 
 
     @Query(nativeQuery = true, value="SELECT * from posts p ORDER BY p.id DESC LIMIT 2")
-    List<Post> postsByResultRest();
+    List<Post> postsByResultSet();
 
 
 

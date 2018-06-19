@@ -42,7 +42,7 @@ public class PostService {
     }
 
     public List<Post> postsByResultSet() {
-        return postsDao.postsByResultRest();
+        return postsDao.postsByResultSet();
     }
 
     public Post findOne(Long id) {
