@@ -8,9 +8,13 @@ $('.postTextBodyDiv img').each(function() {
         ratio = img.height() / img.width();
         img.css("height", (maxWidth * ratio));
         img.css("width", maxWidth);
+        // To prevent the DOM bouncing around during resizing, hide it first.
+        // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
+        $('.postTextBodyDiv').removeClass('hidden');
         // img.attr("height", (maxWidth * ratio));
         // img.attr("width", maxWidth);
     }
+    $('.postTextBodyDiv').removeClass('hidden');
 });
 
 $('.postTextBodyDiv img').load(function() {
@@ -23,7 +27,9 @@ $('.postTextBodyDiv img').load(function() {
         ratio = img.height() / img.width();
         img.css("height", (maxWidth * ratio));
         img.css("width", maxWidth);
+        $('.postTextBodyDiv').removeClass('hidden');
         // img.attr("height", (maxWidth * ratio));
         // img.attr("width", maxWidth);
     }
+    $('.postTextBodyDiv').removeClass('hidden');
 });
