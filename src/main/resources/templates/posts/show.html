@@ -490,7 +490,7 @@
         $('.postTextBodyDiv').removeClass('hidden');
     });
 
-    $('.postTextBodyDiv img').load(function() {
+    $('.postTextBodyDiv img').on('load', function() {
 
         let maxWidth = 700;
         let ratio = 0;
@@ -514,7 +514,7 @@
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextAreaCancel').first().show();
-        $this.siblings('.replyTextArea').first().toggle(250); ////USE BOOTSTRAP COLLAPSE??
+        $this.siblings('.replyTextArea').slideDown(); ////USE BOOTSTRAP COLLAPSE??
         // you cannot focus on an element that is not yet visible. Order this last.
         $('.replyFormBody').val('').focus();
 
@@ -536,7 +536,7 @@
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextArea').first().show();
-        $this.siblings('.replyTextArea').first().toggle(250); ////USE BOOTSTRAP COLLAPSE??
+        $this.siblings('.replyTextArea').slideUp(); ////USE BOOTSTRAP COLLAPSE??
     });
 
     //==================================================================================================================
@@ -565,7 +565,7 @@
     //==================================================================================================================
     //========================================== scroll up on arrow click ==============================================
     //==================================================================================================================
-    
+
     $(window).scroll(function () {
         if ($(this).scrollTop() > 500) {
             $('.scrollUp').fadeIn("slow");
