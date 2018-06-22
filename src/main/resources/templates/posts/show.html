@@ -473,13 +473,12 @@
     //==================================================================================================================
     //===================================== Image Resizing On Load =====================================================
     //==================================================================================================================
-    $('.postTextBodyDiv img').each(function() {
+    $('.postTextBodyDiv img').each(function () {
 
         let maxWidth = 700;
         let ratio = 0;
         let img = $(this);
-
-        if(img.width() > maxWidth) {
+        if (img.width() > maxWidth) {
             ratio = img.height() / img.width();
             img.css("height", (maxWidth * ratio));
             img.css("width", maxWidth);
@@ -490,13 +489,12 @@
         $('.postTextBodyDiv').removeClass('hidden');
     });
 
-    $('.postTextBodyDiv img').on('load', function() {
+    $('.postTextBodyDiv img').on('load', function () {
 
         let maxWidth = 700;
         let ratio = 0;
         let img = $(this);
-
-        if(img.width() > maxWidth) {
+        if (img.width() > maxWidth) {
             ratio = img.height() / img.width();
             img.css("height", (maxWidth * ratio));
             img.css("width", maxWidth);
@@ -506,6 +504,7 @@
         }
         $('.postTextBodyDiv').removeClass('hidden');
     });
+
     //==================================================================================================================
     //===================================== Click Reply, Text Changes to Cancel, Vice Versa ============================
     //==================================================================================================================
@@ -536,7 +535,7 @@
         let $this = $(this);
         $this.hide();
         $this.siblings('.showReplyTextArea').first().show();
-        $this.siblings('.replyTextArea').slideUp(); ////USE BOOTSTRAP COLLAPSE??
+        $this.siblings('.replyTextArea').first().slideUp(); ////USE BOOTSTRAP COLLAPSE??
     });
 
     //==================================================================================================================
