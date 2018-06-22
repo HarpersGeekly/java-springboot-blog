@@ -101,8 +101,8 @@
     <div id="indexPagePostsWrapper">
 
         <!--<h2 id="postIntro">recent harps of the day...</h2>-->
-
-        <div class="content" th:each="post : ${posts}">
+        <div class="content" th:each="post : ${posts}" th:attr="data-post-id=${post.id}">
+        <!--<div class="content" th:each="post : ${page}">-->
 
             <div class="postWrapper">
                 <div class="postPicWrapper">
@@ -141,7 +141,7 @@
                             <!--</div>-->
 
                             <div class="gradientBox">
-                                <div class="postDescription">
+                                <div class="postDescription hidden">
                                     <p th:utext="${post.htmlDescription}"></p>
                                 </div>
 
@@ -160,10 +160,8 @@
             </div>
         <!--<hr class="commentHR"/>-->
         </div>
+        <div class="more-posts-go-here"></div>
     <hr style="border-width: 5px;"/>
-
-        <button id="show-more-posts" type="submit">Show More Posts Append to div="content"</button>
-
 
     <div class="popularityWrapperMobile">
 
@@ -241,7 +239,10 @@
 
     </div>
 
+</div>
 
+<div>
+    <button id="show-more-posts" type="submit">Show More Posts</button>
 </div>
 <!-- ================================================================================================================-->
 <!-- =========================================== PAGINATION =========================================================-->
@@ -302,73 +303,94 @@
 <!--</nav>-->
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
-    // $( document ).ready(function() {
-    $('.postDescription img').each(function () {
 
-        let maxWidth = 700;
-        let ratio = 0;
-        let img = $(this);
+        // $(".content").slice(0, 2).show();
+        // $("#show-more-posts").on('click', function () {
+        //     $(".content:hidden").slice(0, 2).slideDown();
+        //
+        //     if ($(".content:hidden").length === 0) {
+        //         $("#show-more-posts").fadeOut('slow');
+        //     }
+        // });
+        // ============================= IMAGE RESIZER ================================================
 
-        if (img.width() > maxWidth) {
-            ratio = img.height() / img.width();
-            img.css("height", (maxWidth * ratio));
-            img.css("width", maxWidth);
-            // img.attr("height", (maxWidth * ratio));
-            // img.attr("width", maxWidth);
-        }
-    });
+        // $(function(){
+        //     var width ="250px";
+        //     var height = "196px";
+        //     $("img")
+        //         .width(width)
+        //         .height(height)
+        //         .show();
+        // });
+        $('.postDescription img').each(function () {
+            let maxWidth = 700;
+            let ratio = 0;
+            let img = $(this);
 
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 500) {
-            $('.scrollUp').fadeIn("slow");
-        } else {
-            $('.scrollUp').fadeOut();
-        }
-    });
-    $('.scrollUp').click(function () {
-        $("html, body").animate({
-            scrollTop: 0
-        }, 500);
-        return false;
-    });
+            if (img.width() > maxWidth) {
+                ratio = img.height() / img.width();
+                img.css("height", (maxWidth * ratio));
+                img.css("width", maxWidth);
+                $('.postDescription').removeClass('hidden');
+                // img.attr("height", (maxWidth * ratio));
+                // img.attr("width", maxWidth);
+            }
+            $('.postDescription').removeClass('hidden');
+        });
 
-    // });
-//        var showChar = 100;
-//        var ellipsestext = "...";
-////        var moretext = "more";
-////        var lesstext = "less";
-//        $('.gradientBox').each(function() {
-//            var content = $(this).html();
-//
-//            if(content.length > showChar) {
-//
-//                var c = content.substr(0, showChar);
-//                var h = content.substr(showChar-1, content.length - showChar);
-//
-//                var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span>' +
-//                    '<span>' + h +
-//                    '</span>';
-//
-//                $(this).html(html);
-//            }
-//
-//        });
+        // ============================= RETURN TO TOP ON CLICK =======================================
 
-//        $(".read-more").click(function(){
-//            if($(this).hasClass("less")) {
-//                $(this).removeClass("less");
-//                $(this).html(moretext);
-//            } else {
-//                $(this).addClass("less");
-//                $(this).html(lesstext);
-//            }
-//            $(this).parent().prev().toggle();
-//            $(this).prev().toggle();
-//            return false;
-//        });
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 500) {
+                $('.scrollUp').fadeIn("slow");
+            } else {
+                $('.scrollUp').fadeOut();
+            }
+        });
+        $('.scrollUp').click(function () {
+            $("html, body").animate({
+                scrollTop: 0
+            }, 500);
+            return false;
+        });
 
+        // ============================= SHOW MORE CONTENT ON CLICK ===================================
 
+        // show more posts:
+        $('#show-more-posts').on("click", function () {
+            // $("#loading").html('Loading...').show();
+            let request = $.ajax({
+                type: 'GET',
+                url: '/posts/retrieveMorePosts/',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'html', //returning an html fragment from the controller, not a JSON object.
+            });
 
+            request.done((html) => {
+                $('.more-posts-go-here').append(html).hide().fadeIn();
+                $('html, body').animate({
+                    scrollTop: $('.scroll-to-more-posts').offset()
+                }, 2000);
+                $('.postDescription img').each(function () {
+
+                    let maxWidth = 700;
+                    let ratio = 0;
+                    let img = $(this);
+
+                    if (img.width() > maxWidth) {
+                        ratio = img.height() / img.width();
+                        img.css("height", (maxWidth * ratio));
+                        img.css("width", maxWidth);
+                        // img.attr("height", (maxWidth * ratio));
+                        // img.attr("width", maxWidth);
+                    }
+                });
+            });
+            request.fail((a, b, c) => {
+                console.log(a, b, c);
+                $('.more-posts-go-here').html("There is no more content to load.");
+            });
+        });
 </script>
 </body>
 </html>
