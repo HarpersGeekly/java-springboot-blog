@@ -64,9 +64,9 @@
 
                 <!-- ====================================== Post Description =================================-->
 
-                <!--<h5 id="postTextBody" th:text="${post.description}"></h5>-->
-                <div class="postTextBodyDiv"><span class="postTextBodyInnerText"
-                                                   th:utext="${post.htmlDescription}"></span></div>
+                <div class="postTextBodyDiv hidden">
+                    <p th:utext="${post.htmlDescription}"></p> <!--th:utext for markdown editor, not th:text-->
+                </div>
 
                 <!-- ====================================== Post Voting ======================================-->
 
@@ -202,7 +202,7 @@
             </div>
 
             <div class="commentInfoWrapper">
-                <h5 th:classappend="${isParentComment} ? parentComment : commentedBy">
+                <h5 th:classappend="${isParentComment} ? parentCommentStyling : commentedByStyling">
                     <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                         <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                     </a>
@@ -216,8 +216,11 @@
                 <!-- =============================== Comment Body =========================-->
 
                 <div class="commentBodyWrapper">
+                    <a th:href="${'/profile/' + comment.user.id}" th:text="${'@' + comment.user.username}"></a>
+
                     <h5 th:text="${comment.body}" class="commentBodyText"
-                        th:attr="data-comment-body-comment-id=${comment.id}"></h5>
+                        th:attr="data-comment-body-comment-id=${comment.id}">
+                    </h5>
                 </div>
 
                 <!-- =============================== Edit Form ============================-->
@@ -384,7 +387,7 @@
         </div>
 
         <!--SHOW CHILD COMMENTS UNDERNEATH PARENT COMMENT:-->
-        <div class="eachChildCommentDiv" th:each="child : ${comment.getChildrenComments()}">
+        <div class="eachChildCommentDiv indent-comment" th:each="child : ${comment.getChildrenComments()}">
             <div class="child-comment" th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
         </div>
 
@@ -460,7 +463,42 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <!--resize images in markdown:-->
 <script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>
-<script th:inline="javascript">
+<script>
+
+    $('.postTextBodyDiv img').each(function() {
+
+        let maxWidth = 700;
+        let ratio = 0;
+        let img = $(this);
+
+        if(img.width() > maxWidth) {
+            ratio = img.height() / img.width();
+            img.css("height", (maxWidth * ratio));
+            img.css("width", maxWidth);
+            $('.postTextBodyDiv').removeClass('hidden');
+            // img.attr("height", (maxWidth * ratio));
+            // img.attr("width", maxWidth);
+        }
+        $('.postTextBodyDiv').removeClass('hidden');
+    });
+
+    $('.postTextBodyDiv img').load(function() {
+
+        let maxWidth = 700;
+        let ratio = 0;
+        let img = $(this);
+
+        if(img.width() > maxWidth) {
+            ratio = img.height() / img.width();
+            img.css("height", (maxWidth * ratio));
+            img.css("width", maxWidth);
+            $('.postTextBodyDiv').removeClass('hidden');
+            // img.attr("height", (maxWidth * ratio));
+            // img.attr("width", maxWidth);
+        }
+        $('.postTextBodyDiv').removeClass('hidden');
+    });
+
 
     $('.replyTextArea').hide(); // hide the reply text area on load.
     $('.editedCommentForm').hide(); //hide the edit comment form on load.
@@ -480,9 +518,9 @@
         let commentId = $this.data('show-reply-textarea-comment-id');
         console.log("comment id:" + commentId);
 
-        $.get( '/posts/retrieveUsername/comment/' + commentId, function(user) {
-            $('.replyFormBody').val('@' + user.username + '   ');
-        });
+        // $.get( '/posts/retrieveUsername/comment/' + commentId, function(user) {
+        //     $('.replyFormBody').val('@' + user.username + '   ');
+        // });
     });
 
     //be able to send a notification to a user. Once reply is submitted to controller, search for the string "@username" anywhere?
