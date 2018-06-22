@@ -465,6 +465,14 @@
 <script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>
 <script>
 
+    $('.replyTextArea').hide(); // hide the reply text area on load.
+    $('.editedCommentForm').hide(); //hide the edit comment form on load.
+    $('.showReplyTextAreaCancel').hide(); // hide the Cancel button on load.
+    $('#srch-term').val('');
+
+    //==================================================================================================================
+    //===================================== Image Resizing On Load =====================================================
+    //==================================================================================================================
     $('.postTextBodyDiv img').each(function() {
 
         let maxWidth = 700;
@@ -498,13 +506,9 @@
         }
         $('.postTextBodyDiv').removeClass('hidden');
     });
-
-
-    $('.replyTextArea').hide(); // hide the reply text area on load.
-    $('.editedCommentForm').hide(); //hide the edit comment form on load.
-    $('.showReplyTextAreaCancel').hide(); // hide the Cancel button on load.
-    $('#srch-term').val('');
-
+    //==================================================================================================================
+    //===================================== Click Reply, Text Changes to Cancel, Vice Versa ============================
+    //==================================================================================================================
     //click on Reply, text changes to Cancel and opens textarea for reply form:
     $('.container').on("click", ".showReplyTextArea", function () {
         let $this = $(this);
@@ -561,8 +565,7 @@
     //==================================================================================================================
     //========================================== scroll up on arrow click ==============================================
     //==================================================================================================================
-
-
+    
     $(window).scroll(function () {
         if ($(this).scrollTop() > 500) {
             $('.scrollUp').fadeIn("slow");
