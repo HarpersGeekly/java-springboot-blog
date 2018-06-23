@@ -255,7 +255,6 @@
                 </div>
 
                 <!-- =============================== Comment Votes =========================-->
-
                 <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
 
                     <div class="upvoteDiv">
@@ -606,9 +605,6 @@
         });
         request.done((html) => {
             // request.done((comment) => { // no need for confusion here, not returning a comment, but html.
-
-            console.log("==== hello from ajax comment request.done");
-            //console.log(comment.id);
             //comment id's will always be undefined here because I'm not returning an object, I'm returning html.
 
             $('#commentFormBody').val(''); // clear the input field.
@@ -657,8 +653,8 @@
         let commentId = button.data('edit-btn-comment-id');
         let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
         commentEditForm.removeClass('hidden');
-        let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
-        $showReplyTextArea.css("display", "none");
+        let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
+        showReplyTextArea.addClass('hidden');
         console.log("commentid: " + commentId);
 
         //================================== AJAX ==================================
@@ -681,10 +677,10 @@
             let deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
             let editedCommentBodyText = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
 
-            commentBody.css("display", "none"); // hide the original comment body
-            commentVoting.css("display", "none"); // hide the comment votes
-            editBtn.css("display", "none"); // hide the edit button
-            deleteBtn.css("display", "none"); // hide the delete button
+            commentBody.addClass('hidden'); // hide the original comment body
+            commentVoting.addClass('hidden'); // hide the comment votes
+            editBtn.addClass('hidden'); // hide the edit button
+            deleteBtn.addClass('hidden'); // hide the delete button
             commentEditForm.css("display", "block"); // I just want to show "this" edit form
             editedCommentBodyText.text(comment.body); // put the text of comment.body inside the newly visible textarea.
 
@@ -694,12 +690,12 @@
             $('.editedCommentCancelBtn').on("click", function (e) { // on cancel button click...
                 e.preventDefault();
 
-                commentEditForm.css("display", "none"); // hide the edit form
-                commentBody.css("display", "block"); // show the original comment back in the html
-                commentVoting.css("display", "block"); // show the comment votes again
-                editBtn.css("display", "block");// show the edit button
-                deleteBtn.css("display", "block");// show the delete button
-                showReplyTextArea.css("display", "block"); // show the reply again
+                commentEditForm.addClass('hidden'); // hide the edit form
+                commentBody.removeClass('hidden'); // show the original comment back in the html
+                commentVoting.removeClass('hidden'); // show the comment votes again
+                editBtn.removeClass('hidden');// show the edit button
+                deleteBtn.removeClass('hidden');// show the delete button
+                showReplyTextArea.removeClass('hidden'); // show the reply again
             })
         });
         request.fail((a, b, c) => {
@@ -735,12 +731,12 @@
             let commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
             let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
 
-            commentEditForm.css("display", "none"); // hide the edit form
-            commentBody.show().html(comment.body); // show the new updated comment in the html
-            commentVoting.css("display", "block");
-            editBtn.css("display", "block");
-            deleteBtn.css("display", "block");
-            showReplyTextArea.css("display", "block");
+            commentEditForm.addClass('hidden'); // hide the edit form
+            commentBody.removeClass('hidden').html(comment.body); // show the new updated comment in the html
+            commentVoting.removeClass('hidden');
+            editBtn.removeClass('hidden');
+            deleteBtn.removeClass('hidden');
+            showReplyTextArea.removeClass('hidden');
         })
     });
 
