@@ -784,17 +784,17 @@
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
-            let $button = $(this);
-            let postId = $button.parent().data('upvote-post-id');
+            let button = $(this);
+            let postId = button.parent().data('upvote-post-id');
             console.log("you clicked an active vote on post:" + postId);
 
-            let $postFormUp = $('[data-upvote-post-id=' + postId + ']');
+            let postFormUp = $('[data-upvote-post-id=' + postId + ']');
 
             let request = $.ajax({
                 url: '/posts/' + postId + '/removeVote',
                 method: 'POST',
                 //dataType: 'json',
-                data: $postFormUp.serialize()
+                data: postFormUp.serialize()
             });
             request.done(function (post) {
 
@@ -804,8 +804,8 @@
             })
         } else {
             //upvote
-            let $button = $(this);
-            let postId = $button.parent().data('upvote-post-id');
+            let button = $(this);
+            let postId = button.parent().data('upvote-post-id');
             console.log(postId);
 
             let postFormUp = $('[data-upvote-post-id=' + postId + ']');
@@ -836,16 +836,16 @@
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
-            let $button = $(this);
-            let postId = $button.parent().data('downvote-post-id');
+            let button = $(this);
+            let postId = button.parent().data('downvote-post-id');
             console.log("you clicked an active vote on post:" + postId);
 
-            let $postFormDown = $('[data-downvote-post-id=' + postId + ']');
+            let postFormDown = $('[data-downvote-post-id=' + postId + ']');
 
             let request = $.ajax({
                 url: '/posts/' + postId + '/removeVote', // -> voteRemoval() in PostsController
                 method: 'POST',
-                data: $postFormDown.serialize()
+                data: postFormDown.serialize()
             });
             request.done(function (post) {
 
@@ -855,17 +855,17 @@
             })
         } else {
             //downvote
-            let $button = $(this);
-            let postId = $button.parent().data('downvote-post-id');
+            let button = $(this);
+            let postId = button.parent().data('downvote-post-id');
             console.log(postId);
 
-            let $postFormDown = $('[data-downvote-post-id=' + postId + ']');
+            let postFormDown = $('[data-downvote-post-id=' + postId + ']');
 
             let request = $.ajax({
-                url: $postFormDown.attr('action'), // -> postVoting() in PostsController
+                url: postFormDown.attr('action'), // -> postVoting() in PostsController
                 method: 'POST',
                 //dataType: 'json', // returning an object by default
-                data: $postFormDown.serialize()
+                data: postFormDown.serialize()
             });
             request.done(function (post) {
 
@@ -894,31 +894,31 @@
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
-            let $button = $(this);
-            let commentId = $button.parent().data('upvote-comment-id');
+            let button = $(this);
+            let commentId = button.parent().data('upvote-comment-id');
             console.log("you clicked an active vote on comment:" + commentId);
 
-            let $commentFormUp = $('[data-upvote-comment-id=' + commentId + ']');
+            let commentFormUp = $('[data-upvote-comment-id=' + commentId + ']');
 
             let request = $.ajax({
                 url: '/comment/' + commentId + '/removeVote',
                 method: 'POST',
                 dataType: 'json',
-                data: $commentFormUp.serialize()
+                data: commentFormUp.serialize()
             });
             request.done(function (comment) {
 
-                let $commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
-                let $commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
+                let commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
+                let commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
                 console.log("back from voteRemoval()");
-                $commentVoteCount.html(comment.voteCount);
-                $commentUpIcon.removeClass("stayActive");
+                commentVoteCount.html(comment.voteCount);
+                commentUpIcon.removeClass("stayActive");
             })
         } else {
             //upvote
-            let $button = $(this);
-            let commentId = $button.parent().data('upvote-comment-id');
+            let button = $(this);
+            let commentId = button.parent().data('upvote-comment-id');
             console.log(commentId);
 
             let commentFormUp = $('[data-upvote-comment-id=' + commentId + ']');
@@ -930,14 +930,14 @@
             });
             request.done(function (comment) {
 
-                let $commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
-                let $commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
-                let $commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
+                let commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
+                let commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
+                let commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
                 console.log("hello from comment upvote response");
-                $commentVoteCount.html(comment.voteCount);
-                $commentDownIcon.removeClass("stayActive");
-                $commentUpIcon.addClass("stayActive");
+                commentVoteCount.html(comment.voteCount);
+                commentDownIcon.removeClass("stayActive");
+                commentUpIcon.addClass("stayActive");
             })
         }
     });
@@ -947,31 +947,31 @@
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
-            let $button = $(this);
-            let commentId = $button.parent().data('downvote-comment-id');
+            let button = $(this);
+            let commentId = button.parent().data('downvote-comment-id');
             console.log("you clicked an active vote on comment:" + commentId);
 
-            let $commentFormUp = $('[data-downvote-comment-id=' + commentId + ']');
+            let commentFormUp = $('[data-downvote-comment-id=' + commentId + ']');
 
             let request = $.ajax({
                 url: '/comment/' + commentId + '/removeVote',
                 method: 'POST',
                 dataType: 'json',
-                data: $commentFormUp.serialize()
+                data: commentFormUp.serialize()
             });
             request.done(function (comment) {
 
-                let $commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
-                let $commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
+                let commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
+                let commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
                 console.log("back from voteRemoval()");
-                $commentVoteCount.html(comment.voteCount);
-                $commentDownIcon.removeClass("stayActive");
+                commentVoteCount.html(comment.voteCount);
+                commentDownIcon.removeClass("stayActive");
             })
         } else {
             //downvote
-            let $button = $(this);
-            let commentId = $button.parent().data('downvote-comment-id');
+            let button = $(this);
+            let commentId = button.parent().data('downvote-comment-id');
             console.log(commentId);
 
             let commentFormDown = $('[data-downvote-comment-id=' + commentId + ']');
@@ -983,14 +983,14 @@
             });
             request.done(function (comment) {
 
-                let $commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
-                let $commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
-                let $commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
+                let commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
+                let commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
+                let commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
                 console.log("hello from comment downvote response");
-                $commentVoteCount.html(comment.voteCount);
-                $commentUpIcon.removeClass("stayActive");
-                $commentDownIcon.addClass("stayActive");
+                commentVoteCount.html(comment.voteCount);
+                commentUpIcon.removeClass("stayActive");
+                commentDownIcon.addClass("stayActive");
             })
         }
     });
@@ -1002,61 +1002,61 @@
     $('.container').on("click", ".commentReplyBtn", function (e) {
         e.preventDefault();
 
-        let $button = $(this);
-        let commentId = $button.data('reply-submit-btn-comment-id');
+        let button = $(this);
+        let commentId = button.data('reply-submit-btn-comment-id');
         console.log(commentId);
-        let $replyForm = $('[data-reply-form-comment-id=' + commentId + ']');
+        let replyForm = $('[data-reply-form-comment-id=' + commentId + ']');
 
         let request = $.ajax({
-            url: $replyForm.attr('action'),
+            url: replyForm.attr('action'),
             method: 'POST',
-            data: $replyForm.serialize()
+            data: replyForm.serialize()
         });
         request.done((html) => {
             console.log("hello from reply response");
 
-            let $replyWrapper = $('[data-wrapper-reply-textarea-comment-id=' + commentId + ']');
-            let $replyError = $('[data-reply-error-comment-id=' + commentId + ']');
-            let $replyForm = $('[data-reply-form-comment-id=' + commentId + ']');
-            let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
-            let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
-            let $cancelReply = $('[data-cancel-reply-comment-id=' + commentId + ']');
+            let replyWrapper = $('[data-wrapper-reply-textarea-comment-id=' + commentId + ']');
+            let replyError = $('[data-reply-error-comment-id=' + commentId + ']');
+            let replyForm = $('[data-reply-form-comment-id=' + commentId + ']');
+            let replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
+            let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
+            let cancelReply = $('[data-cancel-reply-comment-id=' + commentId + ']');
 
-            let $commentEditFormWrapper = $('[data-edit-form-wrapper-comment-id=' + commentId + ']');
-            let $commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
-            let $commentEditFormTextarea = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
+            let commentEditFormWrapper = $('[data-edit-form-wrapper-comment-id=' + commentId + ']');
+            let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
+            let commentEditFormTextarea = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
 
-            let $childCommentDiv = $('[data-child-node-comment-id=' + commentId + ']');
-            let $commentBodyText = $('[data-comment-body-comment-id=' + commentId + ']');
+            let childCommentDiv = $('[data-child-node-comment-id=' + commentId + ']');
+            let commentBodyText = $('[data-comment-body-comment-id=' + commentId + ']');
 
             // if statement here to check if html is that error fragment! (html could be both error or comment)
             if (!(html.includes("commentBodyText"))) { // if html is an error,
-                $replyError.html(html).hide().fadeIn(); // error belongs in the error div.
+                replyError.html(html).hide().fadeIn(); // error belongs in the error div.
                 console.log("the response was an error. error validation in place.")
             }
 
             if (html.includes("commentBodyText")) { // if html is a comment...
-                if ($replyError.length >= 1) { // check if error exists first
-                    $replyError.css("display", "none"); // if error exists, hide it.
-                    $replyFormBody.val('');
+                if (replyError.length >= 1) { // check if error exists first
+                    replyError.css("display", "none"); // if error exists, hide it.
+                    replyFormBody.val('');
                     $('.showReplyTextArea').show();
-                    $('.editedCommentForm').hide(); //hide the edit form.
+                    $('.editedCommentForm').addClass('hidden'); //hide the edit form.
                     $('.replyTextArea').addClass('hidden'); // hide the reply text area.
-                    $('.showReplyTextAreaCancel').hide();
+                    $('.showReplyTextAreaCancel').addClass('hidden');
                     console.log("response was a comment.")
                 }
-                $childCommentDiv.append(html).hide().fadeIn(1500); //append the comment in the childCommentDiv
+                childCommentDiv.append(html).hide().fadeIn(1500); //append the comment in the childCommentDiv
             }
 
-            $replyFormBody.val('');
+            replyFormBody.val('');
             $('.showReplyTextArea').show();
-            $('.editedCommentForm').hide(); //hide the edit form.
+            $('.editedCommentForm').addClass('hidden'); //hide the edit form.
             $('.replyTextArea').addClass('hidden'); // hide the reply text area.
-            $('.showReplyTextAreaCancel').hide();
+            $('.showReplyTextAreaCancel').addClass('hidden');
 
             //scroll to reply when commented
             $('html, body').animate({
-                scrollTop: $childCommentDiv.offset().top - $(window).height() / 2
+                scrollTop: childCommentDiv.offset().top - $(window).height() / 2
             }, 100);
 
         });
