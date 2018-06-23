@@ -225,7 +225,7 @@
 
                 <!-- =============================== Edit Form ============================-->
 
-                <div class="editedCommentFormWrapper" th:attr="data-edit-form-wrapper-comment-id=${comment.id}">
+                <div class="editedCommentFormWrapper">
                     <form
                             th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
                             method="POST"
@@ -369,14 +369,12 @@
                                           th:attr="data-reply-form-body-comment-id=${comment.id}">
                                 </textarea>
 
-                                <div class="repliesErrorAJAX" th:attr="data-reply-error-comment-id=${comment.id}"></div>
-
                                 <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
                                 <button class="btn btn-primary commentReplyBtn"
                                         th:attr="data-reply-submit-btn-comment-id=${comment.id}">
                                     <i class="far fa-comment-alt"></i> Reply
                                 </button>
-
+                                <div class="repliesErrorAJAX" th:attr="data-reply-error-comment-id=${comment.id}"></div>
                             </div>
                         </form>
                     </div>
@@ -465,6 +463,7 @@
 <script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>
 <script>
 
+    let container = $('.container');
     $('#srch-term').val('');
 
     //==================================================================================================================
@@ -506,7 +505,7 @@
     //===================================== Click Reply, Text Changes to Cancel, Vice Versa ============================
     //==================================================================================================================
     //click on Reply, text changes to Cancel and opens textarea for reply form:
-    $('.container').on("click", ".showReplyTextArea", function () {
+    container.on("click", ".showReplyTextArea", function () {
         let $this = $(this);
         $this.addClass('hidden');
         $this.siblings('.showReplyTextAreaCancel').removeClass('hidden');
@@ -528,7 +527,7 @@
     // and then search the database for that user then submit the body of the message or a custom message or both
 
     //click on Cancel, text changes to Reply and closes textarea for reply form:
-    $('.container').on("click", ".showReplyTextAreaCancel", function () {
+    container.on("click", ".showReplyTextAreaCancel", function () {
         $('.replyFormBody').val('');
         let $this = $(this);
         $this.addClass('hidden');
@@ -588,7 +587,7 @@
     <!-- =================================================================================================================-->
 
     $('.commentSubmitBtn').on("click", function (e) {
-        console.log($('.commentForm').serialize());
+        // console.log($('.commentForm').serialize());
         e.preventDefault();
 
         let commentId = $('.commentWrapper').data('[data-edit-delete-comment-id]');
@@ -621,8 +620,8 @@
                 $('.commentsAJAX').prepend(html).hide().fadeIn(); // comment belongs in the comment div
             }
 
-            $('.editedCommentForm').addClass('hidden'); //hide the edit form.
-            $('.replyTextArea').addClass('hidden'); // hide the reply text area.
+            // $('.editedCommentForm').addClass('hidden'); //hide the edit form.
+            // $('.replyTextArea').addClass('hidden'); // hide the reply text area.
             $('.showReplyTextAreaCancel').addClass('hidden');
             $('.replyFormBody').val('');
             $('#commentedBy').css("background-color", "papayawhip");
@@ -646,8 +645,7 @@
     //A new textarea is revealed in place of the comment.body. Textarea should be populated with the original comment text. (controller)
     //When I click on the new submit button, new data should replace the previous data. (controller)
 
-    $('.container').on("click", ".editCommentBtn", function () {
-        console.log("edit button clicked");
+    container.on("click", ".editCommentBtn", function () {
 
         let button = $(this);
         let commentId = button.data('edit-btn-comment-id');
@@ -655,7 +653,6 @@
         commentEditForm.removeClass('hidden');
         let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
         showReplyTextArea.addClass('hidden');
-        console.log("commentid: " + commentId);
 
         //================================== AJAX ==================================
         let request = $.ajax({
@@ -666,8 +663,6 @@
             data: commentId
         });
         request.done(function (comment) {
-            console.log("hello from edited comment request.done");
-            console.log("comment body: " + comment.body);
 
             let commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
             let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
@@ -708,7 +703,7 @@
     <!-- ============================================ SUBMIT EDITED Comment ==============================================-->
     <!-- =================================================================================================================-->
 
-    $('.container').on("click", ".editedCommentSubmitBtn", function (e) {
+    container.on("click", ".editedCommentSubmitBtn", function (e) {
         e.preventDefault();
 
         let button = $(this);
@@ -744,7 +739,7 @@
     <!-- ============================================== DELETE Comment  ==================================================-->
     <!-- =================================================================================================================-->
 
-    $('.container').on("click", ".deleteCommentBtn", function (e) {
+    container.on("click", ".deleteCommentBtn", function (e) {
         // use event delegation that targets an elements parent, something, that isn't dynamic: .container
         e.preventDefault(); // prevent default form behavior and instead use ajax.
         let commentInformation = $(this).parent().serialize();
@@ -775,15 +770,13 @@
     <!-- ============================================== POST VOTING  =====================================================-->
     <!-- =================================================================================================================-->
 
-    $('.container').on("click", ".postUpvote", function (e) {
+    container.on("click", ".postUpvote", function (e) {
         e.preventDefault(); // prevent default form behavior and instead use ajax.
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
             let button = $(this);
             let postId = button.parent().data('upvote-post-id');
-            console.log("you clicked an active vote on post:" + postId);
-
             let postFormUp = $('[data-upvote-post-id=' + postId + ']');
 
             let request = $.ajax({
@@ -794,7 +787,6 @@
             });
             request.done(function (post) {
 
-                console.log("back from voteRemoval()");
                 $('.postVoteCount').html(post.voteCount);
                 $('.postUpvote').removeClass("stayActive");
             })
@@ -802,8 +794,6 @@
             //upvote
             let button = $(this);
             let postId = button.parent().data('upvote-post-id');
-            console.log(postId);
-
             let postFormUp = $('[data-upvote-post-id=' + postId + ']');
 
             let request = $.ajax({
@@ -813,7 +803,6 @@
             });
             request.done(function (post) {
 
-                console.log("back from postVoting() in controller");
                 $('.postVoteCount').html(post.voteCount);
                 $('.postDownvote').removeClass("stayActive");
                 $('.postUpvote').addClass("stayActive");
@@ -827,15 +816,13 @@
         }
     });
 
-    $('.container').on("click", ".postDownvote", function (e) {
+    container.on("click", ".postDownvote", function (e) {
         e.preventDefault(); // prevent default form behavior and instead use ajax.
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
             let button = $(this);
             let postId = button.parent().data('downvote-post-id');
-            console.log("you clicked an active vote on post:" + postId);
-
             let postFormDown = $('[data-downvote-post-id=' + postId + ']');
 
             let request = $.ajax({
@@ -845,7 +832,6 @@
             });
             request.done(function (post) {
 
-                console.log("back from voteRemoval() in controller");
                 $('.postVoteCount').html(post.voteCount);
                 $('.postDownvote').removeClass("stayActive");
             })
@@ -853,8 +839,6 @@
             //downvote
             let button = $(this);
             let postId = button.parent().data('downvote-post-id');
-            console.log(postId);
-
             let postFormDown = $('[data-downvote-post-id=' + postId + ']');
 
             let request = $.ajax({
@@ -864,8 +848,6 @@
                 data: postFormDown.serialize()
             });
             request.done(function (post) {
-
-                console.log("back from postVoting() in controller");
 
                 $('.postVoteCount').html(post.voteCount);
                 $('.postUpvote').removeClass("stayActive");
@@ -885,15 +867,13 @@
     <!-- ============================================== COMMENT VOTING  ==================================================-->
     <!-- =================================================================================================================-->
 
-    $('.container').on("click", ".commentUpvote", function (e) {
+    container.on("click", ".commentUpvote", function (e) {
         e.preventDefault();
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
             let button = $(this);
             let commentId = button.parent().data('upvote-comment-id');
-            console.log("you clicked an active vote on comment:" + commentId);
-
             let commentFormUp = $('[data-upvote-comment-id=' + commentId + ']');
 
             let request = $.ajax({
@@ -907,7 +887,6 @@
                 let commentUpIcon = $('[data-upvoteIcon-comment-id=' + commentId + ']');
                 let commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
-                console.log("back from voteRemoval()");
                 commentVoteCount.html(comment.voteCount);
                 commentUpIcon.removeClass("stayActive");
             })
@@ -915,8 +894,6 @@
             //upvote
             let button = $(this);
             let commentId = button.parent().data('upvote-comment-id');
-            console.log(commentId);
-
             let commentFormUp = $('[data-upvote-comment-id=' + commentId + ']');
 
             let request = $.ajax({
@@ -930,7 +907,6 @@
                 let commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
                 let commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
-                console.log("hello from comment upvote response");
                 commentVoteCount.html(comment.voteCount);
                 commentDownIcon.removeClass("stayActive");
                 commentUpIcon.addClass("stayActive");
@@ -938,15 +914,13 @@
         }
     });
 
-    $('.container').on("click", ".commentDownvote", function (e) {
+    container.on("click", ".commentDownvote", function (e) {
         e.preventDefault();
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
             let button = $(this);
             let commentId = button.parent().data('downvote-comment-id');
-            console.log("you clicked an active vote on comment:" + commentId);
-
             let commentFormUp = $('[data-downvote-comment-id=' + commentId + ']');
 
             let request = $.ajax({
@@ -960,7 +934,6 @@
                 let commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
                 let commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
-                console.log("back from voteRemoval()");
                 commentVoteCount.html(comment.voteCount);
                 commentDownIcon.removeClass("stayActive");
             })
@@ -968,8 +941,6 @@
             //downvote
             let button = $(this);
             let commentId = button.parent().data('downvote-comment-id');
-            console.log(commentId);
-
             let commentFormDown = $('[data-downvote-comment-id=' + commentId + ']');
 
             let request = $.ajax({
@@ -983,7 +954,6 @@
                 let commentDownIcon = $('[data-downvoteIcon-comment-id=' + commentId + ']');
                 let commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
-                console.log("hello from comment downvote response");
                 commentVoteCount.html(comment.voteCount);
                 commentUpIcon.removeClass("stayActive");
                 commentDownIcon.addClass("stayActive");
@@ -995,12 +965,11 @@
     <!-- ============================================== REPLY TO COMMENTS  ===============================================-->
     <!-- =================================================================================================================-->
 
-    $('.container').on("click", ".commentReplyBtn", function (e) {
+    container.on("click", ".commentReplyBtn", function (e) {
         e.preventDefault();
 
         let button = $(this);
         let commentId = button.data('reply-submit-btn-comment-id');
-        console.log(commentId);
         let replyForm = $('[data-reply-form-comment-id=' + commentId + ']');
 
         let request = $.ajax({
@@ -1009,52 +978,47 @@
             data: replyForm.serialize()
         });
         request.done((html) => {
-            console.log("hello from reply response");
 
             let replyWrapper = $('[data-wrapper-reply-textarea-comment-id=' + commentId + ']');
             let replyError = $('[data-reply-error-comment-id=' + commentId + ']');
             let replyForm = $('[data-reply-form-comment-id=' + commentId + ']');
             let replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
             let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
-            let cancelReply = $('[data-cancel-reply-comment-id=' + commentId + ']');
-
-            let commentEditFormWrapper = $('[data-edit-form-wrapper-comment-id=' + commentId + ']');
+            let cancelReply = $('[data-cancel-reply-textarea-comment-id=' + commentId + ']');
             let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
-            let commentEditFormTextarea = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
-
             let childCommentDiv = $('[data-child-node-comment-id=' + commentId + ']');
-            let commentBodyText = $('[data-comment-body-comment-id=' + commentId + ']');
 
-            // if statement here to check if html is that error fragment! (html could be both error or comment)
+            // if statement here to check if html is that error fragment. (html could be both error or comment)
             if (!(html.includes("commentBodyText"))) { // if html is an error,
-                replyError.html(html).hide().fadeIn(); // error belongs in the error div.
+                // $('.repliesErrorAJAX').html(html).hide().fadeIn() // error belongs in the error div.
+                replyError.html(html); // error belongs in the error div.
+
+                showReplyTextArea.addClass('hidden');
+                cancelReply.removeClass('hidden');
+                replyWrapper.removeClass('hidden');
+                replyForm.removeClass('hidden');
+                replyFormBody.removeClass('hidden');
                 console.log("the response was an error. error validation in place.")
             }
 
             if (html.includes("commentBodyText")) { // if html is a comment...
                 if (replyError.length >= 1) { // check if error exists first
-                    replyError.css("display", "none"); // if error exists, hide it.
+                    replyError.addClass('hidden'); // if error exists, hide it.
                     replyFormBody.val('');
-                    $('.showReplyTextArea').show();
-                    $('.editedCommentForm').addClass('hidden'); //hide the edit form.
-                    $('.replyTextArea').addClass('hidden'); // hide the reply text area.
-                    $('.showReplyTextAreaCancel').addClass('hidden');
+                    showReplyTextArea.removeClass('hidden');
+                    commentEditForm.addClass('hidden'); //hide the edit form.
+                    replyWrapper.addClass('hidden'); // hide the reply text area.
                     console.log("response was a comment.")
+                    cancelReply.addClass('hidden');
                 }
                 childCommentDiv.append(html).hide().fadeIn(1500); //append the comment in the childCommentDiv
+
+                //scroll to reply when commented
+                $('html, body').animate({
+                    scrollTop: childCommentDiv.offset().top - $(window).height() / 2
+                }, 100);
             }
-
             replyFormBody.val('');
-            $('.showReplyTextArea').show();
-            $('.editedCommentForm').addClass('hidden'); //hide the edit form.
-            $('.replyTextArea').addClass('hidden'); // hide the reply text area.
-            $('.showReplyTextAreaCancel').addClass('hidden');
-
-            //scroll to reply when commented
-            $('html, body').animate({
-                scrollTop: childCommentDiv.offset().top - $(window).height() / 2
-            }, 100);
-
         });
 
         request.fail((a, b, c) => {
