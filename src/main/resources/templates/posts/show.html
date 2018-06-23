@@ -76,7 +76,7 @@
                         <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
                         <div th:if="${!isLoggedIn}">
                             <a th:href="${'/login'}">
-                                <i class="far fa-thumbs-up"></i>
+                                <i class="fas fa-thumbs-up"></i>
                             </a>
                         </div>
                         <!--if logged in: upvote and downvote arrows function normally.-->
@@ -84,7 +84,7 @@
                             <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
                                   th:attr="data-upvote-post-id=${post.id}">
                                 <i th:classappend="${upvote} ? stayActive : postUpvote"
-                                   class="far fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
+                                   class="fas fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
                                 <!--when clicked, stayActive class will be added or removed.-->
                             </form>
                         </div>
@@ -104,13 +104,13 @@
                             <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
                                   th:attr="data-downvote-post-id=${post.id}">
                                 <i th:classappend="${downvote} ? stayActive : postDownvote"
-                                   class="far fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
+                                   class="fas fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
                             </form>
                         </div>
 
                         <div th:if="${!isLoggedIn}">
                             <a th:href="${'/login'}">
-                                <i class="far fa-thumbs-down"></i>
+                                <i class="fas fa-thumbs-down"></i>
                             </a>
                         </div>
                     </div>
@@ -230,7 +230,7 @@
                             th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
                             method="POST"
                             th:object="${comment}"
-                            class="editedCommentForm" id="editedCommentFormId"
+                            class="editedCommentForm hidden" id="editedCommentFormId"
                             th:attr="data-edit-form-comment-id=${comment.id}">
 
                         <textarea class="form-control editedCommentBodyText" name="body"
@@ -262,7 +262,7 @@
 
                         <div th:if="${!isLoggedIn}">
                             <a th:href="${'/login'}">
-                                <i class="far fa-thumbs-up"></i>
+                                <i class="fas fa-thumbs-up"></i>
                             </a>
                         </div>
                         <!--if logged in: upvote and downvote arrows function normally.-->
@@ -270,7 +270,7 @@
                             <form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"
                                   th:attr="data-upvote-comment-id=${comment.id}">
                                 <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isUpvote()} ? stayActive : commentUpvote"
-                                   class="far fa-thumbs-up commentUpvote"
+                                   class="fas fa-thumbs-up commentUpvote"
                                    th:if="${isLoggedIn}" th:attr="data-upvoteIcon-comment-id=${comment.id}"></i>
                             </form>
                         </div>
@@ -288,13 +288,13 @@
                             <form th:action="@{/comment/downvote/{commentId}(commentId=${comment.id})}" method="POST"
                                   th:attr="data-downvote-comment-id=${comment.id}">
                                 <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isDownvote()} ? stayActive : commentDownvote"
-                                   class="far fa-thumbs-down commentDownvote"
+                                   class="fas fa-thumbs-down commentDownvote"
                                    th:if="${isLoggedIn}" th:attr="data-downvoteIcon-comment-id=${comment.id}"></i>
                             </form>
                         </div>
                         <div th:if="${!isLoggedIn}">
                             <a th:href="${'/login'}">
-                                <i class="far fa-thumbs-down"></i>
+                                <i class="fas fa-thumbs-down"></i>
                             </a>
                         </div>
                     </div>
@@ -350,12 +350,13 @@
                         <!--data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
                         <i class="fas fa-reply"></i> REPLY
                     </h5>
-                    <h5 class="showReplyTextAreaCancel" th:attr="data-cancel-reply-textarea-comment-id=${comment.id}">
+                    <h5 class="showReplyTextAreaCancel hidden" th:attr="data-cancel-reply-textarea-comment-id=${comment.id}">
                         <i class="fas fa-times"></i> CANCEL
                     </h5>
 
                     <!--<div class="replyTextArea collapse" id="collapseExample" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">-->
-                    <div class="replyTextArea" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">
+                    <div class="replyTextArea hidden" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">
+
                         <form th:action="@{/posts/{postId}/comment/{commentId}/reply(postId=${post.id},commentId=${comment.id})}"
                               method="post"
                               th:object="${comment}"
@@ -465,9 +466,6 @@
 <script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>
 <script>
 
-    $('.replyTextArea').hide(); // hide the reply text area on load.
-    $('.editedCommentForm').hide(); //hide the edit comment form on load.
-    $('.showReplyTextAreaCancel').hide(); // hide the Cancel button on load.
     $('#srch-term').val('');
 
     //==================================================================================================================
@@ -511,9 +509,10 @@
     //click on Reply, text changes to Cancel and opens textarea for reply form:
     $('.container').on("click", ".showReplyTextArea", function () {
         let $this = $(this);
-        $this.hide();
-        $this.siblings('.showReplyTextAreaCancel').first().show();
-        $this.siblings('.replyTextArea').slideDown(); ////USE BOOTSTRAP COLLAPSE??
+        $this.addClass('hidden');
+        $this.siblings('.showReplyTextAreaCancel').removeClass('hidden');
+        $this.siblings('.replyTextArea').removeClass('hidden'); ////USE BOOTSTRAP COLLAPSE??
+        // $this.siblings('.replyTextArea').slideDown(); ////USE BOOTSTRAP COLLAPSE??
         // you cannot focus on an element that is not yet visible. Order this last.
         $('.replyFormBody').val('').focus();
 
@@ -533,9 +532,9 @@
     $('.container').on("click", ".showReplyTextAreaCancel", function () {
         $('.replyFormBody').val('');
         let $this = $(this);
-        $this.hide();
-        $this.siblings('.showReplyTextArea').first().show();
-        $this.siblings('.replyTextArea').first().slideUp(); ////USE BOOTSTRAP COLLAPSE??
+        $this.addClass('hidden');
+        $this.siblings('.showReplyTextArea').removeClass('hidden');
+        $this.siblings('.replyTextArea').addClass('hidden'); ////USE BOOTSTRAP COLLAPSE??
     });
 
     //==================================================================================================================
@@ -594,8 +593,8 @@
         e.preventDefault();
 
         let commentId = $('.commentWrapper').data('[data-edit-delete-comment-id]');
-        let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
-        $replyFormBody.val('');
+        let replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
+        replyFormBody.val('');
 
         let request = $.ajax({
             // crossOrigin: true, //XSS shield.
@@ -626,9 +625,9 @@
                 $('.commentsAJAX').prepend(html).hide().fadeIn(); // comment belongs in the comment div
             }
 
-            $('.editedCommentForm').hide(); //hide the edit form.
-            $('.replyTextArea').hide(); // hide the reply text area.
-            $('.showReplyTextAreaCancel').hide();
+            $('.editedCommentForm').addClass('hidden'); //hide the edit form.
+            $('.replyTextArea').addClass('hidden'); // hide the reply text area.
+            $('.showReplyTextAreaCancel').addClass('hidden');
             $('.replyFormBody').val('');
             $('#commentedBy').css("background-color", "papayawhip");
 
@@ -654,8 +653,10 @@
     $('.container').on("click", ".editCommentBtn", function () {
         console.log("edit button clicked");
 
-        let $button = $(this);
-        let commentId = $button.data('edit-btn-comment-id');
+        let button = $(this);
+        let commentId = button.data('edit-btn-comment-id');
+        let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
+        commentEditForm.removeClass('hidden');
         let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
         $showReplyTextArea.css("display", "none");
         console.log("commentid: " + commentId);
@@ -672,20 +673,20 @@
             console.log("hello from edited comment request.done");
             console.log("comment body: " + comment.body);
 
-            let $commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
-            let $commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
-            let $commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
-            let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
-            let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
-            let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
-            let $editedCommentBodyText = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
+            let commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
+            let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
+            let commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
+            let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
+            let editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
+            let deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
+            let editedCommentBodyText = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
 
-            $commentBody.css("display", "none"); // hide the original comment body
-            $commentVoting.css("display", "none"); // hide the comment votes
-            $editBtn.css("display", "none"); // hide the edit button
-            $deleteBtn.css("display", "none"); // hide the delete button
-            $commentEditForm.css("display", "block"); // I just want to show "this" edit form
-            $editedCommentBodyText.text(comment.body); // put the text of comment.body inside the newly visible textarea.
+            commentBody.css("display", "none"); // hide the original comment body
+            commentVoting.css("display", "none"); // hide the comment votes
+            editBtn.css("display", "none"); // hide the edit button
+            deleteBtn.css("display", "none"); // hide the delete button
+            commentEditForm.css("display", "block"); // I just want to show "this" edit form
+            editedCommentBodyText.text(comment.body); // put the text of comment.body inside the newly visible textarea.
 
             //================= cancel button ====================
             //====================================================
@@ -693,12 +694,12 @@
             $('.editedCommentCancelBtn').on("click", function (e) { // on cancel button click...
                 e.preventDefault();
 
-                $commentEditForm.css("display", "none"); // hide the edit form
-                $commentBody.css("display", "block"); // show the original comment back in the html
-                $commentVoting.css("display", "block"); // show the comment votes again
-                $editBtn.css("display", "block");// show the edit button
-                $deleteBtn.css("display", "block");// show the delete button
-                $showReplyTextArea.css("display", "block"); // show the reply again
+                commentEditForm.css("display", "none"); // hide the edit form
+                commentBody.css("display", "block"); // show the original comment back in the html
+                commentVoting.css("display", "block"); // show the comment votes again
+                editBtn.css("display", "block");// show the edit button
+                deleteBtn.css("display", "block");// show the delete button
+                showReplyTextArea.css("display", "block"); // show the reply again
             })
         });
         request.fail((a, b, c) => {
@@ -714,8 +715,8 @@
     $('.container').on("click", ".editedCommentSubmitBtn", function (e) {
         e.preventDefault();
 
-        let $button = $(this);
-        let commentId = $button.parent().parent().data('edit-form-comment-id'); // get id
+        let button = $(this);
+        let commentId = button.parent().parent().data('edit-form-comment-id'); // get id
         // let content = $button.parent().children('textarea').text(); // I don't have to grab the content in the form.
         let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']'); // because I can just get the form
 
@@ -726,22 +727,20 @@
             data: commentEditForm.serialize()
         });
         request.done(function (comment) {
-            console.log("hello from submitted edited comment request.done");
-            console.log("new comment: " + comment.body);
 
-            let $commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
-            let $commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
-            let $editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
-            let $deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
-            let $commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
-            let $showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
+            let commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
+            let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
+            let editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
+            let deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
+            let commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
+            let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
 
-            $commentEditForm.css("display", "none"); // hide the edit form
-            $commentBody.show().html(comment.body); // show the new updated comment in the html
-            $commentVoting.css("display", "block");
-            $editBtn.css("display", "block");
-            $deleteBtn.css("display", "block");
-            $showReplyTextArea.css("display", "block");
+            commentEditForm.css("display", "none"); // hide the edit form
+            commentBody.show().html(comment.body); // show the new updated comment in the html
+            commentVoting.css("display", "block");
+            editBtn.css("display", "block");
+            deleteBtn.css("display", "block");
+            showReplyTextArea.css("display", "block");
         })
     });
 
@@ -753,12 +752,10 @@
         // use event delegation that targets an elements parent, something, that isn't dynamic: .container
         e.preventDefault(); // prevent default form behavior and instead use ajax.
         let commentInformation = $(this).parent().serialize();
-        console.log(commentInformation);
 
-        let $button = $(this);
+        let button = $(this);
         // Look for element with this attribute. We're looking for siblings(other comments) within the container.
-        let commentId = $button.siblings('[data-comment-id]').data('comment-id');
-        console.log(commentId);
+        let commentId = button.siblings('[data-comment-id]').data('comment-id');
 
         let request = $.ajax({
             url: '/posts/' + $("#postId").val() + '/comment/' + commentId + '/delete',
@@ -768,8 +765,6 @@
         });
         request.done(function () {
 
-            console.log("hello from delete request.done");
-            console.log($button);
             $('[data-edit-delete-comment-id=' + commentId + ']').fadeOut("slow", function () {
                 $('[data-edit-delete-comment-id=' + commentId + ']').remove(); // new way targets element directly.
             })
@@ -1046,7 +1041,7 @@
                     $replyFormBody.val('');
                     $('.showReplyTextArea').show();
                     $('.editedCommentForm').hide(); //hide the edit form.
-                    $('.replyTextArea').hide(); // hide the reply text area.
+                    $('.replyTextArea').addClass('hidden'); // hide the reply text area.
                     $('.showReplyTextAreaCancel').hide();
                     console.log("response was a comment.")
                 }
@@ -1056,7 +1051,7 @@
             $replyFormBody.val('');
             $('.showReplyTextArea').show();
             $('.editedCommentForm').hide(); //hide the edit form.
-            $('.replyTextArea').hide(); // hide the reply text area.
+            $('.replyTextArea').addClass('hidden'); // hide the reply text area.
             $('.showReplyTextAreaCancel').hide();
 
             //scroll to reply when commented
