@@ -19,7 +19,7 @@ $('.postTextBodyDiv').each(function() {
         $('.postTextBodyDiv').removeClass('hidden');
 });
 
-$('.postTextBodyDiv').load(function() {
+$('.postTextBodyDiv').on('load', function() {
     if ($(this).find('img').length) {
         // there is an image in this div, do something...
         let maxWidth = 700;

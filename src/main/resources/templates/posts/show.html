@@ -75,9 +75,9 @@
 
                         <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
                         <div th:if="${!isLoggedIn}">
-                            <a th:href="${'/login'}">
-                                <i class="fas fa-thumbs-up"></i>
-                            </a>
+                                <a th:href="${'/login'}">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </a>
                         </div>
                         <!--if logged in: upvote and downvote arrows function normally.-->
                         <div th:if="${isLoggedIn}">
