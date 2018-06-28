@@ -20,19 +20,20 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
     @Query("SELECT DISTINCT p FROM Post p JOIN p.user u JOIN p.categories c WHERE p.title LIKE ?1 OR p.description LIKE ?1 OR u.username LIKE ?1 OR c.name LIKE ?1 ORDER BY p.id DESC")
     List<Post> searchPostsWithKeyword(String term);
 
-//    @Deprecated
-//    @Query(nativeQuery = true,
-//            countQuery = "SELECT count(*) FROM redwood_blog_db.posts p", /*need to count rows for pagination */
-//            value =
-//                    "SELECT * from redwood_blog_db.posts p ORDER BY p.id DESC, ?#{#pageable}")
-//    Page<Post> postsByPage(Pageable pageable);
+    // When you land on the index page, you will always see the latest number of posts.
+    @Query(nativeQuery = true, value="SELECT * from posts p ORDER BY p.id DESC LIMIT 3")
+    List<Post> postsByResultSetIndexPage();
 
-
-
-    @Query(nativeQuery = true, value="SELECT * from posts p ORDER BY p.id DESC LIMIT 2")
+    // When you click the Load More Posts button, you will see the next set. Use this or pagination @Deprecated?
+    @Query(nativeQuery = true, value="SELECT * from posts p ORDER BY p.id DESC") //LIMIT ?1
     List<Post> postsByResultSet();
 
-
+    @Deprecated
+    @Query(nativeQuery = true,
+            countQuery = "SELECT count(*) FROM redwood_blog_db.posts p", /*need to count rows for pagination */
+            value =
+                    "SELECT * from redwood_blog_db.posts p ORDER BY p.id DESC, ?#{#pageable}")
+    Page<Post> postsByPage(Pageable pageable);
 
     @Query(nativeQuery = true,
             value = "SELECT p.id, p.created_date, p.description, p.title, p.user_id from posts p JOIN comments c ON p.id = c.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
