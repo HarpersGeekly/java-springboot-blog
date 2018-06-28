@@ -10,7 +10,7 @@
     <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
 </div>
 
-<a href="#" class="scrollUp"><i class="fas fa-arrow-circle-up"></i></a>
+<a href="#" class="scrollUp"><i class="fas fa-arrow-circle-up indent"></i></a>
 
 <div class="dropdown btn-group">
     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -115,26 +115,30 @@
                 </div>
 
                 <div class="postInfoWrapper">
-                    <ul>
-                        <li>
+
+                        <div class="indent">
                             <h4 th:text="${post.title}" class="postTitleIndexPage">
                                 <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
                             </h4>
 
-                            <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                            <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
-                            <i class="fas fa-comments postCommentIconIndex"></i>
-                            <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
                             <div class="post-tags">
                                 <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
                             </div>
-                            <h5><a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+
+                            <h5>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
                                 <span th:text="${post.user.username}"></span></a>
                                 <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
                                 <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
                                 <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
                                 <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
                             </h5>
+                            <div>
+                                <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
+                                <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+                                <i class="fas fa-comments postCommentIconIndex"></i>
+                                <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+                            </div>
+                        </div>
 
                             <!--<div th:each="image : ${post.postImage}">-->
                                 <!--<img th:src="${image.path}"/>-->
@@ -145,25 +149,29 @@
                                     <p th:utext="${post.htmlDescription}"></p>
                                 </div>
 
-                                <p>
+                                <div class="read-more-div">
                                     <i class="fas fa-hand-point-right fa-read-more"></i>
                                     <a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>
-                                </p>
+                                </div>
                             </div>
                                 <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
-                        </li>
+                        <!--</div>-->
                         <!--// wanna use a button to send to edit here? -->
                             <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
-                    </ul>
                 </div>
 
             </div>
         <!--<hr class="commentHR"/>-->
         </div>
         <div class="more-posts-go-here"></div>
-    <hr style="border-width: 5px;"/>
+    <!--<hr style="border-width: 5px;"/>-->
 
-    <div class="popularityWrapperMobile">
+
+        <div id="show-more-posts-button-div">
+            <button id="show-more-posts" type="submit">Show More Posts</button>
+        </div>
+
+        <div class="popularityWrapperMobile">
 
         <h4 class="popularityHeader">Popular Posts</h4>
         <div class="eachPopularSection">
@@ -236,14 +244,12 @@
             </div>
         </div>
     </div>
-
     </div>
 
 </div>
 
-<div>
-    <button id="show-more-posts" type="submit">Show More Posts</button>
-</div>
+
+
 <!-- ================================================================================================================-->
 <!-- =========================================== PAGINATION =========================================================-->
 <!-- ================================================================================================================-->
@@ -304,6 +310,7 @@
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
 
+    $(".content").last().css("border", "none");
         // $(".content").slice(0, 2).show();
         // $("#show-more-posts").on('click', function () {
         //     $(".content:hidden").slice(0, 2).slideDown();
@@ -322,7 +329,9 @@
         //         .height(height)
         //         .show();
         // });
-        $('.postDescription img').each(function () {
+        $('.postDescription img').each(function() {
+            // if ($(this).find('img').length) {
+            // there is an image in this div, do something...
             let maxWidth = 700;
             let ratio = 0;
             let img = $(this);
@@ -331,10 +340,13 @@
                 ratio = img.height() / img.width();
                 img.css("height", (maxWidth * ratio));
                 img.css("width", maxWidth);
+                // To prevent the DOM bouncing around during resizing, hide it first.
+                // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
                 $('.postDescription').removeClass('hidden');
                 // img.attr("height", (maxWidth * ratio));
                 // img.attr("width", maxWidth);
             }
+            // }
             $('.postDescription').removeClass('hidden');
         });
 
@@ -357,38 +369,84 @@
         // ============================= SHOW MORE CONTENT ON CLICK ===================================
 
         // show more posts:
+        let limit = 3;
+        let batch = 1;
+        let loadMore = true;
+        $("#loader").addClass('hidden');
+
         $('#show-more-posts').on("click", function () {
+
+            console.log("limit: " + limit);
+            console.log("index: " + batch);
+
+            // let array = [];
+            // let postId;
+            // $('.content').each(function() {
+            //     postId = $(this).data('post-id');
+            //     array.push(postId);
+            // });
+            // let postData = { values: array };
+            // console.log(postData);
+            //
             // $("#loading").html('Loading...').show();
             let request = $.ajax({
                 type: 'GET',
-                url: '/posts/retrieveMorePosts/',
+                url: '/posts/retrieveMorePosts/' + (limit) + '/' + (batch),
+                // url: '/posts/retrieveMorePosts/?limit=??',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'html', //returning an html fragment from the controller, not a JSON object.
+                // data: postData,
+                // traditional: true
+                beforeSend: function(){
+                    // Show image container
+                    $("#loader").removeClass('hidden');
+                },
+                complete:function(data){
+                    // Hide image container
+                    $("#loader").addClass('hidden');
+                }
             });
 
             request.done((html) => {
+
+                batch++;
+
                 $('.more-posts-go-here').append(html).hide().fadeIn();
+
                 $('html, body').animate({
-                    scrollTop: $('.scroll-to-more-posts').offset()
+                    scrollTop: $('').offset()
                 }, 2000);
-                $('.postDescription img').each(function () {
 
-                    let maxWidth = 700;
-                    let ratio = 0;
-                    let img = $(this);
+                $('.postDescription img').each(function() {
+                    // if ($(this).find('img').length) {
+                        // there is an image in this div, do something...
+                        let maxWidth = 700;
+                        let ratio = 0;
+                        let img = $(this);
 
-                    if (img.width() > maxWidth) {
-                        ratio = img.height() / img.width();
-                        img.css("height", (maxWidth * ratio));
-                        img.css("width", maxWidth);
-                        // img.attr("height", (maxWidth * ratio));
-                        // img.attr("width", maxWidth);
-                    }
+                        if (img.width() > maxWidth) {
+                            ratio = img.height() / img.width();
+                            img.css("height", (maxWidth * ratio));
+                            img.css("width", maxWidth);
+                            // To prevent the DOM bouncing around during resizing, hide it first.
+                            // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
+                            $('.postDescription').removeClass('hidden');
+                            // img.attr("height", (maxWidth * ratio));
+                            // img.attr("width", maxWidth);
+                        }
+                    // }
+                    $('.postDescription').removeClass('hidden');
                 });
             });
             request.fail((a, b, c) => {
                 console.log(a, b, c);
-                $('.more-posts-go-here').html("There is no more content to load.");
+
+                if (!loadMore) {
+                    $('.more-posts-go-here').append("");
+                } else {
+                    $('.more-posts-go-here').append("There is no more content to load.");
+                    loadMore = false;
+                }
             });
         });
 </script>
