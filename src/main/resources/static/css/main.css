@@ -199,6 +199,7 @@ html {
 
 /*popularity column on left side of screen*/
 .popularityWrapper {
+    /*border-right: 2px solid #eeeeee;*/
     padding-left: 3em;
     padding-right: 2.5em;
     flex:1;
@@ -277,15 +278,15 @@ html {
 }
 
 #indexPagePostsWrapper {
-    flex:5;
+    flex:3.75;
 }
-
 
 /*each post*/
 .content {
-
+    /*border-bottom: 2px solid #eeeeee;*/
     /*border: 1px solid #ccc!important;*/
-    width: 90%;
+    /*display:none;*/
+    width: 75%;
     /*margin: 0 auto;*/
     /*font-family: Georgia, serif;*/
     /*font-family: 'Roboto', sans-serif;*/
@@ -302,7 +303,7 @@ html {
 .postWrapper {
     margin: 0 auto;
     display: flex;
-    width: 95%;
+    /*width: 95%;*/
 }
 
 .profilePicPostIndex {
@@ -399,7 +400,7 @@ textarea, input, .form-control {
 
 .postDescription{
     font-size: 16px;
-    line-height: 1.7;
+    line-height: 1.5;
     width: 100%;
     margin: 0 auto 1em;
     /*padding-bottom: 5px;*/
@@ -411,12 +412,14 @@ textarea, input, .form-control {
     /*line-height: 1.1em;*/
     /*line-height: 1.5em;*/
     /*border-bottom: 3px solid #777;*/
-    max-height:100px;
+    max-height: 500px;
+    /*max-height:100px;*/
     /*max-height:200px;*/
 
 }
+
 .postDescription:before {
-    content: '';
+    /*content: ''; UNCOMMENT IF YOU WANT GRADIENT EFFECT */
     width: 100%;
     height: 100%;
     position: absolute;
@@ -426,10 +429,10 @@ textarea, input, .form-control {
     /*background-image: -moz-linear-gradient(transparent 50px, papayawhip);*/
     /*background-image: -o-linear-gradient(transparent 50px, papayawhip);*/
     /*background-image: -ms-linear-gradient(transparent 50px, papayawhip);*/
-    background: linear-gradient(transparent 50px, #FFFAFB);
-    background-image: -moz-linear-gradient(transparent 50px, #FFFAFB);
-    background-image: -o-linear-gradient(transparent 50px, #FFFAFB);
-    background-image: -ms-linear-gradient(transparent 50px, #FFFAFB);
+    background: linear-gradient(transparent 90%, #FFFAFB);
+    background-image: -moz-linear-gradient(transparent 90%, #FFFAFB);
+    background-image: -o-linear-gradient(transparent 90%, #FFFAFB);
+    background-image: -ms-linear-gradient(transparent 90%, #FFFAFB);
 }
 
 .fa-read-more {
@@ -448,7 +451,36 @@ textarea, input, .form-control {
     color: #7DE2D1;
 }
 
+#show-more-posts-button-div {
+    float: left;
+}
 
+#show-more-posts {
+    margin:auto;
+    display:block;
+    padding: 16px 32px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #fff;
+    background: #E07A5F;
+    border: 0;
+    border-radius: 25px;
+}
+
+#show-more-posts:hover {
+    /*background: #888888;*/
+    background: #7DE2D1;
+    cursor: pointer;
+}
+
+.loader {
+    background: url('../images/ajax-loader.gif') no-repeat;
+    /* apply other styles to "loading" buttons */
+}
+
+/*.more-posts-go-here {*/
+    /*width: 90%;*/
+/*}*/
 
 /*background:linear-gradient(transparent 150px, white);*/
 
@@ -516,7 +548,7 @@ textarea, input, .form-control {
 }
 
 .postInfoWrapper {
-    padding-left:1.5em;
+    /*padding-left:1.5em;*/
 }
 .postedBy {
     font-weight: bold;
@@ -546,9 +578,6 @@ textarea, input, .form-control {
     width: 82%;
     margin-left: 1.2em;
     margin-right: 1.2em;
-}
-
-.postTextBodyInnerText {
     font-family: 'Roboto', sans-serif;
     line-height: 1.5em;
     font-size: 1.1em;
@@ -582,6 +611,7 @@ textarea, input, .form-control {
 
 .postVoteCount {
     font-family: 'Roboto', sans-serif;
+    color: #888888;
 }
 
 /*================= COMMENTS =====================*/
@@ -606,7 +636,6 @@ textarea, input, .form-control {
     /*???????*/
     box-sizing: border-box;
     /*border-left: solid rgba(0,0,0,.5);*/
-    padding-top: 1em;
     padding-left: 1.5em;
     padding-right: 1.5em;
     margin-bottom: 2em;
@@ -614,12 +643,12 @@ textarea, input, .form-control {
     border-radius: 25px;
 }
 
-.parentComment {
+.parentCommentStyling {
     background-color: papayawhip;
     border-radius: 20px;
 }
 
-#commentedBy {
+#commentedByStyling {
     border-radius: 20px;
 }
 
@@ -687,7 +716,8 @@ textarea, input, .form-control {
 
 .postUpvote, .postDownvote {
     font-size: 1.2em;
-    color: #2B2C28;
+    /*color: #2B2C28;*/
+    color: #c0c0c0;
 }
 
 .postUpvote:hover, .postDownvote:hover {
@@ -702,7 +732,8 @@ textarea, input, .form-control {
 
 .commentUpvote, .commentDownvote {
     font-size: 1.2em;
-    color: #2B2C28;
+    /*color: #2B2C28;*/
+    color: #c0c0c0;
 }
 
 .commentUpvote:hover, .commentDownvote:hover {
@@ -750,6 +781,7 @@ textarea, input, .form-control {
 
 .commentVoteCount {
     font-family: 'Roboto', sans-serif;
+    color: #888888;
 }
 
 .downvoteDiv {
@@ -820,7 +852,6 @@ textarea, input, .form-control {
     cursor: pointer;
     color: #888888;
     margin-top: 1.4em;
-    margin-bottom: 3em;
 }
 
 .showReplyTextArea:hover, .showReplyTextAreaAJAX:hover {
@@ -896,16 +927,16 @@ textarea, input, .form-control {
     /*margin-left: 20px;*/
 /*}*/
 
-.child-comment:nth-child(n+1) {
-    margin-left:10%;
-}
+/*.child-comment:nth-child(n+1) {*/
+    /*margin-left:50px;*/
+/*}*/
 
-.childCommentDiv {
-    margin-left:10%;
-}
+/*.childCommentDiv {*/
+    /*margin-left:50px;*/
+/*}*/
 
 /*.indent-comment {*/
-    /*margin-left: 5%;*/
+    /*margin-left: 50px;*/
 /*}*/
 
 
@@ -1284,7 +1315,7 @@ textarea, input, .form-control {
 }
 
 .scrollUp:hover {
-    color: papayawhip;
+    color: #888888;
     cursor:pointer;
     z-index: 9999;
 }
@@ -1293,10 +1324,14 @@ textarea, input, .form-control {
     display:none;
 }
 
+/*========================================================================================================================*/
+/*========================================= MOBILE RESPONSIVE ZONE =======================================================*/
+/*========================================================================================================================*/
+
 @media screen and (max-width: 600px) {
 
     .scrollUp {
-        position:fixed;
+        position: fixed;
         z-index: 9999;
         width: 58px;
         height: 48px;
@@ -1310,7 +1345,7 @@ textarea, input, .form-control {
 
     .scrollUp:hover {
         color: papayawhip;
-        cursor:pointer;
+        cursor: pointer;
         z-index: 9999;
     }
 
@@ -1319,16 +1354,16 @@ textarea, input, .form-control {
     }
 
     .dropdown-menu {
-        background-color:papayawhip;
+        background-color: papayawhip;
     }
 
     .navDropdownEachCategory {
-        text-align:center;
+        text-align: center;
     }
 
-    .dropdown-menu>li>a {
+    .dropdown-menu > li > a {
         color: #E07A5F;
-        padding:1em;
+        padding: 1em;
     }
 
     .navDropdownCategoryLink:hover {
@@ -1336,9 +1371,8 @@ textarea, input, .form-control {
     }
 
     .indexCategoriesListWrapper {
-        display:none;
+        display: none;
     }
-
 
     .indexPageWrapper {
         margin-top: 4em;
@@ -1359,14 +1393,17 @@ textarea, input, .form-control {
     }
 
     .postTitleIndexPage {
-        font-size: 6vw;
+        font-size: 9vw;
     }
 
-    /*================ profile page ===============*/
-    /*================ profile page ===============*/
+    #emptySearchedContent {
+        width: 60%;
+    }
+
+    /*=============== PROFILE =====================*/
 
     .profileWelcome {
-        text-align:center;
+        text-align: center;
     }
 
     .profilePic {
@@ -1395,12 +1432,75 @@ textarea, input, .form-control {
         margin-left: 0em;
         font-weight: 500;
     }
-    /*================ profile page ===============*/
-    /*================ profile page ===============*/
+
+    .postTextBodyDiv {
+        width: auto;
+        margin-left: -0em;
+    }
+
+    /*=============================================*/
 
     .commentSection {
         /*display: inline-block;*/
         width: 100%;
     }
+
+    /*img {*/
+        /*max-width: 100%;*/
+        /*height: auto;*/
+    /*}*/
+
+    .content {
+        width: 100%;
+    }
+
+    .postWrapper {
+        width: 100%;
+    }
+
+    .gradientBox {
+        margin-left: -1.0em;
+    }
+
+    .postDescription {
+        padding-left: 3rem;
+        padding-right: 1rem;
+        line-height: 1.0;
+        max-height: 275px;
+    }
+
+    .postDescription > p > img {
+        margin-left: -0.2rem;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .read-more-div {
+        margin-left: 2em;
+    }
+
+    .indent {
+        margin-left: 0.5em;
+    }
+
+    #show-more-posts-button-div {
+        float: none;
+        margin-top: 2em;
+        margin-bottom: 4em;
+    }
+
+    #show-more-posts {
+        box-shadow: 0px 2px 5px #000;
+        margin: auto;
+        display: block;
+        padding: 20px 64px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        color: #fff;
+        background: #E07A5F;
+        border: 0;
+        border-radius: 30px;
+    }
 }
+
 
