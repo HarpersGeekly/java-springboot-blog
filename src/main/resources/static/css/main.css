@@ -154,7 +154,7 @@ html {
 /*========================================================== POSTS =====================================================*/
 
 .gradientBox {
-    margin-left: 2em;
+    /*margin-left: 2em;*/
     margin-bottom: 2em;
 }
 
@@ -451,10 +451,6 @@ textarea, input, .form-control {
     color: #7DE2D1;
 }
 
-#show-more-posts-button-div {
-    float: left;
-}
-
 #show-more-posts {
     margin:auto;
     display:block;
@@ -473,10 +469,24 @@ textarea, input, .form-control {
     cursor: pointer;
 }
 
-.loader {
-    background: url('../images/ajax-loader.gif') no-repeat;
-    /* apply other styles to "loading" buttons */
+.flex-center-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.loading-gif-div {
+    margin: 1em;
+}
+
+.loader-gif {
+    width: 3em;
+    height: auto;
+}
+/*.loader {*/
+    /*background: url('../images/ajax-loader.gif') no-repeat;*/
+    /*!* apply other styles to "loading" buttons *!*/
+/*}*/
 
 /*.more-posts-go-here {*/
     /*width: 90%;*/
@@ -1321,6 +1331,7 @@ textarea, input, .form-control {
 }
 
 .popularityWrapperMobile {
+    margin-top: 2em;
     display:none;
 }
 
@@ -1459,23 +1470,24 @@ textarea, input, .form-control {
     }
 
     .gradientBox {
-        margin-left: -1.0em;
+        /*margin-left: -1.0em;*/
     }
 
-    .postDescription {
-        padding-left: 3rem;
+    .postDescription > p {
+        padding-left: 1rem;
         padding-right: 1rem;
-        line-height: 1.0;
-        max-height: 275px;
+        /* width: 100%; */
+        line-height: 1.3;
+        /* max-height: 275px; */
     }
 
-    .postDescription > p > img {
-        margin-left: -0.2rem;
-        max-width: 100%;
-        height: auto;
+    .postDescription > p > img  {
+        max-width: 100% !important;
+        height: auto !important;
     }
 
     .read-more-div {
+        font-size: 1.3em;
         margin-left: 2em;
     }
 

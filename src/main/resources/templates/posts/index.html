@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/header :: my-header('Posts')">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-</head>
+<head th:include="fragments/header :: my-header('Posts')"></head>
+
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
@@ -165,149 +164,100 @@
         </div>
         <div class="more-posts-go-here"></div>
     <!--<hr style="border-width: 5px;"/>-->
-
-
-        <div id="show-more-posts-button-div">
-            <button id="show-more-posts" type="submit">Show More Posts</button>
-        </div>
-
-        <div class="popularityWrapperMobile">
-
-        <h4 class="popularityHeader">Popular Posts</h4>
-        <div class="eachPopularSection">
-
-            <div class="eachPopularPost" th:each="post : ${mostCommentedPosts}">
-                <div class="popularPostTitleWrapper">
-
-                    <div class="popularPostCountsWrapper">
-                        <i class="fas fa-comments popularPostCountIcon"></i>
-                        <h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>
-                    </div>
-
-                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                        <h4 class="popularTitleText" th:text="${post.title}"></h4>
-                    </a>
-                </div>
-
-                <div class="popularPostUserWrapper">
-                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
-                        <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
-        <h4 class="popularityHeader">Top Rated Posts</h4>
-        <div class="eachPopularSection">
-
-            <div class="eachPopularPost" th:each="post : ${mostLikedPosts}">
-                <div class="popularPostTitleWrapper">
-
-                    <div class="popularPostCountsWrapper">
-                        <i class="fas fa-thumbs-up popularPostCountIcon"></i>
-                        <h5 class="popularPostCount" th:text="${post.voteCount()}"></h5>
-                    </div>
-
-                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                        <h4 class="popularTitleText" th:text="${post.title}"></h4>
-                    </a>
-                </div>
-
-                <div class="popularPostUserWrapper">
-                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
-                        <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-
-        <h4 class="popularityHeader">Top Rated Users</h4>
-        <div class="eachPopularSection">
-            <div class="popularUsers">
-
-                <div class="popularKarmas">
-                    <div th:each="karma : ${karmas}">
-                        <i class="fas fa-hand-peace karma-icon-index-page"></i>
-                        <span th:text="${karma}"></span>
-                    </div>
-                </div>
-
-                <div class="popularNames">
-                    <div th:each="user : ${popularUsers}">
-                        <a class="popularNamesLink" th:href="@{/profile/{id}(id=${user.id})}">
-                            <span th:text="${user.username}"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-    </div>
-
 </div>
 
+<div class="loading-gif-div flex-center-div">
+    <img src="../images/ajax-loader.gif"/>
+</div>
+
+<div class="no-more-posts flex-center-div">
+    <h5>There are no more posts to load.</h5>
+</div>
+
+<div class="flex-center-div">
+    <div>
+        <button id="show-more-posts" type="submit">Show More Posts</button>
+    </div>
+</div>
+
+<div class="popularityWrapperMobile">
+
+    <h4 class="popularityHeader">Popular Posts</h4>
+    <div class="eachPopularSection">
+
+        <div class="eachPopularPost" th:each="post : ${mostCommentedPosts}">
+            <div class="popularPostTitleWrapper">
+
+                <div class="popularPostCountsWrapper">
+                    <i class="fas fa-comments popularPostCountIcon"></i>
+                    <h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>
+                </div>
+
+                <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                    <h4 class="popularTitleText" th:text="${post.title}"></h4>
+                </a>
+            </div>
+
+            <div class="popularPostUserWrapper">
+                <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                    <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
+                </a>
+            </div>
+        </div>
+    </div>
 
 
-<!-- ================================================================================================================-->
-<!-- =========================================== PAGINATION =========================================================-->
-<!-- ================================================================================================================-->
-<!--<nav class="text-center">-->
-    <!--<ul class="pagination">-->
+    <h4 class="popularityHeader">Top Rated Posts</h4>
+    <div class="eachPopularSection">
 
-        <!--<li th:class="${page.isFirst()}? 'disabled' : ''">-->
-            <!--<span th:if='${page.isFirst()}'>← First</span>-->
-            <!--<a th:if='${not page.isFirst()}' th:href="'?page=0'">-->
-                <!--← First-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--<li th:class="${page.hasPrevious()}? '' : 'disabled'">-->
-            <!--<span th:if='${not page.hasPrevious()}'>«</span>-->
-            <!--<a-->
-                    <!--th:if='${page.hasPrevious()}'-->
-                    <!--th:href="'?page=' + ${page.getNumber() - 1}"-->
-                    <!--title='Go to previous page'-->
-            <!--&gt;-->
-                <!--«-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--&lt;!&ndash;<li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">&ndash;&gt;-->
-        <!--<li th:each="i : ${#numbers.sequence(page.getNumber(), page.getTotalPages())}">-->
-                <!--<span-->
-                        <!--th:if='${(i - 1) == param.page}'-->
-                        <!--th:text='${i}'>-->
-                    <!--1-->
-                <!--</span>-->
-            <!--<a-->
-                    <!--th:if='${not ((i - 1) == param.page)}'-->
-                    <!--th:href="'?page=' + ${(i -1)}"-->
-            <!--&gt;-->
-                <!--<span th:text='${i}'>1</span>-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--<li th:class="${page.hasNext()} ? '' : 'disabled'">-->
-            <!--<span th:if='${not page.hasNext()}'>»</span>-->
-            <!--<a-->
-                    <!--th:if='${page.hasNext()}'-->
-                    <!--th:href="'?page=' + ${page.getNumber() + 1}"-->
-                    <!--title='Go to next page'-->
-            <!--&gt;-->
-                <!--»-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--<li th:class="${page.isLast()}? 'disabled' : ''">-->
-            <!--<span th:if='${page.isLast()}'>Last →</span>-->
-            <!--<a-->
-                    <!--th:if='${not page.isLast()}'-->
-                    <!--th:href="'?page=' + ${page.getTotalPages() - 1}"-->
-            <!--&gt;-->
-                <!--Last →-->
-            <!--</a>-->
-        <!--</li>-->
-    <!--</ul>-->
-<!--</nav>-->
+        <div class="eachPopularPost" th:each="post : ${mostLikedPosts}">
+            <div class="popularPostTitleWrapper">
+
+                <div class="popularPostCountsWrapper">
+                    <i class="fas fa-thumbs-up popularPostCountIcon"></i>
+                    <h5 class="popularPostCount" th:text="${post.voteCount()}"></h5>
+                </div>
+
+                <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                    <h4 class="popularTitleText" th:text="${post.title}"></h4>
+                </a>
+            </div>
+
+            <div class="popularPostUserWrapper">
+                <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                    <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <h4 class="popularityHeader">Top Rated Users</h4>
+    <div class="eachPopularSection">
+        <div class="popularUsers">
+
+            <div class="popularKarmas">
+                <div th:each="karma : ${karmas}">
+                    <i class="fas fa-hand-peace karma-icon-index-page"></i>
+                    <span th:text="${karma}"></span>
+                </div>
+            </div>
+
+            <div class="popularNames">
+                <div th:each="user : ${popularUsers}">
+                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${user.id})}">
+                        <span th:text="${user.username}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer th:include="fragments/footer :: my-footer"></footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 
     $(".content").last().css("border", "none");
@@ -372,7 +322,8 @@
         let limit = 3;
         let batch = 1;
         let loadMore = true;
-        $("#loader").addClass('hidden');
+        $('.no-more-posts').addClass('hidden');
+        $('.loading-gif-div').addClass('hidden');
 
         $('#show-more-posts').on("click", function () {
 
@@ -399,11 +350,11 @@
                 // traditional: true
                 beforeSend: function(){
                     // Show image container
-                    $("#loader").removeClass('hidden');
+                    $(".loading-gif-div").removeClass('hidden');
                 },
                 complete:function(data){
                     // Hide image container
-                    $("#loader").addClass('hidden');
+                    $(".loading-gif-div").addClass('hidden');
                 }
             });
 
@@ -420,7 +371,7 @@
                 $('.postDescription img').each(function() {
                     // if ($(this).find('img').length) {
                         // there is an image in this div, do something...
-                        let maxWidth = 700;
+                        let maxWidth = 740;
                         let ratio = 0;
                         let img = $(this);
 
@@ -444,7 +395,7 @@
                 if (!loadMore) {
                     $('.more-posts-go-here').append("");
                 } else {
-                    $('.more-posts-go-here').append("There is no more content to load.");
+                    $('.no-more-posts').removeClass('hidden');
                     loadMore = false;
                 }
             });
@@ -452,3 +403,67 @@
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+<!-- ================================================================================================================-->
+<!-- =========================================== PAGINATION =========================================================-->
+<!-- ================================================================================================================-->
+<!--<nav class="text-center">-->
+<!--<ul class="pagination">-->
+
+<!--<li th:class="${page.isFirst()}? 'disabled' : ''">-->
+<!--<span th:if='${page.isFirst()}'>← First</span>-->
+<!--<a th:if='${not page.isFirst()}' th:href="'?page=0'">-->
+<!--← First-->
+<!--</a>-->
+<!--</li>-->
+<!--<li th:class="${page.hasPrevious()}? '' : 'disabled'">-->
+<!--<span th:if='${not page.hasPrevious()}'>«</span>-->
+<!--<a-->
+<!--th:if='${page.hasPrevious()}'-->
+<!--th:href="'?page=' + ${page.getNumber() - 1}"-->
+<!--title='Go to previous page'-->
+<!--&gt;-->
+<!--«-->
+<!--</a>-->
+<!--</li>-->
+<!--&lt;!&ndash;<li th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">&ndash;&gt;-->
+<!--<li th:each="i : ${#numbers.sequence(page.getNumber(), page.getTotalPages())}">-->
+<!--<span-->
+<!--th:if='${(i - 1) == param.page}'-->
+<!--th:text='${i}'>-->
+<!--1-->
+<!--</span>-->
+<!--<a-->
+<!--th:if='${not ((i - 1) == param.page)}'-->
+<!--th:href="'?page=' + ${(i -1)}"-->
+<!--&gt;-->
+<!--<span th:text='${i}'>1</span>-->
+<!--</a>-->
+<!--</li>-->
+<!--<li th:class="${page.hasNext()} ? '' : 'disabled'">-->
+<!--<span th:if='${not page.hasNext()}'>»</span>-->
+<!--<a-->
+<!--th:if='${page.hasNext()}'-->
+<!--th:href="'?page=' + ${page.getNumber() + 1}"-->
+<!--title='Go to next page'-->
+<!--&gt;-->
+<!--»-->
+<!--</a>-->
+<!--</li>-->
+<!--<li th:class="${page.isLast()}? 'disabled' : ''">-->
+<!--<span th:if='${page.isLast()}'>Last →</span>-->
+<!--<a-->
+<!--th:if='${not page.isLast()}'-->
+<!--th:href="'?page=' + ${page.getTotalPages() - 1}"-->
+<!--&gt;-->
+<!--Last →-->
+<!--</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</nav>-->
