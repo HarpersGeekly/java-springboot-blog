@@ -192,8 +192,6 @@ html {
 /*wraps the whole index page*/
 .indexPageWrapper {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
     margin-top: 6em;
 }
 
@@ -557,9 +555,10 @@ textarea, input, .form-control {
     margin-top:5em;
 }
 
-.postInfoWrapper {
-    /*padding-left:1.5em;*/
+.postPicWrapper {
+    margin-right: 1em;
 }
+
 .postedBy {
     font-weight: bold;
     /*margin-left: 1.3em;*/

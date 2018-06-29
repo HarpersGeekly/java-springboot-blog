@@ -65,10 +65,9 @@
     </ul>
 </div>
 
-<!-- Show different words or features based on whether you're on your profile or someone else's -->
-
 <div class="container" id="profilePageWrapper">
 
+<!-- Show different words or features based on whether you're on your profile or someone else's -->
 <!--============================================ VIEWING LOGGED IN USERS PROFILE ========================================-->
 <!--Reminder: #authentication.principal is the currently logged-in/session user-->
 
@@ -220,7 +219,6 @@
 
     <hr class="commentHR"/>
 
-        <h4>Your posts:</h4>
         <h5 th:if="${postsAreEmpty}">
             <i class="far fa-frown profileFrownIcon"></i> You don't have any posts yet... get posting!
         </h5>
@@ -266,9 +264,8 @@
             </div>
         </div>
 
-    <hr class="commentHR"/>
+        <hr class="commentHR"/>
 
-        <h4>Their posts:</h4>
         <h5 th:if="${postsAreEmpty}">
             <i class="far fa-frown profileFrownIcon"></i> They don't have any posts yet... lame!
         </h5>
@@ -276,75 +273,98 @@
 
 <!--============================================== THE LIST OF POSTS ======================================================-->
 
-    <div id="profileContent" th:each="post : ${profileUser.posts}">
-        <ul>
-            <li>
-                <div class="profilePostVoteTitleRow">
+    <div th:each="post : ${profileUser.posts}">
 
-                    <div class="profilePostVoteCountDiv">
-                        <h5 class="profilePostVoteCountText" th:text="${post.voteCount()}"></h5>
-                    </div>
+        <div class="postInfoWrapper">
 
-                    <div class="profilePostThumbsUpDiv">
-                        <i class="fas fa-thumbs-up profilePostVoteIcon"></i>
-                    </div>
+            <div class="indent">
+                <h4 th:text="${post.title}" class="postTitleIndexPage">
+                    <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
+                </h4>
 
-                    <div class="profilePostCommentCountDiv">
-                        <h5 class="profilePostCommentCountText" th:text="${post.getComments().size()}"></h5>
-                    </div>
-
-                    <div class="profilePostCommentIconDiv">
-                        <i class="fas fa-comments profilePostCommentIcon"></i>
-                    </div>
-
-                    <div class="profilePostTitleDiv">
-                        <a th:href="@{/posts/{id}(id=${post.id})}"><h4 class="profilePostTitleText" th:text="${post.title}"></h4></a>
-                    </div>
-
-                </div>
-                <!--=====markdown parsing:===============-->
-                <div class="postTextBodyDiv hidden">
-                    <h5 th:utext="${post.htmlDescription}" class="postTextBodyInnerText"></h5>
-                </div>
-                <!--=====================================-->
-                <h5 id="createdDate"><strong>created on:
-                    <span th:text="${#temporals.monthNameShort(post.date)}"></span>
-                    <span th:text="${#temporals.day(post.date)}"></span>,
-                    <span th:text="${#temporals.year(post.date)}"></span> at
-                    <span th:text="${#temporals.format(post.date,  'h:mm a')}"></span></strong></h5>
-
-                <div th:if="${isOwnProfile}">
-                    <div class="container">
-
-                        <div class="row">
-                            <div class="col-sm">
-                                <a class="btn btn-primary" id="profileEditPostBtn" th:href="${'/posts/' + post.id + '/edit'}">
-                                    <i class="far fa-edit"></i> Edit
-                                </a>
-
-                            <!--=================================== DELETE BUTTON =========================================-->
-                                <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post"> <!--th:object="${post}"-->
-                                    <!--<input type="hidden" name="id" th:field="*{id}" />-->
-                                    <button type="submit" class="btn btn-primary btn-danger" id="profileDeletePostBtn">
-                                        <i class="fas fa-bomb"></i> Delete
-                                    </button>
-                                    <!-- <input th:if="${isEditable}"-->
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
+                <div class="post-tags">
+                    <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
                 </div>
 
-            </li>
-        </ul>
+                <h5>
+                    <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
+                    <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+                    <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
+                    <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
+                </h5>
+
+                <div>
+                    <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
+                    <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+                    <i class="fas fa-comments postCommentIconIndex"></i>
+                    <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+                </div>
+
+            </div>
+
+            <div class="gradientBox">
+                <div class="postDescription hidden">
+                    <p th:utext="${post.htmlDescription}"></p>
+                </div>
+
+                <div class="read-more-div">
+                    <i class="fas fa-hand-point-right fa-read-more"></i>
+                    <a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div th:if="${isOwnProfile}" style="display: flex;">
+            <div>
+                <a class="btn btn-primary" id="profileEditPostBtn" th:href="${'/posts/' + post.id + '/edit'}">
+                    <i class="far fa-edit"></i> Edit
+                </a>
+
+            <!--=================================== DELETE BUTTON =========================================-->
+                <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post"> <!--th:object="${post}"-->
+                    <!--<input type="hidden" name="id" th:field="*{id}" />-->
+                    <button type="submit" class="btn btn-primary btn-danger" id="profileDeletePostBtn">
+                        <i class="fas fa-bomb"></i> Delete
+                    </button>
+                    <!-- <input th:if="${isEditable}"-->
+                </form>
+            </div>
+        </div>
+
+    <hr style="border-width: 5px;"/>
+
     </div>
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
 <script src="/js/image-cropper.js"></script>
 <!--resize images in markdown:-->
-<script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>
+<!--<script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>-->
+<script>
+    // ============================ IMAGE RESIZER ================================================
+
+    $('.postDescription img').each(function () {
+        // if ($(this).find('img').length) {
+        // there is an image in this div, do something...
+        let maxWidth = 740;
+        let ratio = 0;
+        let img = $(this);
+
+        if (img.width() > maxWidth) {
+            ratio = img.height() / img.width();
+            img.css("height", (maxWidth * ratio));
+            img.css("width", maxWidth);
+            // To prevent the DOM bouncing around during resizing, hide it first.
+            // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
+            $('.postDescription').removeClass('hidden');
+            // img.attr("height", (maxWidth * ratio));
+            // img.attr("width", maxWidth);
+        }
+        // }
+        $('.postDescription').removeClass('hidden');
+    });
+</script>
 </body>
 </html>
 
