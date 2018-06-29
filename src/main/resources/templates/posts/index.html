@@ -256,30 +256,17 @@
 </div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 
-    $(".content").last().css("border", "none");
-        // $(".content").slice(0, 2).show();
-        // $("#show-more-posts").on('click', function () {
-        //     $(".content:hidden").slice(0, 2).slideDown();
-        //
-        //     if ($(".content:hidden").length === 0) {
-        //         $("#show-more-posts").fadeOut('slow');
-        //     }
-        // });
-        // ============================= IMAGE RESIZER ================================================
+    $(function() {
 
-        // $(function(){
-        //     var width ="250px";
-        //     var height = "196px";
-        //     $("img")
-        //         .width(width)
-        //         .height(height)
-        //         .show();
-        // });
-        $('.postDescription img').each(function() {
+        //if I want to make borders on the posts, don't show one for the last post
+        $(".content").last().css("border", "none");
+
+        // ============================ IMAGE RESIZER ================================================
+
+        $('.postDescription img').each(function () {
             // if ($(this).find('img').length) {
             // there is an image in this div, do something...
             let maxWidth = 740;
@@ -327,32 +314,17 @@
 
         $('#show-more-posts').on("click", function () {
 
-            console.log("limit: " + limit);
-            console.log("index: " + batch);
-
-            // let array = [];
-            // let postId;
-            // $('.content').each(function() {
-            //     postId = $(this).data('post-id');
-            //     array.push(postId);
-            // });
-            // let postData = { values: array };
-            // console.log(postData);
-            //
-            // $("#loading").html('Loading...').show();
             let request = $.ajax({
                 type: 'GET',
                 url: '/posts/retrieveMorePosts/' + (limit) + '/' + (batch),
                 // url: '/posts/retrieveMorePosts/?limit=??',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'html', //returning an html fragment from the controller, not a JSON object.
-                // data: postData,
-                // traditional: true
-                beforeSend: function(){
+                beforeSend: function () {
                     // Show image container
                     $(".loading-gif-div").removeClass('hidden');
                 },
-                complete:function(data){
+                complete: function () {
                     // Hide image container
                     $(".loading-gif-div").addClass('hidden');
                 }
@@ -368,23 +340,23 @@
                     scrollTop: $('').offset()
                 }, 2000);
 
-                $('.postDescription img').each(function() {
+                $('.postDescription img').each(function () {
                     // if ($(this).find('img').length) {
-                        // there is an image in this div, do something...
-                        let maxWidth = 740;
-                        let ratio = 0;
-                        let img = $(this);
+                    // there is an image in this div, do something...
+                    let maxWidth = 740;
+                    let ratio = 0;
+                    let img = $(this);
 
-                        if (img.width() > maxWidth) {
-                            ratio = img.height() / img.width();
-                            img.css("height", (maxWidth * ratio));
-                            img.css("width", maxWidth);
-                            // To prevent the DOM bouncing around during resizing, hide it first.
-                            // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
-                            $('.postDescription').removeClass('hidden');
-                            // img.attr("height", (maxWidth * ratio));
-                            // img.attr("width", maxWidth);
-                        }
+                    if (img.width() > maxWidth) {
+                        ratio = img.height() / img.width();
+                        img.css("height", (maxWidth * ratio));
+                        img.css("width", maxWidth);
+                        // To prevent the DOM bouncing around during resizing, hide it first.
+                        // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
+                        $('.postDescription').removeClass('hidden');
+                        // img.attr("height", (maxWidth * ratio));
+                        // img.attr("width", maxWidth);
+                    }
                     // }
                     $('.postDescription').removeClass('hidden');
                 });
@@ -400,6 +372,7 @@
                 }
             });
         });
+    })
 </script>
 </body>
 </html>
