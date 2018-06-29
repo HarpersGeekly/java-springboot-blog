@@ -211,6 +211,10 @@ public class PostsController {
         // Go to PostService and implement it there too. Call it here and pass it to the view:
         viewModel.addAttribute("searchedContent", postSvc.searchPostsByKeyword(term));
         viewModel.addAttribute("categories", categoriesDao.findAll());
+        viewModel.addAttribute("mostCommentedPosts", postSvc.popularPostsByCommentActivity());
+        viewModel.addAttribute("mostLikedPosts", postSvc.popularPostsByLikes());
+        viewModel.addAttribute("popularUsers", usersDao.popularUsersByKarma());
+        viewModel.addAttribute("karmas", usersDao.popularUsersKarma());
         return "/posts/search";
     }
 
