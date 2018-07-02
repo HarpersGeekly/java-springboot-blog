@@ -41,11 +41,10 @@
         </div>
 
         <label for="tags">Categories:</label>
-            <div class="form-group" id="categories-selector">
+        <div class="form-group" id="categories-selector">
             <select id="tags" class="selectpicker" multiple="multiple" data-max-options="4" name="categories" th:field="*{categories}">
                 <option th:each="tag : ${categories}" th:value="${tag.id}" th:text="${tag.name}"></option>
             </select>
-
             <div
                     th:if="${#fields.hasErrors('categories')}"
                     class="alert alert-danger alert-dismissible"

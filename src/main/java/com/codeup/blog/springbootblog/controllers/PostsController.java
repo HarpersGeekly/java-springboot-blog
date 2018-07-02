@@ -96,7 +96,6 @@ public class PostsController {
 //        viewModel.addAttribute("posts", postSvc.findAll());
 //        viewModel.addAttribute("page", postSvc.postsByPage(pageable));
 
-// show only 3...?
         viewModel.addAttribute("posts", postSvc.postsByResultSetIndexPage());
         viewModel.addAttribute("categories", categoriesDao.findAll());
         viewModel.addAttribute("mostCommentedPosts", postSvc.popularPostsByCommentActivity());
@@ -109,7 +108,7 @@ public class PostsController {
 //================================================ CREATE POST =========================================== /posts/create
 //======================================================================================================================
 
-    //      Essentially we see a blank form when we load the page.
+//      Essentially we see a blank form when we load the page.
 //      We are displaying the 'title' and 'description' properties of a new Post(), which doesn't
 //      have any values set for these properties.
 //      We have to make it have an empty object to fill.
@@ -123,7 +122,7 @@ public class PostsController {
         return "posts/create";
     }
 
-    //      Now in @PostMapping, Post will automatically have the title and description that was submitted with the form.
+//      Now in @PostMapping, Post will automatically have the title and description that was submitted with the form.
 //      This is why it's good to have an empty constructor Post(){} to handle this.
 //      Also set the User of the Post to the User who is logged in, and set the Date.
     @PostMapping("/posts/create")
@@ -135,6 +134,7 @@ public class PostsController {
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("post", post);
+            viewModel.addAttribute("categories", categoriesDao.findAll());
             return "/posts/create";
         }
 
@@ -310,7 +310,7 @@ public class PostsController {
 //=============================================== EDIT A COMMENT  ==============/posts/{postId}/comment/{commentId}/edit
 //======================================================================================================================
 
-    //    @GetMapping("/comment")
+//    @GetMapping("/comment")
 //    public @ResponseBody Comment test() {
 //        return commentSvc.findOne(1225L);
 //    }
@@ -347,7 +347,7 @@ public class PostsController {
         return comment;
     }
 
-    //Before ajax:
+//Before ajax:
 //    @PostMapping("/posts/{postId}/comment/{commentId}/delete")
 //    public String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
 //        commentsDao.delete(commentId);
