@@ -1,4 +1,4 @@
-$('.postTextBodyDiv').each(function() {
+$('.postDescription').each(function() {
     if ($(this).find('img').length) {
         // there is an image in this div, do something...
         let maxWidth = 740;
@@ -11,15 +11,15 @@ $('.postTextBodyDiv').each(function() {
             img.css("width", maxWidth);
             // To prevent the DOM bouncing around during resizing, hide it first.
             // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
-            $('.postTextBodyDiv').removeClass('hidden');
+            $('.postDescription').removeClass('hidden');
             // img.attr("height", (maxWidth * ratio));
             // img.attr("width", maxWidth);
         }
     }
-        $('.postTextBodyDiv').removeClass('hidden');
+        $('.postDescription').removeClass('hidden');
 });
 
-$('.postTextBodyDiv').on('load', function() {
+$('.postDescription').on('load', function() {
     if ($(this).find('img').length) {
         // there is an image in this div, do something...
         let maxWidth = 740;
@@ -30,10 +30,10 @@ $('.postTextBodyDiv').on('load', function() {
             ratio = img.height() / img.width();
             img.css("height", (maxWidth * ratio));
             img.css("width", maxWidth);
-            $('.postTextBodyDiv').removeClass('hidden');
+            $('.postDescription').removeClass('hidden');
             // img.attr("height", (maxWidth * ratio));
             // img.attr("width", maxWidth);
         }
     }
-        $('.postTextBodyDiv').removeClass('hidden');
+        $('.postDescription').removeClass('hidden');
 });
