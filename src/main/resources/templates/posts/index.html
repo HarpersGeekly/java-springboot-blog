@@ -23,7 +23,6 @@
 </div>
 
 <div class="indexPageWrapper">
-
     <div class="popularityWrapper">
 
         <h4 class="popularityHeader">Popular Posts</h4>
@@ -97,13 +96,12 @@
             </div>
         </div>
     </div>
+
     <div id="indexPagePostsWrapper">
 
-        <!--<h2 id="postIntro">recent harps of the day...</h2>-->
         <div class="content" th:each="post : ${posts}" th:attr="data-post-id=${post.id}">
-        <!--<div class="content" th:each="post : ${page}">-->
 
-            <div class="postWrapper">
+            <!--<div class="postWrapper">-->
                 <!--<div class="postPicWrapper">-->
                     <!--&lt;!&ndash;<span th:if="${post.user.profilePicture} == null">&ndash;&gt;-->
                         <!--&lt;!&ndash;<img class="profilePicPostIndex" src="/../images/user.png"/>&ndash;&gt;-->
@@ -113,56 +111,50 @@
                     <!--&lt;!&ndash;</span>&ndash;&gt;-->
                 <!--</div>-->
 
-                <div class="postInfoWrapper">
+                <!--<div class="postInfoWrapper">-->
 
-                        <div class="indent">
-                            <h4 th:text="${post.title}" class="postTitle">
-                                <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
-                            </h4>
+            <div class="indent">
+                <h4 th:text="${post.title}" class="postTitle">
+                    <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
+                </h4>
 
-                            <div class="post-tags">
-                                <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
-                            </div>
-
-                            <h5>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
-                                <span th:text="${post.user.username}"></span></a>
-                                <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
-                                <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
-                                <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
-                                <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
-                            </h5>
-                            <div>
-                                <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                                <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
-                                <i class="fas fa-comments postCommentIconIndex"></i>
-                                <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
-                            </div>
-                        </div>
-
-                            <!--<div th:each="image : ${post.postImage}">-->
-                                <!--<img th:src="${image.path}"/>-->
-                            <!--</div>-->
-
-                            <div class="gradientBox">
-                                <div class="postDescription hidden">
-                                    <p th:utext="${post.htmlDescription}"></p>
-                                </div>
-
-                                <div class="read-more-div">
-                                    <i class="fas fa-hand-point-right fa-read-more"></i>
-                                    <a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>
-                                </div>
-                            </div>
-                                <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
-                        <!--</div>-->
-                        <!--// wanna use a button to send to edit here? -->
-                            <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
+                <div class="post-tags">
+                    <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
                 </div>
 
+                <h5>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+                    <span th:text="${post.user.username}"></span></a>
+                    <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
+                    <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+                    <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
+                    <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
+                </h5>
+                <div>
+                    <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
+                    <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+                    <i class="fas fa-comments postCommentIconIndex"></i>
+                    <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+                </div>
             </div>
+
+            <!--<div th:each="image : ${post.postImage}">-->
+                <!--<img th:src="${image.path}"/>-->
+            <!--</div>-->
+
+            <div class="gradientBox">
+                <div class="postDescription hidden">
+                    <p th:utext="${post.htmlDescription}"></p>
+                </div>
+
+                <div class="read-more-div">
+                    <i class="fas fa-hand-point-right fa-read-more"></i>
+                    <a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>
+                </div>
+            </div>
+            <!--</div>-->
         <!--<hr class="commentHR"/>-->
         </div>
-        <div class="more-posts-go-here"></div>
+    <div class="more-posts-go-here"></div>
     <!--<hr style="border-width: 5px;"/>-->
     </div>
 </div>
