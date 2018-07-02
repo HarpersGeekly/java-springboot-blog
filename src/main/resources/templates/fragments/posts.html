@@ -8,8 +8,6 @@
 <th:block th:fragment="ajaxPosts">
 
     <div class="content" th:each="post : ${nextResultSet}">
-
-        <div class="postWrapper secretAjaxClass">
             <!--<div class="postPicWrapper">-->
                 <!--&lt;!&ndash;<span th:if="${post.user.profilePicture} == null">&ndash;&gt;-->
                 <!--&lt;!&ndash;<img class="profilePicPostIndex" src="/../images/user.png"/>&ndash;&gt;-->
@@ -19,9 +17,9 @@
                 <!--&lt;!&ndash;</span>&ndash;&gt;-->
             <!--</div>-->
 
-            <div class="postInfoWrapper">
+            <!--<div class="postInfoWrapper">-->
 
-                <div class="indent">
+                <div class="indent secretAjaxClass">
                     <h4 th:text="${post.title}" class="postTitle">
                         <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
                     </h4>
@@ -63,9 +61,7 @@
                 <!--</div>-->
                 <!--// wanna use a button to send to edit here? -->
                 <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
-            </div>
-
-        </div>
+            <!--</div>-->
     </div>
 
 </th:block>
