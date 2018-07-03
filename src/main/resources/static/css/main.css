@@ -97,7 +97,7 @@ html {
 
 /* ================= Search Results Page ====== */
 #searchResultPageWrapper {
-    margin-top: 6em;
+    margin-top: 4em;
 }
 
 .searchResultsPagePostWrapper {
@@ -192,7 +192,7 @@ html {
 /*wraps the whole index page*/
 .indexPageWrapper {
     display: flex;
-    margin-top: 6em;
+    margin-top: 4em;
 }
 
 /*popularity column on left side of screen*/
@@ -281,26 +281,12 @@ html {
 
 /*each post*/
 .content {
-    /*border-bottom: 2px solid #eeeeee;*/
-    /*border: 1px solid #ccc!important;*/
-    /*display:none;*/
-    width: 75%;
-    /*margin: 0 auto;*/
-    /*font-family: Georgia, serif;*/
-    /*font-family: 'Roboto', sans-serif;*/
-    /*font-size: 15px;*/
-    /*margin-left: 1em;*/
-    /*margin-right: 1em;*/
-    /*overflow: auto;*/
-    /*height: 200px;*/
-    /*min-height:50px;*/
-    /*overflow:hidden;*/
-    /*margin-bottom: 155px;*/
+    max-width: 740px; /*matches the image resize max-width. */
 }
 
 .postWrapper {
-    margin: 0 auto;
-    display: flex;
+    /*margin: 0 auto;*/
+    /*display: flex;*/
     /*width: 95%;*/
 }
 
@@ -326,7 +312,7 @@ ul {
     margin-bottom:2em;
 }
 
-.postTitleIndexPage {
+.postTitle {
     font-family: Oswald, sans-serif;
     font-size: 2.5em;
     /*font-size:6vw;*/
@@ -390,34 +376,23 @@ textarea, input, .form-control {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
-    /*border-color: Transparent;*/
-    /*outline: none;*/
-    /*-webkit-box-shadow: none;*/
-    /*-moz-box-shadow: none;*/
-    /*box-shadow: none;*/
 
 .postDescription{
-    font-size: 16px;
-    line-height: 1.5;
     width: 100%;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
     margin: 0 auto 1em;
-    /*padding-bottom: 5px;*/
-    /*max-height:100px;*/
     overflow:hidden;
     text-overflow: ellipsis;
     content: "";
     position:relative;
-    /*line-height: 1.1em;*/
-    /*line-height: 1.5em;*/
-    /*border-bottom: 3px solid #777;*/
-    max-height: 500px;
-    /*max-height:100px;*/
-    /*max-height:200px;*/
-
+    max-height: 350px;
 }
 
 .postDescription:before {
-    /*content: ''; UNCOMMENT IF YOU WANT GRADIENT EFFECT */
+    /*content: '';*/
+    /*UNCOMMENT content IF YOU WANT GRADIENT EFFECT*/
     width: 100%;
     height: 100%;
     position: absolute;
@@ -541,7 +516,7 @@ textarea, input, .form-control {
 
 }
 
-/*=============== Show Page ====================*/
+/*================================================= Show Page ========================================================*/
 
 .showPageIntro {
     font-family: 'Oswald', sans-serif;
@@ -551,8 +526,7 @@ textarea, input, .form-control {
 }
 
 .showPageWrapper {
-    margin-left: 1em;
-    margin-top:5em;
+    margin-top: 4em;
 }
 
 .postPicWrapper {
@@ -583,13 +557,12 @@ textarea, input, .form-control {
     color: #999999;
 }
 
-.postTextBodyDiv {
-    width: 82%;
-    margin-left: 1.2em;
-    margin-right: 1.2em;
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.5em;
-    font-size: 1.1em;
+#postCategory-ShowPage {
+    margin-left: 1em;
+}
+
+#custom-content-width {
+    width: 80%;
 }
 
 #editPostBtn {
@@ -1406,7 +1379,7 @@ textarea, input, .form-control {
         margin-bottom: 3em;
     }
 
-    .postTitleIndexPage {
+    .postTitle {
         font-size: 9vw;
     }
 
@@ -1482,12 +1455,15 @@ textarea, input, .form-control {
         /*margin-left: -1.0em;*/
     }
 
+    .postDescription {
+        max-height: 250px;
+    }
+
     .postDescription > p {
         padding-left: 1rem;
         padding-right: 1rem;
         /* width: 100%; */
         line-height: 1.3;
-        /* max-height: 275px; */
     }
 
     .postDescription > p > img  {
@@ -1522,6 +1498,37 @@ textarea, input, .form-control {
         border: 0;
         border-radius: 30px;
     }
+
+    /*========================== Show Page ==========================================*/
+
+    #postPicWrapper-ShowPage {
+        display: none;
+    }
+
+    .profilePicPost-ShowPage-mobile {
+        margin-top:1em;
+        width: 35px;
+        height: 35px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 100px;
+    }
+
+    #custom-content-width {
+        width: 100%;
+    }
+
+    .showPageWrapper {
+        margin-left: 0em;
+        margin-top: 4em;
+    }
+
+    .show-mobile {
+        max-height: 100%;
+    }
+
+
+
 }
 
 
