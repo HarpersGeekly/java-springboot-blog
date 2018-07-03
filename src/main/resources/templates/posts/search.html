@@ -163,24 +163,8 @@
     </div>
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/js/image-resizer.js"></script>
 <script>
 
-        // // ============================= RETURN TO TOP ON CLICK =======================================
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 500) {
-                $('.scrollUp').fadeIn("slow");
-            } else {
-                $('.scrollUp').fadeOut();
-            }
-        });
-        $('.scrollUp').click(function () {
-            $("html, body").animate({
-                scrollTop: 0
-            }, 500);
-            return false;
-        });
 
 </script>
 </body>
