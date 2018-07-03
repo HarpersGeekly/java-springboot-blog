@@ -513,9 +513,10 @@ textarea, input, .form-control {
 /*================================================= Show Page ========================================================*/
 
 .postWrapper-showPage {
+    justify-content: center;
     margin: 0 auto;
     display: flex;
-    width: 70%;
+    width: 75%;
 }
 
 .showPageIntro {
