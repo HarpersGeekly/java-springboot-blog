@@ -26,66 +26,66 @@
         <p id="emptySearchedContent"><i class="far fa-frown profileFrownIcon"></i> There are no posts for this category yet. <a th:href="${'/posts/create'}">Get posting!</a></p>
     </div>
 
-    <div th:each="post : ${searchedContent}">
+    <div class="content" th:each="post : ${searchedContent}">
 
         <div class="searchResultsPagePostWrapper">
-                <!--<div class="postPicWrapper">-->
-                    <!--&lt;!&ndash;<span th:if="${post.user.profilePicture} == null">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<img class="profilePicPostIndex" src="/../images/user.png"/>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<span th:if="${post.user.profilePicture} != null">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<img class="profilePicPostIndex" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                <!--</div>-->
+            <!--<div class="postPicWrapper">-->
+            <!--&lt;!&ndash;<span th:if="${post.user.profilePicture} == null">&ndash;&gt;-->
+            <!--&lt;!&ndash;<img class="profilePicPostIndex" src="/../images/user.png"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span th:if="${post.user.profilePicture} != null">&ndash;&gt;-->
+            <!--&lt;!&ndash;<img class="profilePicPostIndex" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+            <!--</div>-->
 
-                <div class="postInfoWrapper">
+            <div class="postInfoWrapper">
 
-                    <div class="indent">
-                        <h4 th:text="${post.title}" class="postTitle">
-                            <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
-                        </h4>
+                <div class="indent">
+                    <h4 th:text="${post.title}" class="postTitle">
+                        <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
+                    </h4>
 
-                        <div class="post-tags">
-                            <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
-                        </div>
-
-                        <h5>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
-                            <span th:text="${post.user.username}"></span></a>
-                            <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
-                            <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
-                            <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
-                            <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
-                        </h5>
-                        <div>
-                            <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                            <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
-                            <i class="fas fa-comments postCommentIconIndex"></i>
-                            <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
-                        </div>
+                    <div class="post-tags">
+                        <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
                     </div>
 
-                    <!--<div th:each="image : ${post.postImage}">-->
-                    <!--<img th:src="${image.path}"/>-->
-                    <!--</div>-->
-
-                    <div class="gradientBox">
-                        <div class="postDescription hidden">
-                            <p th:utext="${post.htmlDescription}"></p>
-                        </div>
-
-                        <div class="read-more-div">
-                            <i class="fas fa-hand-point-right fa-read-more"></i>
-                            <a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>
-                        </div>
+                    <h5>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <span th:text="${post.user.username}"></span></a>
+                        <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
+                        <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+                        <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
+                        <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
+                    </h5>
+                    <div>
+                        <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
+                        <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+                        <i class="fas fa-comments postCommentIconIndex"></i>
+                        <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
                     </div>
-                    <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
-                    <!--</div>-->
-                    <!--// wanna use a button to send to edit here? -->
-                    <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
                 </div>
 
+                <!--<div th:each="image : ${post.postImage}">-->
+                <!--<img th:src="${image.path}"/>-->
+                <!--</div>-->
+
+                <div class="gradientBox">
+                    <div class="postDescription hidden">
+                        <p th:utext="${post.htmlDescription}"></p>
+                    </div>
+
+                    <div class="read-more-div">
+                        <i class="fas fa-hand-point-right fa-read-more"></i>
+                        <a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>
+                    </div>
+                </div>
+                <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
+                <!--</div>-->
+                <!--// wanna use a button to send to edit here? -->
+                <!--<button> <a th:href="@{/posts/{id}/edit(id=${post.id})}"  th:text="${'Edit: ' + post.title}"></a></button>-->
+            </div>
+
         </div>
-            <!--<hr class="commentHR"/>-->
+        <!--<hr class="commentHR"/>-->
     </div>
 
 </div>
@@ -164,52 +164,23 @@
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/image-resizer.js"></script>
 <script>
 
-    $(function() {
-
-            //if I want to make borders on the posts, don't show one for the last post
-            $(".content").last().css("border", "none");
-
-            // ============================ IMAGE RESIZER ================================================
-
-            $('.postDescription img').each(function () {
-                // if ($(this).find('img').length) {
-                // there is an image in this div, do something...
-                let maxWidth = 740;
-                let ratio = 0;
-                let img = $(this);
-
-                if (img.width() > maxWidth) {
-                    ratio = img.height() / img.width();
-                    img.css("height", (maxWidth * ratio));
-                    img.css("width", maxWidth);
-                    // To prevent the DOM bouncing around during resizing, hide it first.
-                    // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
-                    $('.postDescription').removeClass('hidden');
-                    // img.attr("height", (maxWidth * ratio));
-                    // img.attr("width", maxWidth);
-                }
-                // }
-                $('.postDescription').removeClass('hidden');
-            });
-
-            // ============================= RETURN TO TOP ON CLICK =======================================
-
-            $(window).scroll(function () {
-                if ($(this).scrollTop() > 500) {
-                    $('.scrollUp').fadeIn("slow");
-                } else {
-                    $('.scrollUp').fadeOut();
-                }
-            });
-            $('.scrollUp').click(function () {
-                $("html, body").animate({
-                    scrollTop: 0
-                }, 500);
-                return false;
-            });
-        })
+        // // ============================= RETURN TO TOP ON CLICK =======================================
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 500) {
+                $('.scrollUp').fadeIn("slow");
+            } else {
+                $('.scrollUp').fadeOut();
+            }
+        });
+        $('.scrollUp').click(function () {
+            $("html, body").animate({
+                scrollTop: 0
+            }, 500);
+            return false;
+        });
 
 </script>
 </body>

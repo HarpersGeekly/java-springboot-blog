@@ -250,37 +250,10 @@
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/image-resizer.js"></script>
 <script>
 
-    $(function() {
-
-        //if I want to make borders on the posts, don't show one for the last post
-        $(".content").last().css("border", "none");
-
-        // ============================ IMAGE RESIZER ================================================
-
-        $('.postDescription img').each(function () {
-            // if ($(this).find('img').length) {
-            // there is an image in this div, do something...
-            let maxWidth = 740;
-            let ratio = 0;
-            let img = $(this);
-
-            if (img.width() > maxWidth) {
-                ratio = img.height() / img.width();
-                img.css("height", (maxWidth * ratio));
-                img.css("width", maxWidth);
-                // To prevent the DOM bouncing around during resizing, hide it first.
-                // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
-                $('.postDescription').removeClass('hidden');
-                // img.attr("height", (maxWidth * ratio));
-                // img.attr("width", maxWidth);
-            }
-            // }
-            $('.postDescription').removeClass('hidden');
-        });
-
-        // ============================= RETURN TO TOP ON CLICK =======================================
+    // ============================= RETURN TO TOP ON CLICK =======================================
 
         $(window).scroll(function () {
             if ($(this).scrollTop() > 500) {
@@ -325,35 +298,17 @@
 
             request.done((html) => {
 
-                batch++;
+                    batch++;
 
-                $('.more-posts-go-here').append(html).hide().fadeIn();
-
-                $('html, body').animate({
-                    scrollTop: $('').offset()
-                }, 2000);
-
-                $('.postDescription img').each(function () {
-                    // if ($(this).find('img').length) {
-                    // there is an image in this div, do something...
-                    let maxWidth = 740;
-                    let ratio = 0;
-                    let img = $(this);
-
-                    if (img.width() > maxWidth) {
-                        ratio = img.height() / img.width();
-                        img.css("height", (maxWidth * ratio));
-                        img.css("width", maxWidth);
-                        // To prevent the DOM bouncing around during resizing, hide it first.
-                        // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
-                        $('.postDescription').removeClass('hidden');
-                        // img.attr("height", (maxWidth * ratio));
-                        // img.attr("width", maxWidth);
-                    }
-                    // }
+                    $('.more-posts-go-here').append(html).hide().fadeIn();
+                    $('div.postDescription img').css({'max-width' : '740px'});
                     $('.postDescription').removeClass('hidden');
+
+                    $('html, body').animate({
+                        scrollTop: $('').offset()
+                    }, 2000);
+
                 });
-            });
             request.fail((a, b, c) => {
                 console.log(a, b, c);
 
@@ -365,7 +320,6 @@
                 }
             });
         });
-    })
 </script>
 </body>
 </html>

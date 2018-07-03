@@ -339,32 +339,7 @@
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
 <script src="/js/image-cropper.js"></script>
-<!--resize images in markdown:-->
-<!--<script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>-->
-<script>
-    // ============================ IMAGE RESIZER ================================================
-
-    $('.postDescription img').each(function () {
-        // if ($(this).find('img').length) {
-        // there is an image in this div, do something...
-        let maxWidth = 740;
-        let ratio = 0;
-        let img = $(this);
-
-        if (img.width() > maxWidth) {
-            ratio = img.height() / img.width();
-            img.css("height", (maxWidth * ratio));
-            img.css("width", maxWidth);
-            // To prevent the DOM bouncing around during resizing, hide it first.
-            // Add a "hidden" (display:none in css) class to the html element $() then remove it after resizing is complete
-            $('.postDescription').removeClass('hidden');
-            // img.attr("height", (maxWidth * ratio));
-            // img.attr("width", maxWidth);
-        }
-        // }
-        $('.postDescription').removeClass('hidden');
-    });
-</script>
+<script src="/js/image-resizer.js"></script>
 </body>
 </html>
 

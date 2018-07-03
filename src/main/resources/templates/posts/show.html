@@ -28,43 +28,39 @@
     <!-- ================================================================================================================-->
     <!-- ====================================================  SHOW THE POST ============================================-->
     <!-- ================================================================================================================-->
-    <div class="container">
         <div class="postWrapper">
-            <div class="postPicWrapper">
 
+            <div class="postPicWrapper postPicWrapper-ShowPage-mobile" id="postPicWrapper-ShowPage">
                 <span th:if="${post.user.profilePicture} == null">
-                    <img class="profilePicPost" src="/../images/user.png"/>
+                    <img class="profilePicPost profilePicPost-ShowPage-mobile" src="/../images/user.png"/>
                 </span>
                 <span th:if="${post.user.profilePicture} != null">
-                    <img class="profilePicPost" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>
+                    <img class="profilePicPost profilePicPost-ShowPage-mobile" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>
                 </span>
-
             </div>
-            <!-- ====================================== Poster Credentials  ================================== -->
-            <div class="postInfoWrapper">
-                <h5 class="postedBy">
 
-                    <a th:href="${'/profile/' + post.user.id}" style="text-decoration: none;">
-                        <span class="postedByNameText" th:text="${post.user.username}"></span>
-                    </a>
-                    <!--<h5 id="createdDate">created: <span th:text="${#temporals.format(post.date, 'MM-dd-yyyy, h:mm a')}"></span></h5>-->
-                    <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
-                    <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
-                    <span class="postedByDate" th:text="${#temporals.day(post.date)}">,</span>
-                    <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
-                    <!--<div class="post-tags">-->
-                    <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}"
-                       th:href="@{/posts(tagged=${tag.name})}" style="margin-left:1em"></a>
-                    <!--</div>-->
+            <div class="postInfoWrapper" id="custom-content-width">
+                <div class="indent">
+                    <h4 th:text="${post.title}" class="postTitle">
+                        <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
+                    </h4>
 
-                </h5>
-                <!-- ====================================== Post Title =======================================-->
+                    <div class="post-tags">
+                        <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
+                    </div>
 
-                <h4 th:text="${post.title}" class="showPageIntro"></h4>
+                    <h5>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <span th:text="${post.user.username}"></span></a>
+                        <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
+                        <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+                        <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
+                        <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
+                    </h5>
+                </div>
 
                 <!-- ====================================== Post Description =================================-->
 
-                <div class="postTextBodyDiv hidden">
+                <div class="postDescription hidden">
                     <p th:utext="${post.htmlDescription}"></p> <!--th:utext for markdown editor, not th:text-->
                 </div>
 
@@ -72,14 +68,11 @@
 
                 <div class="postVoting">
                     <div class="upvoteDiv">
-
-                        <!--if not logged in: upvote and downvote arrows are href's linked to the login page. -->
                         <div th:if="${!isLoggedIn}">
-                                <a th:href="${'/login'}">
-                                    <i class="fas fa-thumbs-up"></i>
-                                </a>
+                            <a th:href="${'/login'}">
+                                <i class="fas fa-thumbs-up"></i>
+                            </a>
                         </div>
-                        <!--if logged in: upvote and downvote arrows function normally.-->
                         <div th:if="${isLoggedIn}">
                             <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
                                   th:attr="data-upvote-post-id=${post.id}">
@@ -88,23 +81,18 @@
                                 <!--when clicked, stayActive class will be added or removed.-->
                             </form>
                         </div>
-
                     </div>
 
                     <div class="voteCountDiv">
                         <h5>
-                    <span class="postVoteCount" th:text="${post.voteCount()}"
-                          th:attr="data-voteCount-post-id=${post.id}"></span>
+                            <span class="postVoteCount" th:text="${post.voteCount()}" th:attr="data-voteCount-post-id=${post.id}"></span>
                         </h5>
                     </div>
 
                     <div class="downvoteDiv">
                         <div th:if="${isLoggedIn}">
-
-                            <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
-                                  th:attr="data-downvote-post-id=${post.id}">
-                                <i th:classappend="${downvote} ? stayActive : postDownvote"
-                                   class="fas fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
+                            <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-downvote-post-id=${post.id}">
+                                <i th:classappend="${downvote} ? stayActive : postDownvote" class="fas fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
                             </form>
                         </div>
 
@@ -150,9 +138,7 @@
             </a>
         </div>
 
-        <div class="container commentFormWrapper">
-            <div sec:authorize="isAuthenticated()">
-
+        <div class="container commentFormWrapper" sec:authorize="isAuthenticated()">
                 <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
                     <div class="form-group">
                         <label for="commentFormBody"></label>
@@ -171,10 +157,7 @@
                     </div>
                 </form>
 
-            </div>
         </div>
-    </div>
-
     <!-- ================================================================================================================-->
     <!--============================================= SHOW ALL COMMENTS (PAGEABLE) ======================================-->
     <!-- ================================================================================================================-->
@@ -460,46 +443,11 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <!--resize images in markdown:-->
-<script language="JavaScript" type="text/javascript" src="../js/myImageResizer.js"></script>
+<script src="/js/image-resizer.js"></script>
 <script>
 
     let container = $('.container');
     $('#srch-term').val('');
-
-    //==================================================================================================================
-    //===================================== Image Resizing On Load =====================================================
-    //==================================================================================================================
-    $('.postTextBodyDiv img').each(function () {
-
-        let maxWidth = 740;
-        let ratio = 0;
-        let img = $(this);
-        if (img.width() > maxWidth) {
-            ratio = img.height() / img.width();
-            img.css("height", (maxWidth * ratio));
-            img.css("width", maxWidth);
-            $('.postTextBodyDiv').removeClass('hidden');
-            // img.attr("height", (maxWidth * ratio));
-            // img.attr("width", maxWidth);
-        }
-        $('.postTextBodyDiv').removeClass('hidden');
-    });
-
-    $('.postTextBodyDiv img').on('load', function () {
-
-        let maxWidth = 740;
-        let ratio = 0;
-        let img = $(this);
-        if (img.width() > maxWidth) {
-            ratio = img.height() / img.width();
-            img.css("height", (maxWidth * ratio));
-            img.css("width", maxWidth);
-            $('.postTextBodyDiv').removeClass('hidden');
-            // img.attr("height", (maxWidth * ratio));
-            // img.attr("width", maxWidth);
-        }
-        $('.postTextBodyDiv').removeClass('hidden');
-    });
 
     //==================================================================================================================
     //===================================== Click Reply, Text Changes to Cancel, Vice Versa ============================
