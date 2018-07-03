@@ -28,16 +28,16 @@
     <!-- ================================================================================================================-->
     <!-- ====================================================  SHOW THE POST ============================================-->
     <!-- ================================================================================================================-->
-        <div class="postWrapper">
+        <div class="postWrapper-showPage">
 
-            <div class="postPicWrapper postPicWrapper-ShowPage-mobile" id="postPicWrapper-ShowPage">
-                <span th:if="${post.user.profilePicture} == null">
-                    <img class="profilePicPost profilePicPost-ShowPage-mobile" src="/../images/user.png"/>
-                </span>
-                <span th:if="${post.user.profilePicture} != null">
-                    <img class="profilePicPost profilePicPost-ShowPage-mobile" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>
-                </span>
-            </div>
+            <!--<div class="postPicWrapper" id="postPicWrapper-ShowPage">-->
+                <!--<span th:if="${post.user.profilePicture} == null">-->
+                    <!--<img class="profilePicPost profilePicPost-ShowPage-mobile" src="/../images/user.png"/>-->
+                <!--</span>-->
+                <!--<span th:if="${post.user.profilePicture} != null">-->
+                    <!--<img class="profilePicPost profilePicPost-ShowPage-mobile" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>-->
+                <!--</span>-->
+            <!--</div>-->
 
             <div class="postInfoWrapper" id="custom-content-width">
                 <div class="indent">
@@ -49,18 +49,43 @@
                         <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
                     </div>
 
-                    <h5>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
-                        <span th:text="${post.user.username}"></span></a>
-                        <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
-                        <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
-                        <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
-                        <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
-                    </h5>
+                    <!--<div>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">-->
+                        <!--<span th:text="${post.user.username}"></span></a>-->
+                        <!--<div>-->
+                            <!--<span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>-->
+                            <!--<span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>-->
+                            <!--<span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>-->
+                            <!--<span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <div class="post-info-wrapper-mobile">
+                        <div class="profile-pic-wrapper-show-page">
+                            <span th:if="${post.user.profilePicture} == null">
+                                <img class="profile-pic-show-page profile-pic-show-page-mobile" src="/../images/user.png"/>
+                            </span>
+                            <span th:if="${post.user.profilePicture} != null">
+                                <img class="profile-pic-show-page profile-pic-show-page-mobile" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>
+                            </span>
+                        </div>
+
+                        <div class="post-info-name-date-wrapper">
+                            <div>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+                                <span th:text="${post.user.username}"></span></a>
+                                <div>
+                                    <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
+                                    <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+                                    <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
+                                    <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- ====================================== Post Description =================================-->
 
-                <div class="postDescription hidden show-mobile">
+                <div class="postDescription hidden show-mobile show-all-content">
                     <p th:utext="${post.htmlDescription}"></p> <!--th:utext for markdown editor, not th:text-->
                 </div>
 

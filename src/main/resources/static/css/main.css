@@ -284,12 +284,6 @@ html {
     max-width: 740px; /*matches the image resize max-width. */
 }
 
-.postWrapper {
-    /*margin: 0 auto;*/
-    /*display: flex;*/
-    /*width: 95%;*/
-}
-
 .profilePicPostIndex {
     margin-top: 1em;
     width: 50px;
@@ -518,6 +512,12 @@ textarea, input, .form-control {
 
 /*================================================= Show Page ========================================================*/
 
+.postWrapper-showPage {
+    margin: 0 auto;
+    display: flex;
+    width: 70%;
+}
+
 .showPageIntro {
     font-family: 'Oswald', sans-serif;
     text-align: left;
@@ -561,8 +561,35 @@ textarea, input, .form-control {
     margin-left: 1em;
 }
 
+.profile-pic-show-page {
+    width: 60px;
+    height: 60px;
+    -moz-border-radius: 60px;
+    -webkit-border-radius: 60px;
+    border-radius: 35px;
+}
+
+.post-info-wrapper-mobile {
+    display: flex;
+    margin-top: 0.5em;
+}
+
+.profile-pic-wrapper-show-page {
+    margin-top: 0em;
+    margin-right: 1em;
+}
+
+.post-info-name-date-wrapper {
+    display: flex;
+    align-items: center;
+}
+
 #custom-content-width {
     width: 80%;
+}
+
+.show-all-content {
+    max-height: 100%;
 }
 
 #editPostBtn {
@@ -947,15 +974,6 @@ textarea, input, .form-control {
 .profilePic {
     width: 200px;
     height: 200px;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    border-radius: 100px;
-}
-
-.profilePicPost {
-    margin-top:1em;
-    width: 70px;
-    height: 70px;
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
     border-radius: 100px;
@@ -1501,17 +1519,33 @@ textarea, input, .form-control {
 
     /*========================== Show Page ==========================================*/
 
-    #postPicWrapper-ShowPage {
-        display: none;
+    .postWrapper-showPage {
+        margin: 0 auto;
+        display: flex;
+        width: 100%;
     }
 
-    .profilePicPost-ShowPage-mobile {
-        margin-top:1em;
-        width: 35px;
-        height: 35px;
-        -moz-border-radius: 50px;
-        -webkit-border-radius: 50px;
-        border-radius: 100px;
+    .profile-pic-wrapper-show-page {
+        margin-top: 0em;
+        margin-right: 1em;
+    }
+
+    .profile-pic-show-page-mobile {
+        width: 48px;
+        height: 48px;
+        -moz-border-radius: 60px;
+        -webkit-border-radius: 60px;
+        border-radius: 35px;
+    }
+
+    .post-info-wrapper-mobile {
+        display: flex;
+        margin-top: 0.5em;
+    }
+
+    .post-info-name-date-wrapper {
+        display: flex;
+        align-items: center;
     }
 
     #custom-content-width {
