@@ -91,6 +91,12 @@
 
                 <!-- ====================================== Post Voting ======================================-->
 
+                <div th:if="${!isLoggedIn}" class="replyNotLoggedIn">
+                    <a th:href="${'/login'}">
+                        <i class="fas fa-reply"></i> REPLY
+                    </a>
+                </div>
+
                 <div class="postVoting">
                     <div class="upvoteDiv">
                         <div th:if="${!isLoggedIn}">
@@ -128,7 +134,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- ====================================== Post Edit and Delete Buttons =====================-->
 
                 <div sec:authorize="isAuthenticated()">
@@ -156,12 +161,6 @@
         <!-- ================================================================================================================-->
         <!--============================================== FORM for COMMENTS ================================================-->
         <!-- ================================================================================================================-->
-
-        <div th:if="${!isLoggedIn}" class="replyNotLoggedIn">
-            <a th:href="${'/login'}">
-                <i class="fas fa-reply"></i> REPLY
-            </a>
-        </div>
 
         <div class="container commentFormWrapper" sec:authorize="isAuthenticated()">
                 <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
