@@ -87,6 +87,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
+
                             <div class="page">
                                 <!-- ======================== Upload Image Form ============================================ -->
                                 <form th:action="@{'/profile/edit/fileupload'}" method="POST" enctype="multipart/form-data"
@@ -165,10 +166,10 @@
         <div class="profile-upper-wrapper">
             <div class="profile-picture-wrapper">
                 <span th:if="${#authentication.principal.profilePicture} == null">
-                    <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
+                    <img class="profilePic" src="/../images/user.png"/>
                 </span>
                 <span th:if="${#authentication.principal.profilePicture} != null">
-                    <img class="profilePic" th:src="@{'/uploads/' + ${#authentication.principal.profilePicture}}" width="150px" height="150px"/>
+                    <img class="profilePic" th:src="@{'/uploads/' + ${#authentication.principal.profilePicture}}"/>
                 </span>
             </div>
 
@@ -217,7 +218,11 @@
             </div>
         </div>
 
-    <hr class="commentHR"/>
+        <hr class="posts-hr"/>
+
+        <h3 class="profile-page-latest-posts-greeting">Latest posts...</h3>
+
+        <hr class="posts-hr"/>
 
         <h5 th:if="${postsAreEmpty}">
             <i class="far fa-frown profileFrownIcon"></i> You don't have any posts yet... get posting!
@@ -232,10 +237,10 @@
         <div class="profile-upper-wrapper">
             <div class="profile-picture-wrapper">
                 <span th:if="${profileUser.profilePicture} == null">
-                        <img class="profilePic" src="/../images/user.png" width="150px" height="150px"/>
+                        <img class="profilePic" src="/../images/user.png"/>
                 </span>
                 <span th:if="${profileUser.profilePicture} != null">
-                        <img class="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}" width="150px" height="150px"/>
+                        <img class="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}"/>
                 </span>
             </div>
 
@@ -264,7 +269,11 @@
             </div>
         </div>
 
-        <hr class="commentHR"/>
+        <hr class="posts-hr"/>
+
+        <h3 class="profile-page-latest-posts-greeting">Latest posts...</h3>
+
+        <hr class="posts-hr"/>
 
         <h5 th:if="${postsAreEmpty}">
             <i class="far fa-frown profileFrownIcon"></i> They don't have any posts yet... lame!
@@ -272,10 +281,6 @@
     </th:block>
 
 <!--============================================== THE LIST OF POSTS ======================================================-->
-
-    <h3 id="profile-page-latest-posts-greeting">Latest posts...</h3>
-
-    <hr class="commentHR"/>
 
     <div th:each="post : ${posts}">
     <!--<div th:each="post : ${profileUser.posts}"> // Caused the inability to sort by latest posts.-->
@@ -337,7 +342,7 @@
             </div>
         </div>
 
-    <hr style="border-width: 5px;"/>
+    <hr class="posts-hr"/>
 
     </div>
 </div>
