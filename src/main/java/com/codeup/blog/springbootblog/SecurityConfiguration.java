@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                 .defaultSuccessUrl("/profile") // after logging in, go to user's profile page
                 // this is new:
-                .successHandler(successHandler()) // this is part of the redirect-to-previous page functionality
+//                .successHandler(successHandler()) // this is part of the redirect-to-previous page functionality
 
                     .permitAll() // Anyone can go to the login page
                 .and()
