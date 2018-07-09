@@ -273,12 +273,17 @@
 
 <!--============================================== THE LIST OF POSTS ======================================================-->
 
-    <div th:each="post : ${profileUser.posts}">
+    <h3 id="profile-page-latest-posts-greeting">Latest posts...</h3>
+
+    <hr class="commentHR"/>
+
+    <div th:each="post : ${posts}">
+    <!--<div th:each="post : ${profileUser.posts}"> // Caused the inability to sort by latest posts.-->
 
         <div class="postInfoWrapper">
 
             <div class="indent">
-                <h4 th:text="${post.title}" class="postTitleIndexPage">
+                <h4 th:text="${post.title}" class="postTitle">
                     <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
                 </h4>
 
