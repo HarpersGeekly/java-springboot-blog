@@ -114,9 +114,9 @@
                 <!--<div class="postInfoWrapper">-->
 
             <div class="indent">
-                <h4 th:text="${post.title}" class="postTitle">
-                    <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
-                </h4>
+                <a th:href="@{/posts/{id}(id=${post.id})}">
+                    <h4 th:text="${post.title}" class="postTitle"></h4>
+                </a>
 
                 <div class="post-tags">
                     <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
@@ -259,7 +259,8 @@
         $('.no-more-posts').addClass('hidden');
         $('.loading-gif-div').addClass('hidden');
 
-        $('#show-more-posts').on("click", function () {
+        $('#show-more-posts').on("click", function (e) {
+            e.preventDefault();
 
             let request = $.ajax({
                 type: 'GET',
@@ -285,9 +286,9 @@
                     $('div.postDescription img').css({'max-width' : '740px'});
                     $('.postDescription').removeClass('hidden');
 
-                    $('html, body').animate({
-                        scrollTop: $('').offset()
-                    }, 2000);
+                // $('html, body').animate({
+                //     scrollTop: $('.secretAjaxClass').offset().top - $(window).height() / 4
+                // }, 500);
 
                 });
             request.fail((a, b, c) => {
