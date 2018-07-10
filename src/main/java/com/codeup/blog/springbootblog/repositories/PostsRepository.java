@@ -28,6 +28,18 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
     @Query(nativeQuery = true, value="SELECT * from posts p ORDER BY p.id DESC") //LIMIT ?1
     List<Post> postsByResultSet();
 
+    @Query(nativeQuery = true,
+            value = "SELECT p.id, p.created_date, p.description, p.title, p.user_id from posts p JOIN comments c ON p.id = c.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
+    List<Post> popularPostsByCommentActivity();
+
+    @Query(nativeQuery = true,
+            value = "SELECT SUM(type), p.id, p.created_date, p.description, p.title, p.user_id from posts_votes pv LEFT JOIN posts p ON p.id = pv.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
+    List<Post> popularPostsByLikes();
+
+    @Query(nativeQuery = true,
+    value = "SELECT * FROM posts p WHERE user_id LIKE ?1 ORDER BY p.id DESC")
+    List<Post> postsByUser(Long id);
+
     @Deprecated
     @Query(nativeQuery = true,
             countQuery = "SELECT count(*) FROM redwood_blog_db.posts p", /*need to count rows for pagination */
@@ -35,17 +47,4 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
                     "SELECT * from redwood_blog_db.posts p ORDER BY p.id DESC, ?#{#pageable}")
     Page<Post> postsByPage(Pageable pageable);
 
-    @Query(nativeQuery = true,
-            value = "SELECT p.id, p.created_date, p.description, p.title, p.user_id from posts p JOIN comments c ON p.id = c.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
-    List<Post> popularPostsByCommentActivity();
-
-
-
-    @Query(nativeQuery = true,
-            value = "SELECT SUM(type), p.id from posts_votes pv LEFT JOIN posts p ON p.id = pv.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
-    List<Post> popularPostsByLikes();
-
-    @Query(nativeQuery = true,
-    value = "SELECT * FROM posts p WHERE user_id LIKE ?1 ORDER BY p.id DESC")
-    List<Post> postsByUser(Long id);
 }
