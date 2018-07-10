@@ -41,7 +41,7 @@
 
             <div class="postInfoWrapper" id="custom-content-width">
                 <div class="indent">
-                    <h4 th:text="${post.title}" class="postTitle">
+                    <h4 th:text="${post.title}" class="postTitle no-text-decoration">
                         <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
                     </h4>
 
@@ -60,14 +60,16 @@
                     <!--</div>-->
 
                     <div class="post-info-wrapper-mobile">
-                        <div class="profile-pic-wrapper-show-page">
-                            <span th:if="${post.user.profilePicture} == null">
-                                <img class="profile-pic-show-page profile-pic-show-page-mobile" src="/../images/user.png"/>
-                            </span>
-                            <span th:if="${post.user.profilePicture} != null">
-                                <img class="profile-pic-show-page profile-pic-show-page-mobile" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>
-                            </span>
-                        </div>
+                        <a th:href="@{/profile/{id}(id=${post.user.id})}">
+                            <div class="profile-pic-wrapper-show-page">
+                                <span th:if="${post.user.profilePicture} == null">
+                                    <img class="profile-pic-show-page profile-pic-show-page-mobile" src="/../images/user.png"/>
+                                </span>
+                                <span th:if="${post.user.profilePicture} != null">
+                                    <img class="profile-pic-show-page profile-pic-show-page-mobile" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>
+                                </span>
+                            </div>
+                        </a>
 
                         <div class="post-info-name-date-wrapper">
                             <div>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
@@ -201,14 +203,16 @@
         <!--th:attr allows me to target this element specifically in show.html's ajax request-->
         <div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
             <!-- this div should be targeted with unique th:attr -->
-            <div class="commentPicWrapper">
-                <span th:if="${comment.user.profilePicture} == null">
-                    <img class="profilePicComment" src="/../images/user.png"/>
-                </span>
-                <span th:if="${comment.user.profilePicture} != null">
-                    <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
-                </span>
-            </div>
+            <a th:href="@{/profile/{id}(id=${comment.user.id})}">
+                <div class="commentPicWrapper">
+                    <span th:if="${comment.user.profilePicture} == null">
+                        <img class="profilePicComment" src="/../images/user.png"/>
+                    </span>
+                    <span th:if="${comment.user.profilePicture} != null">
+                        <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
+                    </span>
+                </div>
+            </a>
 
             <div class="commentInfoWrapper">
                 <h5 th:classappend="${isParentComment} ? parentCommentStyling : commentedByStyling">
