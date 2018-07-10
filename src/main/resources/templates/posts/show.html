@@ -122,8 +122,10 @@
 
                     <div class="downvoteDiv">
                         <div th:if="${isLoggedIn}">
-                            <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST' th:attr="data-downvote-post-id=${post.id}">
-                                <i th:classappend="${downvote} ? stayActive : postDownvote" class="fas fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
+                            <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
+                                  th:attr="data-downvote-post-id=${post.id}">
+                                <i th:classappend="${downvote} ? stayActive : postDownvote"
+                                   class="fas fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
                             </form>
                         </div>
 
@@ -462,6 +464,7 @@
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
 
+    let postWrapper = $('.postWrapper-showPage');
     let container = $('.container');
     $('#srch-term').val('');
 
@@ -716,8 +719,7 @@
     <!-- ============================================== POST VOTING  =====================================================-->
     <!-- =================================================================================================================-->
 
-    container.on("click", ".postUpvote", function (e) {
-        e.preventDefault(); // prevent default form behavior and instead use ajax.
+    postWrapper.on("click", ".postUpvote", function (e) {
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
@@ -742,6 +744,8 @@
             let postId = button.parent().data('upvote-post-id');
             let postFormUp = $('[data-upvote-post-id=' + postId + ']');
 
+            console.log("clicked on post upvote for post: " + postId);
+
             let request = $.ajax({
                 url: postFormUp.attr('action'), //-> postVoting() in PostsController
                 method: 'POST',
@@ -762,8 +766,7 @@
         }
     });
 
-    container.on("click", ".postDownvote", function (e) {
-        e.preventDefault(); // prevent default form behavior and instead use ajax.
+    postWrapper.on("click", ".postDownvote", function (e) {
 
         if ($(e.target).hasClass('stayActive')) {
             //remove vote
