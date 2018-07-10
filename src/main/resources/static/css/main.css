@@ -312,7 +312,15 @@ ul {
     /*font-size:6vw;*/
     margin-right: 1em;
     display: inline-block;
-    /*color: #E07A5F;*/
+    color: #3f403c;
+}
+
+.postTitle:hover {
+    text-decoration: underline;
+}
+
+.no-text-decoration:hover {
+    text-decoration: none;
 }
 
 .postUpVoteIconIndex {
