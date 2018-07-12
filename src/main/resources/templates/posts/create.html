@@ -10,9 +10,9 @@
 
     <form th:action="@{/posts/create}" th:method="POST" th:object="${post}" enctype="multipart/form-data">
 
-        <div class="form-group">
+        <div class="form-group title-form-group">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" class="form-control" th:field="*{title}"/>
+            <textarea type="text" name="title" class="form-control" id="title" th:field="*{title}"></textarea>
             <!--<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />-->
             <!--more fancy bootstrap alerts:-->
             <div
@@ -47,7 +47,7 @@
 
         <div class="form-group">
             <label for="myEditor">Description:</label>
-            <textarea type="text" name="description" class="form-control" id="myEditor" th:field="*{description}"  style="width: 1140px; height: 300px; resize: none"></textarea>
+            <textarea type="text" name="description" class="form-control" id="myEditor" th:field="*{description}"  style="resize: none"></textarea>
             <div
                     th:if="${#fields.hasErrors('description')}"
                     class="alert alert-danger alert-dismissible"
@@ -79,10 +79,40 @@
 <script>
     $( document ).ready(function() {
 
-        //$('#myEditor').markdownEditor();
+
+        $.fn.markdownEditor.defaults.height = '50px';
+        $('#title').markdownEditor({
+            imageUpload: false,
+            fullscreen: false,
+            preview: true,
+            // Activate the preview:
+            // This callback is called when the user click on the preview button:
+            onPreview: function (title, callback) {
+                // Example of implementation with ajax:
+                $.ajax({
+                    url: '/posts/title.json',
+                    type: 'GET',
+                    dataType: 'html',
+                    data: {title: title},
+                })
+                    .done(function (title) {
+                        // Return the html:
+                        callback(title);
+                    });
+            }
+        });
+        $('[data-btn="image"]').addClass('hidden');
+        $('[data-btn="link"]').addClass('hidden');
+        $('[data-btn="ul"]').addClass('hidden');
+        $('[data-btn="ol"]').addClass('hidden');
+        $('[data-btn="h1"]').addClass('hidden');
+        $('[data-btn="h2"]').addClass('hidden');
+        $('[data-btn="h3"]').addClass('hidden');
+
+        $.fn.markdownEditor.defaults.height = '325px';
         $('#myEditor').markdownEditor({
             // Activate the preview:
-            imageUpload: true, // Activate the option
+            imageUpload: false, // Activate the option
             // uploadPath: '/posts/image.json', // Path of the server side script that receives the files
             uploadPath: '/posts/image', // Path of the server side script that receives the files
             preview: true,
@@ -101,6 +131,7 @@
                     });
             }
         });
+
     });
 
 </script>
