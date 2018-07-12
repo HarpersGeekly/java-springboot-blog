@@ -221,13 +221,24 @@ public class PostsController {
 //============================================ MARKDOWN EDITOR PREVIEW =================================================
 //======================================================================================================================
 
+    @GetMapping("/posts/title.json")
+    @ResponseBody
+    public String showMarkdownPreviewInTitle(@RequestParam(name = "title") String title) {
+        //@RequestParam name = "title" refers to the ajax data's property name, data: {title: ____ }
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(parser.parse(title));
+    }
+
     @GetMapping("/posts/description.json")
     @ResponseBody
-    public String showMarkdownPreviewInForm(@RequestParam(name = "content") String content) {
+    public String showMarkdownPreviewInDescription(@RequestParam(name = "content") String content) {
+        //@RequestParam name = "content" refers to the ajax data's property name, data: {content: ____ }
         Parser parser = Parser.builder().build();
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(parser.parse(content));
     }
+
 
 //============================================ MARKDOWN EDITOR IMAGE UPLOAD =================================================
 //======================================================================================================================
