@@ -401,6 +401,9 @@ public class PostsController {
 
         List<PostVote> votes = post.getVotes();
 
+//        Excuse to mess around with foreach:
+//        votes.forEach(vote -> System.out.println(vote));
+
         System.out.println("vote count:" + post.voteCount());
 
         for (PostVote vote : votes) {
