@@ -221,4 +221,10 @@ public class Post {
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(parser.parse(description));
     }
+
+    public String getHtmlTitle() {
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(parser.parse(title));
+    }
 }
