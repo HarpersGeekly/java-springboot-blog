@@ -41,23 +41,16 @@
 
             <div class="postInfoWrapper" id="custom-content-width">
                 <div class="indent">
-                    <h4 th:text="${post.title}" class="postTitle no-text-decoration">
-                        <!--<a th:href="@{/posts/{id}(id=${post.id})}"></a> -->
-                    </h4>
+                    <!-- BEFORE allowing markdown editing for titles:-->
+                    <!--<h4 th:text="${post.title}" class="postTitle no-text-decoration">-->
+                    <!--AFTER allowing markdown editing for titles. Uses new property in Post class and th:utext-->
+                    <!--<h4 th:utext="${post.htmlTitle}" class="postTitle no-text-decoration"></h4>-->
+                    <!-- OR call the method directly:-->
+                    <h4 th:utext="${post.getHtmlTitle()}" class="postTitle no-text-decoration"></h4>
 
                     <div class="post-tags">
                         <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
                     </div>
-
-                    <!--<div>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">-->
-                        <!--<span th:text="${post.user.username}"></span></a>-->
-                        <!--<div>-->
-                            <!--<span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>-->
-                            <!--<span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>-->
-                            <!--<span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>-->
-                            <!--<span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>-->
-                        <!--</div>-->
-                    <!--</div>-->
 
                     <div class="post-info-wrapper-mobile">
                         <a th:href="@{/profile/{id}(id=${post.user.id})}">
