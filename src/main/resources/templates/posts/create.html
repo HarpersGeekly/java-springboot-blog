@@ -44,7 +44,6 @@
             </div>
         </div>
 
-
         <div class="form-group">
             <label for="myEditor">Description:</label>
             <textarea type="text" name="description" class="form-control" id="myEditor" th:field="*{description}"  style="resize: none"></textarea>
@@ -60,12 +59,17 @@
             </div>
         </div>
 
+        <h4>Tips &amp; Guidelines:</h4>
+        <blockquote>
+            <h5>Best practice is to start your post with an image, if possible. Large images will be scaled.</h5>
+            <h5>For links to conveniently open in a new tab, copy the following HTML:</h5>
+            &lt;a href="url goes here" target="_blank">text goes here&lt;/a&gt;
+        </blockquote>
 
         <!--<div class="form-group">-->
         <!--<label for="file">Upload a file!</label>-->
         <!--<input id="file" name="image_file" type="file" />-->
         <!--</div>-->
-
 
         <!--<input type="submit" value="Post!" class="btn btn-primary btn-block" />-->
         <!--<input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}"/>-->
