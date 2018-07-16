@@ -29,15 +29,15 @@ public class Post {
     private Long id;
 
     @Column(nullable = false, length = 100) // column on table, not-null
-    @NotBlank(message="Title cannot be empty")
+    @NotBlank(message = "Title cannot be empty")
     @Size(max = 100, message = "Title is too long")
     private String title;
 
     @Column(columnDefinition = "TEXT", length = 5000, nullable = false) // column, text for more, not-null
-    @NotBlank(message="Description cannot be empty")
+    @NotBlank(message = "Description cannot be empty")
     @Size.List({
-            @Size(min = 5, message="Description must be at least 5 characters."),
-            @Size(max = 5000, message="Description is too long.")
+            @Size(min = 5, message = "Description must be at least 5 characters."),
+            @Size(max = 5000, message = "Description is too long.")
     })
     private String description;
 
@@ -61,12 +61,12 @@ public class Post {
 //    , orphanRemoval = true
     private List<PostVote> votes; // one post can have many votes, if a post is deleted, the votes disappear too.
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "posts_categories",
             joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
     @OrderBy("name ASC")
-    @NotEmpty(message="Categories cannot be empty")
+    @NotEmpty(message = "Categories cannot be empty")
     private List<Category> categories;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
@@ -104,7 +104,8 @@ public class Post {
     }
 
     //use for Spring magic.
-    public Post() {}
+    public Post() {
+    }
 
     public Long getId() {
         return id;
@@ -229,13 +230,62 @@ public class Post {
     }
 
     public String toTitleCase(String title) {
-        String[] arr = title.split(" ");
-        StringBuffer sb = new StringBuffer();
 
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(Character.toUpperCase(arr[i].charAt(0)))
-                    .append(arr[i].substring(1)).append(" ");
+//        if (title.indexOf('*') > -1) {
+//            System.out.println("if:" + title);
+//            String upper = title.substring(2, 3).toUpperCase();
+//            System.out.println("upper:" + upper);
+//            String finalString = title.replace(title.substring(2, 3), upper);
+//            System.out.println("final" + finalString);
+//            return finalString;
+//        }
+
+            StringBuffer res = new StringBuffer();
+
+            String[] strArr = title.split(" ");
+            for (String str : strArr) {
+                char[] stringArray = str.trim().toCharArray();
+                System.out.println("string array" + stringArray);
+                for(Character c : stringArray) {
+                    if (c.equals('*')) {
+                        stringArray[1] = Character.toUpperCase(stringArray[1]);
+                    }
+                }
+                stringArray[0] = Character.toUpperCase(stringArray[0]);
+                str = new String(stringArray);
+                res.append(str).append(" ");
+
+                System.out.println("get here");
+            }
+            return res.toString().trim();
         }
-        return sb.toString().trim();
-    }
 }
+
+//            String newTitle = title.substring(2, 3).toUpperCase();
+//            System.out.println("first letter:" + newTitle);
+//        }
+//        String[] arr = title.split(" ");
+//        StringBuffer sb = new StringBuffer();
+//
+//            for (int i = 0; i < arr.length; i++) {
+//                sb.append(Character.toUpperCase(arr[i].charAt(0)) )
+//                        .append(arr[i].substring(1)).append(" ");
+//            }
+//            return sb.toString().trim();
+//        } else if(title.substring(0, 1).equals("*")) {
+//            title.substring(1,2).toUpperCase();
+//            for (int i = 0; i < arr.length; i++) {
+//                sb.append(Character.toUpperCase(arr[i].charAt(0)))
+//                        .append(arr[i].substring(1)).append(" ");
+//            }
+//            return sb.toString().trim();
+//        }  else if(title.substring(0, 3).equals("<p>")) {
+//            for (int i = 0; i < arr.length; i++) {
+//                sb.append(Character.toUpperCase(arr[i].charAt(0)))
+//                        .append(arr[i].substring(1)).append(" ");
+//            }
+//
+//        }
+//        return sb.toString().trim();
+//    }
+//}
