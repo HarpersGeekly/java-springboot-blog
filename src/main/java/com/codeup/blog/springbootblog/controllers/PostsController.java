@@ -127,7 +127,7 @@ public class PostsController {
 //      Also set the User of the Post to the User who is logged in, and set the Date.
     @PostMapping("/posts/create")
     public String createPost(@Valid Post post,
-                             Errors validation, Model viewModel) {
+                             Errors validation, Model viewModel, @RequestParam(name = "title") String title) {
 //      @Valid Post post now calls @ModelAttribute Post post first/instead and calls the validations!
 
         // Validation:
@@ -143,6 +143,7 @@ public class PostsController {
 //        post.setDescription(xp.getAsText());
 //        This XSSPrevent isn't allowing me to update my code? What gives?
 
+        post.setTitle(post.titleToUppercase(title));
         post.setUser(userSvc.loggedInUser());
         post.setDate(LocalDateTime.now());
         postSvc.save(post);
@@ -176,7 +177,7 @@ public class PostsController {
 //        XSSPrevent xp = new XSSPrevent();
 //        xp.setAsText(post.getTitle());
 //        post.setDescription(xp.getAsText());
-
+        post.setTitle(post.titleToUppercase(post.getTitle()));
         post.setUser(userSvc.loggedInUser());
         post.setId(id);
         postSvc.save(post);
