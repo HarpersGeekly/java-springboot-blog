@@ -23,7 +23,8 @@ html {
 .navbar-default {
     border: none;
     background-color: #3f403c;
-    /*-webkit-clip-path: polygon(0 0, 1600px 0, 1600px 50%, 0 100%);*/
+    /*-webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 0 65%);*/
+    /*clip-path: polygon(0 0, 100% 0, 100% 90%, 0 65%);*/
     /*border-bottom: #FFFAFB solid 10px;*/
     /*box-shadow: 0px 0px 30px #333;*/
 }
@@ -309,7 +310,7 @@ ul {
 
 .postTitle {
     font-family: Oswald, sans-serif;
-    font-size: 2.5em;
+    font-size: 2.1em;
     /*font-size:6vw;*/
     margin-right: 1em;
     display: inline-block;
@@ -1231,7 +1232,7 @@ textarea, input, .form-control {
 
 #footer {
     /*border-top: #00aeff solid 10px;*/
-    background: #131515;
+    background-color: #3f403c;
     /*height: 100px;*/
     position: absolute;
     bottom: 0;

@@ -116,7 +116,9 @@
 
                     <div class="indent">
                         <a th:href="@{/posts/{id}(id=${post.id})}">
-                            <h4 th:utext="${post.getHtmlTitle()}" class="postTitle"></h4>
+                            <!--<h4 th:utext="${post.getHtmlTitle()}" class="postTitle"></h4>-->
+                            <!--<h4 th:utext="${post.titleToUppercase(post.getHtmlTitle())}" class="postTitle"></h4>-->
+                            <h4 th:utext="${post.htmlTitle}" class="postTitle"></h4>
                         </a>
 
                         <div class="post-tags">

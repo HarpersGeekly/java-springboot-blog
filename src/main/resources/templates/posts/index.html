@@ -250,7 +250,7 @@
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
 
-        // ============================= SHOW MORE CONTENT ON CLICK ===================================
+    //============================= SHOW MORE CONTENT ON CLICK ===================================
 
         // show more posts:
         let limit = 3;
@@ -279,12 +279,11 @@
             });
 
             request.done((html) => {
+                batch++;
 
-                    batch++;
-
-                    $('.more-posts-go-here').append(html).hide().fadeIn();
-                    $('div.postDescription img').css({'max-width' : '740px'});
-                    $('.postDescription').removeClass('hidden');
+                $('.more-posts-go-here').append(html).hide().fadeIn();
+                $('div.postDescription img').css({'max-width' : '740px'});
+                $('.postDescription').removeClass('hidden');
 
                 // $('html, body').animate({
                 //     scrollTop: $('.secretAjaxClass').offset().top - $(window).height() / 4
