@@ -229,7 +229,7 @@ public class Post {
         return renderer.render(parser.parse(title));
     }
 
-    public String toTitleCase(String title) {
+    public String titleToUppercase(String title) {
 
         StringBuffer sb = new StringBuffer();
 
