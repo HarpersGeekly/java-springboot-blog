@@ -231,61 +231,27 @@ public class Post {
 
     public String toTitleCase(String title) {
 
-//        if (title.indexOf('*') > -1) {
-//            System.out.println("if:" + title);
-//            String upper = title.substring(2, 3).toUpperCase();
-//            System.out.println("upper:" + upper);
-//            String finalString = title.replace(title.substring(2, 3), upper);
-//            System.out.println("final" + finalString);
-//            return finalString;
-//        }
+        StringBuffer sb = new StringBuffer();
 
-            StringBuffer res = new StringBuffer();
+        String[] sentence = title.split(" ");
 
-            String[] strArr = title.split(" ");
-            for (String str : strArr) {
-                char[] stringArray = str.trim().toCharArray();
-                System.out.println("string array" + stringArray);
-                for(Character c : stringArray) {
-                    if (c.equals('*')) {
-                        stringArray[1] = Character.toUpperCase(stringArray[1]);
-                    }
+        for (String word : sentence) {
+
+            char[] letters = word.toCharArray(); // no need to trim()
+
+            for (int i = 0; i < letters.length; i++) {
+                if (letters[i] != '*') {
+                    // Capitalize the first non-asterisk (even if that doesn't change it)
+                    letters[i] = Character.toUpperCase(letters[i]);
+                    // No need to look any further
+                    break;
                 }
-                stringArray[0] = Character.toUpperCase(stringArray[0]);
-                str = new String(stringArray);
-                res.append(str).append(" ");
-
-                System.out.println("get here");
             }
-            return res.toString().trim();
+            // That's it for capitalizing!
+            word = new String(letters);
+            sb.append(word).append(" ");
+            System.out.println("get here");
         }
+        return sb.toString().trim();
+    }
 }
-
-//            String newTitle = title.substring(2, 3).toUpperCase();
-//            System.out.println("first letter:" + newTitle);
-//        }
-//        String[] arr = title.split(" ");
-//        StringBuffer sb = new StringBuffer();
-//
-//            for (int i = 0; i < arr.length; i++) {
-//                sb.append(Character.toUpperCase(arr[i].charAt(0)) )
-//                        .append(arr[i].substring(1)).append(" ");
-//            }
-//            return sb.toString().trim();
-//        } else if(title.substring(0, 1).equals("*")) {
-//            title.substring(1,2).toUpperCase();
-//            for (int i = 0; i < arr.length; i++) {
-//                sb.append(Character.toUpperCase(arr[i].charAt(0)))
-//                        .append(arr[i].substring(1)).append(" ");
-//            }
-//            return sb.toString().trim();
-//        }  else if(title.substring(0, 3).equals("<p>")) {
-//            for (int i = 0; i < arr.length; i++) {
-//                sb.append(Character.toUpperCase(arr[i].charAt(0)))
-//                        .append(arr[i].substring(1)).append(" ");
-//            }
-//
-//        }
-//        return sb.toString().trim();
-//    }
-//}
