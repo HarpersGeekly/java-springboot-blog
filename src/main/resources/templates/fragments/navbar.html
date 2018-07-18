@@ -18,7 +18,7 @@
                 </button>
 
                 <a class="navbar-brand" href="/posts">
-                    <img id="header-icon" src="/images/celtic-harp-24-8526.png"/> Harp of the Day
+                    <img id="header-icon" src="/images/celtic-harp-24-8526.png"/> Harper's Geekly
                 </a>
 
             </div>
@@ -83,6 +83,38 @@
             </div>
         </div>
     </nav>
+
+    <div style="
+    overflow: scroll;
+    position: fixed;
+    z-index: 999;
+    background-color: #7de3d2;
+-webkit-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.75);">
+
+        <div style="
+        height: 40px;
+        -webkit-clip-path: polygon(0 0, 100% 0%, 25% 100%, 0 100%);
+        clip-path: polygon(0 0, 100% 0%, 25% 100%, 0 100%);
+        z-index: 5;
+        background-color: #FCD581;">
+        </div>
+
+        <div style="
+        margin-top: -100px;
+    height: 100px;
+    -webkit-clip-path: polygon(100% 0, 100% 100%, 0 50%, 0 0);
+    clip-path: polygon(100% 0, 100% 100%, 0 50%, 0 0);
+    z-index: 6;
+    background-color: hotpink;">
+        </div>
+
+    </div>
+
+
+
+
     <!--<div class="indexCategoriesListWrapper">-->
         <!--<a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>-->
     <!--</div>-->
