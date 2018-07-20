@@ -142,9 +142,11 @@
             <!--</div>-->
 
             <div class="gradientBox">
-                <div class="postDescription hidden">
-                    <p th:utext="${post.htmlDescription}"></p>
-                </div>
+                <!--<a th:href="@{/posts/{id}(id=${post.id})}">-->
+                    <div class="postDescription hidden">
+                        <p th:utext="${post.htmlDescription}"></p>
+                    </div>
+                <!--</a>-->
 
                 <div class="read-more-div">
                     <i class="fas fa-hand-point-right fa-read-more"></i>
