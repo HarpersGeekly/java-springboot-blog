@@ -674,6 +674,12 @@ textarea, input, .form-control {
     border-radius: 20px;
 }
 
+.flipped-reply {
+    /*transform: rotate(180deg) scaleX(-1);*/
+    /*transform: rotate(90deg) scale(-1, 1);*/
+    transform: scale(-1, 1);
+}
+
 #commentedByStyling {
     border-radius: 20px;
 }
@@ -703,6 +709,7 @@ textarea, input, .form-control {
 
 .parentCommentOwnersProfileLink, .parentCommentOwnersProfileLink:hover {
     color: black;
+    padding-right:1em;
 }
 
 .commentBodyText {
