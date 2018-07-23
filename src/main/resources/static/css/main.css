@@ -670,6 +670,10 @@ textarea, input, .form-control {
     border-radius: 20px;
 }
 
+#commentedBy {
+    border-radius: 20px;
+}
+
 #commentedByStyling {
     border-radius: 20px;
 }
@@ -695,6 +699,10 @@ textarea, input, .form-control {
 .commentBodyWrapper {
     margin-top: 1.5em;
     margin-bottom: 1.5em;
+}
+
+.parentCommentOwnersProfileLink, .parentCommentOwnersProfileLink:hover {
+    color: black;
 }
 
 .commentBodyText {

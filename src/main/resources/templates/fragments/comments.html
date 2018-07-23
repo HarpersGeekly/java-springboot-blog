@@ -36,7 +36,7 @@
         <!-- =============================== Comment Body =========================-->
 
             <div class="commentBodyWrapper">
-                <a th:href="${'/profile/' + comment.getParentComment().getUser().getId()}" th:text="${'@' + comment.getParentComment().getUser().getUsername()}"></a>
+                <a class="parentCommentOwnersProfileLink" th:href="${'/profile/' + comment.getParentComment().getUser().getId()}" th:text="${'@' + comment.getParentComment().getUser().getUsername()}"></a>
 
                 <h5 th:text="${comment.body}" class="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
             </div>
