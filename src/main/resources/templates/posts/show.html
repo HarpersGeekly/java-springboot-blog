@@ -349,13 +349,13 @@
 
                 <div th:if="${!isLoggedIn}" class="replyNotLoggedIn">
                     <a th:href="${'/login'}">
-                        <i class="fas fa-reply"></i> REPLY
+                        <i class="fas fa-reply flipped-reply"></i> REPLY
                     </a>
                 </div>
                 <div th:if="${isLoggedIn}">
                     <h5 class="showReplyTextArea" th:attr="data-show-reply-textarea-comment-id=${comment.id}">
                         <!--data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
-                        <i class="fas fa-reply"></i> REPLY
+                        <i class="fas fa-reply flipped-reply"></i> REPLY
                     </h5>
                     <h5 class="showReplyTextAreaCancel hidden" th:attr="data-cancel-reply-textarea-comment-id=${comment.id}">
                         <i class="fas fa-times"></i> CANCEL
