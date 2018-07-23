@@ -222,7 +222,9 @@
                 <!-- =============================== Comment Body =========================-->
 
                 <div class="commentBodyWrapper">
-                    <a th:href="${'/profile/' + comment.user.id}" th:text="${'@' + comment.user.username}"></a>
+
+                    <!--uncomment if I want to have @Poster for the parent comments, but thinking maybe not necessary-->
+                    <!--<a th:if="${isParentComment}" th:href="${'/profile/' + post.user.id}" th:text="${'@' + post.user.username}"></a>-->
 
                     <h5 th:text="${comment.body}" class="commentBodyText"
                         th:attr="data-comment-body-comment-id=${comment.id}">
@@ -570,7 +572,7 @@
             // $('.replyTextArea').addClass('hidden'); // hide the reply text area.
             $('.showReplyTextAreaCancel').addClass('hidden');
             $('.replyFormBody').val('');
-            $('#commentedBy').css("background-color", "papayawhip");
+            $('#commentedBy').css("background-color", "#99999930");
 
             // let commentId = $('.commentWrapper').data('[data-edit-delete-comment-id]');
             // let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
@@ -954,7 +956,7 @@
                     showReplyTextArea.removeClass('hidden');
                     commentEditForm.addClass('hidden'); //hide the edit form.
                     replyWrapper.addClass('hidden'); // hide the reply text area.
-                    console.log("response was a comment.")
+                    console.log("response was a comment.");
                     cancelReply.addClass('hidden');
                 }
                 childCommentDiv.append(html).hide().fadeIn(1500); //append the comment in the childCommentDiv
