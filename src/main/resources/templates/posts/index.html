@@ -37,7 +37,9 @@
                     </div>
 
                     <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                        <h4 class="popularTitleText" th:text="${post.title}"></h4>
+                        <!--<h4 class="popularTitleText" th:text="${post.title}"></h4>-->
+                        <!--markdown title:-->
+                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
                     </a>
                 </div>
 
@@ -62,7 +64,7 @@
                     </div>
 
                     <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                        <h4 class="popularTitleText" th:text="${post.title}"></h4>
+                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
                     </a>
                 </div>
 
@@ -189,7 +191,7 @@
                 </div>
 
                 <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                    <h4 class="popularTitleText" th:text="${post.title}"></h4>
+                    <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
                 </a>
             </div>
 
@@ -214,7 +216,7 @@
                 </div>
 
                 <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                    <h4 class="popularTitleText" th:text="${post.title}"></h4>
+                    <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
                 </a>
             </div>
 
