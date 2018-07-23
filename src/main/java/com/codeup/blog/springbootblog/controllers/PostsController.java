@@ -258,23 +258,32 @@ public class PostsController {
 //                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
 //                                       Pageable pageable) {
 //        Post post = new Post(1L,"First Title", "First Description");
-        Post post = postSvc.findOne(id);
-        User user = userSvc.loggedInUser();
+//        viewModel.addAttribute("page", commentSvc.postCommentsByPage(id, pageable));
 
         System.out.println("get to show.html controller");
 
-        viewModel.addAttribute("post", post);
-        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
-        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
-        viewModel.addAttribute("comment", comment);
-        viewModel.addAttribute("comments", commentSvc.commentsOnPost(id));
-        viewModel.addAttribute("isParentComment", comment.isParentComment(comment));
-//        viewModel.addAttribute("comment", new Comment());
-//        viewModel.addAttribute("page", commentSvc.postCommentsByPage(id, pageable));
-        viewModel.addAttribute("categories", categoriesDao.findAll());
+        Post post = postSvc.findOne(id);
+        User postOwner = post.getUser();
+        User loggedInUser = userSvc.loggedInUser();
+        List<Comment> comments = commentSvc.commentsOnPost(id);
+        List<Category> categories = (List<Category>) categoriesDao.findAll();
 
-        if (user != null) {
-            PostVote vote = post.getVoteFrom(user);
+        boolean isLoggedIn = userSvc.isLoggedIn();
+        boolean isPostOwner = userSvc.isLoggedInAndPostMatchesUser(post.getUser());
+        boolean isParentComment = comment.isParentComment(comment);
+
+        viewModel.addAttribute("post", post);
+        viewModel.addAttribute("postOwner", postOwner);
+        viewModel.addAttribute("loggedInUser", loggedInUser);
+        viewModel.addAttribute("comment", comment);
+        viewModel.addAttribute("comments", comments);
+        viewModel.addAttribute("categories", categories);
+        viewModel.addAttribute("isLoggedIn", isLoggedIn);
+        viewModel.addAttribute("isPostOwner", isPostOwner);
+        viewModel.addAttribute("isParentComment", isParentComment);
+
+        if (loggedInUser != null) {
+            PostVote vote = post.getVoteFrom(loggedInUser);
             viewModel.addAttribute("upvote", vote != null && vote.isUpvote());
             viewModel.addAttribute("downvote", vote != null && vote.isDownVote());
         }
@@ -291,7 +300,11 @@ public class PostsController {
     String postComment(@PathVariable Long postId, @Valid Comment comment, BindingResult validation, Model viewModel) {
 
         Post post = postSvc.findOne(postId);
+        User postOwner = post.getUser();
+        System.out.println("get to comment on post controller:");
+        System.out.println(postOwner.getUsername());
         viewModel.addAttribute("post", post);
+        viewModel.addAttribute("postOwner", postOwner);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("comment", comment);
@@ -471,10 +484,8 @@ public class PostsController {
         System.out.println("Get to reply controller");
 
         Post post = postSvc.findOne(postId);
+        User user = post.getUser();
         Comment parent = commentSvc.findOne(parentId);
-//        List<Comment> children = parent.getChildrenComments();
-        viewModel.addAttribute("replyToUserId", parent.getUser().getId());
-        viewModel.addAttribute("replyToUserUsername", parent.getUser().getUsername());
 
         if (validation.hasErrors()) {
             viewModel.addAttribute("comment", comment);
@@ -485,6 +496,7 @@ public class PostsController {
         viewModel.addAttribute("comment", newComment);
 //        viewModel.addAttribute("children", children);
         viewModel.addAttribute("post", post);
+        viewModel.addAttribute("postOwner", user);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser()));
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
 
