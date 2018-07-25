@@ -24,7 +24,7 @@
                         <h4 th:utext="${post.htmlTitle}" class="postTitle ajaxPost"></h4>
                     </a>
 
-                    <div class="post-tags">
+                    <div class="post-tags-div">
                         <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
                     </div>
 
