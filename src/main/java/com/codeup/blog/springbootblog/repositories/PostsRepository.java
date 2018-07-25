@@ -21,7 +21,7 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
     List<Post> searchPostsWithKeyword(String term);
 
     // When you land on the index page, you will always see the latest number of posts.
-    @Query(nativeQuery = true, value="SELECT * from posts p ORDER BY p.id DESC LIMIT 3")
+    @Query(nativeQuery = true, value="SELECT * from posts p ORDER BY p.id DESC LIMIT 4")
     List<Post> postsByResultSetIndexPage();
 
     // When you click the Load More Posts button, you will see the next set. Use this or pagination @Deprecated?
