@@ -208,7 +208,7 @@
             </a>
 
             <div class="commentInfoWrapper">
-                <h5 th:classappend="${isParentComment} ? parentCommentStyling : commentedByStyling">
+                <h5 th:classappend="${isChildComment != null} ? parentCommentStyling : commentedByStyling">
                     <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                         <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                     </a>
@@ -224,7 +224,7 @@
                 <div class="commentBodyWrapper">
 
                     <!--uncomment if I want to have @Poster for the parent comments, but thinking maybe not necessary-->
-                    <!--<a th:if="${isParentComment}" th:href="${'/profile/' + post.user.id}" th:text="${'@' + post.user.username}"></a>-->
+                    <!--<a th:if="${isChildComment != null}" th:href="${'/profile/' + post.user.id}" th:text="${'@' + post.user.username}"></a>-->
 
                     <h5 th:text="${comment.body}" class="commentBodyText"
                         th:attr="data-comment-body-comment-id=${comment.id}">
