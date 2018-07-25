@@ -40,9 +40,6 @@
         <!-- =============================== Comment Body =========================-->
 
             <div class="commentBodyWrapper">
-                <!--For right now I have this functionality in the heading of the comment and not down in the body-->
-                <!--<a class="parentCommentOwnersProfileLink" th:href="${'/profile/' + comment.getParentComment().getUser().getId()}" th:text="${'@' + comment.getParentComment().getUser().getUsername()}"></a>-->
-
                 <h5 th:text="${comment.body}" class="commentBodyText" th:attr="data-comment-body-comment-id=${comment.id}"></h5>
             </div>
 
