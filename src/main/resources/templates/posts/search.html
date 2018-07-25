@@ -97,7 +97,7 @@
     <div class="indexPagePostsWrapper">
 
         <div id="emptySearchDiv" th:if="${searchedContent.isEmpty()}">
-            <p id="emptySearchedContent"><i class="far fa-frown profileFrownIcon"></i> There are no posts for this category yet. <a th:href="${'/posts/create'}">Get posting!</a></p>
+            <p id="emptySearchedContent"><i class="far fa-frown profileFrownIcon"></i> Search term returned zero results. <a th:href="${'/posts/create'}">Feel free to make a post.</a></p>
         </div>
 
         <div class="content" th:each="post : ${searchedContent}">
