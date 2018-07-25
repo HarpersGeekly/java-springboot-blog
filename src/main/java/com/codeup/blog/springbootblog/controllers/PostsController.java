@@ -270,7 +270,7 @@ public class PostsController {
 
         boolean isLoggedIn = userSvc.isLoggedIn();
         boolean isPostOwner = userSvc.isLoggedInAndPostMatchesUser(post.getUser());
-        boolean isParentComment = comment.isParentComment(comment);
+        boolean isChildComment = comment.isChildComment(comment);
 
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("postOwner", postOwner);
@@ -280,7 +280,7 @@ public class PostsController {
         viewModel.addAttribute("categories", categories);
         viewModel.addAttribute("isLoggedIn", isLoggedIn);
         viewModel.addAttribute("isPostOwner", isPostOwner);
-        viewModel.addAttribute("isParentComment", isParentComment);
+        viewModel.addAttribute("isChildComment", isChildComment);
 
         if (loggedInUser != null) {
             PostVote vote = post.getVoteFrom(loggedInUser);
@@ -329,7 +329,7 @@ public class PostsController {
 
 //      return comment;
 //      By returning this fragment (fragments/comments.html), we get all of our Thymeleaf-operated HTML
-        return "fragments/comments :: ajaxComment";
+        return "fragments/parentComments :: ajaxParent";
     }
 
 //=============================================== EDIT A COMMENT  ==============/posts/{postId}/comment/{commentId}/edit
