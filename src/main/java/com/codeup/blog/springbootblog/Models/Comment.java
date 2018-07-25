@@ -154,7 +154,7 @@ public class Comment {
     private Comment parentComment;
 
 //  if you don't have a parent comment, null, then you're a child comment.
-    public boolean isParentComment(Comment comment) {
+    public boolean isChildComment(Comment comment) {
         return comment.getParentComment() == null;
     }
 
