@@ -48,7 +48,7 @@
                     <!-- OR call the method directly:-->
                     <h4 th:utext="${post.getHtmlTitle()}" class="postTitle no-text-decoration"></h4>
 
-                    <div class="post-tags">
+                    <div class="post-tags-div">
                         <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
                     </div>
 

@@ -237,7 +237,7 @@ html {
 }
 
 .popularTitleLink {
-    text-decoration: underline;
+    text-decoration: none;
     color: #888888;
     transition: color 0.1s linear;
     -webkit-transition: color 0.1s linear;
@@ -246,12 +246,11 @@ html {
 
 .popularTitleLink:hover {
     color: #7DE2D1;
+    text-decoration: none;
 }
 
 .popularTitleText {
     font-size: 1em;
-    float: left;
-    padding-right: 1em;
 }
 
 .popularPostUserWrapper {
@@ -346,12 +345,17 @@ ul {
     color: #888888;
 }
 
+.post-tags-div {
+    margin-bottom: 5px;
+}
+
 .post-tag {
     color: #E07A5F;
     font-size: 0.9em;
     font-weight: normal;
     background-color: papayawhip;
     padding: 0.25em;
+    margin-bottom: 5px;
     border-radius: 3px;
 }
 

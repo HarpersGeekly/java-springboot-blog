@@ -157,7 +157,19 @@
         line-height: 1.3;
     }
 
+    .postDescription > a {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        /* width: 100%; */
+        line-height: 1.3;
+    }
+
     .postDescription > p > img  {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    .postDescription > a > p > img {
         max-width: 100% !important;
         height: auto !important;
     }
