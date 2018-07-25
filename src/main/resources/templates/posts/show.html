@@ -85,50 +85,51 @@
                 </div>
 
                 <!-- ====================================== Post Voting ======================================-->
-
-                <div th:if="${!isLoggedIn}" class="replyNotLoggedIn">
-                    <a th:href="${'/login'}">
-                        <i class="fas fa-reply flipped-reply"></i> REPLY
-                    </a>
-                </div>
-
-                <div class="postVoting">
-                    <div class="upvoteDiv">
-                        <div th:if="${!isLoggedIn}">
-                            <a th:href="${'/login'}">
-                                <i class="fas fa-thumbs-up"></i>
-                            </a>
+                <div>
+                    <div class="postVoting">
+                        <div class="upvoteDiv">
+                            <div th:if="${!isLoggedIn}">
+                                <a th:href="${'/login'}">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </a>
+                            </div>
+                            <div th:if="${isLoggedIn}">
+                                <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
+                                      th:attr="data-upvote-post-id=${post.id}">
+                                    <i th:classappend="${upvote} ? stayActive : postUpvote"
+                                       class="fas fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
+                                    <!--when clicked, stayActive class will be added or removed.-->
+                                </form>
+                            </div>
                         </div>
-                        <div th:if="${isLoggedIn}">
-                            <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
-                                  th:attr="data-upvote-post-id=${post.id}">
-                                <i th:classappend="${upvote} ? stayActive : postUpvote"
-                                   class="fas fa-thumbs-up postUpvote" th:if="${isLoggedIn}"></i>
-                                <!--when clicked, stayActive class will be added or removed.-->
-                            </form>
+
+                        <div class="voteCountDiv">
+                            <h5>
+                                <span class="postVoteCount" th:text="${post.voteCount()}" th:attr="data-voteCount-post-id=${post.id}"></span>
+                            </h5>
+                        </div>
+
+                        <div class="downvoteDiv">
+                            <div th:if="${isLoggedIn}">
+                                <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
+                                      th:attr="data-downvote-post-id=${post.id}">
+                                    <i th:classappend="${downvote} ? stayActive : postDownvote"
+                                       class="fas fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
+                                </form>
+                            </div>
+
+                            <div th:if="${!isLoggedIn}">
+                                <a th:href="${'/login'}">
+                                    <i class="fas fa-thumbs-down"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="voteCountDiv">
-                        <h5>
-                            <span class="postVoteCount" th:text="${post.voteCount()}" th:attr="data-voteCount-post-id=${post.id}"></span>
-                        </h5>
-                    </div>
-
-                    <div class="downvoteDiv">
-                        <div th:if="${isLoggedIn}">
-                            <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
-                                  th:attr="data-downvote-post-id=${post.id}">
-                                <i th:classappend="${downvote} ? stayActive : postDownvote"
-                                   class="fas fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
-                            </form>
-                        </div>
-
-                        <div th:if="${!isLoggedIn}">
-                            <a th:href="${'/login'}">
-                                <i class="fas fa-thumbs-down"></i>
-                            </a>
-                        </div>
+                    <div th:if="${!isLoggedIn}" class="replyNotLoggedIn">
+                        <a th:href="${'/login'}">
+                            <i class="fas fa-reply flipped-reply"></i> REPLY
+                        </a>
                     </div>
                 </div>
                 <!-- ====================================== Post Edit and Delete Buttons =====================-->
@@ -152,7 +153,9 @@
                         </div>
                     </div>
                 </div>
+
             </div>
+
         </div>
 
         <!-- ================================================================================================================-->

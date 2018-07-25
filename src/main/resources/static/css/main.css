@@ -799,7 +799,6 @@ textarea, input, .form-control {
 
 .postVoting {
     display: inline-block;
-    float: left;
     margin-top: 1em;
 }
 
@@ -886,7 +885,7 @@ textarea, input, .form-control {
 }
 
 .replyNotLoggedIn {
-    margin-top: 1.4em;
+    margin-top: 0.5em;
 }
 
 .showReplyTextArea, .showReplyTextAreaAJAX {
