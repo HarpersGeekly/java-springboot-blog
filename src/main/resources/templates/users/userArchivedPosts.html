@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: my-header('title')">
+</head>
+<body>
+<nav th:include="fragments/navbar :: my-navbar"></nav>
+
+<table id="dtBasicExample" data-toggle="table" class="table table-dark table-striped table-bordered table-sm" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th class="th-sm">Title
+            <i class="fa fa-sort float-right" aria-hidden="true"></i>
+        </th>
+        <th class="th-sm">Likes
+            <i class="fa fa-sort float-right" aria-hidden="true"></i>
+        </th>
+        <th class="th-sm">Comments
+            <i class="fa fa-sort float-right" aria-hidden="true"></i>
+        </th>
+        <th class="th-sm">Date
+            <i class="fa fa-sort float-right" aria-hidden="true"></i>
+        </th>
+        <th class="th-sm">Options
+            <i class="fa float-right" aria-hidden="true"></i>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post : ${posts}">
+        <td>
+            <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
+            </a>
+        </td>
+        <td>
+            <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
+            <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+        </td>
+        <td>
+            <i class="fas fa-comments postCommentIconIndex"></i>
+            <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+        </td>
+        <td>
+            <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+            <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
+            <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
+            <!--<span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>-->
+        </td>
+        <td>
+            <div>
+                <a class="btn btn-primary" id="profileEditPostBtn" th:href="${'/posts/' + post.id + '/edit'}">
+                    <i class="far fa-edit"></i> Edit
+                </a>
+                <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post"> <!--th:object="${post}"-->
+                    <button type="submit" class="btn btn-primary btn-danger" id="profileDeletePostBtn">
+                        <i class="fas fa-bomb"></i> Delete
+                    </button>
+                </form>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<footer th:include="fragments/footer :: my-footer"></footer>
+<script>
+    $(document).ready(function () {
+        $('#dtBasicExample').DataTable({
+            "order": [[ 3, "desc" ]]
+        });
+        $('.dataTables_length').addClass('bs-select');
+    });
+</script>
+</body>
+</html>
