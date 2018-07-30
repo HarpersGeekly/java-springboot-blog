@@ -1,5 +1,6 @@
 package com.codeup.blog.springbootblog.controllers;
 
+import com.codeup.blog.springbootblog.Models.Post;
 import com.codeup.blog.springbootblog.Models.User;
 import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
@@ -310,5 +311,14 @@ public class UsersController {
 
 //        return "redirect:/posts";
         return "users/editUser";
+    }
+
+    @GetMapping("/profile/{id}/archived")
+    public String userArchivedPosts(@PathVariable Long id, Model viewModel) {
+
+        User user = usersDao.findById(id);
+        List<Post> posts = postSvc.postsByUser(user.getId());
+        viewModel.addAttribute("posts", posts);
+        return "users/userArchivedPosts";
     }
 }
