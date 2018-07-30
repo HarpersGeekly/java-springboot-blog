@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:include="fragments/header :: my-header('Profile')">
     <style>
-
+        /*css for the modal*/
         .page {
             margin: 1em auto;
             max-width: 768px;
@@ -208,6 +208,10 @@
                     <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">
                         <h5 id="profileChangePasswordLink" data-target="#modal3" data-toggle="modal3">change password</h5>
                     </a>
+                </div>
+                <div class="profileChangeUsernameDiv">
+                    <i class="fas fa-archive"></i>
+                    <a th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}">manage posts</a>
                 </div>
                 <label id="profileChangePictureLink" data-target="#modal" data-toggle="modal">
                     <i class="fas fa-upload uploadIcon"></i>change profile picture
