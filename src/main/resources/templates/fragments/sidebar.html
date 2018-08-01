@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="sidebar">
+
+    <div class="popularityWrapper">
+
+        <h4 class="popularityHeader">Tags</h4>
+        <div class="eachPopularSection">
+            <div class="sidebar-category-tags-wrapper">
+                <div class="sidebar-category-tags" th:each="category : ${categories}">
+                    <a th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="popularityHeader">Popular Posts</h4>
+        <div class="eachPopularSection">
+
+            <div class="eachPopularPost" th:each="post : ${mostCommentedPosts}">
+                <div class="popularPostTitleWrapper">
+
+                    <div class="popularPostCountsWrapper">
+                        <i class="fas fa-comments popularPostCountIcon"></i>
+                        <h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>
+                    </div>
+
+                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                        <!--<h4 class="popularTitleText" th:text="${post.title}"></h4>-->
+                        <!--markdown title:-->
+                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
+                    </a>
+                </div>
+
+                <div class="popularPostUserWrapper">
+                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <h4 class="popularityHeader">Top Rated Posts</h4>
+        <div class="eachPopularSection">
+
+            <div class="eachPopularPost" th:each="post : ${mostLikedPosts}">
+                <div class="popularPostTitleWrapper">
+
+                    <div class="popularPostCountsWrapper">
+                        <i class="fas fa-thumbs-up popularPostCountIcon"></i>
+                        <h5 class="popularPostCount" th:text="${post.voteCount()}"></h5>
+                    </div>
+
+                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
+                    </a>
+                </div>
+
+                <div class="popularPostUserWrapper">
+                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <h4 class="popularityHeader">Top Rated Users</h4>
+        <div class="eachPopularSection">
+            <div class="popularUsers">
+
+                <div class="popularKarmas">
+                    <div th:each="karma : ${karmas}">
+                        <i class="fas fa-hand-peace karma-icon-index-page"></i>
+                        <span th:text="${karma}"></span>
+                    </div>
+                </div>
+
+                <div class="popularNames">
+                    <div th:each="user : ${popularUsers}">
+                        <a class="popularNamesLink" th:href="@{/profile/{id}(id=${user.id})}">
+                            <span th:text="${user.username}"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</th:block>
+
+<th:block th:fragment="sidebar-mobile">
+
+    <div class="popularityWrapperMobile">
+
+        <h4 class="popularityHeader">Tags</h4>
+        <div class="eachPopularSection">
+            <div class="sidebar-category-tags-wrapper">
+                <div class="sidebar-category-tags" th:each="category : ${categories}">
+                    <a th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="popularityHeader">Popular Posts</h4>
+        <div class="eachPopularSection">
+
+            <div class="eachPopularPost" th:each="post : ${mostCommentedPosts}">
+                <div class="popularPostTitleWrapper">
+
+                    <div class="popularPostCountsWrapper">
+                        <i class="fas fa-comments popularPostCountIcon"></i>
+                        <h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>
+                    </div>
+
+                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
+                    </a>
+                </div>
+
+                <div class="popularPostUserWrapper">
+                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <h4 class="popularityHeader">Top Rated Posts</h4>
+        <div class="eachPopularSection">
+
+            <div class="eachPopularPost" th:each="post : ${mostLikedPosts}">
+                <div class="popularPostTitleWrapper">
+
+                    <div class="popularPostCountsWrapper">
+                        <i class="fas fa-thumbs-up popularPostCountIcon"></i>
+                        <h5 class="popularPostCount" th:text="${post.voteCount()}"></h5>
+                    </div>
+
+                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
+                    </a>
+                </div>
+
+                <div class="popularPostUserWrapper">
+                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <h4 class="popularityHeader">Top Rated Users</h4>
+        <div class="eachPopularSection">
+            <div class="popularUsers">
+
+                <div class="popularKarmas">
+                    <div th:each="karma : ${karmas}">
+                        <i class="fas fa-hand-peace karma-icon-index-page"></i>
+                        <span th:text="${karma}"></span>
+                    </div>
+                </div>
+
+                <div class="popularNames">
+                    <div th:each="user : ${popularUsers}">
+                        <a class="popularNamesLink" th:href="@{/profile/{id}(id=${user.id})}">
+                            <span th:text="${user.username}"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</th:block>
+
+<!--UNUSED CATEGORY DROPDOWN...-->
+
+<!--<div class="dropdown btn-group">-->
+<!--<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--<span>Categories</span><i class="fas fa-caret-down categoriesDropdownDown"></i>-->
+<!--</button>-->
+<!--<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
+<!--<li class="navDropdownEachCategory" th:field="*{categories}" th:each="category : ${categories}">-->
+<!--<a class="navDropdownCategoryLink" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+
+</body>
+</html>
