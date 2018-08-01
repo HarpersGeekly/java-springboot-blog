@@ -1245,7 +1245,15 @@ textarea, input, .form-control {
     margin-right: 20px;
 }
 
+/*======================== Manage Posts page ===============*/
 
+.archive-table {
+    padding-top: 4em;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    width: 95%;
+}
 
 /*========================================================= BUTTONS ====================================================*/
 
