@@ -5,99 +5,11 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<div class="indexCategoriesListWrapper">
-    <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
-</div>
-
 <a href="#" class="scrollUp"><i class="fas fa-arrow-circle-up indent"></i></a>
 
-<div class="dropdown btn-group">
-    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span>Categories</span><i class="fas fa-caret-down categoriesDropdownDown"></i>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li class="navDropdownEachCategory" th:field="*{categories}" th:each="category : ${categories}">
-            <a class="navDropdownCategoryLink" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
-        </li>
-    </ul>
-</div>
-
 <div class="indexPageWrapper">
-    <div class="popularityWrapper">
 
-        <h4 class="popularityHeader">Popular Posts</h4>
-        <div class="eachPopularSection">
-
-            <div class="eachPopularPost" th:each="post : ${mostCommentedPosts}">
-                <div class="popularPostTitleWrapper">
-
-                    <div class="popularPostCountsWrapper">
-                        <i class="fas fa-comments popularPostCountIcon"></i>
-                        <h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>
-                    </div>
-
-                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                        <!--<h4 class="popularTitleText" th:text="${post.title}"></h4>-->
-                        <!--markdown title:-->
-                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
-                    </a>
-                </div>
-
-                <div class="popularPostUserWrapper">
-                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
-                        <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
-        <h4 class="popularityHeader">Top Rated Posts</h4>
-        <div class="eachPopularSection">
-
-            <div class="eachPopularPost" th:each="post : ${mostLikedPosts}">
-                <div class="popularPostTitleWrapper">
-
-                    <div class="popularPostCountsWrapper">
-                        <i class="fas fa-thumbs-up popularPostCountIcon"></i>
-                        <h5 class="popularPostCount" th:text="${post.voteCount()}"></h5>
-                    </div>
-
-                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
-                    </a>
-                </div>
-
-                <div class="popularPostUserWrapper">
-                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
-                        <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-
-        <h4 class="popularityHeader">Top Rated Users</h4>
-        <div class="eachPopularSection">
-            <div class="popularUsers">
-
-                <div class="popularKarmas">
-                    <div th:each="karma : ${karmas}">
-                        <i class="fas fa-hand-peace karma-icon-index-page"></i>
-                        <span th:text="${karma}"></span>
-                    </div>
-                </div>
-
-                <div class="popularNames">
-                    <div th:each="user : ${popularUsers}">
-                        <a class="popularNamesLink" th:href="@{/profile/{id}(id=${user.id})}">
-                            <span th:text="${user.username}"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <th:block th:include="fragments/sidebar :: sidebar"></th:block>
 
     <div class="indexPagePostsWrapper">
 
@@ -177,80 +89,7 @@
     </div>
 </div>
 
-<div class="popularityWrapperMobile">
-
-    <h4 class="popularityHeader">Popular Posts</h4>
-    <div class="eachPopularSection">
-
-        <div class="eachPopularPost" th:each="post : ${mostCommentedPosts}">
-            <div class="popularPostTitleWrapper">
-
-                <div class="popularPostCountsWrapper">
-                    <i class="fas fa-comments popularPostCountIcon"></i>
-                    <h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>
-                </div>
-
-                <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                    <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
-                </a>
-            </div>
-
-            <div class="popularPostUserWrapper">
-                <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
-                    <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-
-    <h4 class="popularityHeader">Top Rated Posts</h4>
-    <div class="eachPopularSection">
-
-        <div class="eachPopularPost" th:each="post : ${mostLikedPosts}">
-            <div class="popularPostTitleWrapper">
-
-                <div class="popularPostCountsWrapper">
-                    <i class="fas fa-thumbs-up popularPostCountIcon"></i>
-                    <h5 class="popularPostCount" th:text="${post.voteCount()}"></h5>
-                </div>
-
-                <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
-                    <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
-                </a>
-            </div>
-
-            <div class="popularPostUserWrapper">
-                <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
-                    <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
-                </a>
-            </div>
-        </div>
-
-    </div>
-
-    <h4 class="popularityHeader">Top Rated Users</h4>
-    <div class="eachPopularSection">
-        <div class="popularUsers">
-
-            <div class="popularKarmas">
-                <div th:each="karma : ${karmas}">
-                    <i class="fas fa-hand-peace karma-icon-index-page"></i>
-                    <span th:text="${karma}"></span>
-                </div>
-            </div>
-
-            <div class="popularNames">
-                <div th:each="user : ${popularUsers}">
-                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${user.id})}">
-                        <span th:text="${user.username}"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+<th:block th:include="fragments/sidebar :: sidebar-mobile"></th:block>
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
 
@@ -259,6 +98,7 @@
         // show more posts:
         let limit = 4;
         let batch = 1;
+
         let loadMore = true;
         $('.no-more-posts').addClass('hidden');
         $('.loading-gif-div').addClass('hidden');
@@ -268,7 +108,7 @@
 
             let request = $.ajax({
                 type: 'GET',
-                url: '/posts/retrieveMorePosts/' + (limit) + '/' + (batch),
+                url: '/posts/retrieveMorePosts/' + limit + '/' + batch,
                 // url: '/posts/retrieveMorePosts/?limit=??',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'html', //returning an html fragment from the controller, not a JSON object.
@@ -296,6 +136,8 @@
                 });
             request.fail((a, b, c) => {
                 console.log(a, b, c);
+
+                $('.no-more-posts').removeClass('hidden');
 
                 if (!loadMore) {
                     $('.more-posts-go-here').append("");
