@@ -4,40 +4,14 @@
 </head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
-<div class="indexCategoriesListWrapper">
-    <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}"
-       th:href="@{/posts/search(term=${category.name})}"></a>
-</div>
 
 <a href="#" class="scrollUp"><i class="fas fa-arrow-circle-up"></i></a>
-
-<div class="dropdown btn-group">
-    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-        <span>Categories</span><i class="fas fa-caret-down categoriesDropdownDown"></i>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li class="navDropdownEachCategory" th:field="*{categories}" th:each="category : ${categories}">
-            <a class="navDropdownCategoryLink" th:text="${category.name}"
-               th:href="@{/posts/search(term=${category.name})}"></a>
-        </li>
-    </ul>
-</div>
 
 <div class="showPageWrapper">
     <!-- ================================================================================================================-->
     <!-- ====================================================  SHOW THE POST ============================================-->
     <!-- ================================================================================================================-->
         <div class="postWrapper-showPage">
-
-            <!--<div class="postPicWrapper" id="postPicWrapper-ShowPage">-->
-                <!--<span th:if="${post.user.profilePicture} == null">-->
-                    <!--<img class="profilePicPost profilePicPost-ShowPage-mobile" src="/../images/user.png"/>-->
-                <!--</span>-->
-                <!--<span th:if="${post.user.profilePicture} != null">-->
-                    <!--<img class="profilePicPost profilePicPost-ShowPage-mobile" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>-->
-                <!--</span>-->
-            <!--</div>-->
 
             <div class="postInfoWrapper" id="custom-content-width">
                 <div class="indent">
@@ -401,7 +375,7 @@
         </div>
 
         <!--ALL NEW CHILD COMMENTS COMING IN ARE APPENDED HERE-->
-        <div class="childCommentDiv" th:attr="data-child-node-comment-id=${comment.id}"></div>
+        <div class="childCommentDiv indent-comment" th:attr="data-child-node-comment-id=${comment.id}"></div>
 
     </div>
 </div>
