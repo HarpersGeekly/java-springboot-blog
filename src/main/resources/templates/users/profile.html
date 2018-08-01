@@ -51,19 +51,6 @@
 </head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
-<div class="indexCategoriesListWrapper">
-    <a class="indexEachCategory" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
-</div>
-<div class="dropdown btn-group">
-    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span>Categories</span><i class="fas fa-caret-down categoriesDropdownDown"></i>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li class="navDropdownEachCategory" th:field="*{categories}" th:each="category : ${categories}">
-            <a class="navDropdownCategoryLink" th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
-        </li>
-    </ul>
-</div>
 
 <div class="container" id="profilePageWrapper">
 
@@ -209,9 +196,11 @@
                         <h5 id="profileChangePasswordLink" data-target="#modal3" data-toggle="modal3">change password</h5>
                     </a>
                 </div>
-                <div class="profileChangeUsernameDiv">
-                    <i class="fas fa-archive"></i>
-                    <a th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}">manage posts</a>
+                <div class="profileManagePostsDiv">
+                    <i class="fas fa-archive profileArchiveIcon"></i>
+                    <a th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}">
+                        <h5 id="profileManagePostsLink" data-target="#modal4">manage posts</h5>
+                    </a>
                 </div>
                 <label id="profileChangePictureLink" data-target="#modal" data-toggle="modal">
                     <i class="fas fa-upload uploadIcon"></i>change profile picture
