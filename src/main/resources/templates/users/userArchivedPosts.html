@@ -5,7 +5,8 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<span class="table-responsive archive-table">
+<div id="preloader"></div>
+<span class="archive-table hidden">
 
     <table id="dtBasicExample" data-toggle="table" class="table table-dark table-striped table-bordered table-sm" cellspacing="0" width="100%">
         <thead>
@@ -79,11 +80,19 @@
 <Script src="https://cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></Script>
 <script>
 
+    // $(window).load(function(){
+    //     $('#preloader').fadeOut('slow',function(){
+    //         $(this).remove();
+    //     });
+    // });
+
     $(document).ready(function () {
-
-
+        $('#preloader').fadeOut('slow',function(){
+            $(this).remove();
+            $('.archive-table').removeClass('hidden');
+        });
         $('#dtBasicExample').DataTable({
-            responsive: true,
+            // responsive: true,
             "order": [[ 3, "desc" ]],
         });
 
