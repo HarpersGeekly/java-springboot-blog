@@ -73,7 +73,7 @@
 <hr style="border-width: 5px;"/>
 <div class="flex-center-div">
     <div>
-        <button id="show-more-posts" type="submit">Show More Posts</button>
+        <button class="show-more-posts" type="submit">Show More Posts</button>
     </div>
 </div>
 
@@ -91,7 +91,7 @@
         $('.no-more-posts').addClass('hidden');
         $('.loading-gif-div').addClass('hidden');
 
-        $('#show-more-posts').on("click", function (e) {
+        $('.show-more-posts').on("click", function (e) {
             e.preventDefault();
 
             let request = $.ajax({

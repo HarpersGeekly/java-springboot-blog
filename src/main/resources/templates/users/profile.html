@@ -338,8 +338,14 @@
         </div>
 
     <hr class="posts-hr"/>
-
     </div>
+
+    <div class="flex-center-div" th:if="${isOwnProfile}">
+        <a id="manage-posts-link-bottom-page" th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}">
+            <h5 class="show-more-posts" data-target="#modal4">manage posts</h5>
+        </a>
+    </div>
+
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>
