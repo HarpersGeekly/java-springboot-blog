@@ -170,7 +170,7 @@ public class UsersController {
             //if posts are empty
         boolean postsAreEmpty = user.getPosts().isEmpty();
 //       viewModel.addAttribute("activeIn", categoriesDao.)
-        viewModel.addAttribute("posts", postSvc.postsByUser(userLoggedIn.getId()));
+        viewModel.addAttribute("posts", postSvc.postsByUserLimited(userLoggedIn.getId()));
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
         viewModel.addAttribute("profileUser", user);
@@ -186,7 +186,7 @@ public class UsersController {
 
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
-        viewModel.addAttribute("posts", postSvc.postsByUser(user.getId()));
+        viewModel.addAttribute("posts", postSvc.postsByUserLimited(user.getId()));
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
         // ^this is a boolean^, true, but false if passing another id.
