@@ -459,7 +459,7 @@ textarea, input, .form-control {
     color: #7DE2D1;
 }
 
-.show-more-posts {
+#show-more-posts {
     margin:auto;
     display:block;
     padding: 16px 32px;
@@ -471,7 +471,7 @@ textarea, input, .form-control {
     border-radius: 25px;
 }
 
-.show-more-posts:hover {
+#show-more-posts:hover {
     /*background: #888888;*/
     background: #7DE2D1;
     cursor: pointer;
@@ -1163,6 +1163,24 @@ textarea, input, .form-control {
 
 #manage-posts-link-bottom-page, #manage-posts-link-bottom-page:hover {
     text-decoration: none;
+}
+
+#manage-posts-button {
+    display:block;
+    padding: 16px 32px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #fff;
+    background: #E07A5F;
+    border: 0;
+    border-radius: 25px;
+    margin: auto auto 2em;
+}
+
+#manage-posts-button:hover {
+    /*background: #888888;*/
+    background: #7DE2D1;
+    cursor: pointer;
 }
 
 #modal-header {

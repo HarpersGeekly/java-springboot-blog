@@ -122,6 +122,19 @@
         margin-left: -0em;
     }
 
+    #manage-posts-button {
+        box-shadow: 0px 2px 5px #000;
+        display: block;
+        padding: 10px 32px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        color: #fff;
+        background: #E07A5F;
+        border: 0;
+        border-radius: 30px;
+        margin: auto auto 2em;
+    }
+
     /*=============================================*/
 
     .commentSection {
@@ -246,7 +259,5 @@
     .show-all-content {
         max-height: 100%;
     }
-
-
 
 }
