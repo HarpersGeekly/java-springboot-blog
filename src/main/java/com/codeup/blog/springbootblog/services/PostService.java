@@ -53,6 +53,10 @@ public class PostService {
         return postsDao.postsByUser(id);
     }
 
+    public List<Post> postsByUserLimited(Long id) {
+        return postsDao.postsByUserLimited(id);
+    }
+
     public Post findOne(Long id) {
         // return posts.get((int) (id - 1));
         // PRE-REPOSITORY: why minus 1? Must take into account the +1 I made when I created the post.
