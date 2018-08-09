@@ -667,25 +667,27 @@ textarea, input, .form-control {
     color: #888888;
 }
 
-#replyPostNotLoggedInWrapper {
+.replyPostNotLoggedInWrapper {
     display: flex;
     justify-content: center;
 }
 
-#replyPostNotLoggedInDiv {
+.replyPostNotLoggedInDiv {
     background-color: #eeeeee;
     padding: 0.25em 1em;
     border-radius: 25px;
+    border: 1px solid black;
 }
 
-#replyPostNotLoggedInLink {
+.replyPostNotLoggedInLink {
     color: black;
     text-decoration: underline;
     font-weight: bold;
 }
 
-#replyPostNotLoggedInLink:hover {
+.replyPostNotLoggedInLink:hover {
     text-decoration: none;
+    color: black;
 }
 /*================= COMMENTS =====================*/
 
@@ -723,6 +725,20 @@ textarea, input, .form-control {
 
 #commentedBy {
     border-radius: 20px;
+}
+
+.replyCommentNotLoggedInDiv {
+    padding: 0.5em;
+}
+
+.replyCommentNotLoggedInLink {
+    font-size: 14px;
+    color: #888888;
+}
+
+.replyCommentNotLoggedInLink:hover {
+    text-decoration: none;
+    color: #888888;
 }
 
 .flipped-reply {
@@ -816,6 +832,10 @@ textarea, input, .form-control {
 .postUpvote:active, .postDownvote:active {
     cursor: pointer;
     color: #339989;
+}
+
+.commentVoteNotLoggedIn {
+    color: #c0c0c0;
 }
 
 .commentUpvote, .commentDownvote {
