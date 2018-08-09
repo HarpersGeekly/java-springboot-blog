@@ -60,13 +60,14 @@
 
                 <!-- ====================================== Post Voting ======================================-->
                 <div>
-                    <div class="postVoting">
+                    <div id="replyPostNotLoggedInWrapper" th:if="${!isLoggedIn}">
+                        <div id="replyPostNotLoggedInDiv">
+                            <h5>You must be <span><a id="replyPostNotLoggedInLink" href="/login">logged in</a></span> to join the conversation</h5>
+                        </div>
+                    </div>
+                    <div class="postVoting" th:if="${isLoggedIn}">
                         <div class="upvoteDiv">
-                            <div th:if="${!isLoggedIn}">
-                                <a th:href="${'/login'}">
-                                    <i class="fas fa-thumbs-up"></i>
-                                </a>
-                            </div>
+
                             <div th:if="${isLoggedIn}">
                                 <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
                                       th:attr="data-upvote-post-id=${post.id}">
@@ -92,19 +93,9 @@
                                 </form>
                             </div>
 
-                            <div th:if="${!isLoggedIn}">
-                                <a th:href="${'/login'}">
-                                    <i class="fas fa-thumbs-down"></i>
-                                </a>
-                            </div>
                         </div>
                     </div>
 
-                    <div th:if="${!isLoggedIn}" class="replyNotLoggedIn">
-                        <a th:href="${'/login'}">
-                            <i class="fas fa-reply flipped-reply"></i> REPLY
-                        </a>
-                    </div>
                 </div>
                 <!-- ====================================== Post Edit and Delete Buttons =====================-->
 

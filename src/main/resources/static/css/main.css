@@ -667,6 +667,26 @@ textarea, input, .form-control {
     color: #888888;
 }
 
+#replyPostNotLoggedInWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#replyPostNotLoggedInDiv {
+    background-color: #eeeeee;
+    padding: 0.25em 1em;
+    border-radius: 25px;
+}
+
+#replyPostNotLoggedInLink {
+    color: black;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+#replyPostNotLoggedInLink:hover {
+    text-decoration: none;
+}
 /*================= COMMENTS =====================*/
 
 .commentSection {
