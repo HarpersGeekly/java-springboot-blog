@@ -60,15 +60,15 @@
 
                 <!-- ====================================== Post Voting ======================================-->
                 <div>
-                    <div id="replyPostNotLoggedInWrapper" th:if="${!isLoggedIn}">
-                        <div id="replyPostNotLoggedInDiv">
-                            <h5>You must be <span><a id="replyPostNotLoggedInLink" href="/login">logged in</a></span> to join the conversation</h5>
-                        </div>
-                    </div>
-                    <div class="postVoting" th:if="${isLoggedIn}">
+
+                    <div class="postVoting">
                         <div class="upvoteDiv">
 
-                            <div th:if="${isLoggedIn}">
+                            <div th:if="${!isLoggedIn}">
+                                <i class="fas fa-thumbs-up commentVoteNotLoggedIn"></i>
+                            </div>
+
+                            <div th:if="${isLoggedIn}" >
                                 <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
                                       th:attr="data-upvote-post-id=${post.id}">
                                     <i th:classappend="${upvote} ? stayActive : postUpvote"
@@ -85,6 +85,7 @@
                         </div>
 
                         <div class="downvoteDiv">
+
                             <div th:if="${isLoggedIn}">
                                 <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
                                       th:attr="data-downvote-post-id=${post.id}">
@@ -93,9 +94,19 @@
                                 </form>
                             </div>
 
+                            <div th:if="${!isLoggedIn}">
+                                <i class="fas fa-thumbs-down commentVoteNotLoggedIn"></i>
+                            </div>
+
                         </div>
                     </div>
 
+                </div>
+
+                <div th:if="${!isLoggedIn}" class="replyPostNotLoggedInWrapper">
+                    <div class="replyPostNotLoggedInDiv">
+                        <h5>You must be <span><a class="replyPostNotLoggedInLink" th:href="${'/login'}">logged in</a></span> to join the conversation</h5>
+                    </div>
                 </div>
                 <!-- ====================================== Post Edit and Delete Buttons =====================-->
 
@@ -231,17 +242,17 @@
                 </div>
 
                 <!-- =============================== Comment Votes =========================-->
+
                 <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
+                        <!--if logged in: upvote and downvote arrows function normally.-->
 
                     <div class="upvoteDiv">
 
                         <div th:if="${!isLoggedIn}">
-                            <a th:href="${'/login'}">
-                                <i class="fas fa-thumbs-up"></i>
-                            </a>
+                            <i class="fas fa-thumbs-up commentVoteNotLoggedIn"></i>
                         </div>
-                        <!--if logged in: upvote and downvote arrows function normally.-->
-                        <div th:if="${isLoggedIn}">
+
+                        <div th:if="${isLoggedIn}" >
                             <form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"
                                   th:attr="data-upvote-comment-id=${comment.id}">
                                 <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isUpvote()} ? stayActive : commentUpvote"
@@ -267,11 +278,11 @@
                                    th:if="${isLoggedIn}" th:attr="data-downvoteIcon-comment-id=${comment.id}"></i>
                             </form>
                         </div>
+
                         <div th:if="${!isLoggedIn}">
-                            <a th:href="${'/login'}">
-                                <i class="fas fa-thumbs-down"></i>
-                            </a>
+                            <i class="fas fa-thumbs-down commentVoteNotLoggedIn"></i>
                         </div>
+
                     </div>
                 </div>
 
@@ -315,12 +326,11 @@
                 <!--================================== REPLY TO A COMMENT ======================-->
                 <!--============================================================================-->
 
-                <div th:if="${!isLoggedIn}" class="replyNotLoggedIn">
-                    <a th:href="${'/login'}">
-                        <i class="fas fa-reply flipped-reply"></i> REPLY
-                    </a>
-                </div>
+
+                <h5 th:if="${!isLoggedIn}" class="replyCommentNotLoggedInDiv"><span><a class="replyCommentNotLoggedInLink" th:href="${'/login'}">LOGIN</a></span></h5>
+
                 <div th:if="${isLoggedIn}">
+
                     <h5 class="showReplyTextArea" th:attr="data-show-reply-textarea-comment-id=${comment.id}">
                         <!--data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
                         <i class="fas fa-reply flipped-reply"></i> REPLY
