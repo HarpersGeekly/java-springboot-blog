@@ -14,12 +14,14 @@
     <div class="commentWrapper">
 
         <div class="commentPicWrapper">
-            <span th:if="${comment.user.profilePicture} == null">
-                <img class="profilePicComment" src="/../images/user.png"/>
-            </span>
-            <span th:if="${comment.user.profilePicture} != null">
-                <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
-            </span>
+            <a th:href="@{/profile/{id}(id=${comment.user.id})}">
+                <span th:if="${comment.user.profilePicture} == null">
+                    <img class="profilePicComment" src="/../images/user.png"/>
+                </span>
+                <span th:if="${comment.user.profilePicture} != null">
+                    <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
+                </span>
+            </a>
         </div>
 
         <div class="commentInfoWrapper">
