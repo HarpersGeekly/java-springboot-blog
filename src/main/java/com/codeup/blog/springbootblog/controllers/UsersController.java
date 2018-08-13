@@ -319,6 +319,7 @@ public class UsersController {
         User user = usersDao.findById(id);
         List<Post> posts = postSvc.postsByUser(user.getId());
         viewModel.addAttribute("posts", posts);
+        viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
         return "users/userArchivedPosts";
     }
 }

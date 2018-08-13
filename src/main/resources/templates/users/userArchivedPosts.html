@@ -23,10 +23,10 @@
             <th class="th-sm">Date
                 <i class="fa fa-sort float-right" aria-hidden="true"></i>
             </th>
-            <th class="th-sm">Edit
+            <th class="th-sm" th:if="${isOwnProfile}">Edit
                 <i class="fa float-right" aria-hidden="true"></i>
             </th>
-            <th class="th-sm">Delete
+            <th class="th-sm" th:if="${isOwnProfile}">Delete
                 <i class="fa float-right" aria-hidden="true"></i>
             </th>
         </tr>
@@ -54,14 +54,14 @@
                 <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
 
             </td>
-            <td>
+            <td th:if="${isOwnProfile}">
                 <div>
                     <a class="btn btn-primary" id="profileEditPostBtn" th:href="${'/posts/' + post.id + '/edit'}">
                         <i class="far fa-edit"></i> Edit
                     </a>
                 </div>
             </td>
-            <td>
+            <td th:if="${isOwnProfile}">
                 <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post"> <!--th:object="${post}"-->
                     <button type="submit" class="btn btn-primary btn-danger" data-post-delete-id="${post.id}" id="profileDeletePostBtn">
                         <i class="fas fa-bomb"></i> Delete
