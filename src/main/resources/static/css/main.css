@@ -387,8 +387,11 @@ ul {
 }
 
 .post-tag:hover {
+    color: #E07A5F;
+    background-color: #ffdac9;
+    cursor:pointer;
     text-decoration: none;
-    color: #7DE2D1;
+    /*color: #7DE2D1;*/
 }
 
 .postedByNameTextIndex {
@@ -667,16 +670,20 @@ textarea, input, .form-control {
     color: #888888;
 }
 
-.replyPostNotLoggedInWrapper {
-    display: flex;
-    justify-content: center;
-}
+/*.replyPostNotLoggedInWrapper {*/
+    /*display: flex;*/
+    /*justify-content: center;*/
+/*}*/
 
 .replyPostNotLoggedInDiv {
     background-color: #eeeeee;
     padding: 0.25em 1em;
     border-radius: 25px;
     border: 1px solid black;
+    margin: 0 auto;
+    width: 40%;
+    justify-content: center;
+    text-align: center;
 }
 
 .replyPostNotLoggedInLink {
@@ -1201,11 +1208,11 @@ textarea, input, .form-control {
     text-decoration: underline;
 }
 
-#manage-posts-link-bottom-page, #manage-posts-link-bottom-page:hover {
+.manage-posts-link-bottom-page, .manage-posts-link-bottom-page:hover {
     text-decoration: none;
 }
 
-#manage-posts-button {
+.manage-posts-button {
     display:block;
     padding: 16px 32px;
     font-family: 'Roboto', sans-serif;
@@ -1217,7 +1224,7 @@ textarea, input, .form-control {
     margin: auto auto 2em;
 }
 
-#manage-posts-button:hover {
+.manage-posts-button:hover {
     /*background: #888888;*/
     background: #7DE2D1;
     cursor: pointer;

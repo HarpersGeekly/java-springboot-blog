@@ -269,7 +269,7 @@
         <hr class="posts-hr"/>
 
         <h5 th:if="${postsAreEmpty}">
-            <i class="far fa-frown profileFrownIcon"></i> They don't have any posts yet... lame!
+            <i class="far fa-frown profileFrownIcon"></i> They don't have any posts yet.
         </h5>
     </th:block>
 
@@ -341,8 +341,14 @@
     </div>
 
     <div class="flex-center-div" th:if="${isOwnProfile}">
-        <a id="manage-posts-link-bottom-page" th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}">
-            <button id="manage-posts-button" data-target="#modal4">manage posts</button>
+        <a class="manage-posts-link-bottom-page" th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}">
+            <button class="manage-posts-button" data-target="#modal4">manage posts</button>
+        </a>
+    </div>
+
+    <div class="flex-center-div" th:if="${!isOwnProfile}">
+        <a class="manage-posts-link-bottom-page" th:href="@{/profile/{id}/archived(id=${profileUser.id})}">
+            <button class="manage-posts-button" data-target="#modal4">view all posts</button>
         </a>
     </div>
 
