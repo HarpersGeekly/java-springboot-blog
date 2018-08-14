@@ -23,7 +23,7 @@
             </a>
 
             <div class="commentInfoWrapper">
-                <h5 class="parentCommentStyling">
+                <h5 id="commentedBy">
                     <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                         <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                     </a>
