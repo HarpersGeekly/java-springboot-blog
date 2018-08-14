@@ -14,8 +14,16 @@ html {
     min-height: 100%;
 }
 
+/* =======utilities=======*/
 .hidden {
     display: none;
+}
+
+.wordwrap {
+    white-space: pre-wrap;      /* CSS3 */
+    white-space: -moz-pre-wrap; /* Firefox */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    word-wrap: break-word;      /* IE */
 }
 
 /*============================================================ NAVBAR ====================================================*/
@@ -787,9 +795,16 @@ textarea, input, .form-control {
 }
 
 .commentBodyText {
+    display: inline-block;
+    word-break: break-word;
     font-family: 'Roboto', sans-serif;
     line-height: 1.3em;
     font-size: 1.1em;
+
+    white-space: pre-wrap;      /* CSS3 */
+    white-space: -moz-pre-wrap; /* Firefox */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    word-wrap: break-word;      /* IE */
 }
 
 .editedCommentBodyText {
@@ -921,25 +936,45 @@ textarea, input, .form-control {
 }
 
 .commentEdit {
-    float: left;
-    margin-right: 1em;
+    /*float: left;*/
+    /*margin-right: 1em;*/
 }
 
-.deleteCommentBtn, .deleteCommentBtnAJAX {
+.comment-ellipsis {
+    padding: 0.3em;
     color: #c0c0c0;
-    border: none;
-    /*background-color: #FFFAFB;*/
-    background-color: #f4eef0;
-    text-decoration: none;
+    font-size: 24px;
+}
+.comment-ellipsis:hover {
+    cursor: pointer;
+}
+
+#edit-delete-dropdown {
+    background-color: #fffafc;
+    z-index: 9999;
 }
 
 .editCommentBtn, .editCommentBtnAJAX {
+    text-align: center;
+    display: block;
+    padding: 1em;
     color: #c0c0c0;
+    background-color: #fffafc;
+    text-decoration: none;
+}
+
+.deleteCommentBtn, .deleteCommentBtnAJAX {
+    border: none;
+    color: #c0c0c0;
+    background-color: #fffafc;
+    /* display: block; */
+    padding: 1em;
+    width: 100%;
+    z-index: 9999;
     text-decoration: none;
 }
 
 .deleteCommentBtn:hover, .editCommentBtn:hover, .deleteCommentBtnAJAX:hover, .editCommentBtnAJAX:hover {
-    /*background-color: #FFFAFB;*/
     background-color: #f4eef0;
     color: #E07A5F;
     text-decoration: none;
@@ -947,7 +982,6 @@ textarea, input, .form-control {
 }
 
 .deleteCommentBtn:active, .editCommentBtn:active, .deleteCommentBtnAJAX:active, .editCommentBtnAJAX:active {
-    /*background-color: #FFFAFB;*/
     background-color: #f4eef0;
     color: #E07A5F;
     text-decoration: none;
