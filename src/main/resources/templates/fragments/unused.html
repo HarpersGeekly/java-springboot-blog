@@ -9,7 +9,34 @@
 </body>
 </html>
 
-<!-- ================================= SHOW PAGE OLD EDIT AND DELETE ROW BEFORE DROPDOWN ==========-->
+
+<!-- ================================= REPLY TEXT AREA OLD WAY BEFORE SINGLE ROW ==============================-->
+
+<!--<div class="replyTextArea hidden" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">-->
+<!--<form th:action="@{/posts/{postId}/comment/{commentId}/reply(postId=${post.id},commentId=${comment.id})}"-->
+<!--method="post"-->
+<!--th:object="${comment}"-->
+<!--th:attr="data-reply-form-comment-id=${comment.id}">-->
+<!--<div class="form-group">-->
+<!--<label for="replyFormBody"></label>-->
+
+<!--&lt;!&ndash;<div contenteditable="true">&ndash;&gt;-->
+<!--<textarea contenteditable="true" class="form-control replyFormBody" id="replyFormBody" name="body"-->
+<!--th:field="*{body}"-->
+<!--th:attr="data-reply-form-body-comment-id=${comment.id}">-->
+<!--</textarea>-->
+
+<!--<input class="form-control" type="hidden" name="id" th:field="*{id}"/>-->
+<!--<button class="btn btn-primary commentReplyBtn"-->
+<!--th:attr="data-reply-submit-btn-comment-id=${comment.id}">-->
+<!--<i class="far fa-comment-alt"></i> Reply-->
+<!--</button>-->
+<!--<div class="repliesErrorAJAX" th:attr="data-reply-error-comment-id=${comment.id}"></div>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+
+<!-- ================================= SHOW PAGE OLD EDIT AND DELETE ROW BEFORE DROPDOWN =====================-->
 
 <!--<div class="editAndDeleteWrapper">-->
 <!--<div class="row">-->
