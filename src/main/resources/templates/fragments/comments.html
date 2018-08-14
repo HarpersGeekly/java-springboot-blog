@@ -119,22 +119,20 @@
             </div>
         </div>
 
-        <div class="editAndDeleteWrapper">
-            <div class="row">
+            <!--==================================== EDIT AND DELETE DROPDOWN ===================================-->
+            <!--=================================================================================================-->
 
-                <!--===================================== EDIT COMMENT BUTTON ========================-->
-                <!--==================================================================================-->
-                <!-- Edit button is an event trigger. There is no form here. -->
+            <i type="button" class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+               id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </i>
+            <div class="dropdown-menu" id="edit-delete-dropdown" aria-labelledby="dropdownMenu">
+
                 <div class="commentEdit" sec:authorize="isAuthenticated()"
                      th:if="${comment.isOwnedBy(#authentication.principal.id)}">
                     <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">
                         <i class="far fa-edit"></i> edit
                     </a>
                 </div>
-
-                <!--==================================== DELETE COMMENT BUTTON AND FORM =======================-->
-                <!--===========================================================================================-->
-
                 <div class="commentDelete" sec:authorize="isAuthenticated()">
                     <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
                           th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
@@ -142,19 +140,14 @@
                           th:object="${comment}"
                           class="deleteCommentForm">
 
-                        <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"
-                               th:value="${comment.id}"/>
-                        <!--<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>-->
+                        <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
+
                         <button class="deleteCommentBtn" th:attr="data-delete-btn-comment-id=${comment.id}">
                             <i class="fas fa-bomb"></i> delete
                         </button>
-                        <!--<i class="fas fa-bomb"></i>-->
-                        <!--<input type="submit" value="delete" class="deleteCommentBtn"/>-->
                     </form>
                 </div>
-
             </div>
-        </div>
 
         <!--================================== REPLY TO A COMMENT ======================-->
         <!--============================================================================-->
