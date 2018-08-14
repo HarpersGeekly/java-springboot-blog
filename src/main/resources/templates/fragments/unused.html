@@ -9,6 +9,38 @@
 </body>
 </html>
 
+<!-- ================================= SHOW PAGE OLD EDIT AND DELETE ROW BEFORE DROPDOWN ==========-->
+
+<!--<div class="editAndDeleteWrapper">-->
+<!--<div class="row">-->
+<!-- Edit button is an event trigger. There is no form here. -->
+<!--<div class="commentEdit" sec:authorize="isAuthenticated()"-->
+<!--th:if="${comment.isOwnedBy(#authentication.principal.id)}">-->
+<!--<a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">-->
+<!--<i class="far fa-edit"></i> edit-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="commentDelete" sec:authorize="isAuthenticated()">-->
+<!--<form th:if="${comment.isOwnedBy(#authentication.principal.id)}"-->
+<!--th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"-->
+<!--method="POST"-->
+<!--th:object="${comment}"-->
+<!--class="deleteCommentForm">-->
+
+<!--<input type="hidden" name="id" th:attr="data-comment-id=${comment.id}"-->
+<!--th:value="${comment.id}"/>-->
+<!--&lt;!&ndash;<input type="hidden" name="id" id="deleteCommentBtn" th:value="${comment.id}"/>&ndash;&gt;-->
+<!--<button class="deleteCommentBtn" th:attr="data-delete-btn-comment-id=${comment.id}">-->
+<!--<i class="fas fa-bomb"></i> delete-->
+<!--</button>-->
+<!--&lt;!&ndash;<i class="fas fa-bomb"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="submit" value="delete" class="deleteCommentBtn"/>&ndash;&gt;-->
+<!--</form>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+
 <!-- ================================= POST's PROFILE PICTURE ======================================-->
 
 <!--<div class="postWrapper">-->
