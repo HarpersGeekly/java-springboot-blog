@@ -9,7 +9,13 @@
 </body>
 </html>
 
-<!-- ====================================== Post Edit and Delete Buttons =====================-->
+
+<!--============== SUPER COOL WAY TO USE THYMELEAF TO STYLE USING A PATH TO IMAGE======================-->
+
+<!--th:style="'background:url(' + @{'/uploads/' + ${#authentication.principal.username} + .png} + ')
+    no-repeat center center fixed; background-size: cover;'"-->
+
+<!-- ====================================== Post Edit and Delete Buttons ==============================-->
 
 <!--<div sec:authorize="isAuthenticated()">-->
 <!--<div th:if="${isPostOwner}">-->
