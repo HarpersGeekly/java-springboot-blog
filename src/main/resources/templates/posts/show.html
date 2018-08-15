@@ -307,7 +307,7 @@
                     <!--==================================== EDIT AND DELETE DROPDOWN ===================================-->
                     <!--=================================================================================================-->
 
-                    <div th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:attr="data-ellipsis-comment-id=${comment.id}">
+                    <div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:attr="data-ellipsis-comment-id=${comment.id}">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
@@ -482,7 +482,7 @@
             // $('.replyTextArea').addClass('hidden'); // hide the reply text area.
             $('.showReplyTextAreaCancel').addClass('hidden');
             $('.replyFormBody').val('');
-            $('#commentedBy').css("background-color", "#99999930");
+            // $('#commentedBy').css("background-color", "#99999930");
 
             // let commentId = $('.commentWrapper').data('[data-edit-delete-comment-id]');
             // let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
