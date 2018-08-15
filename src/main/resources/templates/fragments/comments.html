@@ -29,6 +29,12 @@
                     <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                         <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                     </a>
+
+                    <i class="fas fa-reply flipped-reply"></i>
+                    <a class="parentCommentOwnersProfileLink" th:href="${'/profile/' + comment.getParentComment().getUser().getId()}"
+                       th:text="${'' + comment.getParentComment().getUser().getUsername()}">
+                    </a>
+
                     <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"></span>
                     <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
                     <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
