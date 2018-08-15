@@ -647,6 +647,11 @@ textarea, input, .form-control {
     max-width:740px; /*matches image width resizing*/
 }
 
+.post-vote-options-row {
+    margin-top: 1em;
+    display: inline-flex;
+}
+
 #editPostBtn {
     font-family: 'Roboto', sans-serif;
     float: left;
@@ -743,7 +748,7 @@ textarea, input, .form-control {
 }
 
 .replyCommentNotLoggedInDiv {
-    padding: 0.5em;
+    /*padding: 0.5em;*/
 }
 
 .replyCommentNotLoggedInLink {
@@ -762,7 +767,7 @@ textarea, input, .form-control {
     transform: scale(-1, 1);
 }
 
-#commentedByStyling {
+.commentedByStyling {
     border-radius: 20px;
 }
 
@@ -888,7 +893,7 @@ textarea, input, .form-control {
 
 .postVoting {
     display: inline-block;
-    margin-top: 1em;
+    margin-top: 0.4em;
 }
 
 .commentVoting {
@@ -940,16 +945,7 @@ textarea, input, .form-control {
     /*margin-right: 1em;*/
 }
 
-.comment-ellipsis {
-    padding: 0.3em;
-    color: #c0c0c0;
-    font-size: 24px;
-}
-.comment-ellipsis:hover {
-    cursor: pointer;
-}
-
-#edit-delete-dropdown {
+.edit-delete-dropdown {
     background-color: #fffafc;
     z-index: 9999;
 }
@@ -996,10 +992,17 @@ textarea, input, .form-control {
     margin-top: 0.5em;
 }
 
+
+/*=========================*/
+.comment-vote-reply-options-row {
+    display: inline-flex;
+}
+
 .showReplyTextArea, .showReplyTextAreaAJAX {
+    float: left;
     cursor: pointer;
     color: #888888;
-    margin-top: 1.4em;
+    margin-right: 1.5em;
 }
 
 .showReplyTextArea:hover, .showReplyTextAreaAJAX:hover {
@@ -1007,12 +1010,29 @@ textarea, input, .form-control {
     color: #E07A5F;
 }
 
-.showReplyTextAreaCancel, .showReplyTextAreaCancel:hover,
-.showReplyTextAreaCancelAJAX, .showReplyTextAreaCancelAJAX:hover {
+.showReplyTextAreaCancel, .showReplyTextAreaCancel:hover, .showReplyTextAreaCancelAJAX, .showReplyTextAreaCancelAJAX:hover {
+    float: left;
     cursor: pointer;
     color: #E07A5F;
-    margin-top: 1.4em;
+    margin-right: 1em;
 }
+
+.comment-ellipsis {
+    padding: 0.3em;
+    color: #c0c0c0;
+    font-size: 24px;
+}
+
+.comment-ellipsis:hover {
+    cursor: pointer;
+}
+
+.showReplyTextAreaCancel, .showReplyTextAreaCancel:hover, .showReplyTextAreaCancelAJAX, .showReplyTextAreaCancelAJAX:hover {
+    cursor: pointer;
+    color: #E07A5F;
+}
+/*=========================*/
+
 
 .replyFormBody, .replyFormBodyAJAX {
     resize: none;

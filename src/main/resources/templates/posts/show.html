@@ -58,7 +58,7 @@
                 </div>
 
                 <!-- ====================================== Post Voting ======================================-->
-                <div>
+                <div class="post-vote-options-row">
 
                     <div class="postVoting">
                         <div class="upvoteDiv">
@@ -100,32 +100,34 @@
                         </div>
                     </div>
 
+                    <!-- ====================================== Post Edit and Delete Buttons =====================-->
+
+                    <div th:if="${isPostOwner}">
+                        <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </i>
+                        <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                            <div class="commentEdit">
+                                <a class="editCommentBtn"  th:href="${'/posts/' + post.id + '/edit'}">
+                                    <i class="far fa-edit"></i> edit
+                                </a>
+                            </div>
+                            <div class="commentDelete">
+                                <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" class="deleteCommentForm">
+                                    <button class="deleteCommentBtn" type="submit">
+                                        <i class="fas fa-bomb"></i> delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--id="editPostBtn"-->
+                    <!--id="deletePostBtn"-->
                 </div>
 
                 <div th:if="${!isLoggedIn}" class="replyPostNotLoggedInWrapper">
                     <div class="replyPostNotLoggedInDiv">
                         <h5>You must be <span><a class="replyPostNotLoggedInLink" th:href="${'/login'}">logged in</a></span> to join the conversation</h5>
-                    </div>
-                </div>
-                <!-- ====================================== Post Edit and Delete Buttons =====================-->
-
-                <div sec:authorize="isAuthenticated()">
-                    <div th:if="${isPostOwner}">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-sm">
-                                    <a id="editPostBtn" th:href="${'/posts/' + post.id + '/edit'}">
-                                        <i class="far fa-edit"></i> edit
-                                    </a>
-
-                                    <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post">
-                                        <button type="submit" id="deletePostBtn">
-                                            <i class="fas fa-bomb"></i> delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -242,9 +244,8 @@
 
                 <!-- =============================== Comment Votes =========================-->
 
-                <div class="vote-reply-options-row">
+                <div class="comment-vote-reply-options-row">
                     <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
-                            <!--if logged in: upvote and downvote arrows function normally.-->
 
                         <div class="upvoteDiv">
 
@@ -301,49 +302,24 @@
                             <i class="fas fa-times"></i> CANCEL
                         </h5>
 
-                        <!--<div class="replyTextArea hidden" th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}">-->
-                            <!--<form th:action="@{/posts/{postId}/comment/{commentId}/reply(postId=${post.id},commentId=${comment.id})}"-->
-                                  <!--method="post"-->
-                                  <!--th:object="${comment}"-->
-                                  <!--th:attr="data-reply-form-comment-id=${comment.id}">-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="replyFormBody"></label>-->
-
-                                    <!--&lt;!&ndash;<div contenteditable="true">&ndash;&gt;-->
-                                    <!--<textarea contenteditable="true" class="form-control replyFormBody" id="replyFormBody" name="body"-->
-                                              <!--th:field="*{body}"-->
-                                              <!--th:attr="data-reply-form-body-comment-id=${comment.id}">-->
-                                    <!--</textarea>-->
-
-                                    <!--<input class="form-control" type="hidden" name="id" th:field="*{id}"/>-->
-                                    <!--<button class="btn btn-primary commentReplyBtn"-->
-                                            <!--th:attr="data-reply-submit-btn-comment-id=${comment.id}">-->
-                                        <!--<i class="far fa-comment-alt"></i> Reply-->
-                                    <!--</button>-->
-                                    <!--<div class="repliesErrorAJAX" th:attr="data-reply-error-comment-id=${comment.id}"></div>-->
-                                <!--</div>-->
-                            <!--</form>-->
-                        <!--</div>-->
                     </div>
 
                     <!--==================================== EDIT AND DELETE DROPDOWN ===================================-->
                     <!--=================================================================================================-->
 
-                    <div th:if="${isLoggedIn}" th:attr="data-ellipsis-comment-id=${comment.id}">
-                        <i type="button" class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
-                               id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:attr="data-ellipsis-comment-id=${comment.id}">
+                        <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
-                        <div class="dropdown-menu" id="edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                        <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
 
-                            <div class="commentEdit" sec:authorize="isAuthenticated()"
-                                 th:if="${comment.isOwnedBy(#authentication.principal.id)}">
+                            <div>
                                 <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">
                                     <i class="far fa-edit"></i> edit
                                 </a>
                             </div>
-                            <div class="commentDelete" sec:authorize="isAuthenticated()">
-                                <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
-                                th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
+                            <div>
+                                <form th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
                                 method="POST"
                                 th:object="${comment}"
                                 class="deleteCommentForm">
@@ -357,7 +333,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="replyTextArea hidden" th:attr="id=${'replyTextArea_' + comment.id}">

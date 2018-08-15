@@ -8,6 +8,13 @@
 
 @media screen and (max-width: 600px) {
 
+    .wordwrap {
+        white-space: pre-wrap;      /* CSS3 */
+        white-space: -moz-pre-wrap; /* Firefox */
+        white-space: -o-pre-wrap;   /* Opera 7 */
+        word-wrap: break-word;      /* IE */
+    }
+
     .scrollUp {
         position: fixed;
         z-index: 9999;
@@ -259,5 +266,54 @@
     .show-all-content {
         max-height: 100%;
     }
+
+    .editedCommentCancelBtn, .editedCommentSubmitBtn {
+        float: right;
+    }
+
+    .commentInfoWrapper {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        background-color: #3333330f;
+    }
+
+    .parentCommentStyling {
+        padding-left: 1em;
+        background-color: #99999930;
+        border-radius: 11px;
+    }
+
+    .commentedByNameText {
+        font-size: 1.1em;
+        font-weight: bold;
+        line-height: 1.8em;
+        margin-right: 0.75em;
+        /* padding-left: 0.5em; */
+        color: black;
+    }
+
+    .commentReplyBtn, .commentReplyBtnAJAX {
+         margin-left: 0em;
+    }
+
+    .replyFormBody, .replyFormBodyAJAX {
+        resize: none;
+        border-radius: 0;
+        border-style: none;
+        overflow: auto;
+        border-bottom: 3px solid black;
+        height: 3em;
+        position: relative;
+        outline: none;
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+        background: transparent;
+        width:100%;
+        margin-left: 0em;
+    }
+
+
+
 
 }
