@@ -35,10 +35,23 @@
                        th:text="${'' + comment.getParentComment().getUser().getUsername()}">
                     </a>
 
-                    <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"></span>
-                    <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
-                    <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
-                    <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
+                    <span class="comment-info-date-wrapper">
+                        <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
+                              style="margin-right: 0.75em;"></span>
+                        <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                        <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
+                        <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
+                    </span>
+
+                    <span class="comment-info-date-mobile-wrapper">
+                        <div class="comment-info-mobile">
+                            <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
+                                  style="margin-right: 0.75em;"></span>
+                            <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                            <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
+                            <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
+                        </div>
+                    </span>
                 </h5>
 
                 <!-- =============================== Comment Body =========================-->

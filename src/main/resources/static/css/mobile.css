@@ -38,10 +38,6 @@
         display: block;
     }
 
-    .dropdown-menu {
-        background-color: papayawhip;
-    }
-
     .navDropdownEachCategory {
         text-align: center;
     }
@@ -254,6 +250,10 @@
         align-items: center;
     }
 
+    .post-vote-options-row {
+        margin-left:0.5em;
+    }
+
     #custom-content-width {
         width: 100%;
     }
@@ -271,6 +271,10 @@
         float: right;
     }
 
+    .indent-comment {
+        margin-left: 25px;
+    }
+
     .commentInfoWrapper {
         padding-left: 0.5em;
         padding-right: 0.5em;
@@ -279,10 +283,20 @@
 
     .comment-info-date-mobile-wrapper {
         display: block;
+        font-size: 12px;
+        margin-left: 0.5em;
     }
 
     .comment-info-date-wrapper {
         display: none;
+    }
+
+    .commentBodyText {
+        margin-left:0.5em;
+    }
+
+    .comment-vote-reply-options-row {
+        margin-left: 0.5em;
     }
 
     .commentHR {
@@ -302,7 +316,7 @@
         font-weight: bold;
         line-height: 1.8em;
         margin-right: 0.75em;
-        /* padding-left: 0.5em; */
+        padding-left: 0.5em;
         color: black;
     }
 
