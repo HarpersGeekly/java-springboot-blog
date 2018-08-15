@@ -107,12 +107,12 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
                         <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
-                            <div class="commentEdit">
+                            <div>
                                 <a class="editCommentBtn"  th:href="${'/posts/' + post.id + '/edit'}">
                                     <i class="far fa-edit"></i> edit
                                 </a>
                             </div>
-                            <div class="commentDelete">
+                            <div>
                                 <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" class="deleteCommentForm">
                                     <button class="deleteCommentBtn" type="submit">
                                         <i class="fas fa-bomb"></i> delete

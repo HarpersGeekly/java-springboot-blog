@@ -147,12 +147,12 @@
                         </i>
                         <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
 
-                            <div class="commentEdit">
+                            <div>
                                 <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">
                                     <i class="far fa-edit"></i> edit
                                 </a>
                             </div>
-                            <div class="commentDelete">
+                            <div>
                                 <form th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
                                       method="POST"
                                       th:object="${comment}"
