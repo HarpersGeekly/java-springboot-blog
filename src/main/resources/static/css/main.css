@@ -734,6 +734,7 @@ textarea, input, .form-control {
     padding-left: 1em;
     padding-right: 1em;
     margin-bottom: 2em;
+    margin-left:0.5em;
     background-color: #3333330f;
     border-radius: 15px;
 }
@@ -1548,5 +1549,25 @@ textarea, input, .form-control {
     background: url('../images/ajax-loader-3.svg') no-repeat center center;
 }
 
+.speech-bubble {
+    position: relative;
+    background: #f4eef0;
+    border-radius: .4em;
+}
+
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 25px; /* A % will grow with comment, stick to px */
+    width: 0;
+    height: 0;
+    border: 1em solid transparent;
+    border-right-color: #f4eef0;
+    border-left: 0;
+    border-top: 0;
+    margin-top: -0.5em;
+    margin-left: -1em;
+}
 
 
