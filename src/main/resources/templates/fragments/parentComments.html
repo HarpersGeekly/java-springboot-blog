@@ -141,7 +141,7 @@
 
                     <!--==================================== EDIT AND DELETE DROPDOWN ===================================-->
                     <!--=================================================================================================-->
-                    <div th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:attr="data-ellipsis-comment-id=${comment.id}">
+                    <div th:if="${isLoggedIn}" th:attr="data-ellipsis-comment-id=${comment.id}">
                         <i type="button" class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                            id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
