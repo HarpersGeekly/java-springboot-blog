@@ -23,7 +23,8 @@
             </a>
 
             <div class="commentInfoWrapper">
-                <h5 id="commentedBy">
+                <!--<h5 id="commentedBy"> parentComments.html-->
+                <h5 class="parentCommentStyling">
                     <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                         <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                     </a>
@@ -141,7 +142,7 @@
                     <!--==================================== EDIT AND DELETE DROPDOWN ===================================-->
                     <!--=================================================================================================-->
 
-                    <div th:if="${isLoggedIn}" th:attr="data-ellipsis-comment-id=${comment.id}">
+                    <div th:attr="data-ellipsis-comment-id=${comment.id}">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>

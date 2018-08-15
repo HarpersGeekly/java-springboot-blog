@@ -739,8 +739,17 @@ textarea, input, .form-control {
 }
 
 .parentCommentStyling {
-    background-color: #99999930;
-    border-radius: 20px;
+    border-bottom: 1px solid #888888;
+    /*background-color: #99999930;*/
+    /*border-radius: 20px;*/
+}
+
+#parentCommentStyling {
+    border-bottom: 1px solid #888888;
+}
+
+.commentedByStyling {
+    border-bottom: 0px solid #888888;
 }
 
 #commentedBy {
