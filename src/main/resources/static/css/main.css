@@ -950,7 +950,7 @@ textarea, input, .form-control {
     z-index: 9999;
 }
 
-.editCommentBtn, .editCommentBtnAJAX {
+.dropdown-edit-btn  {
     text-align: center;
     display: block;
     padding: 1em;
@@ -959,7 +959,7 @@ textarea, input, .form-control {
     text-decoration: none;
 }
 
-.deleteCommentBtn, .deleteCommentBtnAJAX {
+.dropdown-delete-btn{
     border: none;
     color: #c0c0c0;
     background-color: #fffafc;
@@ -970,14 +970,14 @@ textarea, input, .form-control {
     text-decoration: none;
 }
 
-.deleteCommentBtn:hover, .editCommentBtn:hover, .deleteCommentBtnAJAX:hover, .editCommentBtnAJAX:hover {
+.dropdown-delete-btn:hover, .dropdown-edit-btn:hover {
     background-color: #f4eef0;
     color: #E07A5F;
     text-decoration: none;
     cursor: pointer;
 }
 
-.deleteCommentBtn:active, .editCommentBtn:active, .deleteCommentBtnAJAX:active, .editCommentBtnAJAX:active {
+.dropdown-delete-btn:active, .dropdown-edit-btn:active {
     background-color: #f4eef0;
     color: #E07A5F;
     text-decoration: none;

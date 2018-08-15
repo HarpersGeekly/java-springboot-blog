@@ -108,13 +108,13 @@
                         </i>
                         <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
                             <div>
-                                <a class="editCommentBtn"  th:href="${'/posts/' + post.id + '/edit'}">
+                                <a class="dropdown-edit-btn"  th:href="${'/posts/' + post.id + '/edit'}">
                                     <i class="far fa-edit"></i> edit
                                 </a>
                             </div>
                             <div>
                                 <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" class="deleteCommentForm">
-                                    <button class="deleteCommentBtn" type="submit">
+                                    <button class="dropdown-delete-btn" type="submit">
                                         <i class="fas fa-bomb"></i> delete
                                     </button>
                                 </form>
@@ -314,7 +314,7 @@
                         <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
 
                             <div>
-                                <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">
+                                <a class="dropdown-edit-btn" th:attr="data-edit-btn-comment-id=${comment.id}">
                                     <i class="far fa-edit"></i> edit
                                 </a>
                             </div>
@@ -326,7 +326,7 @@
 
                                     <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
 
-                                    <button class="deleteCommentBtn" th:attr="data-delete-btn-comment-id=${comment.id}">
+                                    <button class="dropdown-delete-btn" th:attr="data-delete-btn-comment-id=${comment.id}">
                                         <i class="fas fa-bomb"></i> delete
                                     </button>
                                 </form>
@@ -503,7 +503,7 @@
     //A new textarea is revealed in place of the comment.body. Textarea should be populated with the original comment text. (controller)
     //When I click on the new submit button, new data should replace the previous data. (controller)
 
-    container.on("click", ".editCommentBtn", function () {
+    container.on("click", ".dropdown-edit-btn", function () {
 
         let button = $(this);
         let commentId = button.data('edit-btn-comment-id');
@@ -596,7 +596,7 @@
     <!-- ============================================== DELETE Comment  ==================================================-->
     <!-- =================================================================================================================-->
 
-    container.on("click", ".deleteCommentBtn", function (e) {
+    container.on("click", ".dropdown-delete-btn", function (e) {
         // use event delegation that targets an elements parent, something, that isn't dynamic: .container
         e.preventDefault(); // prevent default form behavior and instead use ajax.
         let commentInformation = $(this).parent().serialize();

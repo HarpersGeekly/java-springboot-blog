@@ -156,7 +156,7 @@
                         <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
 
                             <div>
-                                <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">
+                                <a class="dropdown-edit-btn" th:attr="data-edit-btn-comment-id=${comment.id}">
                                     <i class="far fa-edit"></i> edit
                                 </a>
                             </div>
@@ -168,7 +168,7 @@
 
                                     <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
 
-                                    <button class="deleteCommentBtn" th:attr="data-delete-btn-comment-id=${comment.id}">
+                                    <button class="dropdown-delete-btn" th:attr="data-delete-btn-comment-id=${comment.id}">
                                         <i class="fas fa-bomb"></i> delete
                                     </button>
                                 </form>
