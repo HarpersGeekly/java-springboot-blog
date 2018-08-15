@@ -86,9 +86,8 @@
 
                 <!-- =============================== Comment Votes =========================-->
 
-                <div class="vote-reply-options-row">
+                <div class="comment-vote-reply-options-row">
                     <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
-                        <!--if logged in: upvote and downvote arrows function normally.-->
 
                         <div class="upvoteDiv">
 
@@ -108,8 +107,8 @@
 
                         <div class="voteCountDiv">
                             <h5>
-                                    <span class="commentVoteCount" th:text="${comment.voteCount()}"
-                                          th:attr="data-voteCount-comment-id=${comment.id}"></span>
+                                <span class="commentVoteCount" th:text="${comment.voteCount()}"
+                                      th:attr="data-voteCount-comment-id=${comment.id}"></span>
                             </h5>
                         </div>
 
@@ -152,9 +151,9 @@
 
                     <div th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:attr="data-ellipsis-comment-id=${comment.id}">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
-                           id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
-                        <div class="dropdown-menu" id="edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                        <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
 
                             <div class="commentEdit">
                                 <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">

@@ -78,9 +78,8 @@
 
                 <!-- =============================== Comment Votes =========================-->
 
-                <div class="vote-reply-options-row">
+                <div class="comment-vote-reply-options-row">
                     <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
-                        <!--if logged in: upvote and downvote arrows function normally.-->
 
                         <div class="upvoteDiv">
 
@@ -100,8 +99,8 @@
 
                         <div class="voteCountDiv">
                             <h5>
-                                    <span class="commentVoteCount" th:text="${comment.voteCount()}"
-                                          th:attr="data-voteCount-comment-id=${comment.id}"></span>
+                                <span class="commentVoteCount" th:text="${comment.voteCount()}"
+                                      th:attr="data-voteCount-comment-id=${comment.id}"></span>
                             </h5>
                         </div>
 
@@ -141,21 +140,20 @@
 
                     <!--==================================== EDIT AND DELETE DROPDOWN ===================================-->
                     <!--=================================================================================================-->
+
                     <div th:if="${isLoggedIn}" th:attr="data-ellipsis-comment-id=${comment.id}">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
-                           id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
-                        <div class="dropdown-menu" id="edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                        <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
 
-                            <div class="commentEdit" sec:authorize="isAuthenticated()"
-                                 th:if="${comment.isOwnedBy(#authentication.principal.id)}">
+                            <div class="commentEdit">
                                 <a class="editCommentBtn" th:attr="data-edit-btn-comment-id=${comment.id}">
                                     <i class="far fa-edit"></i> edit
                                 </a>
                             </div>
-                            <div class="commentDelete" sec:authorize="isAuthenticated()">
-                                <form th:if="${comment.isOwnedBy(#authentication.principal.id)}"
-                                      th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
+                            <div class="commentDelete">
+                                <form th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
                                       method="POST"
                                       th:object="${comment}"
                                       class="deleteCommentForm">
