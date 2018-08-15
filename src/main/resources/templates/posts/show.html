@@ -188,16 +188,30 @@
             </a>
 
             <div class="commentInfoWrapper">
-                <h5 th:classappend="${isChildComment != null} ? parentCommentStyling : commentedByStyling">
-                    <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
-                        <span class="commentedByNameText" th:text="${comment.user.username}"></span>
-                    </a>
-                    <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
-                          style="margin-right: 0.75em;"></span>
-                    <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
-                    <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
-                    <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
-                </h5>
+
+                    <h5 th:classappend="${isChildComment != null} ? parentCommentStyling : commentedByStyling">
+                        <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
+                            <span class="commentedByNameText" th:text="${comment.user.username}"></span>
+                        </a>
+                        <span class="comment-info-date-wrapper">
+                            <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
+                                  style="margin-right: 0.75em;"></span>
+                            <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                            <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
+                            <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
+                        </span>
+
+                        <span class="comment-info-date-mobile-wrapper">
+                            <div class="comment-info-mobile">
+                                <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
+                                      style="margin-right: 0.75em;"></span>
+                                <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                                <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
+                                <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
+                            </div>
+                        </span>
+                    </h5>
+
 
                 <!-- =============================== Comment Body =========================-->
 
@@ -365,8 +379,11 @@
 
         <!--SHOW CHILD COMMENTS UNDERNEATH PARENT COMMENT:-->
         <div class="eachChildCommentDiv indent-comment" th:each="child : ${comment.getChildrenComments()}">
+
             <div class="child-comment" th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
         </div>
+
+        <hr class="commentHR"/>
 
         <!--ALL NEW CHILD COMMENTS COMING IN ARE APPENDED HERE-->
         <div class="childCommentDiv indent-comment" th:attr="data-child-node-comment-id=${comment.id}"></div>

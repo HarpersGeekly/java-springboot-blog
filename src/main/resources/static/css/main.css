@@ -744,10 +744,6 @@ textarea, input, .form-control {
     /*border-radius: 20px;*/
 }
 
-#parentCommentStyling {
-    border-bottom: 1px solid #888888;
-}
-
 .commentedByStyling {
     border-bottom: 0px solid #888888;
 }
@@ -780,6 +776,10 @@ textarea, input, .form-control {
     border-radius: 20px;
 }
 
+.comment-info-date-mobile-wrapper {
+    display: none;
+}
+
 .commentedByNameText {
     font-size: 1.1em;
     font-weight: bold;
@@ -804,7 +804,8 @@ textarea, input, .form-control {
 }
 
 .parentCommentOwnersProfileLink, .parentCommentOwnersProfileLink:hover {
-    color: black;
+    /*color: black;*/
+    color: #888888;
     padding-right:1em;
 }
 
@@ -851,6 +852,7 @@ textarea, input, .form-control {
 }
 
 .commentHR {
+    display:none;
     border-top: 1px solid #8c8b8b;
 }
 
