@@ -254,6 +254,10 @@
         margin-left:0.5em;
     }
 
+    .replyPostNotLoggedInDiv {
+        width: 55%;
+    }
+
     #custom-content-width {
         width: 100%;
     }
@@ -276,6 +280,7 @@
     }
 
     .commentInfoWrapper {
+        margin-bottom: 0.5em;
         padding-left: 0.5em;
         padding-right: 0.5em;
         background-color: #3333330f;
@@ -305,7 +310,7 @@
     }
 
     .parentCommentStyling {
-        border-bottom: 0px solid #888888;
+        border-bottom: 0px solid #88888852;
         /*padding-left: 1em;*/
         /*background-color: #99999930;*/
         /*border-radius: 11px;*/

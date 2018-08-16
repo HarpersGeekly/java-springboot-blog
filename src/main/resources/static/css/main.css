@@ -733,14 +733,14 @@ textarea, input, .form-control {
     /*border-left: solid rgba(0,0,0,.5);*/
     padding-left: 1em;
     padding-right: 1em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     margin-left:0.5em;
     background-color: #3333330f;
     border-radius: 15px;
 }
 
 .parentCommentStyling {
-    border-bottom: 1px solid #888888;
+    border-bottom: 1px solid #88888852;
     /*background-color: #99999930;*/
     /*border-radius: 20px;*/
 }
