@@ -409,6 +409,7 @@
         $this.siblings('.showReplyTextAreaCancel').removeClass('hidden');
         let commentId = $this.data('show-reply-textarea-comment-id');
         $('#replyTextArea_' + commentId).removeClass('hidden');
+        $('.showReplyTextArea').prop('disabled', true);
         $('.replyFormBody').val('').focus();
 
         // send an ajax request to retrieve the username of the owner of the post?:
@@ -420,6 +421,7 @@
     //click on Cancel, text changes to Reply and closes textarea for reply form:
     container.on("click", ".showReplyTextAreaCancel", function () {
 
+        $('.showReplyTextArea').prop('disabled', false);
         let $this = $(this);
         $this.addClass('hidden');
         $this.siblings('.showReplyTextArea').removeClass('hidden');
