@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: my-header('Harper\'s Geekly - Manage Posts')">
+</head>
+<body>
+<nav th:include="fragments/navbar :: my-navbar"></nav>
+
+<div id="preloader"></div>
+<span class="archive-table hidden">
+
+    <table id="dtBasicExample" data-toggle="table" class="table table-dark table-striped table-bordered table-sm" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th class="th-sm">Title
+                <i class="fa fa-sort float-right" aria-hidden="true"></i>
+            </th>
+            <th class="th-sm">Likes
+                <i class="fa fa-sort float-right" aria-hidden="true"></i>
+            </th>
+            <th class="th-sm">Comments
+                <i class="fa fa-sort float-right" aria-hidden="true"></i>
+            </th>
+            <th class="th-sm">Date
+                <i class="fa fa-sort float-right" aria-hidden="true"></i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <td>
+                <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                    <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
+                </a>
+            </td>
+            <td>
+                <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
+                <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+            </td>
+            <td>
+                <i class="fas fa-comments postCommentIconIndex"></i>
+                <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+            </td>
+            <td>
+                <span class="postedByDate hidden" th:text="${post.date}"></span>
+                <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+                <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
+                <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
+                <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</span>
+<footer th:include="fragments/footer :: my-footer"></footer>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<Script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></Script>
+<Script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></Script>
+<Script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></Script>
+<Script src="https://cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></Script>
+<script>
+
+    // $(window).load(function(){
+    //     $('#preloader').fadeOut('slow',function(){
+    //         $(this).remove();
+    //     });
+    // });
+
+    $(document).ready(function () {
+        $('#preloader').fadeOut('slow',function(){
+            $(this).remove();
+            $('.archive-table').removeClass('hidden');
+        });
+        $('#dtBasicExample').DataTable({
+            // responsive: true,
+            "order": [[ 3, "desc" ]],
+        });
+
+        // https://datatables.net/blog/2014-12-18
+
+    });
+</script>
+</body>
+</html>
