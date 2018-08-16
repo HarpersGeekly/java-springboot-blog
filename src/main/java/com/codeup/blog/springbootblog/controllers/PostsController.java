@@ -105,6 +105,12 @@ public class PostsController {
         return "posts/index";
     }
 
+    @GetMapping("/posts/archived")
+    public String showArchivedPosts(Model viewModel) {
+        viewModel.addAttribute("posts", postSvc.findAll());
+        return "posts/archivedPosts";
+    }
+
 //================================================ CREATE POST =========================================== /posts/create
 //======================================================================================================================
 
@@ -156,7 +162,6 @@ public class PostsController {
     @GetMapping("/posts/{id}/edit")
     public String showEditPostForm(@PathVariable Long id, Model viewModel) {
         Post existingPost = postSvc.findOne(id);
-
 //        List<Category> categories = existingPost.getCategories();
         viewModel.addAttribute("categories", categoriesDao.findAll());
         viewModel.addAttribute("post", existingPost);
