@@ -321,19 +321,22 @@
         </div>
 
         <div th:if="${isOwnProfile}" style="display: flex;">
-            <div>
-                <a class="btn btn-primary" id="profileEditPostBtn" th:href="${'/posts/' + post.id + '/edit'}">
-                    <i class="far fa-edit"></i> Edit
-                </a>
-
-            <!--=================================== DELETE BUTTON =========================================-->
-                <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post"> <!--th:object="${post}"-->
-                    <!--<input type="hidden" name="id" th:field="*{id}" />-->
-                    <button type="submit" class="btn btn-primary btn-danger" id="profileDeletePostBtn">
-                        <i class="fas fa-bomb"></i> Delete
-                    </button>
-                    <!-- <input th:if="${isEditable}"-->
-                </form>
+            <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </i>
+            <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                <div>
+                    <a class="dropdown-edit-btn"  th:href="${'/posts/' + post.id + '/edit'}">
+                        <i class="far fa-edit"></i> edit
+                    </a>
+                </div>
+                <div>
+                    <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" class="deleteCommentForm">
+                        <button class="dropdown-delete-btn" type="submit">
+                            <i class="fas fa-bomb"></i> delete
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
 
