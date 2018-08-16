@@ -313,6 +313,8 @@ public class UsersController {
         return "users/editUser";
     }
 
+    // =========================================== PROFILE ARCHIVED POSTS ==============================================
+    
     @GetMapping("/profile/{id}/archived")
     public String userArchivedPosts(@PathVariable Long id, Model viewModel) {
 
