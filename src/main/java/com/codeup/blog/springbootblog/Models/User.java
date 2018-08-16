@@ -59,10 +59,10 @@ public class User {
     @JsonBackReference
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<PostVote> votes; // one user can have many votes.
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<CommentVote> commentVotes;
 
     public User(){}
