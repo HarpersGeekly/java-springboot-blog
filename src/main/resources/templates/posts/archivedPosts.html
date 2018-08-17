@@ -14,6 +14,9 @@
                 <th class="th-sm th-title">Title
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
+                <th class="th-sm th-editor">Editor
+                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                </th>
                 <th class="th-sm th-likes">Likes
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
@@ -30,6 +33,11 @@
                 <td>
                     <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
                         <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
+                    </a>
+                </td>
+                <td>
+                    <a class="popularTitleLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <h4 class="popularTitleText" th:utext="${post.user.username}"></h4>
                     </a>
                 </td>
                 <td>
