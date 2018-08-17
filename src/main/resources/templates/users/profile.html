@@ -199,7 +199,7 @@
                 <div class="profileManagePostsDiv">
                     <i class="fas fa-archive profileArchiveIcon"></i>
                     <a th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}">
-                        <h5 id="profileManagePostsLink" data-target="#modal4">manage posts</h5>
+                        <h5 class="profileManagePostsLink" data-target="#modal4">manage posts</h5>
                     </a>
                 </div>
                 <label id="profileChangePictureLink" data-target="#modal" data-toggle="modal">
@@ -258,6 +258,13 @@
                 <h4>
                     <i class="far fa-address-card"></i>
                     <span class="profileInfoText" th:text="${profileUser.bio}"></span>
+                </h4>
+
+                <h4>
+                    <i class="fas fa-archive"></i>
+                    <a th:href="@{/profile/{id}/archived(id=${profileUser.id})}">
+                        <h5 class="profileManagePostsLink" data-target="#modal4">View all <span th:text="${profileUser.username}"></span>'s posts</h5>
+                    </a>
                 </h4>
             </div>
         </div>

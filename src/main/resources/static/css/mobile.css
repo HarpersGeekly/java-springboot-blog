@@ -138,6 +138,10 @@
         margin: auto auto 2em;
     }
 
+    .profile-page-latest-posts-greeting {
+        font-size: 2em;
+    }
+
     /*=============================================*/
 
     .commentSection {
