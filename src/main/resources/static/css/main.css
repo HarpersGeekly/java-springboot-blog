@@ -1393,6 +1393,22 @@ textarea, input, .form-control {
      border: none;
 }
 
+.th-title {
+    width: 200%;
+}
+
+.th-likes {
+    width: 10%;
+}
+
+.th-comments {
+    width: 10%;
+}
+
+.th-date {
+    width: 15%;
+}
+
 /*========================================================= BUTTONS ====================================================*/
 
 

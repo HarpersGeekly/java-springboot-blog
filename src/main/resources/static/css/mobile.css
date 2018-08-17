@@ -346,7 +346,20 @@
         margin-left: 0em;
     }
 
+    .th-title {
+        width: 25%;
+    }
 
+    .th-likes {
+        width: 15%;
+    }
 
+    .th-comments {
+        width: 30%;
+    }
+
+    .th-date {
+        width: 15%;
+    }
 
 }
