@@ -346,8 +346,14 @@
         margin-left: 0em;
     }
 
+    /*// ========= ALL POSTS =========*/
+
     .th-title {
         width: 25%;
+    }
+
+    .th-editor {
+        width: 15%;
     }
 
     .th-likes {
@@ -361,5 +367,35 @@
     .th-date {
         width: 15%;
     }
+
+    /*// ======== USER POSTS =======*/
+
+    .th-title-user-archive {
+        width: 20%;
+    }
+
+    .th-likes-user-archive {
+        width: 15%;
+    }
+
+    .th-comments-user-archive {
+        width: 30%;
+    }
+
+    .th-date-user-archive {
+        width: 15%;
+    }
+
+    .th-options-user-archive {
+        width: 10%;
+    }
+
+    /*.th-edit-user-archive {*/
+        /*width: 10%;*/
+    /*}*/
+
+    /*.th-delete-user-archive {*/
+        /*width: 10%;*/
+    /*}*/
 
 }

@@ -1393,10 +1393,14 @@ textarea, input, .form-control {
      border: none;
 }
 
+/*// ======== All Posts =====*/
 .th-title {
     width: 200%;
 }
 
+.th-editor {
+    width: 15%;
+}
 .th-likes {
     width: 10%;
 }
@@ -1406,8 +1410,38 @@ textarea, input, .form-control {
 }
 
 .th-date {
-    width: 15%;
+    width: 18%;
 }
+
+/*// ======== USER POSTS =======*/
+
+.th-title-user-archive {
+    width: 175%;
+}
+
+.th-likes-user-archive {
+    width: 10%;
+}
+
+.th-comments-user-archive {
+    width: 18%;
+}
+
+.th-date-user-archive {
+    width: 45%;
+}
+
+.th-options-user-archive {
+    width: 10%;
+}
+
+/*.th-edit-user-archive {*/
+    /*width: 10%;*/
+/*}*/
+
+/*.th-delete-user-archive {*/
+    /*width: 10%;*/
+/*}*/
 
 /*========================================================= BUTTONS ====================================================*/
 
@@ -1572,7 +1606,7 @@ textarea, input, .form-control {
 .speech-bubble {
     position: relative;
     background: #f4eef0;
-    border-radius: .4em;
+    /*border-radius: .4em;*/
 }
 
 .speech-bubble:after {
