@@ -5,7 +5,7 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<div id="preloader"></div>
+<div class="preloader"></div>
 <span class="archive-table hidden">
     <div class="table-responsive">
         <table style="table-layout: fixed;" id="dtBasicExample" data-toggle="table" class="table table-dark table-striped table-bordered table-sm" cellspacing="0" width="100%" >
@@ -70,13 +70,13 @@
 <script>
 
     // $(window).load(function(){
-    //     $('#preloader').fadeOut('slow',function(){
+    //     $('.preloader').fadeOut('slow',function(){
     //         $(this).remove();
     //     });
     // });
 
     $(document).ready(function () {
-        $('#preloader').fadeOut('slow',function(){
+        $('.preloader').fadeOut('slow',function(){
             $(this).remove();
             $('.archive-table').removeClass('hidden');
         });

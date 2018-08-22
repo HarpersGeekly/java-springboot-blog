@@ -4,6 +4,7 @@ body {
     /*min-height: 100vh;*/
     background: #fffafb;
     /*font-family: Georgia, serif;*/
+    font-size: 14px; /* 16px = 1.0875em, 14px = 1em */
     font-family: 'Roboto', sans-serif;
     margin: 0;
     height: 100%;
@@ -186,7 +187,7 @@ html {
 .sidebar-category-tags > a {
     /*color: #E07A5F;*/
     color: black;
-    font-size: 0.9em;
+    font-size: 0.875em;
     font-weight: normal;
 }
 
@@ -344,7 +345,7 @@ ul {
 
 .postTitle {
     font-family: Oswald, sans-serif;
-    font-size: 2.1em;
+    font-size: 2em;
     /*font-size:6vw;*/
     margin-right: 1em;
     display: inline-block;
@@ -386,7 +387,7 @@ ul {
 
 .post-tag {
     color: #E07A5F;
-    font-size: 0.9em;
+    font-size: 0.875em;
     font-weight: normal;
     background-color: papayawhip;
     padding: 0.25em;
@@ -402,7 +403,12 @@ ul {
     /*color: #7DE2D1;*/
 }
 
+.postedByWrapper {
+    font-size: 1em;
+}
+
 .postedByNameTextIndex {
+    font-size: 1em;
     margin-right: 0.75em;
     color: black;
 }
@@ -424,35 +430,35 @@ textarea, input, .form-control {
 }
 
 .postDescription{
+
     width: 100%;
-    font-size: 16px;
+    font-size: 1em;
     color: #555;
     line-height: 1.5;
     margin: 0 auto 1em;
-    overflow:hidden;
-    text-overflow: ellipsis;
+    overflow: hidden;
     content: "";
     position:relative;
     max-height: 350px;
 }
 
-.postDescription:before {
-    /*content: '';*/
-    /*UNCOMMENT content IF YOU WANT GRADIENT EFFECT*/
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    /*background: linear-gradient(transparent 50px, papayawhip);*/
-    /*background-image: -moz-linear-gradient(transparent 50px, papayawhip);*/
-    /*background-image: -o-linear-gradient(transparent 50px, papayawhip);*/
-    /*background-image: -ms-linear-gradient(transparent 50px, papayawhip);*/
-    background: linear-gradient(transparent 90%, #FFFAFB);
-    background-image: -moz-linear-gradient(transparent 90%, #FFFAFB);
-    background-image: -o-linear-gradient(transparent 90%, #FFFAFB);
-    background-image: -ms-linear-gradient(transparent 90%, #FFFAFB);
-}
+/*.postDescription:before {*/
+    /*!*content: '';*!*/
+    /*!*UNCOMMENT content IF YOU WANT GRADIENT EFFECT*!*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*top: 0;*/
+    /*!*background: linear-gradient(transparent 50px, papayawhip);*!*/
+    /*!*background-image: -moz-linear-gradient(transparent 50px, papayawhip);*!*/
+    /*!*background-image: -o-linear-gradient(transparent 50px, papayawhip);*!*/
+    /*!*background-image: -ms-linear-gradient(transparent 50px, papayawhip);*!*/
+    /*background: linear-gradient(transparent 90%, #FFFAFB);*/
+    /*background-image: -moz-linear-gradient(transparent 90%, #FFFAFB);*/
+    /*background-image: -o-linear-gradient(transparent 90%, #FFFAFB);*/
+    /*background-image: -ms-linear-gradient(transparent 90%, #FFFAFB);*/
+/*}*/
 
 .fa-read-more {
     color: #339989;
@@ -475,7 +481,7 @@ textarea, input, .form-control {
     display:block;
     padding: 16px 32px;
     font-family: 'Roboto', sans-serif;
-    font-size: 16px;
+    font-size: 1em;
     color: #fff;
     background: #E07A5F;
     border: 0;
@@ -591,15 +597,15 @@ textarea, input, .form-control {
     /*margin-left: 1.3em;*/
 }
 
-.postedByNameText {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.3em;
-    font-weight: 500;
-    line-height: 1.8em;
-    margin-right: 0.75em;
-    text-decoration: none;
-    color: black;
-}
+/*.postedByNameText {*/
+    /*font-family: 'Roboto', sans-serif;*/
+    /*font-size: 1.3em;*/
+    /*font-weight: 500;*/
+    /*line-height: 1.8em;*/
+    /*margin-right: 0.75em;*/
+    /*text-decoration: none;*/
+    /*color: black;*/
+/*}*/
 
 .postedByDateTime {
     margin-right: 0.75em;
@@ -814,7 +820,7 @@ textarea, input, .form-control {
     word-break: break-word;
     font-family: 'Roboto', sans-serif;
     line-height: 1.3em;
-    font-size: 1.1em;
+    font-size: 1em;
 
     white-space: pre-wrap;      /* CSS3 */
     white-space: -moz-pre-wrap; /* Firefox */
@@ -826,7 +832,7 @@ textarea, input, .form-control {
     width: 100%;
     resize: none;
     line-height: 1.3em;
-    font-size: 1.1em;
+    font-size: 1em;
 }
 
 .form-group {
@@ -1593,7 +1599,7 @@ textarea, input, .form-control {
     display:none;
 }
 
-#preloader {
+.preloader {
     position: fixed;
     left: 0px;
     top: 0px;
