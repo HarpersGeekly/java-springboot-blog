@@ -21,6 +21,14 @@
             Invalid username or password. Have you <strong><a th:href="${'/register'}">registered?</a></strong>
         </div>
 
+        <div th:if="${hasReset}" class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <span th:text="${successMessage}"></span>
+        </div>
+
+
         <!--<div th:if="${param.logout}">-->
             <!--You have been logged out.-->
         <!--</div>-->
@@ -62,6 +70,10 @@
             <div class="form-group">
                 <p>Not a member? <a th:href="${'/register'}">Register here.</a></p>
             </div>
+
+            <a th:href="@{/forgot}">Forgot password? Click here.</a>
+
+
         </form>
     </div>
 
