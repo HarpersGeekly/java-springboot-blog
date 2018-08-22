@@ -24,8 +24,9 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    @Pattern(regexp = "(?=^.{3,20}$)^[a-zA-Z][a-zA-Z0-9 ]*[._-]?[a-zA-Z0-9 ]+$", message = "")
+    @Pattern(regexp = "(?=^.{3,20}$)^[a-zA-Z][a-zA-Z0-9 ]*[._-]?[a-zA-Z0-9 ]+$", message = "Username must be alphanumeric.")
     @NotBlank(message="Please enter a username.")
+    @Size(min = 2, max= 20, message="Your username must be between 2-20 characters.")
     private String username;
 
     @Column(nullable = false, unique = true)
@@ -38,7 +39,7 @@ public class User {
 
     @Column(nullable = false)
     @NotBlank(message = "Your password cannot be empty.")
-    @Size(min = 8, message="Your password must be at least 8 characters.")
+    @Size(min = 8, max= 20, message="Your password must be between 8-20 characters.")
     @JsonIgnore
     private String password;
 
