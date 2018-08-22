@@ -245,51 +245,6 @@ public class UsersController {
     }
 
 
-    // ============================================ CHANGE PASSWORD ====================================================
-
-    @GetMapping("/profile/{id}/editPassword")
-    public String showPasswordEditPage(@PathVariable Long id, Model viewModel) {
-        // find the user in the database:
-        User existingUser = usersDao.findById(id);
-        viewModel.addAttribute("user", existingUser);
-        return "users/editPassword";
-    }
-
-    @PostMapping("profile/{id}/editPassword")
-    public String changePassword(@PathVariable Long id, @Valid User user, Errors validation, Model viewModel,
-                                 @RequestParam(name = "password_confirm") String passwordConfirmation,
-                                 @RequestParam(name = "password") String password) {
-
-        //compare passwords:
-        if (!passwordConfirmation.equals(user.getPassword())) {
-            validation.rejectValue(
-                    "password",
-                    "user.password",
-                    "Your passwords do not match.");
-        }
-
-        // if there are errors, show the form again.
-        if (validation.hasErrors()) {
-            viewModel.addAttribute("errors", validation);
-            viewModel.addAttribute("user", user);
-            return "users/editPassword";
-        }
-
-        // hash the password:
-        user.setPassword(passwordEncoder.encode(password));
-        user.setId(id);
-        usersDao.save(user);
-        userSvc.authenticate(user);
-
-        // alert the user that their password has changed.
-        boolean success = (!validation.hasErrors());
-        String passwordSuccess = "You have successfully updated your password!";
-        viewModel.addAttribute("success", success);
-        viewModel.addAttribute("successMessage", passwordSuccess);
-
-        return "users/editPassword";
-    }
-
     // =========================================== DELETE PROFILE ACCOUNT ==============================================
 
     @PostMapping("/profile/{id}/delete")
@@ -314,7 +269,7 @@ public class UsersController {
     }
 
     // =========================================== PROFILE ARCHIVED POSTS ==============================================
-    
+
     @GetMapping("/profile/{id}/archived")
     public String userArchivedPosts(@PathVariable Long id, Model viewModel) {
 
@@ -324,4 +279,5 @@ public class UsersController {
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
         return "users/userArchivedPosts";
     }
+
 }
