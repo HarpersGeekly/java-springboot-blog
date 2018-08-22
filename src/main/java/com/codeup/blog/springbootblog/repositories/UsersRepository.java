@@ -20,7 +20,7 @@ public interface UsersRepository extends CrudRepository<User, Long> {
     User findById(Long id);
 
     // select * from users where email = ?
-    User findByEmail(String password);
+    User findByEmail(String email);
 
     @Query(nativeQuery = true,
             value = "SELECT " +
