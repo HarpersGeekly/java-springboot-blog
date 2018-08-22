@@ -51,6 +51,9 @@ public class User {
     @Column
     private String bio;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private PasswordToken passwordToken;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts. When User is deleted, these delete too
     @JsonBackReference
     private List<Post> posts;
@@ -92,6 +95,7 @@ public class User {
         this.commentVotes = copy.commentVotes;
         this.profilePicture = copy.profilePicture;
         this.bio = copy.bio;
+        this.passwordToken = copy.passwordToken;
     }
 
     public Long getId() {
@@ -194,6 +198,14 @@ public class User {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public PasswordToken getPasswordToken() {
+        return passwordToken;
+    }
+
+    public void setPasswordToken(PasswordToken passwordToken) {
+        this.passwordToken = passwordToken;
     }
 }
 
