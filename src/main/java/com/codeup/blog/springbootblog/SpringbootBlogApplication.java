@@ -1,6 +1,10 @@
 package com.codeup.blog.springbootblog;
 
 
+import com.codeup.blog.springbootblog.Models.MailSender;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -18,7 +22,12 @@ import java.util.List;
 		basePackageClasses = {SpringbootBlogApplication.class, Jsr310JpaConverters.class}
 )
 @SpringBootApplication
-public class SpringbootBlogApplication extends SpringBootServletInitializer{
+//public class SpringbootBlogApplication extends SpringBootServletInitializer implements CommandLineRunner  {
+public class SpringbootBlogApplication extends SpringBootServletInitializer  {
+
+	@Autowired
+	@Qualifier("javaMailSender")
+	public MailSender mailSender;
 
 	@Bean
 	public Java8TimeDialect java8TimeDialect() {
@@ -32,6 +41,17 @@ public class SpringbootBlogApplication extends SpringBootServletInitializer{
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(SpringbootBlogApplication.class);
 	}
+
+//	@Override
+//	public void run(String... strings) throws Exception {
+//
+//		String from = "support@demo.com";
+//		String to = "harperryanc@gmail.com";
+//		String subject = "JavaMailSender";
+//		String body = "Just-Testing!";
+//
+//		mailSender.sendMail(from, to, subject, body);
+//	}
 
 	// test repository or service queries
 //	@Bean
