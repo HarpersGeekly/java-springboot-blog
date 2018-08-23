@@ -58,6 +58,7 @@
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
+                            <i class="fas fa-exclamation-triangle"></i>
                             <span th:errors="*{bio}"/>
                         </div>
                     </div>
@@ -77,6 +78,7 @@
                                  </a>
 
                                 <div th:if="${success}" class="alert alert-success fade in">
+                                    <i class="fas fa-check"></i>
                                     <strong th:text="${successMsg}"></strong><a th:href="@{/profile}" class="alert-link"> Go to your profile.</a>
                                 </div>
                              </div>
