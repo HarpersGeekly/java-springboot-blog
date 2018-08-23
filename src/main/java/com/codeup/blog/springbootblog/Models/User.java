@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -26,7 +25,7 @@ public class User {
     @Column(nullable = false, unique = true)
     @Pattern(regexp = "(?=^.{3,20}$)^[a-zA-Z][a-zA-Z0-9 ]*[._-]?[a-zA-Z0-9 ]+$", message = "Username must be alphanumeric.")
     @NotBlank(message="Please enter a username.")
-    @Size(min = 2, max= 20, message="Your username must be between 2-20 characters.")
+    @Size(min = 2, message="Your username must be at least 2 characters.")
     private String username;
 
     @Column(nullable = false, unique = true)
@@ -39,7 +38,7 @@ public class User {
 
     @Column(nullable = false)
     @NotBlank(message = "Your password cannot be empty.")
-    @Size(min = 8, max= 20, message="Your password must be between 8-20 characters.")
+    @Size(min = 8, message="Your password must be between 8-20 characters.")
     @JsonIgnore
     private String password;
 
@@ -51,9 +50,6 @@ public class User {
 
     @Column
     private String bio;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private PasswordToken passwordToken;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts. When User is deleted, these delete too
     @JsonBackReference
@@ -68,6 +64,11 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<CommentVote> commentVotes;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<PasswordToken> passwordToken;
+    // @OneToOne(cascade = CascadeType.ALL, mappedBy = "user") //Before @OneToMany, users couldn't request more than one token.
+    // private PasswordToken passwordToken;
 
     public User(){}
 
@@ -97,6 +98,24 @@ public class User {
         this.profilePicture = copy.profilePicture;
         this.bio = copy.bio;
         this.passwordToken = copy.passwordToken;
+    }
+
+    @Override
+    public boolean equals(Object anotherUser) {
+        if (anotherUser != null)
+            if (anotherUser instanceof User)
+                if (id != null && id.equals(((User) anotherUser).id)) return true;
+        return false;
+    }
+
+    public String profilePicturePath() {
+        return profilePicture == null ? String.format("%s.png", username) : profilePicture;
+    }
+
+    public void updateProfilePicture() {
+        if (profilePicture == null) {
+            profilePicture = profilePicturePath();
+        }
     }
 
     public Long getId() {
@@ -143,14 +162,6 @@ public class User {
         this.date = date;
     }
 
-    @Override
-    public boolean equals(Object anotherUser) {
-        if (anotherUser != null)
-            if (anotherUser instanceof User)
-                if (id != null && id.equals(((User) anotherUser).id)) return true;
-        return false;
-    }
-
     public List<Comment> getComments() {
         return comments;
     }
@@ -179,18 +190,8 @@ public class User {
         return profilePicture;
     }
 
-    public String profilePicturePath() {
-        return profilePicture == null ? String.format("%s.png", username) : profilePicture;
-    }
-
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
-    }
-
-    public void updateProfilePicture() {
-        if (profilePicture == null) {
-            profilePicture = profilePicturePath();
-        }
     }
 
     public String getBio() {
@@ -201,13 +202,16 @@ public class User {
         this.bio = bio;
     }
 
-    public PasswordToken getPasswordToken() {
+    public List<PasswordToken> getPasswordToken() {
         return passwordToken;
     }
 
-    public void setPasswordToken(PasswordToken passwordToken) {
+    public void setPasswordToken(List<PasswordToken> passwordToken) {
         this.passwordToken = passwordToken;
     }
+
+
+
 }
 
 
