@@ -1,8 +1,7 @@
 package com.codeup.blog.springbootblog.controllers;
 
-import java.time.Instant;
-import java.util.Date;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,7 +90,7 @@ public class PasswordController {
 
     // Display forgotPassword page
     @RequestMapping(value = "/forgot", method = RequestMethod.GET)
-    public String displayForgotPasswordPage(Model viewModel) {
+    public String displayForgotPasswordPage() {
         return "users/forgotPassword";
     }
 
@@ -99,19 +98,40 @@ public class PasswordController {
     @RequestMapping(value = "/forgot", method = RequestMethod.POST)
     public String processForgotPasswordForm(@RequestParam("email") String userEmail, HttpServletRequest request, Model viewModel) {
 
-        // Lookup user in database by e-mail
-        User user = usersDao.findByEmail(userEmail);
+        boolean emailIsEmpty = userEmail.isEmpty();
 
-        if (user == null) {
-            viewModel.addAttribute("hasNotSent", true);
-            viewModel.addAttribute("errorMessage", "We didn't find an account for that e-mail address.");
+        if (emailIsEmpty) {
+            viewModel.addAttribute("isEmpty", emailIsEmpty);
+            viewModel.addAttribute("errorMessage", "Please enter an email address");
         } else {
+
+        User user = usersDao.findByEmail(userEmail);
+        System.out.println(user.getUsername());
+        System.out.println(user.getPasswordToken());
+
+//      =================== DELETE OLD PASSWORD TOKENS BY USER ========================================
+//        List<PasswordToken> oldPts = user.getPasswordToken();
+//
+//        if(oldPts != null) {
+//            System.out.println("get here");
+//            for(PasswordToken pt : oldPts) {
+//                pt.getUser().setPasswordToken(null);
+//                System.out.println("token?" + pt.getUser().getPasswordToken());
+//                passwordDao.deleteByUserId(pt.getUser().getId());
+//                System.out.println("delete?" + pt.getUser().getId());
+//
+//            }
+//        }
+
 
             PasswordToken pt = new PasswordToken();
             // Set User
             pt.setUser(user);
 //          // Set the timestamp.
-            pt.setCreated_on(Date.from(Instant.now()));
+            LocalDateTime ldt = LocalDateTime.now();
+            LocalDateTime expired = ldt.plusMinutes(5);
+            pt.setCreated_on(ldt);
+            pt.setExpires_on(expired);
             // Generate random 36-character string token for reset password
             pt.setToken(UUID.randomUUID().toString());
             // Save token to database
@@ -128,7 +148,7 @@ public class PasswordController {
 
             // Add success message to view
             viewModel.addAttribute("hasSent", true);
-            viewModel.addAttribute("successMessage", "A password reset link has been sent to " + userEmail);
+            viewModel.addAttribute("successMessage", "If a user exists with that email, a password reset link will be sent to the email address provided");
         }
         return "users/forgotPassword";
 
@@ -137,55 +157,72 @@ public class PasswordController {
 
     // Display form to reset password
     @RequestMapping(value = "/reset", method = RequestMethod.GET)
-    public String displayResetPasswordPage(Model viewModel, @RequestParam("token") String token) {
+    public String displayResetPasswordPage(Model viewModel,
+                                           @RequestParam("token") String token, RedirectAttributes redirect) {
 
         PasswordToken pt = passwordDao.findByToken(token);
         Long id = pt.getUser().getId();
         User user = usersDao.findById(id);
+        LocalDateTime ldt = LocalDateTime.now();
+        LocalDateTime expires = pt.getExpires_on();
 
-        if (user != null) { // Token found in DB and not expired.
+        if (user != null && ldt.isBefore(expires)) { // Token found in DB is not expired.
             viewModel.addAttribute("resetToken", token); // putting the token inside the form action url
-        } else { // Token not found in DB
-            viewModel.addAttribute("errorMessage", "Oops!  This is an invalid password reset link.");
+        } else if (user != null && ldt.isAfter(expires)) { // Token found in DB is expired
+            redirect.addFlashAttribute("isExpired", true);
+            redirect.addFlashAttribute("errorMessage", "Oops!  This is an invalid password reset link.");
+//            List<PasswordToken> oldPts = user.getPasswordToken();
             return "redirect:/login";
         }
 
+        viewModel.addAttribute("user", user);
         return "users/resetPassword";
     }
 
     // Process reset password form
     @RequestMapping(value = "/reset/{token}", method = RequestMethod.POST)
-    public String setNewPassword(Model viewModel, @PathVariable String token, @RequestParam Map<String, String> requestParams, RedirectAttributes redir) {
+    public String setNewPassword(Model viewModel,
+                                 @PathVariable String token,
+                                 @RequestParam(name = "password") String password,
+                                 RedirectAttributes redirect /* , @RequestParam Map<String, String> requestParams */) {
+
         // Find the user associated with the reset token
         PasswordToken pt = passwordDao.findByToken(token);
         Long id = pt.getUser().getId();
-        User user = usersDao.findById(id);
+        User tokenUser = usersDao.findById(id);
+        boolean isNotMinMax = (password.length() > 20 || password.length() < 8);
 
-        // This should always be non-null but we check just in case
-        if (user != null) {
-
-            // Set new password
-            user.setPassword(passwordEncoder.encode(requestParams.get("password")));
-
-            // Set the reset token to null so it cannot be used again
-            user.setPasswordToken(null);
-            passwordDao.deleteById(pt.getId());
-
-            // Save user
-            usersDao.save(user);
-
-            // In order to set a model attribute on a redirect, we must use
-            // RedirectAttribute
-            redir.addFlashAttribute("hasReset", true);
-            redir.addFlashAttribute("successMessage", "You have successfully reset your password.  You may now login.");
-//            viewModel.addAttribute("successMessage", "You have successfully reset your password.  You may now login.");
-
-            return "redirect:/login";
-
+        if(password.isEmpty() || isNotMinMax) {
+            viewModel.addAttribute("hasError", true);
+            viewModel.addAttribute("resetToken", token);
+            viewModel.addAttribute("errorMessage", "Passwords cannot be empty. Passwords must be between 8-20 characters");
+            return "users/resetPassword";
         } else {
-            viewModel.addAttribute("errorMessage", "Oops!  This is an invalid password reset link.");
-        }
 
+            // This should always be non-null but we check just in case
+            if (tokenUser != null) {
+
+                // Set new password
+                tokenUser.setPassword(passwordEncoder.encode(password));
+
+                // Set the reset token to null so it cannot be used again
+//                tokenUser.setPasswordToken(null);
+//                passwordDao.deleteById(pt.getId());
+
+                // Save user
+                usersDao.save(tokenUser);
+
+                // In order to set a model attribute on a redirect, we must use
+                // RedirectAttribute
+                redirect.addFlashAttribute("hasReset", true);
+                redirect.addFlashAttribute("successMessage", "You have successfully reset your password.  You may now login.");
+
+                return "redirect:/login";
+
+            } else {
+                viewModel.addAttribute("errorMessage", "Oops!  This is an invalid password reset link.");
+            }
+        }
         return "users/resetPassword";
     }
 
