@@ -152,11 +152,17 @@
 
         <div class="profile-upper-wrapper">
             <div class="profile-picture-wrapper">
-                <span th:if="${#authentication.principal.profilePicture} == null">
-                    <img class="profilePic" src="/../images/user.png"/>
+                <span class="logged-in-user-profile-wrapper" th:if="${#authentication.principal.profilePicture} == null">
+                    <img class="profilePic" src="/../images/user.png" data-target="#modal" data-toggle="modal"/>
+                        <span class="change-profile-picture-alternate hidden">
+                            <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
+                        </span>
                 </span>
-                <span th:if="${#authentication.principal.profilePicture} != null">
-                    <img class="profilePic" th:src="@{'/uploads/' + ${#authentication.principal.profilePicture}}"/>
+                <span class="logged-in-user-profile-wrapper" th:if="${#authentication.principal.profilePicture} != null">
+                    <img class="profilePic" th:src="@{'/uploads/' + ${#authentication.principal.profilePicture}}" data-target="#modal" data-toggle="modal"/>
+                        <span class="change-profile-picture-alternate hidden">
+                            <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
+                        </span>
                 </span>
             </div>
 
@@ -364,6 +370,23 @@
 
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
+<script>
+
+
+    $(".logged-in-user-profile-wrapper").on({
+        mouseenter: function () {
+            //stuff to do on mouse enter
+            $('.profilePic').css("opacity", "0.5");
+            $('.change-profile-picture-alternate').removeClass('hidden');
+        },
+        mouseleave: function () {
+            //stuff to do on mouse leave
+            $('.profilePic').css("opacity", "1");
+            $('.change-profile-picture-alternate').addClass('hidden');
+        }
+    });
+
+</script>
 </body>
 </html>
 

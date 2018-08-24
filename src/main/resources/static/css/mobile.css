@@ -53,6 +53,11 @@
         font-size: 1.3em;
     }
 
+    #logout {
+        font-size: 1.3em;
+        margin-top: 0px;
+    }
+
     /*.dropdown {*/
         /*display: block;*/
     /*}*/
@@ -127,6 +132,10 @@
     .profile-picture-wrapper {
         position: absolute;
         left: 32%;
+    }
+
+    .change-profile-picture-alternate {
+        display: none;
     }
 
     .profile-info-wrapper {

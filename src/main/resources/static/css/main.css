@@ -44,6 +44,13 @@ html {
     /*font-family: Futura, serif;*/
     /*font-family: 'Roboto', sans-serif;*/
     font-family: 'East Sea Dokdo', regular;
+    /*font-family: 'Lato', regular;*/
+    /*font-family: 'Lora', regular;*/
+    /*font-family: 'EB Garamond', regular;*/
+    /*font-family: 'PT Serif', regular;*/
+    /*font-family: 'Oswald', regular;*/
+    /*font-family: 'Raleway', regular;*/
+    /*font-family: 'Playfair Display', regular;*/
     font-size: 2.75em;
     text-decoration: none;
     transition: color 0.1s linear;
@@ -371,6 +378,16 @@ ul {
 }
 
 .postTitle {
+    /*font-family: Futura, serif;*/
+    /*font-family: 'Roboto', sans-serif;*/
+    /*font-family: 'East Sea Dokdo', regular;*/
+    /*font-family: 'Lato', regular;*/
+    /*font-family: 'Lora', regular;*/
+    /*font-family: 'EB Garamond', regular;*/
+    /*font-family: 'PT Serif', regular;*/
+    /*font-family: 'Oswald', regular;*/
+    /*font-family: 'Raleway', regular;*/
+    /*font-family: 'Playfair Display', regular;*/
     font-family: Oswald, sans-serif;
     font-size: 2em;
     /*font-size:6vw;*/
@@ -1171,6 +1188,24 @@ textarea, input, .form-control {
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
     border-radius: 100px;
+}
+
+/*.profilePic:hover {*/
+    /*opacity: 0.5;*/
+/*}*/
+
+.change-profile-picture-alternate {
+    position: absolute;
+    /* opacity: 0.5; */
+    font-size: 5em;
+    top: 225px;
+    left: 216px;
+    /* margin-right: -9px; */
+    z-index: 9999;
+}
+
+.fa-camera {
+    color: white;
 }
 
 .profilePicComment {
