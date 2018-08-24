@@ -389,7 +389,7 @@ ul {
     /*font-family: 'Raleway', regular;*/
     /*font-family: 'Playfair Display', regular;*/
     font-family: Oswald, sans-serif;
-    font-size: 2em;
+    font-size: 2.3em;
     /*font-size:6vw;*/
     margin-right: 1em;
     display: inline-block;
@@ -589,6 +589,10 @@ textarea, input, .form-control {
 /*rgb(255, 250, 251) 100%*/
 /*);*/
 /*============== Create Post Page =================*/
+
+.create-post-form-labels {
+    font-size: 1.5em;
+}
 
 .createPostPageWrapper {
     margin-bottom:5em;
