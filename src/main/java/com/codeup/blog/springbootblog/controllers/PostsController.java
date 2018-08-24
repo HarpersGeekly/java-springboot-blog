@@ -245,15 +245,24 @@ public class PostsController {
         return renderer.render(parser.parse(content));
     }
 
+    @GetMapping("/posts/image.json")
+    @ResponseBody
+    public String showMarkdownPreviewInImage(@RequestParam(name = "image") String image) {
+        //@RequestParam name = "image" refers to the ajax data's property name, data: {image: ____ }
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(parser.parse(image));
+    }
+
 
 //============================================ MARKDOWN EDITOR IMAGE UPLOAD =================================================
 //======================================================================================================================
 
-    @GetMapping("/posts/image.json")
-    @ResponseBody
-    public String showMarkdownImageInForm() {
-        return "";
-    }
+//    @GetMapping("/posts/image.json")
+//    @ResponseBody
+//    public String showMarkdownImageInForm() {
+//        return "";
+//    }
 
 //================================================= SHOW POST ============================================== /posts/{id}
 //======================================================================================================================
