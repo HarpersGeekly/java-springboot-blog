@@ -10,8 +10,18 @@
 
     <form th:action="@{/posts/create}" th:method="POST" th:object="${post}" enctype="multipart/form-data">
 
+        <label>Tips &amp; Guidelines:</label>
+        <blockquote>
+            <ol>
+                <li><h5>If possible, start your post with an image. Large images will be scaled.</h5></li>
+                <li><h5>For links to conveniently open in a new tab, copy the following HTML:</h5></li>
+                &lt;a href="url goes here" target="_blank">text goes here&lt;/a&gt;
+                <li><h5>For code, wrap your code in backticks: ```code```</h5></li>
+            </ol>
+        </blockquote>
+
         <div class="form-group title-form-group">
-            <label for="title">Title:</label>
+            <label class="create-post-form-labels" for="title">Title:</label>
             <textarea type="text" name="title" class="form-control" id="title" th:field="*{title}"></textarea>
             <!--<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />-->
             <!--more fancy bootstrap alerts:-->
@@ -27,7 +37,7 @@
             </div>
         </div>
 
-        <label for="tags">Categories:</label>
+        <label class="create-post-form-labels" for="tags">Categories:</label>
         <div class="form-group" id="categories-selector">
             <select id="tags" class="selectpicker" multiple="multiple" data-max-options="4" name="categories" th:field="*{categories}">
                 <option th:each="tag : ${categories}" th:value="${tag.id}" th:text="${tag.name}"></option>
@@ -44,18 +54,23 @@
             </div>
         </div>
 
-        <label>Tips &amp; Guidelines:</label>
-        <blockquote>
-            <ol>
-                <li><h5>If possible, start your post with an image. Large images will be scaled.</h5></li>
-                <li><h5>For links to conveniently open in a new tab, copy the following HTML:</h5></li>
-            &lt;a href="url goes here" target="_blank">text goes here&lt;/a&gt;
-                <li><h5>For code, wrap your code in backticks: ```code```</h5></li>
-            </ol>
-        </blockquote>
+        <div class="form-group form-group-post-image">
+            <label class="create-post-form-labels" for="post-image">Post Image:</label>
+            <textarea type="text" name="image" class="form-control" id="post-image" th:field="*{image}"  style="resize: none"></textarea>
+            <!--<div-->
+                    <!--th:if="${#fields.hasErrors('image')}"-->
+                    <!--class="alert alert-danger alert-dismissible"-->
+                    <!--role="alert"-->
+            <!--&gt;-->
+                <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+                    <!--<span aria-hidden="true">&times;</span>-->
+                <!--</button>-->
+                <!--<span th:errors="*{image}"/>-->
+            <!--</div>-->
+        </div>
 
-        <div class="form-group">
-            <label for="myEditor">Description:</label>
+        <div class="form-group form-group-post-description">
+            <label class="create-post-form-labels" for="myEditor">Description:</label>
             <textarea type="text" name="description" class="form-control" id="myEditor" th:field="*{description}"  style="resize: none"></textarea>
             <div
                     th:if="${#fields.hasErrors('description')}"
@@ -107,20 +122,19 @@
                     });
             }
         });
-        $('[data-btn="image"]').addClass('hidden');
-        $('[data-btn="link"]').addClass('hidden');
-        $('[data-btn="ul"]').addClass('hidden');
-        $('[data-btn="ol"]').addClass('hidden');
-        $('[data-btn="h1"]').addClass('hidden');
-        $('[data-btn="h2"]').addClass('hidden');
-        $('[data-btn="h3"]').addClass('hidden');
+        $('.title-form-group [data-btn="image"]').addClass('hidden');
+        $('.title-form-group [data-btn="link"]').addClass('hidden');
+        $('.title-form-group [data-btn="ul"]').addClass('hidden');
+        $('.title-form-group [data-btn="ol"]').addClass('hidden');
+        $('.title-form-group [data-btn="h1"]').addClass('hidden');
+        $('.title-form-group [data-btn="h2"]').addClass('hidden');
+        $('.title-form-group [data-btn="h3"]').addClass('hidden');
 
         $.fn.markdownEditor.defaults.height = '325px';
         $('#myEditor').markdownEditor({
             // Activate the preview:
             imageUpload: false, // Activate the option
             // uploadPath: '/posts/image.json', // Path of the server side script that receives the files
-            uploadPath: '/posts/image', // Path of the server side script that receives the files
             preview: true,
             // This callback is called when the user click on the preview button:
             onPreview: function (content, callback) {
@@ -137,6 +151,37 @@
                     });
             }
         });
+
+        $.fn.markdownEditor.defaults.height = '100px';
+        $('#post-image').markdownEditor({
+            imageUpload: true, // Activate the option
+            uploadPath: '/posts/image.json', // Path of the server side script that receives the files
+            fullscreen: false,
+            preview: true,
+            // This callback is called when the user click on the preview button:
+            onPreview: function (image, callback) {
+                // Example of implementation with ajax:
+                $.ajax({
+                    url: '/posts/image.json',
+                    type: 'GET',
+                    dataType: 'html',
+                    data: {image: image},
+                })
+                    .done(function (content) {
+                        // Return the html:
+                        callback(content);
+                    });
+            }
+
+        });
+        $('.form-group-post-image [data-btn="link"]').addClass('hidden');
+        $('.form-group-post-image [data-btn="bold"]').addClass('hidden');
+        $('.form-group-post-image [data-btn="italic"]').addClass('hidden');
+        $('.form-group-post-image [data-btn="h1"]').addClass('hidden');
+        $('.form-group-post-image [data-btn="h2"]').addClass('hidden');
+        $('.form-group-post-image [data-btn="h3"]').addClass('hidden');
+        $('.form-group-post-image [data-btn="ol"]').addClass('hidden');
+        $('.form-group-post-image [data-btn="ul"]').addClass('hidden');
 
     });
 
