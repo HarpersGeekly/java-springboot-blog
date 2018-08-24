@@ -33,6 +33,9 @@ public class Post {
     @Size(max = 100, message = "Title is too long")
     private String title;
 
+    @Column(name = "post_image", nullable = true)
+    private String image;
+
     @Column(columnDefinition = "TEXT", length = 5000, nullable = false) // column, text for more, not-null
     @NotBlank(message = "Description cannot be empty")
     @Size.List({
@@ -69,16 +72,16 @@ public class Post {
     @NotEmpty(message = "Categories cannot be empty")
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    @JsonIgnore //annotation to simply ignore one of the sides of the relationship, thus breaking the chain.
-    private List<PostImage> postImages;
+//    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+//    @JsonIgnore //annotation to simply ignore one of the sides of the relationship, thus breaking the chain.
+//    private List<PostImage> images;
 
     //use when the post is retrieved from the database.
     public Post(Long id, String title, String description, User user,
                 LocalDateTime date,
                 List<Comment> comments,
                 List<PostVote> votes,
-                List<PostImage> postImages,
+                String image,
                 List<Category> categories) {
         this.id = id;
         this.title = title;
@@ -87,7 +90,7 @@ public class Post {
         this.date = date;
         this.comments = comments;
         this.votes = votes;
-        this.postImages = postImages;
+        this.image = image;
         this.categories = categories;
     }
 
@@ -100,6 +103,13 @@ public class Post {
     public Post(String title, String description, List<Category> categories) {
         this.title = title;
         this.description = description;
+        this.categories = categories;
+    }
+
+    public Post(String title, String description, String image, List<Category> categories) {
+        this.title = title;
+        this.description = description;
+        this.image = image;
         this.categories = categories;
     }
 
@@ -131,7 +141,13 @@ public class Post {
         this.description = description;
     }
 
+    public String getImage() {
+        return image;
+    }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
     public User getUser() {
         return user;
     }
@@ -152,14 +168,6 @@ public class Post {
         this.date = date;
     }
 
-    public List<PostImage> getPostImages() {
-        return postImages;
-    }
-
-    public void setPostImages(List<PostImage> postImages) {
-        this.postImages = postImages;
-    }
-
     public List<Comment> getComments() {
         return comments;
     }
@@ -167,6 +175,14 @@ public class Post {
     public void setComment(List<Comment> comments) {
         this.comments = comments;
     }
+
+//    public List<PostImage> getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(List<PostImage> images) {
+//        this.images = images;
+//    }
 
     public List<Category> getCategories() {
         return categories;
@@ -217,16 +233,22 @@ public class Post {
         // reduce() sums the values
     }
 
+    public String getHtmlTitle() {
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(parser.parse(title));
+    }
+
     public String getHtmlDescription() {
         Parser parser = Parser.builder().build();
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(parser.parse(description));
     }
 
-    public String getHtmlTitle() {
+    public String getHtmlImage() {
         Parser parser = Parser.builder().build();
         HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(parser.parse(title));
+        return renderer.render(parser.parse(image));
     }
 
     public String titleToUppercase(String title) {
@@ -234,6 +256,15 @@ public class Post {
         StringBuffer sb = new StringBuffer();
 
         String[] sentence = title.split(" ");
+
+        String dontcap =
+                "a, an, the, and, as, as if, as long as, at, is, but, by, even if, for, from, if, if only, in, into, like, near, now, nor, of, off, on, on top of, once, onto, or, out of, over, past, so, than, that, till, to, up, upon, with, when, yet";
+
+        String[] wordsNotCapitalized = dontcap.split(",");
+
+        for(String wrd : wordsNotCapitalized) {
+            System.out.println(wrd);
+        }
 
         for (String word : sentence) {
 
@@ -246,6 +277,7 @@ public class Post {
                     // No need to look any further
                     break;
                 }
+
             }
             // That's it for capitalizing!
             word = new String(letters);
