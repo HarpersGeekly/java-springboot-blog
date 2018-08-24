@@ -42,11 +42,21 @@ html {
 .navbar-default .navbar-brand {
     color: #7DE2D1;
     /*font-family: Futura, serif;*/
-    font-family: 'Roboto', sans-serif;
+    /*font-family: 'Roboto', sans-serif;*/
+    font-family: 'East Sea Dokdo', regular;
+    font-size: 2.75em;
     text-decoration: none;
     transition: color 0.1s linear;
     -webkit-transition: color 0.1s linear;
     -moz-transition: color 0.1s linear;
+}
+
+.navbar-brand {
+    float: left;
+    height: 50px;
+    padding: 10px 15px;
+    font-size: 18px;
+    line-height: 20px;
 }
 
 .navbar-default .navbar-brand:hover,
@@ -55,11 +65,24 @@ html {
     text-decoration: none;
 }
 
+.navbar-default .navbar-toggle {
+    border:none;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+     background-color: #fffafc;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+     background-color: #3f403c;
+}
+
 .navbar-header {
     margin-bottom: 0px;
 }
 
 #header-icon {
+    width: 0.8em;
     display: inline-block;
 }
 
@@ -91,7 +114,7 @@ html {
 #srch-term {
     background: transparent;
     border: none;
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd;*/
     color: white;
 }
 

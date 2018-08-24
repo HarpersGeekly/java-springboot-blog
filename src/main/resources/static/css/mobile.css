@@ -15,6 +15,8 @@
         word-wrap: break-word;      /* IE */
     }
 
+
+
     .scrollUp {
         position: fixed;
         z-index: 9999;
@@ -34,29 +36,46 @@
         z-index: 9999;
     }
 
-    .dropdown {
-        display: block;
+    #searchBtnIcon {
+        font-size: 2em;
     }
 
-    .navDropdownEachCategory {
-        text-align: center;
+    #srch-term {
+        height: 2em;
+        font-size: 2em;
+        background: transparent;
+        border: none;
+        /* border-bottom: 1px solid #ddd; */
+        color: white;
     }
 
-    .dropdown-menu > li > a {
-        color: #E07A5F;
-        padding: 1em;
+    .nav > li > a {
+        font-size: 1.3em;
     }
 
-    .navDropdownCategoryLink:hover {
-        text-decoration: none;
-    }
+    /*.dropdown {*/
+        /*display: block;*/
+    /*}*/
 
-    .indexCategoriesListWrapper {
-        display: none;
-    }
+    /*.navDropdownEachCategory {*/
+        /*text-align: center;*/
+    /*}*/
+
+    /*.dropdown-menu > li > a {*/
+        /*color: #E07A5F;*/
+        /*padding: 1em;*/
+    /*}*/
+
+    /*.navDropdownCategoryLink:hover {*/
+        /*text-decoration: none;*/
+    /*}*/
+
+    /*.indexCategoriesListWrapper {*/
+        /*display: none;*/
+    /*}*/
 
     .indexPageWrapper {
-        margin-top: 4em;
+        margin-top: 2em;
     }
 
     .popularityWrapper {
@@ -102,7 +121,7 @@
     }
 
     #profilePageWrapper {
-        margin-top: 2.5em;
+        margin-top: 2em;
     }
 
     .profile-picture-wrapper {
@@ -268,7 +287,7 @@
 
     .showPageWrapper {
         margin-left: 0em;
-        margin-top: 4em;
+        margin-top: 2em;
     }
 
     .show-all-content {
