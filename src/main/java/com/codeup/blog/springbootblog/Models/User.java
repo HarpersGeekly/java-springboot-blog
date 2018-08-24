@@ -66,6 +66,7 @@ public class User {
     private List<CommentVote> commentVotes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore // need to ignore for when uploading a profile picture
     private List<PasswordToken> passwordToken;
     // @OneToOne(cascade = CascadeType.ALL, mappedBy = "user") //Before @OneToMany, users couldn't request more than one token.
     // private PasswordToken passwordToken;
