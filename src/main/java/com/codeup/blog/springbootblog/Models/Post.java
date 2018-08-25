@@ -33,8 +33,13 @@ public class Post {
     @Size(max = 100, message = "Title is too long")
     private String title;
 
-    @Column(name = "post_image", nullable = true)
+    @Column(name = "header_image", nullable = true)
     private String image;
+
+    @Column(nullable = false, name = "subtitle", length = 200)
+    @NotBlank(message = "Subtitle cannot be empty")
+    @Size(max = 200, message = "Subtitle is too long. Must be less than 200 characters")
+    private String subtitle;
 
     @Column(columnDefinition = "TEXT", length = 5000, nullable = false) // column, text for more, not-null
     @NotBlank(message = "Description cannot be empty")
@@ -82,6 +87,7 @@ public class Post {
                 List<Comment> comments,
                 List<PostVote> votes,
                 String image,
+                String subtitle,
                 List<Category> categories) {
         this.id = id;
         this.title = title;
@@ -91,6 +97,7 @@ public class Post {
         this.comments = comments;
         this.votes = votes;
         this.image = image;
+        this.subtitle = subtitle;
         this.categories = categories;
     }
 
@@ -106,11 +113,12 @@ public class Post {
         this.categories = categories;
     }
 
-    public Post(String title, String description, String image, List<Category> categories) {
+    public Post(String title, List<Category> categories, String image, String subtitle, String description) {
         this.title = title;
-        this.description = description;
-        this.image = image;
         this.categories = categories;
+        this.image = image;
+        this.subtitle = subtitle;
+        this.description = description;
     }
 
     //use for Spring magic.
@@ -133,12 +141,12 @@ public class Post {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getSubtitle() {
+        return subtitle;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 
     public String getImage() {
@@ -148,6 +156,15 @@ public class Post {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public User getUser() {
         return user;
     }
@@ -200,6 +217,22 @@ public class Post {
         this.votes = votes;
     }
 
+    // VOTING LOGIC =============================================================================
+    @JsonGetter("voteCount") // saying that this method is only being used as an attribute in show.html
+    public int voteCount() {
+        return votes.stream().mapToInt(PostVote::getType).reduce(0, (sum, vote) -> sum + vote);
+        // takes all the votes and adds 1 or -1 (getType). Needs more users in application to vote and see results.
+        // http://www.baeldung.com/java-8-double-colon-operator (::)
+        // stream(), mapToInt(), reduce()
+        // https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html
+        // A stream represents a sequence of elements and supports different kinds of operations to perform computations upon those elements.
+        // Streams can be created from various data sources, especially collections. Lists and Sets support new methods stream()
+        // mapToInt() returns an IntStream consisting of the results of applying the given function to the elements of this stream.
+        // PostVote::getType will evaluate to a function that invokes getType() directly without any delegation.
+        // There’s a really tiny performance difference due to saving one level of delegation.
+        // reduce() sums the values
+    }
+
     public PostVote getVoteFrom(User user) {
         for (PostVote vote : votes) {
             if (vote.voteBelongsTo(user)) {
@@ -217,26 +250,24 @@ public class Post {
         votes.remove(vote);
     }
 
-    // VOTING LOGIC =============================================================================
-    @JsonGetter("voteCount") // saying that this method is only being used as an attribute in show.html
-    public int voteCount() {
-        return votes.stream().mapToInt(PostVote::getType).reduce(0, (sum, vote) -> sum + vote);
-        // takes all the votes and adds 1 or -1 (getType). Needs more users in application to vote and see results.
-        // http://www.baeldung.com/java-8-double-colon-operator (::)
-        // stream(), mapToInt(), reduce()
-        // https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html
-        // A stream represents a sequence of elements and supports different kinds of operations to perform computations upon those elements.
-        // Streams can be created from various data sources, especially collections. Lists and Sets support new methods stream()
-        // mapToInt() returns an IntStream consisting of the results of applying the given function to the elements of this stream.
-        // PostVote::getType will evaluate to a function that invokes getType() directly without any delegation.
-        // There’s a really tiny performance difference due to saving one level of delegation.
-        // reduce() sums the values
-    }
+    // MARKDOWN PARSING FOR VIEW ==============================================================
 
     public String getHtmlTitle() {
         Parser parser = Parser.builder().build();
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(parser.parse(title));
+    }
+
+    public String getHtmlImage() {
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(parser.parse(image));
+    }
+
+    public String getHtmlSubtitle() {
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(parser.parse(subtitle));
     }
 
     public String getHtmlDescription() {
@@ -245,11 +276,7 @@ public class Post {
         return renderer.render(parser.parse(description));
     }
 
-    public String getHtmlImage() {
-        Parser parser = Parser.builder().build();
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(parser.parse(image));
-    }
+    // TITLE STRING MANIPULATION ==============================================================
 
     public String titleToUppercase(String title) {
 
