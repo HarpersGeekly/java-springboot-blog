@@ -317,7 +317,7 @@ public class Post {
         return sb.toString().trim();
     }
 
-    // CREATING A SLUG FOR URL ==================================================================
+    // CREATING A SLUG FOR URL, this-is-a-slug-in-url ==================================================================
 
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
