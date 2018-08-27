@@ -295,67 +295,8 @@
 
             <th:block th:replace="fragments/posts :: post"></th:block>
 
-            <!--<div class="indent">-->
-                <!--<a th:href="@{/posts/{id}(id=${post.id})}">-->
-                    <!--&lt;!&ndash;<h4 th:text="${post.title}" class="postTitle"></h4>&ndash;&gt;-->
-                    <!--&lt;!&ndash; markdown method: &ndash;&gt;-->
-                    <!--<h4 th:utext="${post.getHtmlTitle()}" class="postTitle"></h4>-->
-                <!--</a>-->
-
-                <!--<div class="post-tags-div">-->
-                    <!--<a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>-->
-                <!--</div>-->
-
-                <!--<h5>-->
-                    <!--<span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>-->
-                    <!--<span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>-->
-                    <!--<span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>-->
-                    <!--<span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>-->
-                <!--</h5>-->
-
-                <!--<div>-->
-                    <!--<i class="fas fa-thumbs-up postUpVoteIconIndex"></i>-->
-                    <!--<h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>-->
-                    <!--<i class="fas fa-comments postCommentIconIndex"></i>-->
-                    <!--<h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>-->
-                <!--</div>-->
-
-            <!--</div>-->
-
-            <!--<div class="gradientBox">-->
-                <!--<div class="postDescription hidden">-->
-                    <!--<p th:utext="${post.htmlDescription}"></p>-->
-                <!--</div>-->
-
-                <!--<div class="read-more-div">-->
-                    <!--<i class="fas fa-hand-point-right fa-read-more"></i>-->
-                    <!--<a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>-->
-                <!--</div>-->
-            <!--</div>-->
-
         </div>
 
-        <div th:if="${isOwnProfile}" style="display: flex;">
-            <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            </i>
-            <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
-                <div>
-                    <a class="dropdown-edit-btn"  th:href="${'/posts/' + post.id + '/edit'}">
-                        <i class="far fa-edit"></i> edit
-                    </a>
-                </div>
-                <div>
-                    <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" class="deleteCommentForm">
-                        <button class="dropdown-delete-btn" type="submit">
-                            <i class="fas fa-bomb"></i> delete
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-    <hr class="posts-hr"/>
     </div>
 
     <div class="flex-center-div" th:if="${isOwnProfile}">
