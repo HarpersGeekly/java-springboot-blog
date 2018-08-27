@@ -293,43 +293,45 @@
 
         <div class="postInfoWrapper">
 
-            <div class="indent">
-                <a th:href="@{/posts/{id}(id=${post.id})}">
-                    <!--<h4 th:text="${post.title}" class="postTitle"></h4>-->
-                    <!-- markdown method: -->
-                    <h4 th:utext="${post.getHtmlTitle()}" class="postTitle"></h4>
-                </a>
+            <th:block th:replace="fragments/posts :: post"></th:block>
 
-                <div class="post-tags-div">
-                    <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
-                </div>
+            <!--<div class="indent">-->
+                <!--<a th:href="@{/posts/{id}(id=${post.id})}">-->
+                    <!--&lt;!&ndash;<h4 th:text="${post.title}" class="postTitle"></h4>&ndash;&gt;-->
+                    <!--&lt;!&ndash; markdown method: &ndash;&gt;-->
+                    <!--<h4 th:utext="${post.getHtmlTitle()}" class="postTitle"></h4>-->
+                <!--</a>-->
 
-                <h5>
-                    <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
-                    <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
-                    <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
-                    <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
-                </h5>
+                <!--<div class="post-tags-div">-->
+                    <!--<a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>-->
+                <!--</div>-->
 
-                <div>
-                    <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                    <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
-                    <i class="fas fa-comments postCommentIconIndex"></i>
-                    <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
-                </div>
+                <!--<h5>-->
+                    <!--<span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>-->
+                    <!--<span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>-->
+                    <!--<span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>-->
+                    <!--<span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>-->
+                <!--</h5>-->
 
-            </div>
+                <!--<div>-->
+                    <!--<i class="fas fa-thumbs-up postUpVoteIconIndex"></i>-->
+                    <!--<h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>-->
+                    <!--<i class="fas fa-comments postCommentIconIndex"></i>-->
+                    <!--<h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>-->
+                <!--</div>-->
 
-            <div class="gradientBox">
-                <div class="postDescription hidden">
-                    <p th:utext="${post.htmlDescription}"></p>
-                </div>
+            <!--</div>-->
 
-                <div class="read-more-div">
-                    <i class="fas fa-hand-point-right fa-read-more"></i>
-                    <a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>
-                </div>
-            </div>
+            <!--<div class="gradientBox">-->
+                <!--<div class="postDescription hidden">-->
+                    <!--<p th:utext="${post.htmlDescription}"></p>-->
+                <!--</div>-->
+
+                <!--<div class="read-more-div">-->
+                    <!--<i class="fas fa-hand-point-right fa-read-more"></i>-->
+                    <!--<a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>-->
+                <!--</div>-->
+            <!--</div>-->
 
         </div>
 
