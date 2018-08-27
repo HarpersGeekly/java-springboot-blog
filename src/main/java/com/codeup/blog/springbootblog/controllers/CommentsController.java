@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-public class CommentController {
+public class CommentsController {
 
     private PostService postSvc;
     private UserService userSvc;
     private CommentService commentSvc;
     private PostVoteService postVoteSvc;
 
-    public CommentController(PostService postSvc, UserService userSvc, CommentService commentSvc, PostVoteService postVoteSvc) {
+    public CommentsController(PostService postSvc, UserService userSvc, CommentService commentSvc, PostVoteService postVoteSvc) {
         this.postSvc = postSvc;
         this.userSvc = userSvc;
         this.commentSvc = commentSvc;
