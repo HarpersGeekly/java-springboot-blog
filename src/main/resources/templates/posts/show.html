@@ -51,9 +51,13 @@
                     </div>
                 </div>
 
-                <!-- ====================================== Post Description =================================-->
+                <!-- ======================================== Post Body ======================================-->
 
                 <div class="postDescription hidden show-all-content">
+                    <p th:utext="${post.htmlImage}"></p>
+                    <div class="post-subtitle margin-top-bottom-1em">
+                        <p th:utext="${post.htmlSubtitle}"></p>
+                    </div>
                     <p th:utext="${post.htmlDescription}"></p> <!--th:utext for markdown editor, not th:text-->
                 </div>
 
