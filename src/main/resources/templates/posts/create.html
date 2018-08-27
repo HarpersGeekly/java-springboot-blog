@@ -10,6 +10,8 @@
 
     <form th:action="@{/posts/create}" th:method="POST" th:object="${post}" enctype="multipart/form-data">
 
+        <th:block th:fragment="post-form">
+
         <label>Tips &amp; Guidelines:</label>
         <blockquote>
             <ol>
@@ -19,23 +21,6 @@
                 <li><h5>For code, wrap your code in backticks: ```code```</h5></li>
             </ol>
         </blockquote>
-
-        <div class="form-group title-form-group">
-            <label class="create-post-form-labels" for="title">Title:</label>
-            <textarea type="text" name="title" class="form-control" id="title" th:field="*{title}"></textarea>
-            <!--<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />-->
-            <!--more fancy bootstrap alerts:-->
-            <div
-                    th:if="${#fields.hasErrors('title')}"
-                    class="alert alert-danger alert-dismissible"
-                    role="alert"
-            >
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <span th:errors="*{title}"/>
-            </div>
-        </div>
 
         <label class="create-post-form-labels" for="tags">Categories:</label>
         <div class="form-group" id="categories-selector">
@@ -54,9 +39,43 @@
             </div>
         </div>
 
-        <div class="form-group form-group-post-image">
-            <label class="create-post-form-labels" for="post-image">Post Image:</label>
-            <textarea type="text" name="image" class="form-control" id="post-image" th:field="*{image}"  style="resize: none"></textarea>
+        <div class="form-group title-form-group">
+            <label class="create-post-form-labels" for="title">Title:</label>
+            <textarea type="text" name="title" class="form-control" id="title" th:field="*{title}"></textarea>
+            <!--<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />-->
+            <!--more fancy bootstrap alerts:-->
+            <div
+                    th:if="${#fields.hasErrors('title')}"
+                    class="alert alert-danger alert-dismissible"
+                    role="alert"
+            >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span th:errors="*{title}"/>
+            </div>
+        </div>
+
+        <div class="form-group form-group-post-subtitle">
+            <label class="create-post-form-labels" for="subtitle">Subtitle:</label>
+            <textarea type="text" name="subtitle" class="form-control" id="subtitle" th:field="*{subtitle}"></textarea>
+            <!--<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />-->
+            <!--more fancy bootstrap alerts:-->
+            <div
+                    th:if="${#fields.hasErrors('subtitle')}"
+                    class="alert alert-danger alert-dismissible"
+                    role="alert"
+            >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span th:errors="*{subtitle}"/>
+            </div>
+        </div>
+
+        <div class="form-group form-group-headline-image">
+            <label class="create-post-form-labels" for="headline-image">Headline Image:</label>
+            <textarea type="text" name="image" class="form-control" id="headline-image" th:field="*{image}"  style="resize: none"></textarea>
             <!--<div-->
                     <!--th:if="${#fields.hasErrors('image')}"-->
                     <!--class="alert alert-danger alert-dismissible"-->
@@ -93,11 +112,13 @@
         <!--<input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}"/>-->
         <input class="form-control" type="hidden" id="date" name="date" th:field="*{date}"/>
         <input type="submit" value="Submit Post" class="btn btn-primary btn-block" />
+        </th:block>
     </form>
 
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
 </body>
+<th:block th:fragment="post-form-script">
 <script>
     $( document ).ready(function() {
 
@@ -130,6 +151,35 @@
         $('.title-form-group [data-btn="h2"]').addClass('hidden');
         $('.title-form-group [data-btn="h3"]').addClass('hidden');
 
+        $.fn.markdownEditor.defaults.height = '50px';
+        $('#subtitle').markdownEditor({
+            imageUpload: false,
+            fullscreen: false,
+            preview: true,
+            // Activate the preview:
+            // This callback is called when the user click on the preview button:
+            onPreview: function (subtitle, callback) {
+                // Example of implementation with ajax:
+                $.ajax({
+                    url: '/posts/subtitle.json',
+                    type: 'GET',
+                    dataType: 'html',
+                    data: {subtitle: subtitle},
+                })
+                    .done(function (subtitle) {
+                        // Return the html:
+                        callback(subtitle);
+                    });
+            }
+        });
+        $('.form-group-post-subtitle [data-btn="image"]').addClass('hidden');
+        $('.form-group-post-subtitle [data-btn="link"]').addClass('hidden');
+        $('.form-group-post-subtitle [data-btn="ul"]').addClass('hidden');
+        $('.form-group-post-subtitle [data-btn="ol"]').addClass('hidden');
+        $('.form-group-post-subtitle [data-btn="h1"]').addClass('hidden');
+        $('.form-group-post-subtitle [data-btn="h2"]').addClass('hidden');
+        $('.form-group-post-subtitle [data-btn="h3"]').addClass('hidden');
+
         $.fn.markdownEditor.defaults.height = '325px';
         $('#myEditor').markdownEditor({
             // Activate the preview:
@@ -153,7 +203,7 @@
         });
 
         $.fn.markdownEditor.defaults.height = '100px';
-        $('#post-image').markdownEditor({
+        $('#headline-image').markdownEditor({
             imageUpload: true, // Activate the option
             uploadPath: '/posts/image.json', // Path of the server side script that receives the files
             fullscreen: false,
@@ -174,16 +224,17 @@
             }
 
         });
-        $('.form-group-post-image [data-btn="link"]').addClass('hidden');
-        $('.form-group-post-image [data-btn="bold"]').addClass('hidden');
-        $('.form-group-post-image [data-btn="italic"]').addClass('hidden');
-        $('.form-group-post-image [data-btn="h1"]').addClass('hidden');
-        $('.form-group-post-image [data-btn="h2"]').addClass('hidden');
-        $('.form-group-post-image [data-btn="h3"]').addClass('hidden');
-        $('.form-group-post-image [data-btn="ol"]').addClass('hidden');
-        $('.form-group-post-image [data-btn="ul"]').addClass('hidden');
+        $('.form-group-headline-image [data-btn="link"]').addClass('hidden');
+        $('.form-group-headline-image [data-btn="bold"]').addClass('hidden');
+        $('.form-group-headline-image [data-btn="italic"]').addClass('hidden');
+        $('.form-group-headline-image [data-btn="h1"]').addClass('hidden');
+        $('.form-group-headline-image [data-btn="h2"]').addClass('hidden');
+        $('.form-group-headline-image [data-btn="h3"]').addClass('hidden');
+        $('.form-group-headline-image [data-btn="ol"]').addClass('hidden');
+        $('.form-group-headline-image [data-btn="ul"]').addClass('hidden');
 
     });
 
 </script>
+</th:block>
 </html>
