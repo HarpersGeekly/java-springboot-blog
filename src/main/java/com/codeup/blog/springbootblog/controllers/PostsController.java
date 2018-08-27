@@ -276,7 +276,7 @@ public class PostsController {
 //================================================= SHOW POST ============================================== /posts/{id}
 //======================================================================================================================
 
-    @GetMapping("/posts/{id}")
+    @GetMapping("/posts/{id}/{title}")
     public String showPostById(@PathVariable Long id, Model viewModel, Comment comment) {
 //                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
 //                                       Pageable pageable) {
