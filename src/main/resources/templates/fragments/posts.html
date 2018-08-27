@@ -19,7 +19,7 @@
 
                     <th:block th:fragment="post">
                         <div>
-                            <a th:href="@{/posts/{id}(id=${post.id})}">
+                            <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
                                 <h4 th:utext="${post.htmlTitle}" class="postTitle"></h4>
                             </a>
 
