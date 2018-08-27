@@ -16,12 +16,12 @@
         <div class="content" th:each="post : ${posts}" th:attr="data-post-id=${post.id}">
 
             <th:block th:replace="fragments/posts :: post"></th:block>
-            <hr class="posts-hr"/>
 
         </div>
 
     <div class="more-posts-go-here"></div>
-    <!--<hr style="border-width: 5px;"/>-->
+
+        <!--<hr style="border-width: 5px;"/>-->
     </div>
 </div>
 
