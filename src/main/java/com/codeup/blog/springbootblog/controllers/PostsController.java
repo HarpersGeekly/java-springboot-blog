@@ -236,6 +236,15 @@ public class PostsController {
         return renderer.render(parser.parse(title));
     }
 
+    @GetMapping("/posts/subtitle.json")
+    @ResponseBody
+    public String showMarkdownPreviewInSubtitle(@RequestParam(name = "subtitle") String subtitle) {
+        //@RequestParam name = "image" refers to the ajax data's property name, data: {image: ____ }
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(parser.parse(subtitle));
+    }
+
     @GetMapping("/posts/description.json")
     @ResponseBody
     public String showMarkdownPreviewInDescription(@RequestParam(name = "content") String content) {
