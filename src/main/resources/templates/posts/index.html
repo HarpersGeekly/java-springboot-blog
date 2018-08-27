@@ -15,52 +15,10 @@
 
         <div class="content" th:each="post : ${posts}" th:attr="data-post-id=${post.id}">
 
-            <div class="indent">
-                <a th:href="@{/posts/{id}(id=${post.id})}">
-                    <h4 th:utext="${post.htmlTitle}" class="postTitle"></h4>
-                </a>
+            <th:block th:replace="fragments/posts :: post"></th:block>
 
-                <div class="post-tags-div">
-                    <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
-                </div>
-
-                <div class="postedByWrapper">By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
-                    <span th:text="${post.user.username}"></span></a>
-                    <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
-                    <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
-                    <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
-                    <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
-                </div>
-                <div>
-                    <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                    <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
-                    <i class="fas fa-comments postCommentIconIndex"></i>
-                    <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
-                </div>
-            </div>
-
-            <div class="postDescription hidden">
-                <p th:utext="${post.htmlImage}"></p>
-            </div>
-
-            <!--<div th:each="image : ${post.postImage}">-->
-                <!--<img th:src="${image.path}"/>-->
-            <!--</div>-->
-
-            <div class="gradientBox">
-                <!--<a th:href="@{/posts/{id}(id=${post.id})}">-->
-                    <div class="postDescription hidden">
-                        <p th:utext="${post.htmlDescription}"></p>
-                    </div>
-                <!--</a>-->
-
-                <div class="read-more-div">
-                    <i class="fas fa-hand-point-right fa-read-more"></i>
-                    <a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>
-                </div>
-            </div>
-            <!--</div>-->
         </div>
+
     <div class="more-posts-go-here"></div>
     <!--<hr style="border-width: 5px;"/>-->
     </div>
@@ -74,7 +32,7 @@
     <h5>There are no more posts to load.</h5>
 </div>
 
-<hr style="border-width: 5px;"/>
+<!--<hr style="border-width: 5px;"/>-->
 <div class="flex-center-div">
     <div>
         <button id="show-more-posts" type="submit">Show More Posts</button>
