@@ -18,7 +18,7 @@
                 <div class="secretAjaxClass">
 
                     <th:block th:fragment="post">
-                        <div>
+                        <div class="indent">
                             <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
                                 <h4 th:utext="${post.htmlTitle}" class="postTitle"></h4>
                             </a>
@@ -39,6 +39,9 @@
                                 <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
                                 <i class="fas fa-comments postCommentIconIndex"></i>
                                 <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+                                <i class="fas fa-eye postHitCountIconIndex"></i>
+                                <h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${post.hitCount.count} : '0'"></h5>
+
                             </div>
                         </div>
 
@@ -48,7 +51,7 @@
                             </div>
                         </a>
 
-                        <div class="post-subtitle">
+                        <div class="post-subtitle indent">
                             <p th:utext="${post.htmlSubtitle}"></p>
                         </div>
 
