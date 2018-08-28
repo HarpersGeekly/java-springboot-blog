@@ -98,7 +98,7 @@
     }
 
     .postTitle {
-        font-size: 9vw;
+        font-size: 7.5vw;
     }
 
     #emptySearchedContent {
@@ -199,20 +199,21 @@
     }
 
     .postDescription > p {
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-left: 1em;
+        padding-right: 1em;
         /* width: 100%; */
         line-height: 1.3;
     }
 
     .postDescription > a {
-        padding-left: 1rem;
-        padding-right: 1rem;
+        /*padding-left: 1rem;*/
+        /*padding-right: 1rem;*/
         /* width: 100%; */
         line-height: 1.3;
     }
 
     .postDescription > p > img  {
+        transform: scale(1.1);
         max-width: 100% !important;
         height: auto !important;
     }
@@ -220,6 +221,10 @@
     .postDescription > a > p > img {
         max-width: 100% !important;
         height: auto !important;
+    }
+
+    .postDescription > p > iframe {
+        width: 100%;
     }
 
     .read-more-div {
@@ -376,10 +381,6 @@
         background: transparent;
         width:100%;
         margin-left: 0em;
-    }
-
-    .postDescription > p > iframe {
-        width: 100%;
     }
 
     /*// ========= ALL POSTS =========*/
