@@ -529,6 +529,11 @@ textarea, input, .form-control {
     font-size: 16px;
 }
 
+.postDescription > p > img {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
 /*.postDescription:before {*/
     /*!*content: '';*!*/
     /*!*UNCOMMENT content IF YOU WANT GRADIENT EFFECT*!*/
