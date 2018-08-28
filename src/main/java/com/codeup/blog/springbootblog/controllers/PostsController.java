@@ -2,12 +2,9 @@ package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.*;
 import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
-import com.codeup.blog.springbootblog.repositories.CommentsRepository;
+import com.codeup.blog.springbootblog.repositories.HitCountsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
-import com.codeup.blog.springbootblog.services.CommentService;
-import com.codeup.blog.springbootblog.services.PostService;
-import com.codeup.blog.springbootblog.services.PostVoteService;
-import com.codeup.blog.springbootblog.services.UserService;
+import com.codeup.blog.springbootblog.services.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.security.core.Authentication;
@@ -16,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,8 +29,6 @@ public class PostsController {
     // this is the service placeholder that will be final, it'll never change.
     private final PostService postSvc;
 
-    private final PostVoteService postVoteSvc;
-
     private final UsersRepository usersDao; //making queries to database
 
     private final UserService userSvc; //
@@ -39,9 +36,9 @@ public class PostsController {
     private final CommentService commentSvc;
     private static final int MAX_COMMENT_LEVEL = 5;
 
-    private final CommentsRepository commentsDao;
-
     private final CategoriesRepository categoriesDao;
+
+    private final HitCountsRepository hitCountsDao;
 
     // Constructor "dependency injection", passing the PostService object into the PostController constructor,
     // everything ties together now. Services + Controller.
@@ -54,20 +51,18 @@ public class PostsController {
     // findAll(), findOne(), save(), delete(). These are in the Service
 
     public PostsController(PostService postSvc,
-                           PostVoteService postVoteSvc,
                            UsersRepository usersDao,
                            UserService userSvc,
                            CommentService commentSvc,
-                           CommentsRepository commentsDao,
-                           CategoriesRepository categoriesDao
+                           CategoriesRepository categoriesDao,
+                           HitCountsRepository hitCountsDao
     ) {
         this.postSvc = postSvc;
-        this.postVoteSvc = postVoteSvc;
         this.usersDao = usersDao;
         this.userSvc = userSvc;
         this.commentSvc = commentSvc;
-        this.commentsDao = commentsDao;
         this.categoriesDao = categoriesDao;
+        this.hitCountsDao = hitCountsDao;
     }
 
 //================================================ ALL POSTS ==================================================== /posts
@@ -111,10 +106,65 @@ public class PostsController {
         return "posts/archivedPosts";
     }
 
+//================================================= SHOW POST ====================================== /posts/{id}/{title}
+//======================================================================================================================
+
+
+
+    @GetMapping("/posts/{id}/{title}")
+    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment) {
+//                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
+//                                       Pageable pageable) {
+//        Post post = new Post(1L,"First Title", "First Description");
+//        viewModel.addAttribute("page", commentSvc.postCommentsByPage(id, pageable));
+
+        System.out.println("get to show.html controller");
+
+        Post post = postSvc.findOne(id);
+        User postOwner = post.getUser();
+        User loggedInUser = userSvc.loggedInUser();
+        List<Comment> comments = commentSvc.commentsOnPost(id);
+        List<Category> categories = (List<Category>) categoriesDao.findAll();
+
+        HitCount postHitCount = post.getHitCount();
+        if(postHitCount == null) {
+            HitCount newHitCount = new HitCount();
+            newHitCount.setPost(post);
+            postHitCount = newHitCount;
+        }
+        viewModel.addAttribute("count", postHitCount.getCount());
+
+        postHitCount.setCount(postHitCount.getCount() + 1);
+        hitCountsDao.save(postHitCount);
+
+        boolean isLoggedIn = userSvc.isLoggedIn();
+        boolean isPostOwner = userSvc.isLoggedInAndPostMatchesUser(post.getUser());
+        boolean isChildComment = comment.isChildComment(comment);
+
+        viewModel.addAttribute("post", post);
+        viewModel.addAttribute("postOwner", postOwner);
+        viewModel.addAttribute("loggedInUser", loggedInUser);
+        viewModel.addAttribute("comment", comment);
+        viewModel.addAttribute("comments", comments);
+        viewModel.addAttribute("categories", categories);
+        viewModel.addAttribute("isLoggedIn", isLoggedIn);
+        viewModel.addAttribute("isPostOwner", isPostOwner);
+        viewModel.addAttribute("isChildComment", isChildComment);
+
+
+        if (loggedInUser != null) {
+            PostVote vote = post.getVoteFrom(loggedInUser);
+            viewModel.addAttribute("upvote", vote != null && vote.isUpvote());
+            viewModel.addAttribute("downvote", vote != null && vote.isDownVote());
+        }
+
+        return "posts/show";
+    }
+
 //================================================ CREATE POST =========================================== /posts/create
 //======================================================================================================================
 
-//      Essentially we see a blank form when we load the page.
+    //      Essentially we see a blank form when we load the page.
 //      We are displaying the 'title' and 'description' properties of a new Post(), which doesn't
 //      have any values set for these properties.
 //      We have to make it have an empty object to fill.
@@ -128,7 +178,7 @@ public class PostsController {
         return "posts/create";
     }
 
-//      Now in @PostMapping, Post will automatically have the title and description that was submitted with the form.
+    //      Now in @PostMapping, Post will automatically have the title and description that was submitted with the form.
 //      This is why it's good to have an empty constructor Post(){} to handle this.
 //      Also set the User of the Post to the User who is logged in, and set the Date.
     @PostMapping("/posts/create")
@@ -169,7 +219,7 @@ public class PostsController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String update(@PathVariable Long id, @Valid Post post, Errors validation, Model viewModel) {
+    public String update(@PathVariable Long id, @Valid Post post, Errors validation, Model viewModel, RedirectAttributes redir) {
         // @ModelAttribute = expecting a post object to update/delete @ Valid takes care of this instead.
         // @Valid now calls @ModelAttribute first/instead and calls the validations!
         if (validation.hasErrors()) {
@@ -186,7 +236,9 @@ public class PostsController {
         post.setUser(userSvc.loggedInUser());
         post.setId(id);
         postSvc.save(post);
-        return "redirect:/posts/{id}";
+        System.out.println(post.getTitle());
+        redir.addFlashAttribute("title", post.getTitle());
+        return "redirect:/posts";
     }
 
 //=================================================== DELETE POST ======================================================
@@ -262,297 +314,4 @@ public class PostsController {
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(parser.parse(image));
     }
-
-
-//============================================ MARKDOWN EDITOR IMAGE UPLOAD =================================================
-//======================================================================================================================
-
-//    @GetMapping("/posts/image.json")
-//    @ResponseBody
-//    public String showMarkdownImageInForm() {
-//        return "";
-//    }
-
-//================================================= SHOW POST ============================================== /posts/{id}
-//======================================================================================================================
-
-    @GetMapping("/posts/{id}/{title}")
-    public String showPostById(@PathVariable Long id, Model viewModel, Comment comment) {
-//                               @PageableDefault(value = 11, sort = "id", direction = Sort.Direction.DESC)
-//                                       Pageable pageable) {
-//        Post post = new Post(1L,"First Title", "First Description");
-//        viewModel.addAttribute("page", commentSvc.postCommentsByPage(id, pageable));
-
-        System.out.println("get to show.html controller");
-
-        Post post = postSvc.findOne(id);
-        User postOwner = post.getUser();
-        User loggedInUser = userSvc.loggedInUser();
-        List<Comment> comments = commentSvc.commentsOnPost(id);
-        List<Category> categories = (List<Category>) categoriesDao.findAll();
-
-        boolean isLoggedIn = userSvc.isLoggedIn();
-        boolean isPostOwner = userSvc.isLoggedInAndPostMatchesUser(post.getUser());
-        boolean isChildComment = comment.isChildComment(comment);
-
-        viewModel.addAttribute("post", post);
-        viewModel.addAttribute("postOwner", postOwner);
-        viewModel.addAttribute("loggedInUser", loggedInUser);
-        viewModel.addAttribute("comment", comment);
-        viewModel.addAttribute("comments", comments);
-        viewModel.addAttribute("categories", categories);
-        viewModel.addAttribute("isLoggedIn", isLoggedIn);
-        viewModel.addAttribute("isPostOwner", isPostOwner);
-        viewModel.addAttribute("isChildComment", isChildComment);
-
-        if (loggedInUser != null) {
-            PostVote vote = post.getVoteFrom(loggedInUser);
-            viewModel.addAttribute("upvote", vote != null && vote.isUpvote());
-            viewModel.addAttribute("downvote", vote != null && vote.isDownVote());
-        }
-
-        return "posts/show";
-    }
-
-//============================================= COMMENT ON A POST ======================================================
-//======================================================================================================================
-
-    @PostMapping("/posts/{postId}")
-    public
-//    public @ResponseBody no longer converting the comment into a json string. now returning a template
-    String postComment(@PathVariable Long postId, @Valid Comment comment, BindingResult validation, Model viewModel) {
-
-        Post post = postSvc.findOne(postId);
-        User postOwner = post.getUser();
-        System.out.println("get to comment on post controller:");
-        System.out.println(postOwner.getUsername());
-        viewModel.addAttribute("post", post);
-        viewModel.addAttribute("postOwner", postOwner);
-        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
-        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
-        viewModel.addAttribute("comment", comment);
-
-        if (validation.hasErrors()) {
-//            viewModel.addAttribute("errors", validation); // By using BindingResult validation instead of Error validation, don't need "errors" attritbute
-            viewModel.addAttribute("comment", comment);
-//            validation.rejectValue(
-//                    "body",
-//                    "comment.body",
-//                    "Comments must be at least 2 characters.");
-
-            // return a fragment with only the errors and not:
-//            return "/posts/show"; //html page.
-            return "fragments/commentError :: ajaxError";
-        }
-
-        comment.setPost(post);
-        comment.setUser(userSvc.loggedInUser());
-        comment.setDate(LocalDateTime.now());
-        commentSvc.save(comment);
-
-//      return comment;
-//      By returning this fragment (fragments/comments.html), we get all of our Thymeleaf-operated HTML
-        return "fragments/parentComments :: ajaxParent";
-    }
-
-//=============================================== EDIT A COMMENT  ==============/posts/{postId}/comment/{commentId}/edit
-//======================================================================================================================
-
-//    @GetMapping("/comment")
-//    public @ResponseBody Comment test() {
-//        return commentSvc.findOne(1225L);
-//    }
-
-    @GetMapping("/posts/{postId}/comment/{commentId}/edit")
-    public @ResponseBody
-    Comment editComment(@PathVariable Long postId,
-                        @PathVariable Long commentId, Model viewModel) {
-        Comment comment = commentsDao.findOne(commentId);
-        viewModel.addAttribute("comment", commentsDao.findOne(commentId));
-        return comment;
-    }
-
-    @PostMapping("/posts/{postId}/comment/{commentId}/edit")
-    public @ResponseBody
-    Comment submitEditedComment(@PathVariable Long postId,
-                                @PathVariable Long commentId,
-                                @RequestParam("body") String body, Model viewModel) {
-        Comment comment = commentsDao.findOne(commentId);
-        comment.setBody(body);
-        commentsDao.save(comment);
-        viewModel.addAttribute("comment", commentsDao.findOne(commentId));
-        return comment;
-    }
-
-//=============================================== DELETE A COMMENT =====================================================
-//======================================================================================================================
-
-    @PostMapping("/posts/{postId}/comment/{commentId}/delete")
-    public @ResponseBody
-    Comment deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
-        Comment comment = commentsDao.findOne(commentId);
-        commentsDao.delete(commentId);
-        return comment;
-    }
-
-//Before ajax:
-//    @PostMapping("/posts/{postId}/comment/{commentId}/delete")
-//    public String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
-//        commentsDao.delete(commentId);
-//        return "redirect:/posts/" + postId;
-//    }
-
-//    @GetMapping("/test")
-//    public @ResponseBody Post test() {
-//        return postSvc.findOne(33L);
-//    }
-
-//================================================= POST VOTING ========================================================
-//======================================================================================================================
-
-    @PostMapping("/posts/{type}/{postId}")
-    public @ResponseBody
-    Post postVoting(@PathVariable Long postId, @PathVariable String type,
-                    Authentication token) {
-
-        Post post = postSvc.findOne(postId);
-        User user = (User) token.getPrincipal(); //userSvc.loggedInUser()));
-
-        if (type.equalsIgnoreCase("upvote")) {
-            post.addVote(PostVote.up(post, user));
-        } else {
-            post.addVote(PostVote.down(post, user));
-        }
-
-        postSvc.save(post);
-        return post;
-//        return"posts/show";
-    }
-
-    @PostMapping("/posts/{postId}/removeVote")
-    public @ResponseBody
-    Post voteRemoval(@PathVariable Long postId) {
-
-        Post post = postSvc.findOne(postId);
-        User user = userSvc.loggedInUser();
-
-        List<PostVote> votes = post.getVotes();
-
-//        Excuse to mess around with foreach:
-//        votes.forEach(vote -> System.out.println(vote));
-
-        System.out.println("vote count:" + post.voteCount());
-
-        for (PostVote vote : votes) {
-//            if (vote.getUser().getId() == (user.getId())) {
-            if (vote.voteBelongsTo(user)) {
-                post.removeVote(vote);
-                postVoteSvc.delete(vote);
-                postSvc.save(post);
-                System.out.println("vote count:" + post.voteCount());
-                break;
-            }
-        }
-        postSvc.save(post);
-        return post;
-    }
-
-//================================================ COMMENT VOTING ======================================================
-//======================================================================================================================
-
-    @PostMapping("/comment/{type}/{commentId}")
-    public @ResponseBody
-    Comment commentVoting(@PathVariable String type,
-                          @PathVariable Long commentId) {
-
-        Comment comment = commentsDao.findOne(commentId);
-        User user = userSvc.loggedInUser();
-
-        if (type.equalsIgnoreCase("upvote")) {
-            comment.addVote(CommentVote.up(comment, user));
-        } else {
-            comment.addVote(CommentVote.down(comment, user));
-        }
-
-        commentsDao.save(comment);
-        return comment;
-    }
-
-    @PostMapping("/comment/{commentId}/removeVote")
-    public @ResponseBody
-    Comment commentVoteRemoval(@PathVariable Long commentId) {
-
-        Comment comment = commentsDao.findOne(commentId);
-        User user = userSvc.loggedInUser();
-
-        List<CommentVote> commentVotes = comment.getCommentVotes();
-
-        for (CommentVote vote : commentVotes) {
-            if (vote.voteBelongsTo(user)) {
-                comment.removeVote(vote);
-                break;
-            }
-        }
-        commentsDao.save(comment);
-        return comment;
-    }
-
-//=============================================== COMMENT REPLIES ======================================================
-//======================================================================================================================
-
-    @PostMapping("/posts/{postId}/comment/{parentId}/reply")
-    public String reply(@PathVariable Long postId, @PathVariable Long parentId, @RequestParam("body") String body, @Valid Comment comment,
-                        BindingResult validation,
-                        Model viewModel) {
-        System.out.println("Get to reply controller");
-
-        Post post = postSvc.findOne(postId);
-        User user = post.getUser();
-        Comment parent = commentSvc.findOne(parentId);
-
-        if (validation.hasErrors()) {
-            viewModel.addAttribute("comment", comment);
-            return "fragments/commentError :: ajaxError";
-        }
-
-        Comment newComment = commentSvc.saveNewComment(post, parent, body); // saving in the comment service
-        viewModel.addAttribute("comment", newComment);
-//        viewModel.addAttribute("children", children);
-        viewModel.addAttribute("post", post);
-        viewModel.addAttribute("postOwner", user);
-        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser()));
-        viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
-
-//        viewModel.addAttribute("comments", commentsDao.commentsOnPost(post.getId()));
-        return "fragments/comments :: ajaxComment";
-    }
-
-    @GetMapping("/posts/retrieveUsername/comment/{commentId}")
-    public @ResponseBody
-    User retrieveUsernameForReplyTextarea(@PathVariable Long commentId) {
-        Comment comment = commentSvc.findOne(commentId);
-        return comment.getUser();
-    }
-
-    @GetMapping("/posts/retrieveMorePosts/{limit}/{batch}")
-    public String retrieveMorePosts(Model viewModel, @PathVariable int limit, @PathVariable int batch) {
-//                                    @PageableDefault(value = 2,
-//                                            direction = Sort.Direction.DESC)
-//                                            Pageable pageable) {
-
-        List<Post> posts = postSvc.postsByResultSet();
-
-        if (posts.size() < (limit * batch) || posts.size() < (limit * batch) + limit) {
-            viewModel.addAttribute("nextResultSet", posts.subList(limit * batch, posts.size()));
-        } else {
-            viewModel.addAttribute("nextResultSet", posts.subList(limit * batch, (limit * batch) + limit));
-        }
-
-        return "fragments/posts :: ajaxPosts";
-    }
 }
-
-
-
-
-//        viewModel.addAttribute("nextResultSet", postSvc.postsByPage(pageable));
