@@ -54,7 +54,8 @@ public class PasswordController {
     @PostMapping("profile/{id}/editPassword")
     public String changePassword(@PathVariable Long id, @Valid User user, Errors validation, Model viewModel,
                                  @RequestParam(name = "password_confirm") String passwordConfirmation,
-                                 @RequestParam(name = "password") String password) {
+                                 @RequestParam(name = "password") String password,
+                                 RedirectAttributes redir) {
 
         //compare passwords:
         if (!passwordConfirmation.equals(user.getPassword())) {
@@ -80,10 +81,10 @@ public class PasswordController {
         // alert the user that their password has changed.
         boolean success = (!validation.hasErrors());
         String passwordSuccess = "You have successfully updated your password!";
-        viewModel.addAttribute("success", success);
-        viewModel.addAttribute("successMessage", passwordSuccess);
+        redir.addFlashAttribute("success", success);
+        redir.addFlashAttribute("successMessage", passwordSuccess);
 
-        return "users/editPassword";
+        return "redirect:/profile";
     }
 
     // ============================================ FORGOT PASSWORD FORM ====================================================

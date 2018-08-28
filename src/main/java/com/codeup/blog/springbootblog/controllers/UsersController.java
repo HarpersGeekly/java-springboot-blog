@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -209,7 +210,7 @@ public class UsersController {
 
     @PostMapping("profile/{id}/edit")
     public String update(@PathVariable Long id, @Valid User user, Errors validation,
-                         @RequestParam(name = "username") String username, Model viewModel) {
+                         @RequestParam(name = "username") String username, Model viewModel, RedirectAttributes redir) {
 
         // user who is already in the database and on the form:
         User existingUser = usersDao.findById(id);
@@ -237,11 +238,14 @@ public class UsersController {
         usersDao.save(user);
         userSvc.authenticate(user); // Programmatically login the new user
 
+        System.out.println("get here");
+
         boolean success = (!validation.hasErrors());
+        System.out.println(success);
         String profileSuccess = "Profile Updated!";
-        viewModel.addAttribute("success", success);
-        viewModel.addAttribute("successMsg", profileSuccess);
-        return "users/editUser";
+        redir.addFlashAttribute("success", success);
+        redir.addFlashAttribute("successMessage", profileSuccess);
+        return "redirect:/profile";
     }
 
 
