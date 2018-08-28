@@ -27,6 +27,11 @@ html {
     word-wrap: break-word;      /* IE */
 }
 
+.margin-top-bottom-1em {
+    margin-top : 1em;
+    margin-bottom: 1em;
+}
+
 /*============================================================ NAVBAR ====================================================*/
 
 .navbar-default {
@@ -392,12 +397,35 @@ ul {
     font-size: 2.3em;
     /*font-size:6vw;*/
     margin-right: 1em;
-    display: inline-block;
+    /*display: inline-block;*/
     color: #3f403c;
 }
 
 .postTitle:hover {
     text-decoration: underline;
+}
+
+.post-subtitle {
+    /*font-family: Futura, serif;*/
+    /*font-family: 'Roboto', sans-serif;*/
+    /*font-family: 'East Sea Dokdo', regular;*/
+    /*font-family: 'Lato', regular;*/
+    /*font-family: 'Lora', regular;*/
+    /*font-family: 'EB Garamond', regular;*/
+    /*font-family: 'PT Serif', regular;*/
+    /*font-family: 'Oswald', regular;*/
+    /*font-family: 'Raleway', regular;*/
+    font-family: 'Playfair Display', regular;
+    /*font-family: Oswald, sans-serif;*/
+    /*font-size: 16px;*/
+    /*color: black;*/
+    line-height: 1.5;
+    color: gray;
+    font-style: italic;
+    font-weight: bolder;
+    font-size: 1.4em;
+    /*font-size: 16px;*/
+    /*color: #888888;*/
 }
 
 .no-text-decoration:hover {
@@ -421,6 +449,17 @@ ul {
 }
 
 .postCommentSizeIndex {
+    padding-right: 1em;
+    display: inline-block;
+    color: #888888;
+}
+
+.postHitCountIconIndex {
+    display: inline-block;
+    color: #888888;
+}
+
+.postHitCountSizeIndex {
     display: inline-block;
     color: #888888;
 }
@@ -473,7 +512,7 @@ textarea, input, .form-control {
     box-shadow: none;
 }
 
-.postDescription{
+.postDescription {
 
     width: 100%;
     font-size: 1em;
@@ -484,6 +523,10 @@ textarea, input, .form-control {
     content: "";
     position:relative;
     max-height: 350px;
+}
+
+.postDescription > p {
+    font-size: 16px;
 }
 
 /*.postDescription:before {*/
@@ -1696,4 +1739,6 @@ textarea, input, .form-control {
     margin-left: -1em;
 }
 
+
+/*Cyberpunk color:#fff300*/
 
