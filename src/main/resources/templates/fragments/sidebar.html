@@ -119,7 +119,7 @@
                         <h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>
                     </div>
 
-                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                    <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
                         <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
                     </a>
                 </div>
@@ -144,7 +144,7 @@
                         <h5 class="popularPostCount" th:text="${post.voteCount()}"></h5>
                     </div>
 
-                    <a class="popularTitleLink" th:href="@{/posts/{id}(id=${post.id})}">
+                    <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
                         <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
                     </a>
                 </div>
