@@ -249,21 +249,4 @@ public class CommentsController {
         Comment comment = commentSvc.findOne(commentId);
         return comment.getUser();
     }
-
-    @GetMapping("/posts/retrieveMorePosts/{limit}/{batch}")
-    public String retrieveMorePosts(Model viewModel, @PathVariable int limit, @PathVariable int batch) {
-//                                    @PageableDefault(value = 2,
-//                                            direction = Sort.Direction.DESC)
-//                                            Pageable pageable) {
-
-        List<Post> posts = postSvc.postsByResultSet();
-
-        if (posts.size() < (limit * batch) || posts.size() < (limit * batch) + limit) {
-            viewModel.addAttribute("nextResultSet", posts.subList(limit * batch, posts.size()));
-        } else {
-            viewModel.addAttribute("nextResultSet", posts.subList(limit * batch, (limit * batch) + limit));
-        }
-
-        return "fragments/posts :: ajaxPosts";
-    }
 }
