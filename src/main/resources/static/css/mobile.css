@@ -378,6 +378,10 @@
         margin-left: 0em;
     }
 
+    .postDescription > p > iframe {
+        width: 100%;
+    }
+
     /*// ========= ALL POSTS =========*/
 
     .th-title {
