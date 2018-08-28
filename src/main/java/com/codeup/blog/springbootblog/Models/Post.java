@@ -3,7 +3,6 @@ package com.codeup.blog.springbootblog.Models;
 import com.fasterxml.jackson.annotation.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -11,13 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.text.Normalizer;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
-//import java.util.Date;
-//import java.sql.Timestamp;
-//import java.time.LocalDateTime;
 
 /**
  * Created by RyanHarper on 11/3/17.
@@ -80,28 +75,29 @@ public class Post {
     @NotEmpty(message = "Categories cannot be empty")
     private List<Category> categories;
 
-//    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
-//    @JsonIgnore //annotation to simply ignore one of the sides of the relationship, thus breaking the chain.
-//    private List<PostImage> images;
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+    private HitCount hitCount;
 
     //use when the post is retrieved from the database.
+    //gives me access to properties from User, user.getUsername(), or any other class inside constructor
     public Post(Long id, String title, String description, User user,
                 LocalDateTime date,
                 List<Comment> comments,
                 List<PostVote> votes,
                 String image,
                 String subtitle,
-                List<Category> categories) {
+                List<Category> categories, HitCount hitCount) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.user = user; // this gives me access to properties from user, user.getUsername()
+        this.user = user;
         this.date = date;
         this.comments = comments;
         this.votes = votes;
         this.image = image;
         this.subtitle = subtitle;
         this.categories = categories;
+        this.hitCount = hitCount;
     }
 
     //use on the create form action with Model binding.
@@ -125,8 +121,7 @@ public class Post {
     }
 
     //use for Spring magic.
-    public Post() {
-    }
+    public Post() {}
 
     public Long getId() {
         return id;
@@ -196,14 +191,6 @@ public class Post {
         this.comments = comments;
     }
 
-//    public List<PostImage> getImages() {
-//        return images;
-//    }
-//
-//    public void setImages(List<PostImage> images) {
-//        this.images = images;
-//    }
-
     public List<Category> getCategories() {
         return categories;
     }
@@ -218,6 +205,14 @@ public class Post {
 
     public void setVotes(List<PostVote> votes) {
         this.votes = votes;
+    }
+
+    public HitCount getHitCount() {
+        return hitCount;
+    }
+
+    public void setHitCount(HitCount hitCount) {
+        this.hitCount = hitCount;
     }
 
     // VOTING LOGIC =============================================================================
@@ -287,21 +282,21 @@ public class Post {
 
         String[] sentence = title.split(" ");
 
-        String dontcap =
-                "a, an, the, and, as, as if, as long as, at, is, but, by, even if, for, from, if, if only, in, into, like, near, now, nor, of, off, on, on top of, once, onto, or, out of, over, past, so, than, that, till, to, up, upon, with, when, yet";
-
-        String[] wordsNotCapitalized = dontcap.split(",");
-
-        for(String wrd : wordsNotCapitalized) {
-            System.out.println(wrd);
-        }
+//        String dontcap =
+//                "a, an, the, and, as, as if, as long as, at, is, but, by, even if, for, from, if, if only, in, into, like, near, now, nor, of, off, on, on top of, once, onto, or, out of, over, past, so, than, that, till, to, up, upon, with, when, yet";
+//
+//        String[] wordsNotCapitalized = dontcap.split(",");
+//
+//        for(String wrd : wordsNotCapitalized) {
+//            System.out.println(wrd);
+//        }
 
         for (String word : sentence) {
 
             char[] letters = word.toCharArray(); // no need to trim()
 
             for (int i = 0; i < letters.length; i++) {
-                if (letters[i] != '*') {
+                if (letters[i] != '*' || letters[i] != '\"') {
                     // Capitalize the first non-asterisk (even if that doesn't change it)
                     letters[i] = Character.toUpperCase(letters[i]);
                     // No need to look any further
@@ -329,3 +324,16 @@ public class Post {
         return slug.toLowerCase(Locale.ENGLISH);
     }
 }
+
+
+//    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+//    @JsonIgnore //annotation to simply ignore one of the sides of the relationship, thus breaking the chain.
+//    private List<PostImage> images;
+
+//    public List<PostImage> getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(List<PostImage> images) {
+//        this.images = images;
+//    }
