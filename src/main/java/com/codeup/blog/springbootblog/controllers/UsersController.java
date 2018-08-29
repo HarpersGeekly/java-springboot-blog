@@ -8,6 +8,7 @@ import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,8 +61,8 @@ public class UsersController {
 
     @GetMapping("/login")
     public String showLoginForm(HttpServletRequest request, Model viewModel) {
-        String referrer = request.getHeader("Referer");
-        request.getSession().setAttribute("url_prior_login", referrer);
+//        String referrer = request.getHeader("Referer");
+//        request.getSession().setAttribute("url_prior_login", referrer);
         viewModel.addAttribute("user", new User());
         return "/users/login";
     }
@@ -107,6 +108,11 @@ public class UsersController {
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
+
+        if(userSvc.isLoggedIn()) {
+            return "redirect:/profile";
+        }
+
         model.addAttribute("user", new User());
         return "/users/register";
     }
@@ -196,6 +202,18 @@ public class UsersController {
         return "users/profile";
     }
 
+    // =========================================== PROFILE ARCHIVED POSTS ==============================================
+
+    @GetMapping("/profile/{id}/archived")
+    public String userArchivedPosts(@PathVariable Long id, Model viewModel) {
+
+        User user = usersDao.findById(id);
+        List<Post> posts = postSvc.postsByUser(user.getId());
+        viewModel.addAttribute("posts", posts);
+        viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
+        return "users/userArchivedPosts";
+    }
+
     // ============================================== EDIT PROFILE =====================================================
 
     @GetMapping("/profile/{id}/edit")
@@ -252,36 +270,14 @@ public class UsersController {
     // =========================================== DELETE PROFILE ACCOUNT ==============================================
 
     @PostMapping("/profile/{id}/delete")
-    public String delete(@PathVariable Long id, Model viewModel, HttpSession session) {
+    public String delete(@PathVariable Long id, RedirectAttributes redir) {
 
+        System.out.println("get to delete");
         usersDao.delete(id);
-        // even if I delete a user, the navbar "ThisUsername's Profile" is still reading a session.
-        // How do I delete, then cancel/logout a session?
-        // I built a new controller, LogoutController, and called it in here.
-        LogoutController logout = new LogoutController();
-        logout.logout(session);
-
-        // alert the user that they are no more...
-        boolean success = (usersDao.findById(id) == null);
-        String deleteSuccess = "Sorry to see you go! Your account has been deactivated.";
-        viewModel.addAttribute("user", new User()); //empty user. Still needed for view.
-        viewModel.addAttribute("successDelete", success);
-        viewModel.addAttribute("successMessage", deleteSuccess);
-
-//        return "redirect:/posts";
-        return "users/editUser";
-    }
-
-    // =========================================== PROFILE ARCHIVED POSTS ==============================================
-
-    @GetMapping("/profile/{id}/archived")
-    public String userArchivedPosts(@PathVariable Long id, Model viewModel) {
-
-        User user = usersDao.findById(id);
-        List<Post> posts = postSvc.postsByUser(user.getId());
-        viewModel.addAttribute("posts", posts);
-        viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
-        return "users/userArchivedPosts";
+        userSvc.deleteSession();
+        redir.addFlashAttribute("successDelete", usersDao.findById(id) == null);
+        redir.addFlashAttribute("successMessage", "Sorry to see you go! Your account has been deactivated.");
+        return "redirect:/login";
     }
 
 }
