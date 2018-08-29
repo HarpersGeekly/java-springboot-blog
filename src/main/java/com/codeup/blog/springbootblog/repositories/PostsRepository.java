@@ -37,6 +37,10 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
     List<Post> popularPostsByLikes();
 
     @Query(nativeQuery = true,
+            value="SELECT p.id, p.created_date, p.description, p.title, p.subtitle, p.header_image, p.user_id FROM posts p JOIN hit_counts hc ON p.id = hc.post_id GROUP BY p.id ORDER BY SUM(count) DESC LIMIT 5")
+    List<Post> popularPostsByViews();
+
+    @Query(nativeQuery = true,
     value = "SELECT * FROM posts p WHERE user_id LIKE ?1 ORDER BY p.id DESC LIMIT 5")
     List<Post> postsByUserLimited(Long id);
 
