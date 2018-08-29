@@ -3,6 +3,7 @@ package com.codeup.blog.springbootblog.Models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -38,9 +39,14 @@ public class User {
 
     @Column(nullable = false)
     @NotBlank(message = "Your password cannot be empty.")
-    @Size(min = 8, message="Your password must be between 8-20 characters.")
+    @Length(min = 8, max = 100, message="Your password must be between 8-100 characters.") // BCrypt PasswordEncoder hashes passwords with 60 random characters. Make sure the max is >= 60
     @JsonIgnore
     private String password;
+    //    @Size(min = 8, message="Your password must be between 8-20 characters.")
+//    @Size.List({
+//            @Size(min = 8, message = "Your password must be between 8-20 characters."),
+//            @Size(max = 20, message = "Your password must be between 8-20 characters.")
+//    })
 
     @Column(name = "JOINED_DATE")
     private LocalDateTime date;
