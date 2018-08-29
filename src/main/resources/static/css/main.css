@@ -1242,10 +1242,6 @@ textarea, input, .form-control {
     border-radius: 100px;
 }
 
-/*.profilePic:hover {*/
-    /*opacity: 0.5;*/
-/*}*/
-
 .change-profile-picture-alternate {
     position: absolute;
     /* opacity: 0.5; */
@@ -1254,6 +1250,10 @@ textarea, input, .form-control {
     left: 216px;
     /* margin-right: -9px; */
     z-index: 9999;
+}
+
+.profilePic:hover, .change-profile-picture-alternate:hover {
+    cursor:pointer;
 }
 
 .fa-camera {
