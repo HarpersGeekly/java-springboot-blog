@@ -93,6 +93,10 @@ public class PostService {
     public List<Post> popularPostsByLikes() {
         return postsDao.popularPostsByLikes(); }
 
+    public List<Post> popularPostsByViews() {
+        return postsDao.popularPostsByViews();
+    }
+
     // save takes care of insert and update
 //    public Post update(Post post) {
 //        post.setId((long)(post.getId() - 1), post);
