@@ -41,9 +41,10 @@
 
         <div class="form-group title-form-group">
             <label class="create-post-form-labels" for="title">Title:</label>
-            <textarea type="text" name="title" class="form-control" id="title" th:field="*{title}"></textarea>
+            <textarea type="text" name="title" class="form-control" id="title" th:field="*{title}" maxlength="100"></textarea>
             <!--<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />-->
             <!--more fancy bootstrap alerts:-->
+            <span id="title-chars">100</span><span> characters max (Click the Preview tab to update)</span>
             <div
                     th:if="${#fields.hasErrors('title')}"
                     class="alert alert-danger alert-dismissible"
@@ -58,9 +59,10 @@
 
         <div class="form-group form-group-post-subtitle">
             <label class="create-post-form-labels" for="subtitle">Subtitle:</label>
-            <textarea type="text" name="subtitle" class="form-control" id="subtitle" th:field="*{subtitle}"></textarea>
+            <textarea type="text" name="subtitle" class="form-control" id="subtitle" th:field="*{subtitle}" maxlength="200"></textarea>
             <!--<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />-->
             <!--more fancy bootstrap alerts:-->
+            <span id="subtitle-chars">200</span><span> characters max (Click the Preview tab to update)</span>
             <div
                     th:if="${#fields.hasErrors('subtitle')}"
                     class="alert alert-danger alert-dismissible"
@@ -90,7 +92,8 @@
 
         <div class="form-group form-group-post-description">
             <label class="create-post-form-labels" for="myEditor">Description:</label>
-            <textarea type="text" name="description" class="form-control" id="myEditor" th:field="*{description}"  style="resize: none"></textarea>
+            <textarea type="text" name="description" class="form-control" id="myEditor" th:field="*{description}"  style="resize: none" maxlength="5000"></textarea>
+            <span id="description-chars">5000</span><span> characters max (Click the Preview tab to update)</span>
             <div
                     th:if="${#fields.hasErrors('description')}"
                     class="alert alert-danger alert-dismissible"
@@ -120,7 +123,10 @@
 </body>
 <th:block th:fragment="post-form-script">
 <script>
+
     $( document ).ready(function() {
+
+        console.log("get here");
 
         $.fn.markdownEditor.defaults.height = '50px';
         $('#title').markdownEditor({
@@ -130,6 +136,15 @@
             // Activate the preview:
             // This callback is called when the user click on the preview button:
             onPreview: function (title, callback) {
+
+                console.log("get here");
+                let maxTitleLength = 100;
+                let length = $('#title').val().length;
+                let length2 = maxTitleLength-length;
+                if(length > 0) {
+                    $('#title-chars').text(length);
+                }
+                $('#title-chars').text(length2);
                 // Example of implementation with ajax:
                 $.ajax({
                     url: '/posts/title.json',
@@ -160,6 +175,14 @@
             // This callback is called when the user click on the preview button:
             onPreview: function (subtitle, callback) {
                 // Example of implementation with ajax:
+                let maxSubtitleLength = 200;
+                let length = $('#subtitle').val().length;
+                let length2 = maxSubtitleLength-length;
+                if(length > 0) {
+                    $('#subtitle-chars').text(length);
+                }
+                $('#subtitle-chars').text(length2);
+
                 $.ajax({
                     url: '/posts/subtitle.json',
                     type: 'GET',
@@ -188,6 +211,14 @@
             preview: true,
             // This callback is called when the user click on the preview button:
             onPreview: function (content, callback) {
+
+                let maxDescriptionLength = 5000;
+                let length = $('#myEditor').val().length;
+                let length2 = maxDescriptionLength-length;
+                if(length > 0) {
+                    $('#description-chars').text(length);
+                }
+                $('#description-chars').text(length2);
                 // Example of implementation with ajax:
                 $.ajax({
                     url: '/posts/description.json',
