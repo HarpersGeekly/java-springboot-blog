@@ -21,6 +21,33 @@
         <h4 class="popularityHeader">Popular Posts</h4>
         <div class="eachPopularSection">
 
+            <div class="eachPopularPost" th:each="post : ${mostViewedPosts}">
+
+                <div class="popularPostTitleWrapper">
+
+                    <!--<div class="popularPostCountsWrapper">-->
+                        <!--<i class="fa fa-eye popularPostCountIcon"></i>-->
+                        <!--<h5 class="popularPostCount" th:text="${post.hitCount != null} ? ${post.hitCount.count} : '0'"></h5>-->
+                    <!--</div>-->
+
+                    <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                        <!--<h4 class="popularTitleText" th:text="${post.title}"></h4>-->
+                        <!--markdown title:-->
+                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
+                    </a>
+                </div>
+
+                <div class="popularPostUserWrapper">
+                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="popularityHeader">Most Discussed</h4>
+        <div class="eachPopularSection">
+
             <div class="eachPopularPost" th:each="post : ${mostCommentedPosts}">
                 <div class="popularPostTitleWrapper">
 
@@ -109,6 +136,33 @@
         </div>
 
         <h4 class="popularityHeader">Popular Posts</h4>
+        <div class="eachPopularSection">
+
+            <div class="eachPopularPost" th:each="post : ${mostViewedPosts}">
+
+                <div class="popularPostTitleWrapper">
+
+                    <!--<div class="popularPostCountsWrapper">-->
+                        <!--<i class="fa fa-eye popularPostCountIcon"></i>-->
+                        <!--<h5 class="popularPostCount" th:text="${post.hitCount != null} ? ${post.hitCount.count} : '0'"></h5>-->
+                    <!--</div>-->
+
+                    <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                        <!--<h4 class="popularTitleText" th:text="${post.title}"></h4>-->
+                        <!--markdown title:-->
+                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
+                    </a>
+                </div>
+
+                <div class="popularPostUserWrapper">
+                    <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="popularityHeader">Most Discussed</h4>
         <div class="eachPopularSection">
 
             <div class="eachPopularPost" th:each="post : ${mostCommentedPosts}">
