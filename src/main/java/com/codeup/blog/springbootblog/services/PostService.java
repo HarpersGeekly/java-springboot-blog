@@ -1,7 +1,6 @@
 package com.codeup.blog.springbootblog.services;
 import com.codeup.blog.springbootblog.Models.Post;
-import com.codeup.blog.springbootblog.Models.PostVote;
-import com.codeup.blog.springbootblog.repositories.CommentsRepository;
+import com.codeup.blog.springbootblog.repositories.HitCountsRepository;
 import com.codeup.blog.springbootblog.repositories.PostsRepository;
 import com.codeup.blog.springbootblog.repositories.PostsVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
