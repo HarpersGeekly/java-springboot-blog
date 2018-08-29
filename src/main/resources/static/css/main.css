@@ -1138,6 +1138,7 @@ textarea, input, .form-control {
 
 .comment-ellipsis:hover {
     cursor: pointer;
+    color: black;
 }
 
 .showReplyTextAreaCancel, .showReplyTextAreaCancel:hover, .showReplyTextAreaCancelAJAX, .showReplyTextAreaCancelAJAX:hover {
