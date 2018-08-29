@@ -3,7 +3,7 @@ package com.codeup.blog.springbootblog.Models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "hitcounts")
+@Table(name = "hit_counts")
 public class HitCount {
 
     @Id
