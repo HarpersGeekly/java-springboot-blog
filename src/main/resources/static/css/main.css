@@ -1300,41 +1300,23 @@ textarea, input, .form-control {
     text-decoration: none;
 }
 
-#profileChangeUsernameLink, #profileChangePasswordLink, .profileManagePostsLink, #profileChangePictureLink {
+.profileChangeInfoDiv {
+    display:inline-block;
+}
+
+.profileChangeInfoLink {
     display: inline-block;
     color: #999999;
     margin-right: 1em;
 }
 
-#profileChangePictureLink{
-    font-weight: 500;
-}
-
-.uploadIcon {
-    color: black;
-}
-
-#profileChangeUsernameLink:hover, #profileChangePasswordLink:hover, .profileManagePostsLink:hover, #profileChangePictureLink:hover {
+.profileChangeInfoLink:hover {
     cursor: pointer;
     text-decoration: underline;
 }
 
-#profileChangeUsernameLink {
-    margin-right: 1em;
-}
-
-.profileChangeUsernameDiv,
-.profileChangePasswordDiv,
-.profileManagePostsDiv,
-.profileChangePictureDiv {
-    display: inline-block;
-}
-
-.profilePostVoteCountText,
-.profilePostVoteIcon,
-.profilePostCommentIcon,
-.profilePostCommentCountText {
-    color: #999999;
+.uploadIcon {
+    color: black;
 }
 
 .profileFrownIcon {

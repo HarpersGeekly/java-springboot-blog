@@ -204,27 +204,27 @@
                 </h4>
 
 
-                <div class="profileChangeUsernameDiv">
+                <div class="profileChangeInfoDiv">
                     <i class="fas fa-cog profileCogIcon"></i>
                     <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">
-                        <h5 id="profileChangeUsernameLink" data-target="#modal2" data-toggle="modal2">edit account</h5>
+                        <h5 class="profileChangeInfoLink" data-target="#modal2" data-toggle="modal2">edit account</h5>
                     </a>
                 </div>
-                <div class="profileChangePasswordDiv">
+                <div class="profileChangeInfoDiv">
                     <i class="fas fa-lock-open profilePasswordIcon"></i>
                     <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">
-                        <h5 id="profileChangePasswordLink" data-target="#modal3" data-toggle="modal3">change password</h5>
+                        <h5 class="profileChangeInfoLink" data-target="#modal3" data-toggle="modal3">change password</h5>
                     </a>
                 </div>
-                <div class="profileManagePostsDiv">
+                <div class="profileChangeInfoDiv">
                     <i class="fas fa-archive profileArchiveIcon"></i>
                     <a th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}">
-                        <h5 class="profileManagePostsLink" data-target="#modal4">manage posts</h5>
+                        <h5 class="profileChangeInfoLink" data-target="#modal4">manage posts</h5>
                     </a>
                 </div>
-                <div class="profileChangePictureDiv" data-target="#modal" data-toggle="modal">
+                <div class="profileChangeInfoDiv">
                     <i class="fas fa-upload uploadIcon"></i>
-                        <h5 id="profileChangePictureLink">change profile picture</h5>
+                        <h5 class="profileChangeInfoLink" data-target="#modal" data-toggle="modal">change profile picture</h5>
                 </div>
                 <!-- Button trigger modal -->
                 <!--<input id="file" onchange="previewFile()" name="file" type="file" style="display:none;"/>-->
@@ -289,7 +289,7 @@
                 <h4>
                     <i class="fas fa-archive"></i>
                     <a th:href="@{/profile/{id}/archived(id=${profileUser.id})}">
-                        <h5 class="profileInfoText profileManagePostsLink" data-target="#modal4">View all <span th:text="${profileUser.username}"></span>'s posts</h5>
+                        <h5 class="profileInfoText profileChangeInfoLink" data-target="#modal4">View all <span th:text="${profileUser.username}"></span>'s posts</h5>
                     </a>
                 </h4>
             </div>
