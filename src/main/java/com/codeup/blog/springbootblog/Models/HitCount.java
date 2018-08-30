@@ -11,11 +11,18 @@ public class HitCount {
     private Long id;
 
     @Column
-    private int count;
+    private int postCount;
+
+    @Column
+    private int profileCount;
 
     @OneToOne
     @JoinColumn(name="post_id")
     private Post post;
+
+    @OneToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     public HitCount(){}
 
@@ -27,19 +34,35 @@ public class HitCount {
         this.id = id;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
     public Post getPost() {
         return post;
     }
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getPostCount() {
+        return postCount;
+    }
+
+    public void setPostCount(int postCount) {
+        this.postCount = postCount;
+    }
+
+    public int getProfileCount() {
+        return profileCount;
+    }
+
+    public void setProfileCount(int profileCount) {
+        this.profileCount = profileCount;
     }
 }
