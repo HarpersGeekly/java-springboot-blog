@@ -1,8 +1,10 @@
 package com.codeup.blog.springbootblog.controllers;
 
+import com.codeup.blog.springbootblog.Models.HitCount;
 import com.codeup.blog.springbootblog.Models.Post;
 import com.codeup.blog.springbootblog.Models.User;
 import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
+import com.codeup.blog.springbootblog.repositories.HitCountsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.PostService;
@@ -35,20 +37,22 @@ public class UsersController {
     private CategoriesRepository categoriesDao;
     private CommentService commentSvc;
     private PostService postSvc;
-
+    private HitCountsRepository hitCountsDao;
     @Autowired
     public UsersController(UsersRepository usersDao,
                            PasswordEncoder passwordEncoder,
                            UserService userSvc,
                            CategoriesRepository categoriesDao,
                            CommentService commentSvc,
-                           PostService postSvc) {
+                           PostService postSvc,
+                           HitCountsRepository hitCountsDao) {
         this.usersDao = usersDao;
         this.passwordEncoder = passwordEncoder;
         this.userSvc = userSvc;
         this.categoriesDao = categoriesDao;
         this.commentSvc = commentSvc;
         this.postSvc = postSvc;
+        this.hitCountsDao = hitCountsDao;
     }
 
     // ============================================= LOGGING IN USER ===================================================
@@ -190,6 +194,16 @@ public class UsersController {
         User user = usersDao.findById(id); // find the User from the id in the url profile/{id}/edit
         long totalKarma = usersDao.totalKarmaByUser(user.getId());
         viewModel.addAttribute("karma", totalKarma);
+
+        HitCount userHitCount = user.getHitCount();
+        if(userHitCount == null) {
+            HitCount newHitCount = new HitCount();
+            newHitCount.setUser(user);
+            userHitCount = newHitCount;
+        }
+        viewModel.addAttribute("count", userHitCount.getProfileCount());
+        userHitCount.setProfileCount(userHitCount.getProfileCount() + 1);
+        hitCountsDao.save(userHitCount);
 
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
