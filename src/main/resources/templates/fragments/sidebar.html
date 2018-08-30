@@ -27,7 +27,7 @@
 
                     <!--<div class="popularPostCountsWrapper">-->
                         <!--<i class="fa fa-eye popularPostCountIcon"></i>-->
-                        <!--<h5 class="popularPostCount" th:text="${post.hitCount != null} ? ${post.hitCount.count} : '0'"></h5>-->
+                        <!--<h5 class="popularPostCount" th:text="${post.hitCount != null} ? ${post.hitCount.postCount} : '0'"></h5>-->
                     <!--</div>-->
 
                     <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
@@ -144,7 +144,7 @@
 
                     <!--<div class="popularPostCountsWrapper">-->
                         <!--<i class="fa fa-eye popularPostCountIcon"></i>-->
-                        <!--<h5 class="popularPostCount" th:text="${post.hitCount != null} ? ${post.hitCount.count} : '0'"></h5>-->
+                        <!--<h5 class="popularPostCount" th:text="${post.hitCount != null} ? ${post.hitCount.postCount} : '0'"></h5>-->
                     <!--</div>-->
 
                     <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">

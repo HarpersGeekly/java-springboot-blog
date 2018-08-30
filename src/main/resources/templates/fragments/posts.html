@@ -40,7 +40,7 @@
                                 <i class="fas fa-comments postCommentIconIndex"></i>
                                 <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
                                 <i class="fas fa-eye postHitCountIconIndex"></i>
-                                <h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${post.hitCount.count} : '0'"></h5>
+                                <h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${post.hitCount.postCount} : '0'"></h5>
 
                             </div>
                         </div>
