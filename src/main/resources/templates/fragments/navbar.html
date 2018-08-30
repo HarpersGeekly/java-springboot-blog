@@ -39,19 +39,19 @@
 
                     <li>
                         <a href="/posts/archived">
-                            <i class="fas fa-nav fa-comments"></i> All Posts
+                            <i class="fas fa-nav fa-comments nav-icon"></i> All Posts
                         </a>
                     </li>
 
                     <li sec:authorize="isAuthenticated()">
                         <a href="/posts/create">
-                            <i class="fas fa-nav fa-comment"></i> Create New Post
+                            <i class="fas fa-nav fa-comment nav-icon"></i> Create New Post
                         </a>
                     </li>
 
                     <li sec:authorize="isAuthenticated()">
                         <a href="/profile">
-                            <i class="fas fa-nav fa-user-circle"></i>
+                            <i class="fas fa-nav fa-user-circle nav-icon"></i>
                             <!--<span th:text="${#authentication.principal.username}"></span>'s Profile-->
                             <span sec:authentication="principal.username"/>'s Profile
                         </a>
