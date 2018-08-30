@@ -12,15 +12,17 @@
 
     <div class="indexPagePostsWrapper">
 
-        <div id="emptySearchDiv" th:if="${searchedContent.isEmpty()}">
-            <p id="emptySearchedContent"><i class="far fa-frown profileFrownIcon"></i> Search term returned zero results. <a th:href="${'/posts/create'}">Feel free to make a post.</a></p>
-        </div>
+        <th:block th:fragment="searched-post">
+            <div id="emptySearchDiv" th:if="${searchedContent.isEmpty()}">
+                <p id="emptySearchedContent"><i class="far fa-frown profileFrownIcon"></i> Search term returned zero results. <a th:href="${'/posts/create'}">Feel free to make a post.</a></p>
+            </div>
 
-        <div class="content" th:each="post : ${searchedContent}">
+            <div class="content" th:each="post : ${searchedContent}">
 
-            <th:block th:replace="fragments/posts :: post"></th:block>
+                <th:block th:replace="fragments/posts :: post"></th:block>
 
-        </div>
+            </div>
+        </th:block>
     </div>
 </div>
 
@@ -28,6 +30,26 @@
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
 
+    $('.indexPageWrapper').on("click", ".tag", function() {
+
+        let button = $(this);
+        let term = button.data('tag-name');
+
+        let request = $.ajax({
+            type: 'GET',
+            url: '/posts/search-tag/' + term,
+            dataType: 'html',
+            contentType: "application/json; charset=utf-8",
+            data: term
+        });
+
+        request.done((html) => {
+            console.log(html);
+            $('.indexPagePostsWrapper').html(html);
+            $('div.postDescription img').css({'max-width': '740px'});
+            $('.postDescription').removeClass('hidden');
+        });
+    });
 
 </script>
 </body>
