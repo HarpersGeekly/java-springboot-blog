@@ -153,9 +153,9 @@ public class PostsController {
             newHitCount.setPost(post);
             postHitCount = newHitCount;
         }
-        viewModel.addAttribute("count", postHitCount.getCount());
+        viewModel.addAttribute("count", postHitCount.getPostCount());
 
-        postHitCount.setCount(postHitCount.getCount() + 1);
+        postHitCount.setPostCount(postHitCount.getPostCount() + 1);
         hitCountsDao.save(postHitCount);
 
         boolean isLoggedIn = userSvc.isLoggedIn();
