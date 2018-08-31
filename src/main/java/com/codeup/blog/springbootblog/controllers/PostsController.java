@@ -298,6 +298,7 @@ public class PostsController {
         viewModel.addAttribute("categories", categoriesDao.findAll());
         viewModel.addAttribute("mostCommentedPosts", postSvc.popularPostsByCommentActivity());
         viewModel.addAttribute("mostLikedPosts", postSvc.popularPostsByLikes());
+        viewModel.addAttribute("mostViewedPosts", postSvc.popularPostsByViews());
         viewModel.addAttribute("popularUsers", usersDao.popularUsersByKarma());
         viewModel.addAttribute("karmas", usersDao.popularUsersKarma());
         return "/posts/search";
