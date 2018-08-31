@@ -5,44 +5,78 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<a href="#" class="scrollUp"><i class="fas fa-arrow-circle-up indent"></i></a>
+    <a href="#" class="scrollUp"><i class="fas fa-arrow-circle-up indent"></i></a>
 
-<div class="indexPageWrapper">
+    <div class="indexPageWrapper">
 
-    <th:block th:include="fragments/sidebar :: sidebar"></th:block>
+        <th:block th:include="fragments/sidebar :: sidebar"></th:block>
 
-    <div class="indexPagePostsWrapper">
+        <div class="indexPagePostsWrapper">
 
-        <div class="content" th:each="post : ${posts}" th:attr="data-post-id=${post.id}">
+            <div class="content" th:each="post : ${posts}" th:attr="data-post-id=${post.id}">
 
-            <th:block th:replace="fragments/posts :: post"></th:block>
+                <th:block th:replace="fragments/posts :: post"></th:block>
+
+            </div>
+
+            <div class="more-posts-div"></div>
 
         </div>
-
-    <div class="more-posts-go-here"></div>
-
-        <!--<hr style="border-width: 5px;"/>-->
     </div>
-</div>
 
-<div class="loading-gif-div flex-center-div">
-    <img src="../images/ajax-loader-3.svg" class="loading-gif-img"/>
-</div>
-
-<div class="no-more-posts flex-center-div">
-    <h5>There are no more posts to load.</h5>
-</div>
-
-<!--<hr style="border-width: 5px;"/>-->
-<div class="flex-center-div">
-    <div>
-        <button id="show-more-posts" type="submit">Show More Posts</button>
+    <div class="loading-gif-div flex-center-div">
+        <img src="../images/ajax-loader-3.svg" class="loading-gif-img"/>
     </div>
-</div>
+
+    <div class="no-more-posts flex-center-div">
+        <h5>There are no more posts to load.</h5>
+    </div>
+
+    <div class="flex-center-div">
+        <div>
+            <button id="show-more-posts" type="submit">Show More Posts</button>
+        </div>
+    </div>
 
 <th:block th:include="fragments/sidebar :: sidebar-mobile"></th:block>
+
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
+
+    $('.indexPageWrapper, .popularityWrapperMobile').on("click", ".tag", function() {
+        console.log("got here");
+
+        let button = $(this);
+        let term = button.data('tag-name');
+        console.log(term);
+
+        let request = $.ajax({
+            type: 'GET',
+            url: '/posts/search-tag/' + term,
+            dataType: 'html',
+            contentType: "application/json; charset=utf-8",
+            data: term
+
+        });
+
+        request.done((html) => {
+
+
+            $('.indexPagePostsWrapper').html(html);
+            $('div.postDescription img').css({'max-width': '740px'});
+            $('.postDescription').removeClass('hidden');
+
+            let mobile = $('.popularityWrapperMobile');
+            if(!mobile.attr('hidden')) {
+
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 1);
+
+            }
+        });
+    });
+
 
     //============================= SHOW MORE CONTENT ON CLICK ===================================
         // show more posts:
@@ -56,48 +90,56 @@
         $('#show-more-posts').on("click", function (e) {
             e.preventDefault();
 
-            let request = $.ajax({
-                type: 'GET',
-                url: '/posts/retrieveMorePosts/' + limit + '/' + batch,
-                // url: '/posts/retrieveMorePosts/?limit=??',
-                // contentType: 'application/json; charset=utf-8',
-                dataType: 'html', //returning an html fragment from the controller, not a JSON object.
-                beforeSend: function () {
-                    // Show image container
-                    $(".loading-gif-div").removeClass('hidden');
-                },
-                complete: function () {
-                    // Hide image container
-                    $(".loading-gif-div").addClass('hidden');
-                }
-            });
+    // $(window).scroll(function() {
+    //     if($(window).scrollTop() == $(document).height() - $(window).height()) {
+    //         infiniteScroll();
+    //     }
+    // });
 
-            request.done((html) => {
-                batch++;
-
-                $('.more-posts-go-here').append(html).hide().fadeIn();
-                $('div.postDescription img').css({'max-width' : '740px'});
-                $('.postDescription').removeClass('hidden');
-                // $('.postDescription, .postedByNameTextIndex').css({'font-size' : '16px'});
-
-                // $('html, body').animate({
-                //     scrollTop: $('.secretAjaxClass').offset().top - $(window).height() / 4
-                // }, 500);
-
-                });
-            request.fail((a, b, c) => {
-                console.log(a, b, c);
-
-                $('.no-more-posts').removeClass('hidden');
-
-                if (!loadMore) {
-                    $('.more-posts-go-here').append("");
-                } else {
-                    $('.no-more-posts').removeClass('hidden');
-                    loadMore = false;
-                }
-            });
+    // const infiniteScroll = function() {
+        let request = $.ajax({
+            type: 'GET',
+            url: '/posts/retrieveMorePosts/' + limit + '/' + batch,
+            // url: '/posts/retrieveMorePosts/?limit=??',
+            // contentType: 'application/json; charset=utf-8',
+            dataType: 'html', //returning an html fragment from the controller, not a JSON object.
+            beforeSend: function () {
+                // Show image container
+                $(".loading-gif-div").removeClass('hidden');
+            },
+            complete: function () {
+                // Hide image container
+                $(".loading-gif-div").addClass('hidden');
+            }
         });
+
+        request.done((html) => {
+            batch++;
+
+            $('.more-posts-div').append(html).hide().fadeIn();
+            $('div.postDescription img').css({'max-width': '740px'});
+            $('.postDescription').removeClass('hidden');
+            // $('.postDescription, .postedByNameTextIndex').css({'font-size' : '16px'});
+
+            // $('html, body').animate({
+            //     scrollTop: $('.secretAjaxClass').offset().top - $(window).height() / 4
+            // }, 500);
+
+        });
+        request.fail((a, b, c) => {
+            console.log(a, b, c);
+
+            $('.no-more-posts').removeClass('hidden');
+
+            if (!loadMore) {
+                $('.more-posts-div').append("");
+            } else {
+                $('.no-more-posts').removeClass('hidden');
+                loadMore = false;
+            }
+        });
+        });
+    // }
 </script>
 </body>
 </html>
