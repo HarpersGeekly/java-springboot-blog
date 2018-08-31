@@ -21,24 +21,41 @@
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
 
-    $('.indexPageWrapper').on("click", ".tag", function() {
+    $('#loadergif').addClass('hidden');
+    $('.indexPageWrapper, .popularityWrapperMobile').on("click", ".tag", function() {
 
         let button = $(this);
         let term = button.data('tag-name');
-
         let request = $.ajax({
             type: 'GET',
             url: '/posts/search-tag/' + term,
             dataType: 'html',
             contentType: "application/json; charset=utf-8",
-            data: term
-        });
+            data: term,
+            beforeSend: function () {
+                // Show image container
+                $('.indexPagePostsWrapper').html('<img id="loadergif" src="../images/ajax-loader-3.svg"/>');
+                $("#loadergif").removeClass('hidden');
+            },
+            complete: function () {
+                // Hide image container
+                $('#popularityHeaderTags').html("Tags");
+                $("#loadergif").addClass('hidden');
+            }
 
+        });
         request.done((html) => {
-            console.log(html);
+
             $('.indexPagePostsWrapper').html(html);
             $('div.postDescription img').css({'max-width': '740px'});
             $('.postDescription').removeClass('hidden');
+
+            let mobile = $('.popularityWrapperMobile');
+            if(!mobile.attr('hidden')) {
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 1);
+            }
         });
     });
 

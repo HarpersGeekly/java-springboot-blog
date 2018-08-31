@@ -43,6 +43,8 @@
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
 
+    //============================= TAGS ON CLICK AJAX REQUEST ===================================
+
     $('#loadergif').addClass('hidden');
     $('.indexPageWrapper, .popularityWrapperMobile').on("click", ".tag", function() {
 
@@ -80,7 +82,6 @@
             }
         });
     });
-
 
     //============================= SHOW MORE CONTENT ON CLICK ===================================
         // show more posts:
