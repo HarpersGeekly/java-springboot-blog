@@ -239,10 +239,22 @@ html {
     font-weight: normal;
 }
 
+.tag:hover {
+    cursor: pointer;
+}
+
 .sidebar-category-tags > a:hover {
     text-decoration: none;
     cursor: pointer;
     color: #7DE2D1;
+}
+
+#loadergif {
+    /*width: 12px;*/
+    position: fixed; /* or absolute */
+    top: 50%;
+    left: 50%;
+    opacity: 5;
 }
 
 .indexCategoriesListWrapper {
@@ -403,7 +415,8 @@ ul {
     /*font-family: 'Raleway', regular;*/
     /*font-family: 'Playfair Display', regular;*/
     font-family: Oswald, sans-serif;
-    font-size: 2.3em;
+    /*font-size: 2.3em;*/
+    font-size: 2em;
     /*font-size:6vw;*/
     margin-right: 1em;
     /*display: inline-block;*/
@@ -614,7 +627,7 @@ textarea, input, .form-control {
     /*!* apply other styles to "loading" buttons *!*/
 /*}*/
 
-/*.more-posts-go-here {*/
+/*.more-posts-div {*/
     /*width: 90%;*/
 /*}*/
 
