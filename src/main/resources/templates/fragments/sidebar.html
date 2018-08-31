@@ -13,11 +13,12 @@
         <div class="eachPopularSection">
             <div class="sidebar-category-tags-wrapper">
                 <div class="sidebar-category-tags" th:each="category : ${categories}">
-                    <a th:text="${category.name}" th:href="@{/posts/search(term=${category.name})}"></a>
+                    <a class="tag" th:attr="data-tag-name=${category.name}" th:text="${category.name}"></a>
+                    <!--th:href="@{/posts/search(term=${category.name})}"-->
                 </div>
             </div>
         </div>
-
+    
         <h4 class="popularityHeader">Popular Posts</h4>
         <div class="eachPopularSection">
 
