@@ -283,6 +283,12 @@ public class PostsController {
 //================================================= SEARCH POST ========================================================
 //======================================================================================================================
 
+    @GetMapping("/posts/search-tag/{term}")
+    public String searchByTag(@PathVariable String term, Model viewModel) {
+        viewModel.addAttribute("searchedContent", postSvc.searchPostsByKeyword(term));
+        return "fragments/searchedPosts :: searchedPosts";
+    }
+
     @GetMapping("/posts/search")
     public String search(@RequestParam String term, Model viewModel) {
         // return "list of posts where title is like ? or description is like ? or username is like ? etc etc"
@@ -292,7 +298,6 @@ public class PostsController {
         viewModel.addAttribute("categories", categoriesDao.findAll());
         viewModel.addAttribute("mostCommentedPosts", postSvc.popularPostsByCommentActivity());
         viewModel.addAttribute("mostLikedPosts", postSvc.popularPostsByLikes());
-        viewModel.addAttribute("mostViewedPosts", postSvc.popularPostsByViews());
         viewModel.addAttribute("popularUsers", usersDao.popularUsersByKarma());
         viewModel.addAttribute("karmas", usersDao.popularUsersKarma());
         return "/posts/search";
