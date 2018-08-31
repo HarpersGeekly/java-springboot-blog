@@ -43,24 +43,30 @@
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
 
+    $('#loadergif').addClass('hidden');
     $('.indexPageWrapper, .popularityWrapperMobile').on("click", ".tag", function() {
-        console.log("got here");
 
         let button = $(this);
         let term = button.data('tag-name');
-        console.log(term);
-
         let request = $.ajax({
             type: 'GET',
             url: '/posts/search-tag/' + term,
             dataType: 'html',
             contentType: "application/json; charset=utf-8",
-            data: term
+            data: term,
+            beforeSend: function () {
+                // Show image container
+                $('.indexPagePostsWrapper').html('<img id="loadergif" src="../images/ajax-loader-3.svg"/>');
+                $("#loadergif").removeClass('hidden');
+            },
+            complete: function () {
+                // Hide image container
+                $('#popularityHeaderTags').html("Tags");
+                $("#loadergif").addClass('hidden');
+            }
 
         });
-
         request.done((html) => {
-
 
             $('.indexPagePostsWrapper').html(html);
             $('div.postDescription img').css({'max-width': '740px'});
@@ -68,11 +74,9 @@
 
             let mobile = $('.popularityWrapperMobile');
             if(!mobile.attr('hidden')) {
-
                 $("html, body").animate({
                     scrollTop: 0
                 }, 1);
-
             }
         });
     });
@@ -86,7 +90,6 @@
         let loadMore = true;
         $('.no-more-posts').addClass('hidden');
         $('.loading-gif-div').addClass('hidden');
-
         $('#show-more-posts').on("click", function (e) {
             e.preventDefault();
 
