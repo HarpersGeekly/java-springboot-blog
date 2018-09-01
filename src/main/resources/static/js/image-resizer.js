@@ -1,4 +1,5 @@
-$('div.postDescription img').css({'max-width' : '740px'});
+// $('div.postDescription img').css({'max-width' : '740px'});
+$('div.postDescription img').css({'max-width' : '640px'});
 $('.postDescription').removeClass('hidden');
 
 
