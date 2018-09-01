@@ -25,6 +25,11 @@
 
                 <div class="eachPopularPost" th:each="post : ${mostViewedPosts}">
 
+                    <!--<div class="popularPostCountsWrapper">-->
+                    <!--<i class="fa fa-eye popularPostCountIcon"></i>-->
+                    <!--<h5 class="popularPostCount" th:text="${post.hitCount != null} ? ${post.hitCount.postCount} : '0'"></h5>-->
+                    <!--</div>-->
+
                     <div class="popularPostTitleWrapper">
 
                         <!--<div class="popularPostCountsWrapper">-->
@@ -51,6 +56,12 @@
             <div class="eachPopularSection">
 
                 <div class="eachPopularPost" th:each="post : ${mostCommentedPosts}">
+
+                    <!--<div class="popularPostCountsWrapper">-->
+                        <!--<i class="fas fa-comments popularPostCountIcon"></i>-->
+                        <!--<h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>-->
+                    <!--</div>-->
+
                     <div class="popularPostTitleWrapper">
 
                         <div class="popularPostCountsWrapper">
@@ -71,6 +82,9 @@
                         </a>
                     </div>
                 </div>
+
+
+
             </div>
 
 
@@ -78,6 +92,7 @@
             <div class="eachPopularSection">
 
                 <div class="eachPopularPost" th:each="post : ${mostLikedPosts}">
+
                     <div class="popularPostTitleWrapper">
 
                         <div class="popularPostCountsWrapper">

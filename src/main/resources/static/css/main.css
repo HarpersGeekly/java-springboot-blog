@@ -320,6 +320,7 @@ html {
 }
 
 .popularPostCountsWrapper {
+    float: left;
     padding-right: 1em;
 }
 
@@ -350,6 +351,7 @@ html {
 }
 
 .popularPostUserWrapper {
+    /*display: inline-flex;*/
     margin-top: -0.4em;
 }
 
