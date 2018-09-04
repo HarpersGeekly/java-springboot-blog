@@ -1,14 +1,13 @@
 package com.codeup.blog.springbootblog.services;
 
 import com.codeup.blog.springbootblog.Models.User;
+import com.codeup.blog.springbootblog.repositories.RolesRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 /**
  * Created by RyanHarper on 11/8/17.
@@ -20,11 +19,16 @@ import java.util.Collections;
 @Service
 public class UserDetailsLoader implements UserDetailsService { // UserDetailsService is a built-in Spring interface
 
+    @Autowired
     private final UsersRepository usersDao;
 
     @Autowired
-    public UserDetailsLoader(UsersRepository usersDao) {
+    private final RolesRepository rolesDao;
+
+    @Autowired
+    public UserDetailsLoader(UsersRepository usersDao, RolesRepository rolesDao) {
         this.usersDao = usersDao;
+        this.rolesDao = rolesDao;
     }
 
     @Override
@@ -35,6 +39,7 @@ public class UserDetailsLoader implements UserDetailsService { // UserDetailsSer
             throw new UsernameNotFoundException("No user found for " + username);
         }
 
-        return new UserWithRoles(user, Collections.emptyList());
+        return new UserWithRoles(user, rolesDao.ofUserWith(username)); // This is the only change
+//        return new UserWithRoles(user, Collections.emptyList());
     }
 }
