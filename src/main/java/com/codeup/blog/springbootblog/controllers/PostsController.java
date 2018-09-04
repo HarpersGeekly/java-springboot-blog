@@ -161,6 +161,7 @@ public class PostsController {
         boolean isLoggedIn = userSvc.isLoggedIn();
         boolean isPostOwner = userSvc.isLoggedInAndPostMatchesUser(post.getUser());
         boolean isChildComment = comment.isChildComment(comment);
+        boolean isDisabled = post.isDisabled();
 
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("postOwner", postOwner);
@@ -171,6 +172,7 @@ public class PostsController {
         viewModel.addAttribute("isLoggedIn", isLoggedIn);
         viewModel.addAttribute("isPostOwner", isPostOwner);
         viewModel.addAttribute("isChildComment", isChildComment);
+        viewModel.addAttribute("isDisabled", isDisabled);
 
 
         if (loggedInUser != null) {
@@ -278,6 +280,26 @@ public class PostsController {
 //      commentSvc.delete(commentSvc.commentsOnPost(id));
         postSvc.delete(id);
         return "redirect:/profile";
+    }
+
+//================================================ DISABLE AND ENABLE POSTS =============================================
+//======================================================================================================================
+
+
+    @PostMapping("/posts/{id}/disable")
+    public String disablePost(@PathVariable long id) {
+        Post post = postSvc.findOne(id);
+        post.disable();
+        postSvc.save(post);
+        return "redirect:/posts";
+    }
+
+    @PostMapping("/posts/{id}/enable")
+    public String enablePost(@PathVariable long id) {
+        Post post = postSvc.findOne(id);
+        post.enable();
+        postSvc.save(post);
+        return "redirect:/posts";
     }
 
 //================================================= SEARCH POST ========================================================
