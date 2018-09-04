@@ -29,15 +29,15 @@ public interface PostsRepository extends CrudRepository<Post, Long> { // <Model,
     List<Post> postsByResultSet();
 
     @Query(nativeQuery = true,
-            value = "SELECT p.id, p.created_date, p.description, p.title, p.subtitle, p.header_image, p.user_id from posts p JOIN comments c ON p.id = c.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
+            value = "SELECT p.id, p.created_date, p.description, p.title, p.subtitle, p.header_image, p.user_id, p.disabled from posts p JOIN comments c ON p.id = c.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
     List<Post> popularPostsByCommentActivity();
 
     @Query(nativeQuery = true,
-            value = "SELECT SUM(type), p.id, p.created_date, p.description, p.header_image, p.title, p.subtitle, p.user_id from posts_votes pv LEFT JOIN posts p ON p.id = pv.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
+            value = "SELECT SUM(type), p.id, p.created_date, p.description, p.header_image, p.title, p.subtitle, p.user_id, p.disabled from posts_votes pv LEFT JOIN posts p ON p.id = pv.post_id GROUP BY p.id ORDER BY count(*) DESC LIMIT 5")
     List<Post> popularPostsByLikes();
 
     @Query(nativeQuery = true,
-            value="SELECT p.id, p.created_date, p.description, p.title, p.subtitle, p.header_image, p.user_id FROM posts p JOIN hit_counts hc ON p.id = hc.post_id GROUP BY p.id ORDER BY SUM(post_count) DESC LIMIT 5")
+            value="SELECT p.id, p.created_date, p.description, p.title, p.subtitle, p.header_image, p.user_id, p.disabled FROM posts p JOIN hit_counts hc ON p.id = hc.post_id GROUP BY p.id ORDER BY SUM(post_count) DESC LIMIT 5")
     List<Post> popularPostsByViews();
 
     @Query(nativeQuery = true,
