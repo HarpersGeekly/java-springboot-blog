@@ -3,6 +3,7 @@ package com.codeup.blog.springbootblog.Models;
 import com.fasterxml.jackson.annotation.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -27,25 +28,37 @@ public class Post {
     private Long id;
 
     @Column(nullable = false, length = 100) // column on table, not-null
-    @NotBlank(message = "Title cannot be empty")
-    @Size(max = 100, message = "Title is too long")
+    @NotBlank(message = "Title cannot be empty.")
+    @Length(min = 8, max = 100, message="Title must be between 8-100 characters.")
     private String title;
 
     @Column(name = "header_image", nullable = true)
     private String image;
 
-    @Column(nullable = false, name = "subtitle", length = 200)
-    @NotBlank(message = "Subtitle cannot be empty")
-    @Size(max = 200, message = "Subtitle is too long. Must be less than 200 characters")
+    @Column(nullable = false, length = 200)
+    @NotBlank(message = "Subtitle cannot be empty.")
+    @Length(min = 8, max = 200, message="Subtitle must be between 8-200 characters.")
     private String subtitle;
 
     @Column(columnDefinition = "TEXT", length = 5000, nullable = false) // column, text for more, not-null
-    @NotBlank(message = "Description cannot be empty")
-    @Size.List({
-            @Size(min = 5, message = "Description must be at least 5 characters."),
-            @Size(max = 5000, message = "Description is too long.")
-    })
+    @NotBlank(message = "Description cannot be empty.")
+    @Length(min = 8, max = 5000, message="Description must be between 8-5000 characters.")
+//    @Size.List({
+//            @Size(min = 5, message = "Description must be at least 5 characters."),
+//            @Size(max = 5000, message = "Description is too long. Must be 5000 characters or less.")
+//    })
     private String description;
+
+    @Column(name = "created_date")
+//    @JsonFormat
+//            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    private LocalDateTime date;
+
+    @Column(nullable = false, columnDefinition = "bit default 0")
+    private boolean disabled = false;
+
+    //=============================== RELATIONSHIPS =========================================
+    //=======================================================================================
 
     @ManyToOne
 //    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE) // many posts can belong to one user.
@@ -57,11 +70,6 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL) // One post will have many comments
     @JsonBackReference //is the back part of reference – it will be omitted from serialization.
     private List<Comment> comments;
-
-    @Column(name = "created_date")
-//    @JsonFormat
-//            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDateTime date;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 //    , orphanRemoval = true
@@ -76,7 +84,23 @@ public class Post {
     private List<Category> categories;
 
     @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+    @JsonIgnore
     private HitCount hitCount;
+
+    //=============================== CONSTRUCTORS ==========================================
+    //=======================================================================================
+
+    //use for Spring magic.
+    public Post() {}
+
+    //use for form model binding
+    public Post(String title, List<Category> categories, String image, String subtitle, String description) {
+        this.title = title;
+        this.categories = categories;
+        this.image = image;
+        this.subtitle = subtitle;
+        this.description = description;
+    }
 
     //use when the post is retrieved from the database.
     //gives me access to properties from User, user.getUsername(), or any other class inside constructor
@@ -86,7 +110,9 @@ public class Post {
                 List<PostVote> votes,
                 String image,
                 String subtitle,
-                List<Category> categories, HitCount hitCount) {
+                List<Category> categories,
+                HitCount hitCount,
+                boolean disabled) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -98,30 +124,11 @@ public class Post {
         this.subtitle = subtitle;
         this.categories = categories;
         this.hitCount = hitCount;
+        this.disabled = disabled;
     }
-
-    //use on the create form action with Model binding.
-    public Post(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
-
-    public Post(String title, String description, List<Category> categories) {
-        this.title = title;
-        this.description = description;
-        this.categories = categories;
-    }
-
-    public Post(String title, List<Category> categories, String image, String subtitle, String description) {
-        this.title = title;
-        this.categories = categories;
-        this.image = image;
-        this.subtitle = subtitle;
-        this.description = description;
-    }
-
-    //use for Spring magic.
-    public Post() {}
+    
+    //================================  GETTERS AND SETTERS =================================
+    //=======================================================================================
 
     public Long getId() {
         return id;
@@ -213,6 +220,29 @@ public class Post {
 
     public void setHitCount(HitCount hitCount) {
         this.hitCount = hitCount;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    //==================================== METHODS ==========================================
+    //=======================================================================================
+
+//    public boolean disable() {
+//        this.disabled = true;
+//    }
+
+    public boolean disable() {
+        return this.disabled = true;
+    }
+
+    public boolean enable() {
+        return this.disabled = false;
     }
 
     // VOTING LOGIC =============================================================================
