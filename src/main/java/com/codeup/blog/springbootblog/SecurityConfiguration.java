@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // non-logged in users
                 .authorizeRequests()
-                .antMatchers("/posts", "/login", "/register", "/profile/{id}", "/color", "/forgot") // anyone can see the home and register page
+                .antMatchers("/posts", "/posts/{id}", "/login", "/register", "/profile/{id}", "/color", "/forgot") // anyone can see the home and register page
                 .permitAll()
                 .and()
 
@@ -73,6 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/posts/{id}/edit",
                         "/posts/{id}/delete",
                         "/posts/{id}/comment",
+                        "/posts/{postId}/comment/{commentId}/edit",
                         "/posts/{postId}/comment/{commentId}/delete",
                         "/posts/{id}/comment/{commentId}",
                         "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete",
@@ -82,8 +83,34 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/profile/{id}/editPassword"
                 ) // only authenticated (logged in) users can create/edit posts
                 .authenticated()
-        ;
+
+                .and()
+                .authorizeRequests()
+                .antMatchers("/posts/{id}/disable")
+                .hasAuthority("ROLE_ADMIN"); // only admins can disable ads
+        // .hasAnyAuthority("ADMIN", "SELLER") // You can specify several roles too
     }
+
+
+    // ADMINS: (CAN DO EVERYTHING)
+        // Edit/Delete Users :
+//            "/profile/{id}/edit",
+//            "/profile/{id}/delete",
+//            "/profile/{id}/editPassword"
+//
+
+        // Create/Edit/Delete Posts:
+//            "/posts/create",
+//            "/posts/{id}/edit",
+//            "/posts/{id}/delete",
+
+        // Create/Edit/Delete Comments:
+//            "/posts/{id}/comment",
+//            "/posts/{postId}/comment/{commentId}/edit",
+//            "/posts/{postId}/comment/{commentId}/delete",
+//            "/posts/{id}/comment/{commentId}",
+//            "/posts/{postId}/comment/{parentId}/reply",
+//            "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete",
 
 //============= :) WE DID ALL THE SECURITY STEPS AND MADE CLASSES JUST TO USE THIS NEXT METHOD :) ==================
 
