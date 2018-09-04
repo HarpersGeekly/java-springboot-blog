@@ -24,7 +24,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    @Pattern(regexp = "(?=^.{3,20}$)^[a-zA-Z][a-zA-Z0-9 ]*[._-]?[a-zA-Z0-9 ]+$", message = "Username must be alphanumeric.")
+    @Pattern(regexp = "(?=^.{3,20}$)^[a-zA-Z][a-zA-Z0-9 ]*[._-]?[a-zA-Z0-9 ]+$", message = "Username must be alphanumeric only.")
     @NotBlank(message="Please enter a username.")
     @Size(min = 2, message="Your username must be at least 2 characters.")
     private String username;
@@ -57,6 +57,9 @@ public class User {
     @Column
     private String bio;
 
+    //=============================== RELATIONSHIPS =========================================
+    //=======================================================================================
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // one user can have many posts. When User is deleted, these delete too
     @JsonBackReference
     private List<Post> posts;
@@ -76,6 +79,13 @@ public class User {
     private List<PasswordToken> passwordToken;
     // @OneToOne(cascade = CascadeType.ALL, mappedBy = "user") //Before @OneToMany, users couldn't request more than one token.
     // private PasswordToken passwordToken;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
+    private HitCount hitCount;
+
+    //=============================== CONSTRUCTORS ==========================================
+    //=======================================================================================
 
     public User(){}
 
@@ -105,25 +115,12 @@ public class User {
         this.profilePicture = copy.profilePicture;
         this.bio = copy.bio;
         this.passwordToken = copy.passwordToken;
+        this.hitCount = copy.hitCount;
+//        this.role = copy.role;
     }
 
-    @Override
-    public boolean equals(Object anotherUser) {
-        if (anotherUser != null)
-            if (anotherUser instanceof User)
-                if (id != null && id.equals(((User) anotherUser).id)) return true;
-        return false;
-    }
-
-    public String profilePicturePath() {
-        return profilePicture == null ? String.format("%s.png", username) : profilePicture;
-    }
-
-    public void updateProfilePicture() {
-        if (profilePicture == null) {
-            profilePicture = profilePicturePath();
-        }
-    }
+    //================================  GETTERS AND SETTERS =================================
+    //=======================================================================================
 
     public Long getId() {
         return id;
@@ -217,8 +214,35 @@ public class User {
         this.passwordToken = passwordToken;
     }
 
+    public HitCount getHitCount() {
+        return hitCount;
+    }
+
+    public void setHitCount(HitCount hitCount) {
+        this.hitCount = hitCount;
+    }
 
 
+    //==================================== METHODS ==========================================
+    //=======================================================================================
+
+    @Override
+    public boolean equals(Object anotherUser) {
+        if (anotherUser != null)
+            if (anotherUser instanceof User)
+                if (id != null && id.equals(((User) anotherUser).id)) return true;
+        return false;
+    }
+
+    public String profilePicturePath() {
+        return profilePicture == null ? String.format("%s.png", username) : profilePicture;
+    }
+
+    public void updateProfilePicture() {
+        if (profilePicture == null) {
+            profilePicture = profilePicturePath();
+        }
+    }
 }
 
 
