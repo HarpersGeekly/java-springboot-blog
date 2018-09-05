@@ -22,6 +22,11 @@ public class UserRole {
         this.role = role;
     }
 
+    public UserRole(long userId, String role) {
+        this.userId = userId;
+        this.role = role;
+    }
+
     // Default constructor...
     public UserRole(){}
 
@@ -48,6 +53,16 @@ public class UserRole {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public static UserRole admin(User user) {
+        return new UserRole(user.getId(), "ROLE_ADMIN");
+    }
+    public static UserRole editor(User user) {
+        return new UserRole(user.getId(), "ROLE_EDITOR");
+    }
+    public static UserRole user(User user) {
+        return new UserRole(user.getId(), "ROLE_USER");
     }
 
 
