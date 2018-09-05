@@ -3,8 +3,10 @@ package com.codeup.blog.springbootblog.controllers;
 import com.codeup.blog.springbootblog.Models.HitCount;
 import com.codeup.blog.springbootblog.Models.Post;
 import com.codeup.blog.springbootblog.Models.User;
+import com.codeup.blog.springbootblog.Models.UserRole;
 import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
 import com.codeup.blog.springbootblog.repositories.HitCountsRepository;
+import com.codeup.blog.springbootblog.repositories.RolesRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.PostService;
@@ -38,6 +40,8 @@ public class UsersController {
     private CommentService commentSvc;
     private PostService postSvc;
     private HitCountsRepository hitCountsDao;
+    private RolesRepository rolesDao;
+
     @Autowired
     public UsersController(UsersRepository usersDao,
                            PasswordEncoder passwordEncoder,
@@ -45,7 +49,8 @@ public class UsersController {
                            CategoriesRepository categoriesDao,
                            CommentService commentSvc,
                            PostService postSvc,
-                           HitCountsRepository hitCountsDao) {
+                           HitCountsRepository hitCountsDao,
+                           RolesRepository rolesDao) {
         this.usersDao = usersDao;
         this.passwordEncoder = passwordEncoder;
         this.userSvc = userSvc;
@@ -53,6 +58,7 @@ public class UsersController {
         this.commentSvc = commentSvc;
         this.postSvc = postSvc;
         this.hitCountsDao = hitCountsDao;
+        this.rolesDao = rolesDao;
     }
 
     // ============================================= LOGGING IN USER ===================================================
@@ -162,6 +168,11 @@ public class UsersController {
         user.setDate(LocalDateTime.now());
         // save user in the database:
         usersDao.save(user);
+
+        UserRole ur = new UserRole();
+        ur.setUserId(user.getId());
+        ur.setRole("ROLE_USER");
+        rolesDao.save(ur);
         // redirect them to the login page.
         // The login page has a @{/login} action that talks to the SecurityConfiguration class.
         // Spring handles the logging in.
