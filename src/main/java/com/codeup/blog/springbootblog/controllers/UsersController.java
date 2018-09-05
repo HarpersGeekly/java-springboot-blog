@@ -301,6 +301,10 @@ public class UsersController {
         // user who is already in the database and on the form:
         User existingUser = usersDao.findById(id);
 
+        HitCount userHitCount = existingUser.getHitCount();
+        hitCountsDao.save(userHitCount);
+        redir.addFlashAttribute("count", userHitCount.getProfileCount());
+
         // Handle issue when someone leaves username unchanged it won't default to "username already taken"
         if (!existingUser.getUsername().equals(username)) {
 
@@ -321,13 +325,12 @@ public class UsersController {
         }
 
         user.setId(id);
+        user.setHitCount(userHitCount);
+        userHitCount.setProfileCount(userHitCount.getProfileCount());
         usersDao.save(user);
         userSvc.authenticate(user); // Programmatically login the new user
 
-        System.out.println("get here");
-
         boolean success = (!validation.hasErrors());
-        System.out.println(success);
         String profileSuccess = "Profile Updated!";
         redir.addFlashAttribute("success", success);
         redir.addFlashAttribute("successMessage", profileSuccess);
