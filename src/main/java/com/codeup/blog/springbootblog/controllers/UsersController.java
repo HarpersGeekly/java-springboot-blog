@@ -146,6 +146,14 @@ public class UsersController {
                     "Username is already taken.");
         }
 
+        User existingEmail = usersDao.findByEmail(user.getEmail());
+        if (existingEmail != null) {
+            validation.rejectValue(
+                    "email",
+                    "user.email",
+                    "Email is already used.");
+        }
+
         //compare passwords:
         if (!passwordConfirmation.equals(user.getPassword())) {
             validation.rejectValue(
@@ -333,6 +341,10 @@ public class UsersController {
     public String delete(@PathVariable Long id, RedirectAttributes redir) {
 
         System.out.println("get to delete");
+
+        User user = usersDao.findById(id);
+        long role_id = rolesDao.findByUserId(user.getId());
+        rolesDao.delete(role_id);
         usersDao.delete(id);
         userSvc.deleteSession();
         redir.addFlashAttribute("successDelete", usersDao.findById(id) == null);
