@@ -43,7 +43,7 @@
                         </a>
                     </li>
 
-                    <li sec:authorize="isAuthenticated()">
+                    <li sec:authorize="hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')">
                         <a href="/posts/create">
                             <i class="fas fa-nav fa-comment nav-icon"></i> Create New Post
                         </a>
