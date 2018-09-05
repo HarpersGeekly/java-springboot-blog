@@ -168,11 +168,8 @@ public class UsersController {
         user.setDate(LocalDateTime.now());
         // save user in the database:
         usersDao.save(user);
-
-        UserRole ur = new UserRole();
-        ur.setUserId(user.getId());
-        ur.setRole("ROLE_USER");
-        rolesDao.save(ur);
+        // save user in Roles as user
+        rolesDao.save(UserRole.user(user));
         // redirect them to the login page.
         // The login page has a @{/login} action that talks to the SecurityConfiguration class.
         // Spring handles the logging in.
@@ -187,6 +184,29 @@ public class UsersController {
     public String showProfilePage(Model viewModel) {
         User userLoggedIn = userSvc.loggedInUser(); // Grab the loggedInUser from the service and assign them a name, userLoggedIn.
         User user = usersDao.findById(userLoggedIn.getId());
+
+        HitCount userHitCount = user.getHitCount();
+        if(userHitCount == null) {
+            HitCount newHitCount = new HitCount();
+            newHitCount.setUser(user);
+            userHitCount = newHitCount;
+        }
+        userHitCount.setProfileCount(userHitCount.getProfileCount() + 1);
+        hitCountsDao.save(userHitCount);
+
+        List<String> roles = rolesDao.ofUserWith(user.getUsername());
+        for(String role : roles) {
+            if (role.equals("ROLE_USER")) {
+                viewModel.addAttribute("isUser", role);
+            }
+            if (role.equals("ROLE_EDITOR")) {
+                viewModel.addAttribute("isEditor", role);
+            }
+            if (role.equals("ROLE_ADMIN")) {
+                viewModel.addAttribute("isAdmin", role);
+            }
+        }
+
         long totalKarma = usersDao.totalKarmaByUser(user.getId());
         viewModel.addAttribute("karma", totalKarma);
             //if posts are empty
@@ -197,6 +217,7 @@ public class UsersController {
         viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
         viewModel.addAttribute("profileUser", user);
         viewModel.addAttribute("categories", categoriesDao.findAll());
+        viewModel.addAttribute("count", userHitCount.getProfileCount());
         return "users/profile";
     }
 
@@ -204,7 +225,6 @@ public class UsersController {
     public String showOtherUsersProfilePage(@PathVariable Long id, Model viewModel) {
         User user = usersDao.findById(id); // find the User from the id in the url profile/{id}/edit
         long totalKarma = usersDao.totalKarmaByUser(user.getId());
-        viewModel.addAttribute("karma", totalKarma);
 
         HitCount userHitCount = user.getHitCount();
         if(userHitCount == null) {
@@ -212,10 +232,22 @@ public class UsersController {
             newHitCount.setUser(user);
             userHitCount = newHitCount;
         }
-        viewModel.addAttribute("count", userHitCount.getProfileCount());
         userHitCount.setProfileCount(userHitCount.getProfileCount() + 1);
         hitCountsDao.save(userHitCount);
 
+        List<String> roles = rolesDao.ofUserWith(user.getUsername());
+
+        for(String role : roles) {
+            if (role.equals("ROLE_USER")) {
+                viewModel.addAttribute("ownerIsUser", role);
+            }
+            if (role.equals("ROLE_EDITOR")) {
+                viewModel.addAttribute("ownerIsEditor", role);
+            }
+            if (role.equals("ROLE_ADMIN")) {
+                viewModel.addAttribute("ownerIsAdmin", role);
+            }
+        }
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
         viewModel.addAttribute("posts", postSvc.postsByUserLimited(user.getId()));
@@ -224,6 +256,9 @@ public class UsersController {
         // ^this is a boolean^, true, but false if passing another id.
         viewModel.addAttribute("profileUser", user);
         viewModel.addAttribute("categories", categoriesDao.findAll());
+        viewModel.addAttribute("karma", totalKarma);
+        viewModel.addAttribute("count", userHitCount.getProfileCount());
+
         return "users/profile";
     }
 
