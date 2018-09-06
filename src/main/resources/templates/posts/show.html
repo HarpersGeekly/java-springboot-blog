@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:include="fragments/header :: my-header('Harper\'s Geekly - Show Post')"></head>
+<head th:include="fragments/header :: my-header('To Geek Is Human - Show Post')"></head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
@@ -21,10 +21,6 @@
                     <!-- OR call the method directly:-->
                     <h4 th:utext="${post.getHtmlTitle()}" class="postTitle no-text-decoration"></h4>
 
-                    <div class="post-tags-div">
-                        <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
-                    </div>
-
                     <div class="post-info-wrapper-mobile">
                         <a th:href="@{/profile/{id}(id=${post.user.id})}">
                             <div class="profile-pic-wrapper-show-page">
@@ -40,12 +36,35 @@
                         <div class="post-info-name-date-wrapper">
                             <div>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
                                 <span th:text="${post.user.username}"></span></a>
-                                <div>
+                                <div class="float-right">
                                     <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
                                     <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
                                     <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
                                     <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
                                 </div>
+
+                                <div>
+                                    <a class="post-tag " th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
+                                    <!--<span class="sidebar-category-tags"><a th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a></span>-->
+                                    <span style="margin-left:1em">
+                                        <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
+                                        <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+                                        <i class="fas fa-comments postCommentIconIndex"></i>
+                                        <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+                                        <i class="fas fa-eye postHitCountIconIndex"></i>
+                                        <h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${post.hitCount.postCount} : '0'"></h5>
+                                    </span>
+                                </div>
+
+                                <!--<div>-->
+                                    <!--<i class="fas fa-thumbs-up postUpVoteIconIndex"></i>-->
+                                    <!--<h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>-->
+                                    <!--<i class="fas fa-comments postCommentIconIndex"></i>-->
+                                    <!--<h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>-->
+                                    <!--<i class="fas fa-eye postHitCountIconIndex"></i>-->
+                                    <!--<h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${post.hitCount.post_count} : '0'"></h5>-->
+                                <!--</div-->
+
                             </div>
                         </div>
                     </div>
@@ -64,7 +83,7 @@
                 <!-- ====================================== Post Voting ======================================-->
                 <div class="post-vote-options-row">
 
-                    <div class="postVoting">
+                    <div class="postVoting" th:if="${!isDisabled}">
                         <div class="upvoteDiv">
 
                             <div th:if="${!isLoggedIn}">
@@ -123,13 +142,24 @@
                                     </button>
                                 </form>
                             </div>
+
+                            <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!isDisabled}">
+                                <form th:action="@{'/posts/' + ${post.id} + '/disable'}" method="post">
+                                    <button>Disable</button>
+                                </form>
+                            </div>
+                            <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${isDisabled}">
+                                <form th:action="@{'/posts/' + ${post.id} + '/enable'}" method="post">
+                                    <button>Enable</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <!--id="editPostBtn"-->
                     <!--id="deletePostBtn"-->
                 </div>
 
-                <div th:if="${!isLoggedIn}" class="replyPostNotLoggedInWrapper">
+                <div th:if="${!isLoggedIn and !isDisabled}" class="replyPostNotLoggedInWrapper">
                     <div class="replyPostNotLoggedInDiv">
                         <h5>You must be <span><a class="replyPostNotLoggedInLink" th:href="${'/login'}">logged in</a></span> to join the conversation</h5>
                     </div>
@@ -142,25 +172,25 @@
         <!-- ================================================================================================================-->
         <!--============================================== FORM for COMMENTS ================================================-->
         <!-- ================================================================================================================-->
+        <div class="container alert alert-info" th:if="${isDisabled}">This post has been locked.</div>
+        <div th:if="${!isDisabled}" class="container commentFormWrapper" sec:authorize="isAuthenticated()">
+            <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
+                <div class="form-group">
+                    <label for="commentFormBody"></label>
+                    <textarea class="form-control" id="commentFormBody" name="body"
+                              th:field="*{body}"
+                              th:placeholder="Comment...">
+                            </textarea>
 
-        <div class="container commentFormWrapper" sec:authorize="isAuthenticated()">
-                <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
-                    <div class="form-group">
-                        <label for="commentFormBody"></label>
-                        <textarea class="form-control" id="commentFormBody" name="body"
-                                  th:field="*{body}"
-                                  th:placeholder="Comment...">
-                                </textarea>
+                    <div class="commentsErrorAJAX"></div>
+                    <!-- ======================== submit comment ================================-->
 
-                        <div class="commentsErrorAJAX"></div>
-                        <!-- ======================== submit comment ================================-->
-
-                        <input class="form-control" type="hidden" id="postId" th:value="${post.id}"/>
-                        <button class="btn btn-primary commentSubmitBtn">
-                            <i class="far fa-comment-alt"></i> Comment
-                        </button>
-                    </div>
-                </form>
+                    <input class="form-control" type="hidden" id="postId" th:value="${post.id}"/>
+                    <button class="btn btn-primary commentSubmitBtn">
+                        <i class="far fa-comment-alt"></i> Comment
+                    </button>
+                </div>
+            </form>
 
         </div>
     <!-- ================================================================================================================-->
@@ -171,8 +201,7 @@
 
     <div class="container commentSection commentsAJAX"></div>
     <!-- This div will prepend with new ajax html. It should not be targeted otherwise -->
-
-    <div class="container commentSection" th:each="comment : ${comments}" th:data="*{comment}">
+    <div th:if="${!isDisabled}" class="container commentSection" th:each="comment : ${comments}" th:data="*{comment}">
         <!--// PAGINATION-->
         <!--<div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">-->
         <!--PAGINATION \\-->
@@ -680,8 +709,6 @@
             let postId = button.parent().data('upvote-post-id');
             let postFormUp = $('[data-upvote-post-id=' + postId + ']');
 
-            console.log("clicked on post upvote for post: " + postId);
-
             let request = $.ajax({
                 url: postFormUp.attr('action'), //-> postVoting() in PostsController
                 method: 'POST',
@@ -692,8 +719,6 @@
                 $('.postVoteCount').html(post.voteCount);
                 $('.postDownvote').removeClass("stayActive");
                 $('.postUpvote').addClass("stayActive");
-
-                console.log("votecount: " + post.voteCount);
             });
 
             request.fail((a, b, c) => {
@@ -737,9 +762,6 @@
                 $('.postVoteCount').html(post.voteCount);
                 $('.postUpvote').removeClass("stayActive");
                 $('.postDownvote').addClass("stayActive");
-
-                console.log(post.voteCount);
-
             });
 
             request.fail((a, b, c) => {
