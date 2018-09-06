@@ -44,8 +44,8 @@ public class CommentService {
         return commentsDao.commentsOnPost(postId);
     }
 
-    public List<Comment> findAllByUserId(Long id) {
-        return commentsDao.findAllByUserId(id);
+    public List<Comment> findAllByUserIdOrderByDateDesc(Long id) {
+        return commentsDao.findAllByUserIdOrderByDateDesc(id);
     }
 
     public Comment saveNewComment(Post post, Comment parent, String body) {
