@@ -79,19 +79,17 @@ public class CommentsController {
 //        return commentSvc.findOne(1225L);
 //    }
 
-    @GetMapping("/posts/{postId}/comment/{commentId}/edit")
+    @GetMapping("/posts/comment/{commentId}/edit")
     public @ResponseBody
-    Comment editComment(@PathVariable Long postId,
-                        @PathVariable Long commentId, Model viewModel) {
+    Comment editComment(@PathVariable Long commentId, Model viewModel) {
         Comment comment = commentSvc.findOne(commentId);
         viewModel.addAttribute("comment", commentSvc.findOne(commentId));
         return comment;
     }
 
-    @PostMapping("/posts/{postId}/comment/{commentId}/edit")
+    @PostMapping("/posts/comment/{commentId}/edit")
     public @ResponseBody
-    Comment submitEditedComment(@PathVariable Long postId,
-                                @PathVariable Long commentId,
+    Comment submitEditedComment(@PathVariable Long commentId,
                                 @RequestParam("body") String body, Model viewModel) {
         Comment comment = commentSvc.findOne(commentId);
         comment.setBody(body);
@@ -103,9 +101,9 @@ public class CommentsController {
 //=============================================== DELETE A COMMENT =====================================================
 //======================================================================================================================
 
-    @PostMapping("/posts/{postId}/comment/{commentId}/delete")
+    @PostMapping("/posts/comment/{commentId}/delete")
     public @ResponseBody
-    Comment deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+    Comment deleteComment(@PathVariable Long commentId) {
         Comment comment = commentSvc.findOne(commentId);
         commentSvc.delete(commentId);
         return comment;

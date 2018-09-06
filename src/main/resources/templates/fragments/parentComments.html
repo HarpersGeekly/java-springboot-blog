@@ -63,7 +63,7 @@
 
                 <div class="editedCommentFormWrapper">
                     <form
-                            th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
+                            th:action="@{/posts/comment/{commentId}/edit(commentId=${comment.id})}"
                             method="POST"
                             th:object="${comment}"
                             class="editedCommentForm hidden" id="editedCommentFormId"
@@ -167,7 +167,7 @@
                                 </a>
                             </div>
                             <div>
-                                <form th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
+                                <form th:action="@{/posts/comment/{commentId}/delete(commentId=${comment.id})}"
                                       method="POST"
                                       th:object="${comment}"
                                       class="deleteCommentForm">
