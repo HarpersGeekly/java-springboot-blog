@@ -10,8 +10,7 @@
 
 <th:block th:fragment="ajaxComment(comment)">
 
-    <div th:attr="data-edit-delete-comment-id=${comment.id}">
-        <div class="commentWrapper">
+        <div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
 
             <a th:href="@{/profile/{id}(id=${comment.user.id})}">
                 <div class="commentPicWrapper">
@@ -226,7 +225,6 @@
         <!--ALL NEW CHILD COMMENTS COMING IN ARE APPENDED HERE-->
         <div class="childCommentDiv" th:attr="data-child-node-comment-id=${comment.id}"></div>
 
-    </div>
 </th:block>
 </body>
 </html>
