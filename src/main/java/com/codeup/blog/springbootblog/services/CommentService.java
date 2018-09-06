@@ -44,6 +44,10 @@ public class CommentService {
         return commentsDao.commentsOnPost(postId);
     }
 
+    public List<Comment> findAllByUserId(Long id) {
+        return commentsDao.findAllByUserId(id);
+    }
+
     public Comment saveNewComment(Post post, Comment parent, String body) {
 //      if (parent.getId() != null) {
 //            Comment parentComment = findOne(parent.getId());

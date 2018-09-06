@@ -27,12 +27,8 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
     // @Query uses Hibernate "HQL" object relationships not database relationships
     // nativeQuery = true makes it SQL compatible
 
-    @Deprecated
-    @Query(nativeQuery = true,
-            countQuery = "SELECT count(*) FROM redwood_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null", /*need to count rows for pagination */
-            value =
-                    "SELECT * FROM redwood_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null ORDER BY ?#{#pageable}")
-    Page<Comment> postCommentsByPage(Long id, Pageable pageable);
+//    @Query(nativeQuery = true, value="SELECT * from comments c where c.user_id=?1")
+    List<Comment> findAllByUserId(Long id);
 
     @Query(nativeQuery = true,
 //            ORDER BY ID/ NEWEST COMMENT...
@@ -40,6 +36,13 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
 //            ORDER BY COMMENT COUNT?:
             value = "SELECT c.id, c.body, c.created_date, c.post_id, c.user_id, c.parent_id, IFNULL(SUM(cv.type), 0) AS totalCommentVotes FROM comments c LEFT JOIN comments_votes cv ON cv.comment_id = c.id JOIN posts p ON c.post_id = p.id WHERE c.parent_id IS NULL AND c.post_id = ?1 GROUP BY c.id ORDER BY totalCommentVotes DESC")
     List<Comment> commentsOnPost(Long id);
+
+    @Deprecated
+    @Query(nativeQuery = true,
+            countQuery = "SELECT count(*) FROM redwood_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null", /*need to count rows for pagination */
+            value =
+                    "SELECT * FROM redwood_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null ORDER BY ?#{#pageable}")
+    Page<Comment> postCommentsByPage(Long id, Pageable pageable);
 
     @Deprecated
     @Query(nativeQuery = true,
