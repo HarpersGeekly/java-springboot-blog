@@ -153,8 +153,8 @@ public class Comment {
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
-//  if you don't have a parent comment, null, then you're a child comment.
-    public boolean isChildComment(Comment comment) {
+//  if you don't have a parent comment, you're a parent...
+    public boolean isParentComment(Comment comment) {
         return comment.getParentComment() == null;
     }
 
