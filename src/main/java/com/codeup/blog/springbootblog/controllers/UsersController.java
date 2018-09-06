@@ -225,7 +225,7 @@ public class UsersController {
         viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
         viewModel.addAttribute("profileUser", user);
         viewModel.addAttribute("categories", categoriesDao.findAll());
-        viewModel.addAttribute("count", userHitCount.getProfileCount());
+        viewModel.addAttribute("comments", commentSvc.findAllByUserId(user.getId()));
         return "users/profile";
     }
 
@@ -265,8 +265,7 @@ public class UsersController {
         viewModel.addAttribute("profileUser", user);
         viewModel.addAttribute("categories", categoriesDao.findAll());
         viewModel.addAttribute("karma", totalKarma);
-        viewModel.addAttribute("count", userHitCount.getProfileCount());
-
+        viewModel.addAttribute("comments", commentSvc.findAllByUserId(user.getId()));
         return "users/profile";
     }
 
@@ -303,7 +302,7 @@ public class UsersController {
 
         HitCount userHitCount = existingUser.getHitCount();
         hitCountsDao.save(userHitCount);
-        redir.addFlashAttribute("count", userHitCount.getProfileCount());
+//        redir.addFlashAttribute("count", userHitCount.getProfileCount());
 
         // Handle issue when someone leaves username unchanged it won't default to "username already taken"
         if (!existingUser.getUsername().equals(username)) {
