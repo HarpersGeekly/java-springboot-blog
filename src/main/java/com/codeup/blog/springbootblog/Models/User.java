@@ -31,8 +31,6 @@ public class User {
 
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Please enter an email address.")
-//    @Pattern(regexp = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/",
-//            message="")
     @Email(message = "That email is not a valid email address.")
     @JsonIgnore
     private String email;
@@ -42,11 +40,6 @@ public class User {
     @Length(min = 8, max = 100, message="Your password must be between 8-100 characters.") // BCrypt PasswordEncoder hashes passwords with 60 random characters. Make sure the max is >= 60
     @JsonIgnore
     private String password;
-    //    @Size(min = 8, message="Your password must be between 8-20 characters.")
-//    @Size.List({
-//            @Size(min = 8, message = "Your password must be between 8-20 characters."),
-//            @Size(max = 20, message = "Your password must be between 8-20 characters.")
-//    })
 
     @Column(name = "JOINED_DATE")
     private LocalDateTime date;
@@ -245,4 +238,12 @@ public class User {
     }
 }
 
+//    @Size(min = 8, message="Your password must be between 8-20 characters.")
+//    @Size.List({
+//            @Size(min = 8, message = "Your password must be between 8-20 characters."),
+//            @Size(max = 20, message = "Your password must be between 8-20 characters.")
+//    })
+
+//    @Pattern(regexp = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/",
+//            message="")
 
