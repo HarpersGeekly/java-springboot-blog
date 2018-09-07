@@ -53,9 +53,9 @@
                     <!--uncomment if I want to have @Poster for the parent comments, but thinking maybe not necessary-->
                     <!--<a th:if="${isChildComment != null}" th:href="${'/profile/' + post.user.id}" th:text="${'@' + post.user.username}"></a>-->
 
-                    <h5 th:text="${comment.body}" class="commentBodyText"
+                    <span th:text="${comment.body}" class="commentBodyText"
                         th:attr="data-comment-body-comment-id=${comment.id}">
-                    </h5>
+                    </span>
                 </div>
 
                 <!-- =============================== Edit Form ============================-->
