@@ -245,7 +245,6 @@
                         </span>
                     </h5>
 
-
                 <!-- =============================== Comment Body =========================-->
 
                 <div class="commentBodyWrapper">
@@ -262,7 +261,7 @@
 
                 <div class="editedCommentFormWrapper">
                     <form
-                            th:action="@{/posts/{postId}/comment/{commentId}/edit(postId=${post.id},commentId=${comment.id})}"
+                            th:action="@{/posts/comment/{commentId}/edit(commentId=${comment.id})}"
                             method="POST"
                             th:object="${comment}"
                             class="editedCommentForm hidden" id="editedCommentFormId"
@@ -366,7 +365,7 @@
                                 </a>
                             </div>
                             <div>
-                                <form th:action="@{/posts/{postId}/comment/{commentId}/delete(postId=${post.id}, commentId=${comment.id})}"
+                                <form th:action="@{/posts/comment/{commentId}/delete(commentId=${comment.id})}"
                                 method="POST"
                                 th:object="${comment}"
                                 class="deleteCommentForm">
@@ -568,7 +567,7 @@
 
         //================================== AJAX ==================================
         let request = $.ajax({
-            url: '/posts/' + $("#postId").val() + '/comment/' + commentId + '/edit',
+            url: '/posts/comment/' + commentId + '/edit',
             method: 'GET',
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
@@ -580,14 +579,10 @@
             let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
             let commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
             let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
-            let editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
-            let deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
             let editedCommentBodyText = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
 
             commentBody.addClass('hidden'); // hide the original comment body
             commentVoting.addClass('hidden'); // hide the comment votes
-            editBtn.addClass('hidden'); // hide the edit button
-            deleteBtn.addClass('hidden'); // hide the delete button
             commentEditForm.css("display", "block"); // I just want to show "this" edit form
             editedCommentBodyText.text(comment.body); // put the text of comment.body inside the newly visible textarea.
 
@@ -600,8 +595,6 @@
                 commentEditForm.addClass('hidden'); // hide the edit form
                 commentBody.removeClass('hidden'); // show the original comment back in the html
                 commentVoting.removeClass('hidden'); // show the comment votes again
-                editBtn.removeClass('hidden');// show the edit button
-                deleteBtn.removeClass('hidden');// show the delete button
                 showReplyTextArea.removeClass('hidden'); // show the reply again
                 ellipsis.removeClass('hidden'); //show ellipsis option dropdown again
             })
@@ -624,7 +617,7 @@
         let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']'); // because I can just get the form
 
         let request = $.ajax({
-            url: '/posts/' + $("#postId").val() + '/comment/' + commentId + '/edit',
+            url: '/posts/comment/' + commentId + '/edit',
             method: 'POST',
             dataType: 'json',
             data: commentEditForm.serialize()
@@ -633,8 +626,6 @@
 
             let commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
             let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
-            let editBtn = $('[data-edit-btn-comment-id=' + commentId + ']');
-            let deleteBtn = $('[data-delete-btn-comment-id=' + commentId + ']');
             let commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
             let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
             let ellipsis = $('[data-ellipsis-comment-id=' + commentId + ']');
@@ -643,8 +634,6 @@
             commentEditForm.addClass('hidden'); // hide the edit form
             commentBody.removeClass('hidden').html(comment.body); // show the new updated comment in the html
             commentVoting.removeClass('hidden');
-            editBtn.removeClass('hidden');
-            deleteBtn.removeClass('hidden');
             showReplyTextArea.removeClass('hidden');
             ellipsis.removeClass('hidden');
         })
@@ -663,7 +652,7 @@
         let commentId = button.siblings('[data-comment-id]').data('comment-id');
 
         let request = $.ajax({
-            url: '/posts/' + $("#postId").val() + '/comment/' + commentId + '/delete',
+            url: '/posts/comment/' + commentId + '/delete',
             method: 'POST',
             data: commentInformation
             // data: JSON.stringify({id: deleteCommentId}),
