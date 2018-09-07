@@ -36,7 +36,11 @@
                             <!--<i class="fa fa-eye popularPostCountIcon"></i>-->
                             <!--<h5 class="popularPostCount" th:text="${post.hitCount != null} ? ${post.hitCount.postCount} : '0'"></h5>-->
                         <!--</div>-->
-
+                        <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                            <div class="postDescription side-bar hidden">
+                                <p th:utext="${post.htmlImage}"></p>
+                            </div>
+                        </a>
                         <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
                             <!--<h4 class="popularTitleText" th:text="${post.title}"></h4>-->
                             <!--markdown title:-->
