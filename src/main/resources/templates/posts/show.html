@@ -12,7 +12,7 @@
     <!-- ================================================================================================================-->
         <div class="postWrapper-showPage">
 
-            <div class="postInfoWrapper" id="custom-content-width">
+            <div class="postInfoWrapper">
                 <div class="indent">
                     <!-- BEFORE allowing markdown editing for titles:-->
                     <!--<h4 th:text="${post.title}" class="postTitle no-text-decoration">-->
@@ -222,7 +222,7 @@
 
             <div class="commentInfoWrapper speech-bubble">
 
-                    <h5 th:classappend="${isChildComment != null} ? parentCommentStyling : commentedByStyling">
+                    <h5 th:classappend="${isParentComment} ? parentCommentStyling : commentedByStyling">
                         <a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">
                             <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                         </a>
