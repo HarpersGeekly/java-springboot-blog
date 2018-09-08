@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<th:block th:fragment="commentLite">
+
+<div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
+
+    <div class="commentInfoWrapper">
+
+        <div class="flex">
+            <div class="flex-center margin-right" th:if="${comment.getParentComment() == null}">COMMENTED on: </div>
+            <div class="flex-center">
+                <span class="margin-right" th:if="${!isParentComment} and ${comment.getParentComment() != null}">REPLIED TO
+                    <i class="fas fa-reply flipped-reply"></i>
+                    <a class="parentCommentOwnersProfileLink" th:href="${'/profile/' + comment.getParentComment().getUser().getId()}"
+                       th:text="${'' + comment.getParentComment().getUser().getUsername()}">
+                    </a> on:
+                </span>
+            </div>
+            <div class="flex-center">
+                <a th:href="@{/posts/{id}/{title}(id=${comment.getPost().getId()}, title=${comment.getPost().makeSlug(comment.post.title)})}">
+                    <h4 class="profilePageCommentPostTitle" th:utext="${comment.getPost().getHtmlTitle()}"></h4>
+                </a>
+            </div>
+        </div>
+
+        <div id="commentedBy">
+            <!-- =============================== Comment Body =========================-->
+
+            <div class="commentBodyWrapper">
+
+                <!--uncomment if I want to have @Poster for the parent comments, but thinking maybe not necessary-->
+                <!--<a th:if="${isChildComment != null}" th:href="${'/profile/' + post.user.id}" th:text="${'@' + post.user.username}"></a>-->
+
+                <span th:text="${comment.body}" class="commentBodyText"
+                    th:attr="data-comment-body-comment-id=${comment.id}">
+                </span>
+            </div>
+        </div>
+
+        <!-- =============================== Edit Form ============================-->
+
+        <div class="editedCommentFormWrapper">
+            <form
+                    th:action="@{/posts/comment/{commentId}/edit(commentId=${comment.id})}"
+                    method="POST"
+                    th:object="${comment}"
+                    class="editedCommentForm hidden" id="editedCommentFormId"
+                    th:attr="data-edit-form-comment-id=${comment.id}">
+
+                        <textarea class="form-control editedCommentBodyText" name="body"
+                                  th:attr="data-edit-comment-form-textarea-comment-id=${comment.id}"
+                                  th:value="${comment.body}">
+                        </textarea>
+
+                <input type="hidden" name="id" th:value="${comment.id}"/>
+
+                <div class="editAndDeleteBtnsRow">
+
+                    <button class="btn btn-primary editedCommentCancelBtn">
+                        CANCEL
+                    </button>
+
+                    <button class="btn btn-primary editedCommentSubmitBtn">
+                        SAVE
+                    </button>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="flex">
+            <div class="flex-center">
+                        <span class="comment-info-date-wrapper">
+                            <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
+                                  style="margin-right: 0.75em;"></span>
+                            <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                            <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
+                            <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
+                        </span>
+
+                <span class="comment-info-date-mobile-wrapper">
+                            <div class="comment-info-mobile">
+                                <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
+                                      style="margin-right: 0.75em;"></span>
+                                <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
+                                <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
+                                <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
+                            </div>
+                        </span>
+            </div>
+
+            <div class="flex-center">
+                <!--<i class="fas fa-thumbs-up commentVoteNotLoggedIn"></i>-->
+                <span class="margin-right margin-left">LIKES:</span>
+                <span class="commentVoteCount" th:text="${comment.voteCount()}"
+                      th:attr="data-voteCount-comment-id=${comment.id}">
+                </span>
+            </div>
+
+            <div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:attr="data-ellipsis-comment-id=${comment.id}" class="ellipsis-wrapper">
+                <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </i>
+                <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
+
+                    <div>
+                        <a class="dropdown-edit-btn" th:attr="data-edit-btn-comment-id=${comment.id}">
+                            <i class="far fa-edit"></i> edit
+                        </a>
+                    </div>
+                    <div>
+                        <form th:action="@{/posts/comment/{commentId}/delete(commentId=${comment.id})}"
+                              method="POST"
+                              th:object="${comment}"
+                              class="deleteCommentForm">
+
+                            <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
+
+                            <button class="dropdown-delete-btn" th:attr="data-delete-btn-comment-id=${comment.id}">
+                                <i class="fas fa-bomb"></i> delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</th:block>
+</body>
+</html>
