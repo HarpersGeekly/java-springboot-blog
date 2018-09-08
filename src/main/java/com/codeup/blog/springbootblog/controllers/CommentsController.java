@@ -68,7 +68,7 @@ public class CommentsController {
 
 //      return comment;
 //      By returning this fragment (fragments/comments.html), we get all of our Thymeleaf-operated HTML
-        return "fragments/parentComments :: ajaxParent";
+        return "fragments/commentsParents :: ajaxParent";
     }
 
 //=============================================== EDIT A COMMENT  ==============/posts/{postId}/comment/{commentId}/edit
