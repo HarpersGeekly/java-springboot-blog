@@ -60,9 +60,6 @@
 
     <!--<th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">-->
 
-        <h2 th:if="${isOwnProfile}" class="profileWelcome">Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
-        <h2 th:if="${!isOwnProfile}" class="profileWelcome"><span th:text="${profileUser.username}"></span>'s profile</h2>
-
         <div th:if="${success}" class="alert alert-success alert-dismissible fade in" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -70,6 +67,10 @@
             <i class="fas fa-check"></i>
             <strong th:text="${successMessage}"></strong>
         </div>
+
+        <h2 th:if="${isOwnProfile}" class="profileWelcome">Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
+        <h2 th:if="${!isOwnProfile}" class="profileWelcome"><span th:text="${profileUser.username}"></span>'s profile</h2>
+
 
         <div class="cropper-container">
             <!-- Modal -->
