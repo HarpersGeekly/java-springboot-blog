@@ -18,7 +18,8 @@
                 </button>
 
                 <a class="navbar-brand" href="/posts">
-                    <img id="header-icon" src="/images/celtic-harp-24-8526.png"/> To Geek Is Human
+                    <!--<img id="header-icon" src="/images/celtic-harp-24-8526.png"/>-->
+                    To Geek Is Human
                 </a>
 
             </div>
@@ -50,7 +51,7 @@
                     </li>
 
                     <li sec:authorize="isAuthenticated()">
-                        <a href="/profile">
+                        <a th:href="'/profile/' + ${#authentication.principal.id}">
                             <i class="fas fa-nav fa-user-circle nav-icon"></i>
                             <!--<span th:text="${#authentication.principal.username}"></span>'s Profile-->
                             <span sec:authentication="principal.username"/>'s Profile
