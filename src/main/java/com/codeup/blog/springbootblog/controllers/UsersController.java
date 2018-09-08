@@ -220,6 +220,16 @@ public class UsersController {
                 viewModel.addAttribute("ownerIsAdmin", role);
             }
         }
+
+        if(userSvc.loggedInUser() != null) {
+            User loggedInUser = userSvc.loggedInUser();
+            List<String> myRoles = rolesDao.ofUserWith(loggedInUser.getUsername());
+            for (String role : myRoles) {
+                if (role.equals("ROLE_ADMIN")) {
+                    viewModel.addAttribute("isLoggedInUserAdmin", role);
+                }
+            }
+        }
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
         boolean commentsAreEmpty = user.getComments().isEmpty();
@@ -264,7 +274,6 @@ public class UsersController {
     public String showProfileEditPage(@PathVariable Long id, Model viewModel) {
         // find the user in the database:
         User existingUser = usersDao.findById(id);
-
         // pass it to the view: pre-populate the form with the values from that user ie: th:field="{user.username}"
         viewModel.addAttribute("user", existingUser);
         return "users/editUser";
@@ -279,7 +288,6 @@ public class UsersController {
 
         HitCount userHitCount = existingUser.getHitCount();
         hitCountsDao.save(userHitCount);
-//        redir.addFlashAttribute("count", userHitCount.getProfileCount());
 
         // Handle issue when someone leaves username unchanged it won't default to "username already taken"
         if (!existingUser.getUsername().equals(username)) {
@@ -304,13 +312,32 @@ public class UsersController {
         user.setHitCount(userHitCount);
         userHitCount.setProfileCount(userHitCount.getProfileCount());
         usersDao.save(user);
-        userSvc.authenticate(user); // Programmatically login the new user
 
+        User loggedInUser = userSvc.loggedInUser();
+        List<String> roles = rolesDao.ofUserWith(loggedInUser.getUsername());
+        for(String role : roles) {
+            if (role.equals("ROLE_ADMIN") && (!loggedInUser.getId().equals(user.getId()))) {
+                userSvc.authenticate(loggedInUser);
+                boolean success = (!validation.hasErrors());
+                String profileSuccess = user.getUsername() + "'s profile updated using ADMIN rights.";
+                redir.addFlashAttribute("isLoggedInUserAdmin", role);
+                redir.addFlashAttribute("success", success);
+                redir.addFlashAttribute("successMessage", profileSuccess);
+                return "redirect:/profile/" + user.getId();
+            }
+        }
+        for(String role : roles) {
+            if (role.equals("ROLE_ADMIN")) {
+                redir.addFlashAttribute("isLoggedInUserAdmin", role);
+            }
+        }
+
+        userSvc.authenticate(user);
         boolean success = (!validation.hasErrors());
         String profileSuccess = "Profile Updated!";
         redir.addFlashAttribute("success", success);
         redir.addFlashAttribute("successMessage", profileSuccess);
-        return "redirect:/profile";
+        return "redirect:/profile/" + loggedInUser.getId();
     }
 
 
