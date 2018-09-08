@@ -58,9 +58,10 @@
 <!--============================================ VIEWING LOGGED IN USERS PROFILE ========================================-->
 <!--Reminder: #authentication.principal is the currently logged-in/session user-->
 
-    <th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">
+    <!--<th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">-->
 
-        <h2 class="profileWelcome">Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
+        <h2 th:if="${isOwnProfile}" class="profileWelcome">Welcome, <span th:text="${#authentication.principal.username}"></span>!</h2>
+        <h2 th:if="${!isOwnProfile}" class="profileWelcome"><span th:text="${profileUser.username}"></span>'s profile</h2>
 
         <div th:if="${success}" class="alert alert-success alert-dismissible fade in" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -138,36 +139,16 @@
             </div>
         </div>
 
-        <!--<div class="modal" id="modal2" tabindex="-1" role="dialog">-->
-            <!--<div class="modal-dialog" role="document">-->
-                <!--<div class="modal-content">-->
-                    <!--<div class="modal-header">-->
-                        <!--<h5 class="modal-title">Modal title</h5>-->
-                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-                            <!--<span aria-hidden="true">&times;</span>-->
-                        <!--</button>-->
-                    <!--</div>-->
-                    <!--<div class="modal-body">-->
-                        <!--<p>Modal body text goes here.</p>-->
-                    <!--</div>-->
-                    <!--<div class="modal-footer">-->
-                        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-                        <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
         <div class="profile-upper-wrapper">
             <div class="profile-picture-wrapper">
-                <span class="logged-in-user-profile-wrapper" th:if="${#authentication.principal.profilePicture} == null">
+                <span class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} == null">
                     <img class="profilePic" src="/../images/user.png" data-target="#modal" data-toggle="modal"/>
                         <span class="change-profile-picture-alternate hidden">
                             <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
                         </span>
                 </span>
-                <span class="logged-in-user-profile-wrapper" th:if="${#authentication.principal.profilePicture} != null">
-                    <img class="profilePic" th:src="@{'/uploads/' + ${#authentication.principal.profilePicture}}" data-target="#modal" data-toggle="modal"/>
+                <span class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} != null">
+                    <img class="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}" data-target="#modal" data-toggle="modal"/>
                         <span class="change-profile-picture-alternate hidden">
                             <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
                         </span>
@@ -175,10 +156,31 @@
             </div>
 
             <div class="profile-info-wrapper">
-                <h3 class="profileLoggedInMessage">You are logged in. You can make comments and <a id="profileCreatePostLink" th:href="${'/posts/create'}">create a post.</a></h3>
+                <h3 class="profileLoggedInMessage" th:if="${isOwnProfile}">You are currently logged in.
+                    <span th:if="${ownerIsUser}">As a user, you can contribute to conversations by making comments and voting.</span>
+                    <span th:if="${ownerIsEditor} or ${ownerIsAdmin}">
+                        As an editor or admin, you can contribute to conversations by making comments, vote, and you can
+                        <a id="profileCreatePostLink" th:href="${'/posts/create'}">create a post.</a>
+                        As an admin, you have access to the admin dashboard.</span>
+                    <!--<span th:if="${ownerIsAdmin}">As an admin, you have access to everything.</span>-->
+                </h3>
+
+                <h4 th:if="${ownerIsAdmin}">
+                    <i class="far fa-address-card"></i>
+                    <span class="profileInfoText">ADMIN</span>
+                </h4>
+                <h4 th:if="${ownerIsEditor}">
+                    <i class="far fa-address-card"></i>
+                    <span class="profileInfoText">EDITOR</span>
+                </h4>
+                <h4 th:if="${ownerIsUser}">
+                    <i class="far fa-address-card"></i>
+                    <span class="profileInfoText">USER</span>
+                </h4>
+
                 <h4>
                     <i class="far fa-envelope profileEmailIcon"></i>
-                        <span class="profileInfoText" th:text="${#authentication.principal.email}"></span>
+                    <span class="profileInfoText" th:text="${profileUser.email}"></span>
                 </h4>
 
                 <h4>
@@ -188,97 +190,14 @@
 
                 <h4>
                     <i class="far fa-handshake profileJoinIcon"></i>
-                    <span class="profileInfoText" th:text="${#temporals.monthNameShort(#authentication.principal.date)}"></span>
-                    <span class="profileInfoText" th:text="${#temporals.day(#authentication.principal.date)}"></span>,
-                    <span class="profileInfoText" th:text="${#temporals.year(#authentication.principal.date)}"></span>
+                    <span class="profileInfoText" th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
+                    <span class="profileInfoText" th:text="${#temporals.day(profileUser.date)}"></span>,
+                    <span class="profileInfoText" th:text="${#temporals.year(profileUser.date)}"></span>
                 </h4>
 
                 <h4>
-                    <i class="far fa-address-card"></i>
-                    <span class="profileInfoText" th:text="${#authentication.principal.bio}"></span>
-                </h4>
-
-                <h4>
-                    <i class="fas fa-eye"></i>
-                    <span class="profileInfoText" th:text="${#authentication.principal.hitCount != null} ? ${#authentication.principal.hitCount.profileCount} : '1'"></span>
-                </h4>
-
-
-                <div class="profileChangeInfoDiv">
-                    <i class="fas fa-cog profileCogIcon"></i>
-                    <a th:href="@{/profile/{id}/edit(id=${#authentication.principal.id})}">
-                        <h5 class="profileChangeInfoLink" data-target="#modal2" data-toggle="modal2">edit account</h5>
-                    </a>
-                </div>
-                <div class="profileChangeInfoDiv">
-                    <i class="fas fa-lock-open profilePasswordIcon"></i>
-                    <a th:href="@{/profile/{id}/editPassword(id=${#authentication.principal.id})}">
-                        <h5 class="profileChangeInfoLink" data-target="#modal3" data-toggle="modal3">change password</h5>
-                    </a>
-                </div>
-                <div class="profileChangeInfoDiv">
-                    <i class="fas fa-archive profileArchiveIcon"></i>
-                    <a th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}">
-                        <h5 class="profileChangeInfoLink" data-target="#modal4">manage posts</h5>
-                    </a>
-                </div>
-                <div class="profileChangeInfoDiv">
-                    <i class="fas fa-upload uploadIcon"></i>
-                        <h5 class="profileChangeInfoLink" data-target="#modal" data-toggle="modal">change profile picture</h5>
-                </div>
-                <!-- Button trigger modal -->
-                <!--<input id="file" onchange="previewFile()" name="file" type="file" style="display:none;"/>-->
-
-            </div>
-        </div>
-
-        <hr class="posts-hr"/>
-
-        <h3 class="profile-page-latest-posts-greeting">Latest posts...</h3>
-
-        <hr class="posts-hr"/>
-
-        <h5 th:if="${postsAreEmpty}">
-            <i class="far fa-frown profileFrownIcon"></i> You don't have any posts yet... get posting!
-        </h5>
-    </th:block>
-
-<!--============================================== VIEWING OTHER USERS PROFILES ===========================================-->
-
-    <th:block th:if="${!isOwnProfile}">
-        <h2 class="profileWelcome"><span th:text="${profileUser.username}"></span>'s profile</h2>
-
-        <div class="profile-upper-wrapper">
-            <div class="profile-picture-wrapper">
-                <span th:if="${profileUser.profilePicture} == null">
-                        <img class="profilePic" src="/../images/user.png"/>
-                </span>
-                <span th:if="${profileUser.profilePicture} != null">
-                        <img class="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}"/>
-                </span>
-            </div>
-
-            <div class="profile-info-wrapper">
-                <h4>
-                    <i class="far fa-envelope profileEmailIcon"></i>
-                        <span class="profileInfoText" th:text="${profileUser.email}"></span>
-                </h4>
-
-                <h4>
-                    <i class="far fa-hand-peace"></i>
-                    <span class="profileInfoText" th:text="${karma}"></span>
-                </h4>
-
-                <h4>
-                    <i class="far fa-handshake profileJoinIcon"></i>
-                        <span class="profileInfoText" th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
-                        <span class="profileInfoText" th:text="${#temporals.day(profileUser.date)}"></span>,
-                        <span class="profileInfoText" th:text="${#temporals.year(profileUser.date)}"></span>
-                </h4>
-
-                <h4>
-                    <i class="far fa-address-card"></i>
-                    <span class="profileInfoText" th:text="${profileUser.bio}"></span>
+                    <i class="fas fa-book-open"></i>
+                    <span class="profileInfoText" th:text="${profileUser.bio != null} ? ${profileUser.bio} : '(no bio)'"></span>
                 </h4>
 
                 <h4>
@@ -286,55 +205,95 @@
                     <span class="profileInfoText" th:text="${profileUser.hitCount != null} ? ${profileUser.hitCount.profileCount} : '1'"></span>
                 </h4>
 
-                <h4>
+                <th:block th:if="${isOwnProfile} or (${!isOwnProfile} and ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})">
+                    <div class="profileChangeInfoDiv">
+                        <i class="fas fa-cog profileCogIcon"></i>
+                        <a th:href="@{/profile/{id}/edit(id=${profileUser.id})}">
+                            <h5 class="profileChangeInfoLink" data-target="#modal2" data-toggle="modal2">edit account</h5>
+                        </a>
+                    </div>
+                    <div class="profileChangeInfoDiv">
+                        <i class="fas fa-lock-open profilePasswordIcon"></i>
+                        <a th:href="@{/profile/{id}/editPassword(id=${profileUser.id})}">
+                            <h5 class="profileChangeInfoLink" data-target="#modal3" data-toggle="modal3">change password</h5>
+                        </a>
+                    </div>
+                    <div class="profileChangeInfoDiv">
+                        <i class="fas fa-archive profileArchiveIcon"></i>
+                        <a th:href="@{/profile/{id}/archived(id=${profileUser.id})}">
+                            <h5 class="profileChangeInfoLink" data-target="#modal4">manage posts</h5>
+                        </a>
+                    </div>
+                    <div class="profileChangeInfoDiv">
+                        <i class="fas fa-upload uploadIcon"></i>
+                            <h5 class="profileChangeInfoLink" data-target="#modal" data-toggle="modal">change profile picture</h5>
+                    </div>
+                </th:block>
+                <!-- Button trigger modal -->
+                <!--<input id="file" onchange="previewFile()" name="file" type="file" style="display:none;"/>-->
+                <div th:if="${!isOwnProfile}">
                     <i class="fas fa-archive"></i>
                     <a th:href="@{/profile/{id}/archived(id=${profileUser.id})}">
-                        <h5 class="profileInfoText profileChangeInfoLink" data-target="#modal4">View all <span th:text="${profileUser.username}"></span>'s posts</h5>
+                        <span class="profileInfoText profileChangeInfoLink" data-target="#modal4">View all <span th:text="${profileUser.username}"></span>'s posts</span>
                     </a>
-                </h4>
+                </div>
+
             </div>
         </div>
+    <!--</th:block>-->
+<!--============================================== THE LIST OF POSTS AND COMMENTS ======================================================-->
 
-        <hr class="posts-hr"/>
+    <div id="profile-tab">
+        <ul class="nav nav-tabs profile-tabs">
+            <li th:if="${ownerIsAdmin} or ${ownerIsEditor}" class="active">
+                <a  href="#1" data-toggle="tab" id="tabPosts">Posts</a>
+            </li>
+            <li th:classappend="${ownerIsUser} ? active : none">
+                <a href="#2" data-toggle="tab" id="tabComments">Comments</a>
+            </li>
+        </ul>
 
-        <h3 class="profile-page-latest-posts-greeting">Latest posts...</h3>
+        <div class="tab-content">
+            <div th:if="${ownerIsAdmin} or ${ownerIsEditor}" class="profile-post-list-wrapper tab-pane active" id="1" >
+                <h5 th:if="${postsAreEmpty} and ${!isOwnProfile} and (${ownerIsAdmin} or ${ownerIsEditor})">
+                    <i class="far fa-frown profileFrownIcon"></i> No posts yet.
+                </h5>
+                <div th:each="post : ${posts}">
+                    <div class="postInfoWrapper">
+                        <th:block th:replace="fragments/posts :: post"></th:block>
+                    </div>
+                </div>
 
-        <hr class="posts-hr"/>
+                <div th:if="${isOwnProfile} and ${!postsAreEmpty}" sec:authorize="hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')" class="flex-center">
+                    <a th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}" class="manage-posts-link-bottom-page" >
+                        <button class="manage-posts-button" data-target="#modal4">manage posts</button>
+                    </a>
+                </div>
 
-        <h5 th:if="${postsAreEmpty}">
-            <i class="far fa-frown profileFrownIcon"></i> They don't have any posts yet.
-        </h5>
-    </th:block>
+                <div th:if="${!isOwnProfile} and ${!postsAreEmpty}" class="flex-center">
+                    <a th:href="@{/profile/{id}/archived(id=${profileUser.id})}" class="manage-posts-link-bottom-page">
+                        <button class="manage-posts-button" data-target="#modal4">view all posts</button>
+                    </a>
+                </div>
+            </div>
 
-<!--============================================== THE LIST OF POSTS ======================================================-->
-
-    <div th:each="post : ${posts}">
-    <!--<div th:each="post : ${profileUser.posts}"> // Caused the inability to sort by latest posts.-->
-
-        <div class="postInfoWrapper">
-
-            <th:block th:replace="fragments/posts :: post"></th:block>
-
+            <div th:classappend="${ownerIsUser} ? active : none" class="profile-comment-list-wrapper tab-pane" id="2">
+                <h5 th:if="${commentsAreEmpty}">
+                    <i class="far fa-frown profileFrownIcon"></i> No comments yet.
+                </h5>
+                <div th:each="comment : ${comments}">
+                    <th:block th:replace="fragments/commentsProfile :: commentLite"></th:block>
+                </div>
+            </div>
         </div>
-
-    </div>
-
-    <div class="flex-center-div" th:if="${isOwnProfile}">
-        <a class="manage-posts-link-bottom-page" th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}">
-            <button class="manage-posts-button" data-target="#modal4">manage posts</button>
-        </a>
-    </div>
-
-    <div class="flex-center-div" th:if="${!isOwnProfile}">
-        <a class="manage-posts-link-bottom-page" th:href="@{/profile/{id}/archived(id=${profileUser.id})}">
-            <button class="manage-posts-button" data-target="#modal4">view all posts</button>
-        </a>
     </div>
 
 </div>
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script>
 
+    let container = $('.container');
+    // $('.profile-comment-list-wrapper').addClass('hidden');
 
     $(".logged-in-user-profile-wrapper").on({
         mouseenter: function () {
@@ -347,6 +306,147 @@
             $('.profilePic').css("opacity", "1");
             $('.change-profile-picture-alternate').addClass('hidden');
         }
+    });
+
+    //==================================================================================================================
+    //===================================== textarea expands as user types =============================================
+    //==================================================================================================================
+    document.addEventListener("input", function (event) {
+        if (event.target.tagName.toLowerCase() !== 'textarea') return;
+        autoExpand(event.target);
+    }, false);
+
+    let autoExpand = function (field) {
+        // Do things...
+        // Reset field height
+        field.style.height = 'inherit';
+        // Get the computed styles for the element
+        let computed = window.getComputedStyle(field);
+        // Calculate the height
+        let height = parseInt(computed.getPropertyValue('border-top-width'), 10)
+            + parseInt(computed.getPropertyValue('padding-top'), 10)
+            + field.scrollHeight
+            + parseInt(computed.getPropertyValue('padding-bottom'), 10)
+            + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
+        field.style.height = height + 'px';
+    };
+
+
+    <!-- =================================================================================================================-->
+    <!-- ============================================== DELETE Comment  ==================================================-->
+    <!-- =================================================================================================================-->
+
+    container.on("click", ".dropdown-delete-btn", function (e) {
+        // use event delegation that targets an elements parent, something, that isn't dynamic: .container
+        e.preventDefault(); // prevent default form behavior and instead use ajax.
+        let commentInformation = $(this).parent().serialize();
+        let button = $(this);
+        // Look for element with this attribute. We're looking for siblings(other comments) within the container.
+        let commentId = button.siblings('[data-comment-id]').data('comment-id');
+
+        let request = $.ajax({
+            url: '/posts/comment/' + commentId + '/delete',
+            method: 'POST',
+            data: commentInformation
+            // data: JSON.stringify({id: deleteCommentId}),
+        });
+        request.done(function () {
+            $('[data-edit-delete-comment-id=' + commentId + ']').fadeOut("slow", function () {
+                $('[data-edit-delete-comment-id=' + commentId + ']').remove();
+            })
+        });
+        request.fail((a, b, c) => {
+            console.log(a, b, c)
+        });
+    });
+
+    <!-- =================================================================================================================-->
+    <!-- ============================================== EDIT Comment =====================================================-->
+    <!-- =================================================================================================================-->
+
+    //The edit button is only an event trigger. When I click on the edit button:
+    //A new textarea is revealed in place of the comment.body. Textarea should be populated with the original comment text. (controller)
+    //When I click on the new submit button, new data should replace the previous data. (controller)
+
+    container.on("click", ".dropdown-edit-btn", function () {
+
+        let button = $(this);
+        let commentId = button.data('edit-btn-comment-id');
+        let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
+        let ellipsis = $('[data-ellipsis-comment-id=' + commentId + ']');
+        commentEditForm.removeClass('hidden');
+        ellipsis.addClass('hidden');
+
+        //================================== AJAX ==================================
+        let request = $.ajax({
+            url: '/posts/comment/' + commentId + '/edit',
+            method: 'GET',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data: commentId
+        });
+        request.done(function (comment) {
+
+            let commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
+            let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
+            let commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
+            let editedCommentBodyText = $('[data-edit-comment-form-textarea-comment-id=' + commentId + ']');
+
+            commentBody.addClass('hidden'); // hide the original comment body
+            commentVoting.addClass('hidden'); // hide the comment votes
+            commentEditForm.css("display", "block"); // I just want to show "this" edit form
+            editedCommentBodyText.text(comment.body); // put the text of comment.body inside the newly visible textarea.
+
+            //================= cancel button ====================
+            //====================================================
+
+            $('.editedCommentCancelBtn').on("click", function (e) { // on cancel button click...
+                e.preventDefault();
+
+                commentEditForm.addClass('hidden'); // hide the edit form
+                commentBody.removeClass('hidden'); // show the original comment back in the html
+                commentVoting.removeClass('hidden'); // show the comment votes again
+                ellipsis.removeClass('hidden'); //show ellipsis option dropdown again
+            })
+        });
+        request.fail((a, b, c) => {
+            console.log(a, b, c)
+        });
+    });
+
+    <!-- =================================================================================================================-->
+    <!-- ============================================ SUBMIT EDITED Comment ==============================================-->
+    <!-- =================================================================================================================-->
+
+    container.on("click", ".editedCommentSubmitBtn", function (e) {
+        e.preventDefault();
+
+        let button = $(this);
+        let commentId = button.parent().parent().data('edit-form-comment-id'); // get id
+        // let content = $button.parent().children('textarea').text(); // I don't have to grab the content in the form.
+        let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']'); // because I can just get the form
+
+        let request = $.ajax({
+            url: '/posts/comment/' + commentId + '/edit',
+            method: 'POST',
+            dataType: 'json',
+            data: commentEditForm.serialize()
+        });
+        request.done(function (comment) {
+
+            let commentBody = $('[data-comment-body-comment-id=' + commentId + ']');
+            let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
+            let commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
+            let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
+            let ellipsis = $('[data-ellipsis-comment-id=' + commentId + ']');
+
+
+            commentEditForm.addClass('hidden'); // hide the edit form
+            commentBody.removeClass('hidden').html(comment.body); // show the new updated comment in the html
+            commentVoting.removeClass('hidden');
+            showReplyTextArea.removeClass('hidden');
+            ellipsis.removeClass('hidden');
+        })
     });
 
 </script>
