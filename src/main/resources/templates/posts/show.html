@@ -125,7 +125,7 @@
 
                     <!-- ====================================== Post Edit and Delete Buttons =====================-->
 
-                    <div th:if="${isPostOwner}">
+                    <div th:if="${isPostOwner} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
@@ -353,7 +353,7 @@
                     <!--==================================== EDIT AND DELETE DROPDOWN ===================================-->
                     <!--=================================================================================================-->
 
-                    <div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:attr="data-ellipsis-comment-id=${comment.id}">
+                    <div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:attr="data-ellipsis-comment-id=${comment.id}">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
