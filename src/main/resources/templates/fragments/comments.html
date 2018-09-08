@@ -6,8 +6,6 @@
 </head>
 <body>
 <!--<div th:attr="data-edit-delete-comment-id=${comment.id}" th:fragment="ajaxComment">-->
-
-
 <th:block th:fragment="ajaxComment(comment)">
 
         <div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
@@ -29,8 +27,9 @@
                         <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                     </a>
 
-                    <i class="fas fa-reply flipped-reply"></i>
-                    <a class="parentCommentOwnersProfileLink" th:href="${'/profile/' + comment.getParentComment().getUser().getId()}"
+                    <!--<i class="fas fa-reply flipped-reply"></i>-->
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    <a class="parentCommentOwnersProfileLink margin-right" th:href="${'/profile/' + comment.getParentComment().getUser().getId()}"
                        th:text="${'' + comment.getParentComment().getUser().getUsername()}">
                     </a>
 
@@ -110,7 +109,7 @@
                             <div th:if="${isLoggedIn}" >
                                 <form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"
                                       th:attr="data-upvote-comment-id=${comment.id}">
-                                    <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isUpvote()} ? stayActive : commentUpvote"
+                                    <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null and comment.getVoteFrom(#authentication.principal).isUpvote()} ? stayActive : commentUpvote"
                                        class="fas fa-thumbs-up commentUpvote"
                                        th:if="${isLoggedIn}" th:attr="data-upvoteIcon-comment-id=${comment.id}"></i>
                                 </form>
@@ -128,7 +127,7 @@
                             <div th:if="${isLoggedIn}">
                                 <form th:action="@{/comment/downvote/{commentId}(commentId=${comment.id})}" method="POST"
                                       th:attr="data-downvote-comment-id=${comment.id}">
-                                    <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isDownvote()} ? stayActive : commentDownvote"
+                                    <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null and comment.getVoteFrom(#authentication.principal).isDownvote()} ? stayActive : commentDownvote"
                                        class="fas fa-thumbs-down commentDownvote"
                                        th:if="${isLoggedIn}" th:attr="data-downvoteIcon-comment-id=${comment.id}"></i>
                                 </form>
