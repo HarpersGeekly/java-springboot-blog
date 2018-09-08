@@ -73,7 +73,7 @@
                         <!--</div>-->
                         <!--</div>-->
 
-                        <div th:if="${isOwnProfile}" style="display: flex;">
+                        <div th:if="${isOwnProfile} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" style="display: flex;">
                             <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             </i>
