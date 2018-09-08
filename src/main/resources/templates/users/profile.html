@@ -205,7 +205,7 @@
                     <span class="profileInfoText" th:text="${profileUser.hitCount != null} ? ${profileUser.hitCount.profileCount} : '1'"></span>
                 </h4>
 
-                <th:block th:if="${isOwnProfile} or (${!isOwnProfile} and ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})">
+                <th:block th:if="${isOwnProfile} or ${isLoggedInUserAdmin} or (${!isOwnProfile} and ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})">
                     <div class="profileChangeInfoDiv">
                         <i class="fas fa-cog profileCogIcon"></i>
                         <a th:href="@{/profile/{id}/edit(id=${profileUser.id})}">
