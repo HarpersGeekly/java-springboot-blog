@@ -1,9 +1,6 @@
 package com.codeup.blog.springbootblog.controllers;
 
-import com.codeup.blog.springbootblog.Models.HitCount;
-import com.codeup.blog.springbootblog.Models.Post;
-import com.codeup.blog.springbootblog.Models.User;
-import com.codeup.blog.springbootblog.Models.UserRole;
+import com.codeup.blog.springbootblog.Models.*;
 import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
 import com.codeup.blog.springbootblog.repositories.HitCountsRepository;
 import com.codeup.blog.springbootblog.repositories.RolesRepository;
@@ -120,7 +117,7 @@ public class UsersController {
     public String showRegisterForm(Model model) {
 
         if(userSvc.isLoggedIn()) {
-            return "redirect:/profile";
+            return "redirect:/profile/" + userSvc.loggedInUser().getId();
         }
 
         model.addAttribute("user", new User());
@@ -183,56 +180,21 @@ public class UsersController {
         // Spring handles the logging in.
         userSvc.authenticate(user); // now that I have authenticate in the UserService, it automatically logs in the registered user,
         // so I no longer have to reroute them to the login page.
-        return "redirect:/profile";
+        return "redirect:/profile/" + user.getId();
     }
 
     // ================================================= PROFILE =======================================================
 
     @GetMapping("/profile")
-    public String showProfilePage(Model viewModel) {
-        User userLoggedIn = userSvc.loggedInUser(); // Grab the loggedInUser from the service and assign them a name, userLoggedIn.
-        User user = usersDao.findById(userLoggedIn.getId());
-
-        HitCount userHitCount = user.getHitCount();
-        if(userHitCount == null) {
-            HitCount newHitCount = new HitCount();
-            newHitCount.setUser(user);
-            userHitCount = newHitCount;
-        }
-        userHitCount.setProfileCount(userHitCount.getProfileCount() + 1);
-        hitCountsDao.save(userHitCount);
-
-        List<String> roles = rolesDao.ofUserWith(user.getUsername());
-        for(String role : roles) {
-            if (role.equals("ROLE_USER")) {
-                viewModel.addAttribute("isUser", role);
-            }
-            if (role.equals("ROLE_EDITOR")) {
-                viewModel.addAttribute("isEditor", role);
-            }
-            if (role.equals("ROLE_ADMIN")) {
-                viewModel.addAttribute("isAdmin", role);
-            }
-        }
-
-        long totalKarma = usersDao.totalKarmaByUser(user.getId());
-        viewModel.addAttribute("karma", totalKarma);
-            //if posts are empty
-        boolean postsAreEmpty = user.getPosts().isEmpty();
-//       viewModel.addAttribute("activeIn", categoriesDao.)
-        viewModel.addAttribute("posts", postSvc.postsByUserLimited(userLoggedIn.getId()));
-        viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
-        viewModel.addAttribute("isOwnProfile", true); // boolean condition returns true, will always be true because they're loggedin.
-        viewModel.addAttribute("profileUser", user);
-        viewModel.addAttribute("categories", categoriesDao.findAll());
-        viewModel.addAttribute("comments", commentSvc.findAllByUserId(user.getId()));
-        return "users/profile";
+    public String showProfilePage() {
+        User userLoggedIn = userSvc.loggedInUser();
+        Long id = userLoggedIn.getId();
+        return "redirect:profile/" + id;
     }
 
     @GetMapping("/profile/{id}")
     public String showOtherUsersProfilePage(@PathVariable Long id, Model viewModel) {
-        User user = usersDao.findById(id); // find the User from the id in the url profile/{id}/edit
-        long totalKarma = usersDao.totalKarmaByUser(user.getId());
+        User user = usersDao.findById(id);
 
         HitCount userHitCount = user.getHitCount();
         if(userHitCount == null) {
@@ -243,8 +205,10 @@ public class UsersController {
         userHitCount.setProfileCount(userHitCount.getProfileCount() + 1);
         hitCountsDao.save(userHitCount);
 
-        List<String> roles = rolesDao.ofUserWith(user.getUsername());
+        List<Comment> comments = commentSvc.findAllByUserIdOrderByDateDesc(user.getId());
+        forEachUserComment(viewModel, comments);
 
+        List<String> roles = rolesDao.ofUserWith(user.getUsername());
         for(String role : roles) {
             if (role.equals("ROLE_USER")) {
                 viewModel.addAttribute("ownerIsUser", role);
@@ -258,15 +222,28 @@ public class UsersController {
         }
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
+        boolean commentsAreEmpty = user.getComments().isEmpty();
+
         viewModel.addAttribute("posts", postSvc.postsByUserLimited(user.getId()));
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
+        viewModel.addAttribute("commentsAreEmpty", commentsAreEmpty);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
-        // ^this is a boolean^, true, but false if passing another id.
         viewModel.addAttribute("profileUser", user);
         viewModel.addAttribute("categories", categoriesDao.findAll());
-        viewModel.addAttribute("karma", totalKarma);
-        viewModel.addAttribute("comments", commentSvc.findAllByUserId(user.getId()));
+        viewModel.addAttribute("karma", usersDao.totalKarmaByUser(user.getId()));
+        viewModel.addAttribute("comments", comments);
         return "users/profile";
+    }
+
+    private void forEachUserComment(Model viewModel, List<Comment> comments) {
+        for(Comment cmt : comments) {
+            Post post = cmt.getPost();
+            viewModel.addAttribute("post", post);
+            if(cmt.getParentComment() != null) {
+                boolean isParentComment = cmt.isParentComment(cmt);
+                viewModel.addAttribute("isParentComment", isParentComment);
+            }
+        }
     }
 
     // =========================================== PROFILE ARCHIVED POSTS ==============================================
