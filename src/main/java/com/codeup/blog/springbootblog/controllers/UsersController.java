@@ -171,6 +171,7 @@ public class UsersController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         // set the users join date:
         user.setDate(LocalDateTime.now());
+        user.setBio(null);
         // save user in the database:
         usersDao.save(user);
         // save user in Roles as user
@@ -309,6 +310,9 @@ public class UsersController {
         }
 
         user.setId(id);
+        if(user.getBio().isEmpty()) {
+            user.setBio(null);
+        }
         user.setHitCount(userHitCount);
         userHitCount.setProfileCount(userHitCount.getProfileCount());
         usersDao.save(user);
