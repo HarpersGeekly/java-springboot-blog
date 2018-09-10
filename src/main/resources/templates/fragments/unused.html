@@ -9,6 +9,8 @@
 </body>
 </html>
 
+<!--//    @Pattern(regexp = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/", message="")-->
+
 <!-- ============== HOW AN OLD POST USED TO LOOK ==============================-->
 
 <!--<div class="indent">-->
@@ -178,6 +180,28 @@
     <!--</ul>-->
 <!--</div>-->
 
+<!--======================= MODAL ==========================================-->
+
+<!--<div class="modal" id="modal2" tabindex="-1" role="dialog">-->
+<!--<div class="modal-dialog" role="document">-->
+<!--<div class="modal-content">-->
+<!--<div class="modal-header">-->
+<!--<h5 class="modal-title">Modal title</h5>-->
+<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--<span aria-hidden="true">&times;</span>-->
+<!--</button>-->
+<!--</div>-->
+<!--<div class="modal-body">-->
+<!--<p>Modal body text goes here.</p>-->
+<!--</div>-->
+<!--<div class="modal-footer">-->
+<!--<button type="button" class="btn btn-primary">Save changes</button>-->
+<!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
 <!-- ================================================================================================================-->
 <!-- =========================================== PAGINATION =========================================================-->
 <!-- ================================================================================================================-->
@@ -236,3 +260,310 @@
 <!--</li>-->
 <!--</ul>-->
 <!--</nav>-->
+
+
+
+<!--th:attr allows me to target this element specifically in show.html's ajax request-->
+<!--<div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">-->
+<!--&lt;!&ndash; this div should be targeted with unique th:attr &ndash;&gt;-->
+<!--<a th:href="@{/profile/{id}(id=${comment.user.id})}">-->
+<!--<div class="commentPicWrapper">-->
+<!--<span th:if="${comment.user.profilePicture} == null">-->
+<!--<img class="profilePicComment" src="/../images/user.png"/>-->
+<!--</span>-->
+<!--<span th:if="${comment.user.profilePicture} != null">-->
+<!--<img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>-->
+<!--</span>-->
+<!--</div>-->
+<!--</a>-->
+
+<!--<div class="commentInfoWrapper speech-bubble">-->
+
+<!--<h5 th:classappend="${isChildComment != null} ? parentCommentStyling : commentedByStyling">-->
+<!--<a th:href="${'/profile/' + comment.user.id}" style="text-decoration: none;">-->
+<!--<span class="commentedByNameText" th:text="${comment.user.username}"></span>-->
+<!--</a>-->
+<!--<span class="comment-info-date-wrapper">-->
+<!--<span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"-->
+<!--style="margin-right: 0.75em;"></span>-->
+<!--<span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>-->
+<!--<span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>-->
+<!--<span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>-->
+<!--</span>-->
+
+<!--<span class="comment-info-date-mobile-wrapper">-->
+<!--<div class="comment-info-mobile">-->
+<!--<span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"-->
+<!--style="margin-right: 0.75em;"></span>-->
+<!--<span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>-->
+<!--<span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>-->
+<!--<span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>-->
+<!--</div>-->
+<!--</span>-->
+<!--</h5>-->
+
+
+<!--&lt;!&ndash; =============================== Comment Body =========================&ndash;&gt;-->
+
+<!--<div class="commentBodyWrapper">-->
+
+<!--&lt;!&ndash;uncomment if I want to have @Poster for the parent comments, but thinking maybe not necessary&ndash;&gt;-->
+<!--&lt;!&ndash;<a th:if="${isChildComment != null}" th:href="${'/profile/' + post.user.id}" th:text="${'@' + post.user.username}"></a>&ndash;&gt;-->
+
+<!--<h5 th:text="${comment.body}" class="commentBodyText"-->
+<!--th:attr="data-comment-body-comment-id=${comment.id}">-->
+<!--</h5>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; =============================== Edit Form ============================&ndash;&gt;-->
+
+<!--<div class="editedCommentFormWrapper">-->
+<!--<form-->
+<!--th:action="@{/posts/comment/{commentId}/edit(commentId=${comment.id})}"-->
+<!--method="POST"-->
+<!--th:object="${comment}"-->
+<!--class="editedCommentForm hidden" id="editedCommentFormId"-->
+<!--th:attr="data-edit-form-comment-id=${comment.id}">-->
+
+<!--<textarea class="form-control editedCommentBodyText" name="body"-->
+<!--th:attr="data-edit-comment-form-textarea-comment-id=${comment.id}"-->
+<!--th:value="${comment.body}">-->
+<!--</textarea>-->
+
+<!--<input type="hidden" name="id" th:value="${comment.id}"/>-->
+
+<!--<div class="editAndDeleteBtnsRow">-->
+
+<!--<button class="btn btn-primary editedCommentCancelBtn">-->
+<!--CANCEL-->
+<!--</button>-->
+
+<!--<button class="btn btn-primary editedCommentSubmitBtn">-->
+<!--SAVE-->
+<!--</button>-->
+
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; =============================== Comment Votes =========================&ndash;&gt;-->
+
+<!--<div class="comment-vote-reply-options-row">-->
+<!--<div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">-->
+
+<!--<div class="upvoteDiv">-->
+
+<!--<div th:if="${!isLoggedIn}">-->
+<!--<i class="fas fa-thumbs-up commentVoteNotLoggedIn"></i>-->
+<!--</div>-->
+
+<!--<div th:if="${isLoggedIn}" >-->
+<!--<form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"-->
+<!--th:attr="data-upvote-comment-id=${comment.id}">-->
+<!--<i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isUpvote()} ? stayActive : commentUpvote"-->
+<!--class="fas fa-thumbs-up commentUpvote"-->
+<!--th:if="${isLoggedIn}" th:attr="data-upvoteIcon-comment-id=${comment.id}"></i>-->
+<!--</form>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="voteCountDiv">-->
+<!--<h5>-->
+<!--<span class="commentVoteCount" th:text="${comment.voteCount()}"-->
+<!--th:attr="data-voteCount-comment-id=${comment.id}"></span>-->
+<!--</h5>-->
+<!--</div>-->
+
+<!--<div class="downvoteDiv">-->
+<!--<div th:if="${isLoggedIn}">-->
+<!--<form th:action="@{/comment/downvote/{commentId}(commentId=${comment.id})}" method="POST"-->
+<!--th:attr="data-downvote-comment-id=${comment.id}">-->
+<!--<i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isDownvote()} ? stayActive : commentDownvote"-->
+<!--class="fas fa-thumbs-down commentDownvote"-->
+<!--th:if="${isLoggedIn}" th:attr="data-downvoteIcon-comment-id=${comment.id}"></i>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--<div th:if="${!isLoggedIn}">-->
+<!--<i class="fas fa-thumbs-down commentVoteNotLoggedIn"></i>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;================================== REPLY TO A COMMENT ===========================================&ndash;&gt;-->
+<!--&lt;!&ndash;=================================================================================================&ndash;&gt;-->
+
+<!--<h5 th:if="${!isLoggedIn}" class="replyCommentNotLoggedInDiv"><span><a class="replyCommentNotLoggedInLink" th:href="${'/login'}">LOGIN</a></span></h5>-->
+
+<!--<div th:if="${isLoggedIn}">-->
+
+<!--<h5 class="showReplyTextArea" th:attr="data-show-reply-textarea-comment-id=${comment.id}">-->
+<!--&lt;!&ndash;data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">&ndash;&gt;-->
+<!--<i class="fas fa-reply flipped-reply"></i> REPLY-->
+<!--</h5>-->
+<!--<h5 class="showReplyTextAreaCancel hidden" th:attr="data-cancel-reply-textarea-comment-id=${comment.id}">-->
+<!--<i class="fas fa-times"></i> CANCEL-->
+<!--</h5>-->
+
+<!--</div>-->
+
+<!--&lt;!&ndash;==================================== EDIT AND DELETE DROPDOWN ===================================&ndash;&gt;-->
+<!--&lt;!&ndash;=================================================================================================&ndash;&gt;-->
+
+<!--<div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)}" th:attr="data-ellipsis-comment-id=${comment.id}">-->
+<!--<i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"-->
+<!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--</i>-->
+<!--<div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">-->
+
+<!--<div>-->
+<!--<a class="dropdown-edit-btn" th:attr="data-edit-btn-comment-id=${comment.id}">-->
+<!--<i class="far fa-edit"></i> edit-->
+<!--</a>-->
+<!--</div>-->
+<!--<div>-->
+<!--<form th:action="@{/posts/comment/{commentId}/delete(commentId=${comment.id})}"-->
+<!--method="POST"-->
+<!--th:object="${comment}"-->
+<!--class="deleteCommentForm">-->
+
+<!--<input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>-->
+
+<!--<button class="dropdown-delete-btn" th:attr="data-delete-btn-comment-id=${comment.id}">-->
+<!--<i class="fas fa-bomb"></i> delete-->
+<!--</button>-->
+<!--</form>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="replyTextArea hidden" th:attr="id=${'replyTextArea_' + comment.id}">-->
+<!--&lt;!&ndash;th:attr="data-wrapper-reply-textarea-comment-id=${comment.id}"&ndash;&gt;-->
+
+<!--<form th:action="@{/posts/{postId}/comment/{commentId}/reply(postId=${post.id},commentId=${comment.id})}"-->
+<!--method="post"-->
+<!--th:object="${comment}"-->
+<!--th:attr="data-reply-form-comment-id=${comment.id}">-->
+<!--<div class="form-group">-->
+<!--<label for="replyFormBody"></label>-->
+
+<!--<textarea contenteditable="true" class="form-control replyFormBody" id="replyFormBody" name="body"-->
+<!--th:field="*{body}"-->
+<!--th:attr="data-reply-form-body-comment-id=${comment.id}">-->
+<!--</textarea>-->
+
+<!--<input class="form-control" type="hidden" name="id" th:field="*{id}"/>-->
+<!--<button class="btn btn-primary commentReplyBtn"-->
+<!--th:attr="data-reply-submit-btn-comment-id=${comment.id}">-->
+<!--<i class="far fa-comment-alt"></i> Reply-->
+<!--</button>-->
+<!--<div class="repliesErrorAJAX" th:attr="data-reply-error-comment-id=${comment.id}"></div>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--</div>&lt;!&ndash;end of commentInfoWrapper&ndash;&gt;-->
+<!--</div>-->
+
+<!--============================================== VIEWING OTHER USERS PROFILES ===========================================-->
+
+<!--<th:block th:if="${!isOwnProfile}">-->
+<!--<h2 class="profileWelcome"><span th:text="${profileUser.username}"></span>'s profile</h2>-->
+
+<!--<div class="profile-upper-wrapper">-->
+<!--<div class="profile-picture-wrapper">-->
+<!--<span th:if="${profileUser.profilePicture} == null">-->
+<!--<img class="profilePic" src="/../images/user.png"/>-->
+<!--</span>-->
+<!--<span th:if="${profileUser.profilePicture} != null">-->
+<!--<img class="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}"/>-->
+<!--</span>-->
+<!--</div>-->
+
+<!--<div class="profile-info-wrapper">-->
+
+<!--<h4 th:if="${ownerIsAdmin}">-->
+<!--<i class="far fa-address-card"></i>-->
+<!--<span class="profileInfoText">ADMIN</span>-->
+<!--</h4>-->
+<!--<h4 th:if="${ownerIsEditor}">-->
+<!--<i class="far fa-address-card"></i>-->
+<!--<span class="profileInfoText">EDITOR</span>-->
+<!--</h4>-->
+<!--<h4 th:if="${ownerIsUser}">-->
+<!--<i class="far fa-address-card"></i>-->
+<!--<span class="profileInfoText">USER</span>-->
+<!--</h4>-->
+
+<!--<h4>-->
+<!--<i class="far fa-envelope profileEmailIcon"></i>-->
+<!--<span class="profileInfoText" th:text="${profileUser.email}"></span>-->
+<!--</h4>-->
+
+<!--<h4>-->
+<!--<i class="far fa-hand-peace"></i>-->
+<!--<span class="profileInfoText" th:text="${karma}"></span>-->
+<!--</h4>-->
+
+<!--<h4>-->
+<!--<i class="far fa-handshake profileJoinIcon"></i>-->
+<!--<span class="profileInfoText" th:text="${#temporals.monthNameShort(profileUser.date)}"></span>-->
+<!--<span class="profileInfoText" th:text="${#temporals.day(profileUser.date)}"></span>,-->
+<!--<span class="profileInfoText" th:text="${#temporals.year(profileUser.date)}"></span>-->
+<!--</h4>-->
+
+<!--<h4>-->
+<!--<i class="fas fa-book-open"></i>-->
+<!--<span class="profileInfoText" th:text="${profileUser.bio != null} ? ${profileUser.bio} : '(no bio)'"></span>-->
+<!--</h4>-->
+
+<!--<h4>-->
+<!--<i class="fas fa-eye"></i>-->
+<!--<span class="profileInfoText" th:text="${profileUser.hitCount != null} ? ${profileUser.hitCount.profileCount} : '1'"></span>-->
+<!--</h4>-->
+
+<!--<th:block sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--<div class="profileChangeInfoDiv">-->
+<!--<i class="fas fa-cog profileCogIcon"></i>-->
+<!--<a th:href="@{/profile/{id}/edit(id=${profileUser.id})}">-->
+<!--<h5 class="profileChangeInfoLink" data-target="#modal2" data-toggle="modal2">edit account</h5>-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="profileChangeInfoDiv">-->
+<!--<i class="fas fa-lock-open profilePasswordIcon"></i>-->
+<!--<a th:href="@{/profile/{id}/editPassword(id=${profileUser.id})}">-->
+<!--<h5 class="profileChangeInfoLink" data-target="#modal3" data-toggle="modal3">change password</h5>-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="profileChangeInfoDiv">-->
+<!--<i class="fas fa-archive profileArchiveIcon"></i>-->
+<!--<a th:href="@{/profile/{id}/archived(id=${profileUser.id})}">-->
+<!--<h5 class="profileChangeInfoLink" data-target="#modal4">manage posts</h5>-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="profileChangeInfoDiv">-->
+<!--<i class="fas fa-upload uploadIcon"></i>-->
+<!--<h5 class="profileChangeInfoLink" data-target="#modal" data-toggle="modal">change profile picture</h5>-->
+<!--</div>-->
+<!--</th:block>-->
+
+<!--<h4>-->
+<!--<i class="fas fa-archive"></i>-->
+<!--<a th:href="@{/profile/{id}/archived(id=${profileUser.id})}">-->
+<!--<h5 class="profileInfoText profileChangeInfoLink" data-target="#modal4">View all <span th:text="${profileUser.username}"></span>'s posts</h5>-->
+<!--</a>-->
+<!--</h4>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;<hr class="posts-hr"/>&ndash;&gt;-->
+<!--&lt;!&ndash;<button class="profile-page-latest-posts-greeting profile-latest-posts-btn" th:attr="data-profile-id=${profileUser.id}" th:if="${ownerIsAdmin} or ${ownerIsEditor}">View Latest posts...</button>&ndash;&gt;-->
+<!--&lt;!&ndash;<button class="profile-page-latest-posts-greeting profile-latest-comments-btn" th:attr="data-profile-id=${profileUser.id}">View Latest comments...</button>&ndash;&gt;-->
+<!--&lt;!&ndash;<hr class="posts-hr"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<h5 th:if="${postsAreEmpty} and ${!isOwnProfile} and (${ownerIsAdmin} or ${ownerIsEditor})">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="far fa-frown profileFrownIcon"></i> They don't have any posts yet.&ndash;&gt;-->
+<!--&lt;!&ndash;</h5>&ndash;&gt;-->
+<!--</th:block>-->
