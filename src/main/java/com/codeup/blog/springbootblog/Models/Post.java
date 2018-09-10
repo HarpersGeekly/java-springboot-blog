@@ -19,15 +19,15 @@ import java.util.regex.Pattern;
  * Created by RyanHarper on 11/3/17.
  */
 
-@Entity // annotation saying "will be a table".
+@Entity // annotation saying "will be a table", an entity in the database
 @Table(name = "posts") // name of database table
 public class Post {
 
-    @Id // primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
+    @Id // primary key annotation
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment annotation
     private Long id;
 
-    @Column(nullable = false, length = 100) // column on table, not-null
+    @Column(nullable = false, length = 100) // column on table, cannot be null (not-null) annotation
     @NotBlank(message = "Title cannot be empty.")
     @Length(min = 5, max = 100, message="Title must be between 5-100 characters.")
     private String title;
@@ -60,8 +60,8 @@ public class Post {
     //=============================== RELATIONSHIPS =========================================
     //=======================================================================================
 
-    @ManyToOne
-//    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE) // many posts can belong to one user.
+    @ManyToOne //annotation: many posts can belong to one user.
+//    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     // will define the foreign key. This Post class represents the posts table and we need a reference to the user
     @JsonManagedReference //allows Jackson to better handle the relation.
     // Is the forward part of reference – the one that gets serialized normally.
@@ -337,7 +337,6 @@ public class Post {
             // That's it for capitalizing!
             word = new String(letters);
             sb.append(word).append(" ");
-            System.out.println("get here");
         }
         return sb.toString().trim();
     }
