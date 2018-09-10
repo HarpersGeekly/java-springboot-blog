@@ -55,23 +55,9 @@
                             <p th:utext="${post.htmlSubtitle}"></p>
                         </div>
 
-                        <!--<div th:each="image : ${post.postImage}">-->
-                        <!--<img th:src="${image.path}"/>-->
-                        <!--</div>-->
 
-                        <!--<div class="gradientBox">-->
-                        <!--&lt;!&ndash;<a th:href="@{/posts/{id}(id=${post.id})}">&ndash;&gt;-->
-                        <!--<div class="postDescription hidden">-->
-                        <!--<p th:utext="${post.htmlDescription}"></p>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash;</a>&ndash;&gt;-->
 
-                        <!--<div class="read-more-div">-->
-                        <!--<i class="fas fa-hand-point-right fa-read-more"></i>-->
-                        <!--<a class="read-more" th:href="@{/posts/{id}(id=${post.id})}">continue reading...</a>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
+
 
                         <div th:if="${isOwnProfile} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" style="display: flex;">
                             <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
