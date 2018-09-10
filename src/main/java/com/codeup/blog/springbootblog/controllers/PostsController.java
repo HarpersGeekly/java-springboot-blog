@@ -3,6 +3,7 @@ package com.codeup.blog.springbootblog.controllers;
 import com.codeup.blog.springbootblog.Models.*;
 import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
 import com.codeup.blog.springbootblog.repositories.HitCountsRepository;
+import com.codeup.blog.springbootblog.repositories.RolesRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.*;
 import org.commonmark.parser.Parser;
@@ -30,6 +31,8 @@ public class PostsController {
     private final PostService postSvc;
 
     private final UsersRepository usersDao; //making queries to database
+    private final RolesRepository rolesDao;
+
 
     private final UserService userSvc; //
 
@@ -55,7 +58,8 @@ public class PostsController {
                            UserService userSvc,
                            CommentService commentSvc,
                            CategoriesRepository categoriesDao,
-                           HitCountsRepository hitCountsDao
+                           HitCountsRepository hitCountsDao,
+                           RolesRepository rolesDao
     ) {
         this.postSvc = postSvc;
         this.usersDao = usersDao;
@@ -63,6 +67,7 @@ public class PostsController {
         this.commentSvc = commentSvc;
         this.categoriesDao = categoriesDao;
         this.hitCountsDao = hitCountsDao;
+        this.rolesDao = rolesDao;
     }
 
 //================================================ ALL POSTS ==================================================== /posts
@@ -90,6 +95,17 @@ public class PostsController {
 //        }
 //        viewModel.addAttribute("posts", postSvc.findAll());
 //        viewModel.addAttribute("page", postSvc.postsByPage(pageable));
+
+        if(userSvc.loggedInUser() != null) {
+            System.out.println("");
+            User loggedInUser = userSvc.loggedInUser();
+            List<String> myRoles = rolesDao.ofUserWith(loggedInUser.getUsername());
+            for (String role : myRoles) {
+                if (role.equals("ROLE_ADMIN")) {
+                    viewModel.addAttribute("isLoggedInUserAdmin", role);
+                }
+            }
+        }
 
         viewModel.addAttribute("posts", postSvc.postsByResultSetIndexPage());
         viewModel.addAttribute("categories", categoriesDao.findAll());
@@ -144,6 +160,15 @@ public class PostsController {
         Post post = postSvc.findOne(id);
         User postOwner = post.getUser();
         User loggedInUser = userSvc.loggedInUser();
+//        if(userSvc.loggedInUser() != null) {
+//            System.out.println("");
+//            List<String> myRoles = rolesDao.ofUserWith(loggedInUser.getUsername());
+//            for (String role : myRoles) {
+//                if (role.equals("ROLE_ADMIN")) {
+//                    viewModel.addAttribute("isLoggedInUserAdmin", role);
+//                }
+//            }
+//        }
         List<Comment> comments = commentSvc.commentsOnPost(id);
         List<Category> categories = (List<Category>) categoriesDao.findAll();
 
@@ -160,7 +185,7 @@ public class PostsController {
 
         boolean isLoggedIn = userSvc.isLoggedIn();
         boolean isPostOwner = userSvc.isLoggedInAndPostMatchesUser(post.getUser());
-        boolean isChildComment = comment.isChildComment(comment);
+        boolean isParentComment = comment.isParentComment(comment);
         boolean isDisabled = post.isDisabled();
 
         viewModel.addAttribute("post", post);
@@ -171,9 +196,8 @@ public class PostsController {
         viewModel.addAttribute("categories", categories);
         viewModel.addAttribute("isLoggedIn", isLoggedIn);
         viewModel.addAttribute("isPostOwner", isPostOwner);
-        viewModel.addAttribute("isChildComment", isChildComment);
+        viewModel.addAttribute("isParentComment", isParentComment);
         viewModel.addAttribute("isDisabled", isDisabled);
-
 
         if (loggedInUser != null) {
             PostVote vote = post.getVoteFrom(loggedInUser);
@@ -198,7 +222,7 @@ public class PostsController {
     public String showCreatePostForm(Model viewModel) {
         viewModel.addAttribute("post", new Post());
         viewModel.addAttribute("categories", categoriesDao.findAll());
-        return "posts/create";
+        return "/posts/create";
     }
 
     //      Now in @PostMapping, Post will automatically have the title and description that was submitted with the form.
@@ -206,7 +230,7 @@ public class PostsController {
 //      Also set the User of the Post to the User who is logged in, and set the Date.
     @PostMapping("/posts/create")
     public String createPost(@Valid Post post,
-                             Errors validation, Model viewModel, @RequestParam(name = "title") String title) {
+                             Errors validation, Model viewModel) {
 //      @Valid Post post now calls @ModelAttribute Post post first/instead and calls the validations!
 
         // Validation:
@@ -222,7 +246,7 @@ public class PostsController {
 //        post.setDescription(xp.getAsText());
 //        This XSSPrevent isn't allowing me to update my code? What gives?
 
-        post.setTitle(post.titleToUppercase(title));
+        post.setTitle(post.titleToUppercase(post.getTitle()));
         post.setUser(userSvc.loggedInUser());
         post.setDate(LocalDateTime.now());
         postSvc.save(post);
@@ -235,10 +259,26 @@ public class PostsController {
     @GetMapping("/posts/{id}/edit")
     public String showEditPostForm(@PathVariable Long id, Model viewModel) {
         Post existingPost = postSvc.findOne(id);
-//        List<Category> categories = existingPost.getCategories();
-        viewModel.addAttribute("categories", categoriesDao.findAll());
-        viewModel.addAttribute("post", existingPost);
-        return "/posts/edit";
+        User postOwner = existingPost.getUser();
+        User loggedInUser = userSvc.loggedInUser();
+
+        List<String> roles = rolesDao.ofUserWith(loggedInUser.getUsername());
+        for(String role : roles) {
+            if (role.equals("ROLE_ADMIN")) {
+                viewModel.addAttribute("isLoggedInUserAdmin", role);
+                viewModel.addAttribute("categories", categoriesDao.findAll());
+                viewModel.addAttribute("post", existingPost);
+                return "/posts/edit";
+            }
+        }
+
+        if(!postOwner.getId().equals(loggedInUser.getId())) {
+            return "redirect:/posts";
+        } else {
+            viewModel.addAttribute("categories", categoriesDao.findAll());
+            viewModel.addAttribute("post", existingPost);
+            return "/posts/edit";
+        }
     }
 
     @PostMapping("/posts/{id}/edit")
@@ -252,14 +292,25 @@ public class PostsController {
             return "/posts/edit";
         }
 
+        Post existingPost = postSvc.findOne(id);
+        User postOwner = existingPost.getUser();
+        User loggedInUser = userSvc.loggedInUser();
+        List<String> roles = rolesDao.ofUserWith(loggedInUser.getUsername());
+        for(String role : roles) {
+            if(role.equals("ROLE_ADMIN") && (loggedInUser.getId().equals(postOwner.getId()))) {
+                post.setUser(loggedInUser);
+            } else {
+                post.setUser(postOwner);
+            }
+        }
+
 //        XSSPrevent xp = new XSSPrevent();
 //        xp.setAsText(post.getTitle());
 //        post.setDescription(xp.getAsText());
+
         post.setTitle(post.titleToUppercase(post.getTitle()));
-        post.setUser(userSvc.loggedInUser());
         post.setId(id);
         postSvc.save(post);
-        System.out.println(post.getTitle());
         redir.addFlashAttribute("title", post.getTitle());
         return "redirect:/posts";
     }
@@ -270,16 +321,22 @@ public class PostsController {
     @PostMapping("/posts/{id}/delete")
     public String delete(@PathVariable long id, Post post, Comment comment) {
 
-//      As I delete a post, comments and replies that belong to that post will be deleted too.
+        Post existingPost = postSvc.findOne(id);
+        User postOwner = existingPost.getUser();
+        User loggedInUser = userSvc.loggedInUser();
+        if(!postOwner.getId().equals(loggedInUser.getId())) {
+            return "redirect:/posts";
+        } else {
+            // As I delete a post, comments and replies that belong to that post will be deleted too.
+            // Set id's:
+            comment.setPost(post);
+            post.setId(id);
 
-        // Set id's:
-        comment.setPost(post);
-        post.setId(id);
-
-//      Delete the List of comments that belong to the post id -- UPDATE: relationship cascades manage this.
+//      -- UPDATE: relationship cascades delete the List of comments that belong to the post id
 //      commentSvc.delete(commentSvc.commentsOnPost(id));
-        postSvc.delete(id);
-        return "redirect:/profile";
+            postSvc.delete(id);
+            return "redirect:/profile";
+        }
     }
 
 //================================================ DISABLE AND ENABLE POSTS =============================================
