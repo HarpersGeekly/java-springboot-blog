@@ -292,9 +292,11 @@ public class PostsController {
             return "/posts/edit";
         }
 
+
         Post existingPost = postSvc.findOne(id);
         User postOwner = existingPost.getUser();
         User loggedInUser = userSvc.loggedInUser();
+
         List<String> roles = rolesDao.ofUserWith(loggedInUser.getUsername());
         for(String role : roles) {
             if(role.equals("ROLE_ADMIN") && (loggedInUser.getId().equals(postOwner.getId()))) {
@@ -324,14 +326,21 @@ public class PostsController {
         Post existingPost = postSvc.findOne(id);
         User postOwner = existingPost.getUser();
         User loggedInUser = userSvc.loggedInUser();
-        if(!postOwner.getId().equals(loggedInUser.getId())) {
+
+        List<String> roles = rolesDao.ofUserWith(loggedInUser.getUsername());
+        for(String role : roles) {
+            if(role.equals("ROLE_ADMIN") && (!loggedInUser.getId().equals(postOwner.getId()))) {
+                postSvc.delete(id);
+            }
+        }
+
+        if(!loggedInUser.getId().equals(postOwner.getId())) {
             return "redirect:/posts";
         } else {
             // As I delete a post, comments and replies that belong to that post will be deleted too.
             // Set id's:
             comment.setPost(post);
             post.setId(id);
-
 //      -- UPDATE: relationship cascades delete the List of comments that belong to the post id
 //      commentSvc.delete(commentSvc.commentsOnPost(id));
             postSvc.delete(id);
