@@ -29,7 +29,7 @@ public interface UsersRepository extends CrudRepository<User, Long> {
     long totalKarmaByUser(Long id);
 
     // select all from users where totalKarma ORDER BY DESC LIMIT 3
-    @Query(nativeQuery = true, value = "SELECT u.id, u.username, pv_sum.total AS postTotal, cv_sum.total AS commentTotal, IFNULL(pv_sum.total, 0) + IFNULL(cv_sum.total, 0) as totalVotes FROM users u " +
+    @Query(nativeQuery = true, value = "SELECT u.*, pv_sum.total AS postTotal, cv_sum.total AS commentTotal, IFNULL(pv_sum.total, 0) + IFNULL(cv_sum.total, 0) as totalVotes FROM users u " +
             "LEFT JOIN (SELECT p.user_id, IFNULL(SUM(pv.type), 0) AS total FROM posts p JOIN posts_votes pv ON pv.post_id = p.id GROUP BY p.user_id) pv_sum ON pv_sum.user_id = u.id " +
             "LEFT JOIN (SELECT c.user_id, IFNULL(SUM(cv.type), 0) AS total FROM comments c JOIN comments_votes cv ON cv.comment_id = c.id GROUP BY c.user_id) cv_sum ON cv_sum.user_id = u.id " +
             "GROUP BY u.id, u.username, postTotal, commentTotal ORDER BY totalVotes DESC LIMIT 3")
