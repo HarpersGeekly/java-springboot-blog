@@ -1,5 +1,6 @@
 // $('div.postDescription img').css({'max-width' : '740px'});
 $('div.postDescription img').css({'max-width' : '640px'});
+$('div.postDescription iframe').css({'width' : '100%'});
 $('div.side-bar img').css({'max-width' : '225px'});
 $('.postDescription').removeClass('hidden');
 
