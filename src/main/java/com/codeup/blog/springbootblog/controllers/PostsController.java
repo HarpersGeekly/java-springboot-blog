@@ -220,6 +220,17 @@ public class PostsController {
 //      th:field:*{title}, th:field:*{description}. the * means post.title, post.description
     @GetMapping("/posts/create")
     public String showCreatePostForm(Model viewModel) {
+        User loggedInUser = userSvc.loggedInUser();
+        if(loggedInUser == null) {
+            return "redirect:/posts";
+        } else {
+            List<String> roles = rolesDao.ofUserWith(loggedInUser.getUsername());
+            for (String role : roles) {
+                if (role.equals("ROLE_USER")) {
+                    return "redirect:/posts";
+                }
+            }
+        }
         viewModel.addAttribute("post", new Post());
         viewModel.addAttribute("categories", categoriesDao.findAll());
         return "/posts/create";

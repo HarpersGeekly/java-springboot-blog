@@ -47,12 +47,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 // login
                 .formLogin()
-                    .loginPage("/login")
+                .loginPage("/login")
                 .defaultSuccessUrl("/profile") // after logging in, go to user's profile page
                 // this is new:
 //                .successHandler(successHandler()) // this is part of the redirect-to-previous page functionality
-
-                    .permitAll() // Anyone can go to the login page
+                .permitAll() // Anyone can go to the login page
                 .and()
 
                 // non-logged in users
@@ -65,31 +64,60 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/posts") //after logout, go to posts page.
 //                .logoutSuccessUrl("/login?logout") // original convention
-                .and()
 
-                //restricted area
+
+                /* Pages that require authentication */
+                .and()
                 .authorizeRequests()
                 .antMatchers("/posts/create",
                         "/posts/{id}/edit",
                         "/posts/{id}/delete",
                         "/posts/{id}/comment",
-                        "/posts/{postId}/comment/{commentId}/edit",
-                        "/posts/{postId}/comment/{commentId}/delete",
+                        "/posts/comment/{commentId}/delete",
                         "/posts/{id}/comment/{commentId}",
                         "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete",
                         "/profile",
                         "/profile/{id}/edit",
                         "/profile/{id}/delete",
                         "/profile/{id}/editPassword"
-                ) // only authenticated (logged in) users can create/edit posts
-                .authenticated()
+                ).authenticated(); // only authenticated (logged in) users can access
 
-                .and()
-                .authorizeRequests()
-                .antMatchers("/posts/{id}/disable")
-                .hasAuthority("ROLE_ADMIN"); // only admins can disable ads
-        // .hasAnyAuthority("ADMIN", "SELLER") // You can specify several roles too
+                //restricted area
+//                .authorizeRequests()
+//                .antMatchers("/posts/create",
+//                        "/posts/{id}/edit",
+//                        "/posts/{id}/delete",
+//                        "/posts/{id}/comment",
+//                        "/posts/{postId}/comment/{commentId}/edit",
+//                        "/posts/{postId}/comment/{commentId}/delete",
+//                        "/posts/{id}/comment/{commentId}",
+//                        "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete",
+//                        "/profile",
+//                        "/profile/{id}/edit",
+//                        "/profile/{id}/delete",
+//                        "/profile/{id}/editPassword",
+//                        "/posts/{id}/disable"
+//                ).hasAnyAuthority("ROLE_ADMIN", "ROLE_EDITOR")
+//                .and()
+//
+//                //restricted area
+//                .authorizeRequests()
+//                .antMatchers("/posts/{id}/comment",
+//                "/posts/{postId}/comment/{commentId}/edit",
+//                "/posts/{postId}/comment/{commentId}/delete",
+//                "/posts/{id}/comment/{commentId}",
+//                "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete",
+//                "/profile",
+//                "/profile/{id}/edit",
+//                "/profile/{id}/delete",
+//                "/profile/{id}/editPassword"
+//                ).hasAuthority("ROLE_USER");
+
+
     }
+
+//    If we want to secure the website that everybody who uses it will be required to login, we need to use isAuthenticated() method:
+//            .antMatchers("/*").authenticated()
 
 
     // ADMINS: (CAN DO EVERYTHING)
