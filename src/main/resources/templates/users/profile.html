@@ -59,7 +59,7 @@
 <!--Reminder: #authentication.principal is the currently logged-in/session user-->
 
     <!--<th:block sec:authorize="isAuthenticated()" th:if="${isOwnProfile}">-->
-
+    <div>
         <div th:if="${success}" class="alert alert-success alert-dismissible fade in" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -89,14 +89,17 @@
                                 <!-- ======================== Upload Image Form ============================================ -->
                                 <form th:action="@{'/profile/edit/fileupload'}" method="POST" enctype="multipart/form-data"
                                       id="data-edit-profile-picture-form">
-                                    <input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}"/>
                                 <!-- input file -->
                                     <div class="box" id="modalUploadPicBtnBox">
                                         <label for="file-input" class="custom-file-upload btn btn-secondary">
                                             <i class="fas fa-upload" style="padding-right: 1em"></i>Upload Profile Picture
                                             <input id="file-input" name="file" type="file" style="display:none;"/>
                                         </label>
+                                        <form th:action="@{'/profile/edit/fileupload/default'}" method="POST" enctype="multipart/form-data">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fas fa-user-circle"></i>Use Default Picture</button>
+                                        </form>
                                     </div>
+
                                 <!-- leftbox -->
                                     <div class="box-2">
                                         <div class="result"></div>
@@ -128,10 +131,13 @@
                                             </button>
                                         </div>
                                     </div>
-                                </form>
+                                    <!--not needed because using thymeleaf th:action:-->
+                                    <!--<input type="hidden" th:attr="name=${_csrf.parameterName},value=${_csrf.token}"/>-->
 
+                                </form>
                             </div>
                         </div>
+
                         <div class="modal-footer" id="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
@@ -143,14 +149,14 @@
         <div class="profile-upper-wrapper">
             <div class="profile-picture-wrapper">
                 <span class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} == null">
-                    <img class="profilePic" src="/../images/user.png" data-target="#modal" data-toggle="modal"/>
-                        <span class="change-profile-picture-alternate hidden">
+                    <img th:classappend="${isOwnProfile} ? profilePic : profilePicNotOwner" src="/../images/user.png"/>
+                        <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate hidden' : 'none'">
                             <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
                         </span>
                 </span>
                 <span class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} != null">
-                    <img class="profilePic" th:src="@{'/uploads/' + ${profileUser.profilePicture}}" data-target="#modal" data-toggle="modal"/>
-                        <span class="change-profile-picture-alternate hidden">
+                    <img th:classappend="${isOwnProfile} ? profilePic : profilePicNotOwner" th:src="@{'/uploads/' + ${profileUser.profilePicture}}"/>
+                        <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate hidden' : 'none'">
                             <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
                         </span>
                 </span>
@@ -242,6 +248,7 @@
             </div>
         </div>
     <!--</th:block>-->
+    </div>
 <!--============================================== THE LIST OF POSTS AND COMMENTS ======================================================-->
 
     <div id="profile-tab">

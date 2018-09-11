@@ -8,11 +8,24 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     height: 100%;
+    /*background: url('../images/paper_fibers.png');*/
 }
 
 html {
     position: relative;
     min-height: 100%;
+}
+
+:root {
+    --main-background-color: #fffafb;
+    --main-nav-background: #3f403c;
+    --main-blue:  #0bd8ff;
+    --main-blue-hover: #339989;
+    --main-pink: #fc32be;
+    --main-yellow: #f1ff40;
+    --main-orange: #E07A5F;
+    --main-gray: #373737;
+    /*--main-padding: 15px;*/
 }
 
 /* =======utilities=======*/
@@ -37,17 +50,9 @@ html {
     word-wrap: break-word;      /* IE */
 }
 
-.margin-top-bottom-1em {
-    margin-top : 1em;
-    margin-bottom: 1em;
-}
-
-.margin-left {
-    margin-left: 1em;
-}
-
-.margin-right {
-    margin-right: 1em;
+.margin-top-bottom {
+    margin-top : 10px;
+    margin-bottom: 10px;
 }
 
 .margin-left {
@@ -66,8 +71,10 @@ html {
 
 .navbar-default {
     border: none;
-    background-color: #3f403c;
+    /*background-color: #3f403c;*/
+    background-color: #373737;
     box-shadow: 0px 0px 20px darkgrey;
+
     /*-webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 0 65%);*/
     /*clip-path: polygon(0 0, 100% 0, 100% 90%, 0 65%);*/
     /*border-bottom: #FFFAFB solid 10px;*/
@@ -112,7 +119,7 @@ html {
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-     background-color: #fffafc;
+     background-color: #fffafb;
 }
 
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
@@ -135,6 +142,9 @@ html {
 /*}*/
 
 .nav-icon {
+    color: #7DE2D1;
+    margin-right: 5px;
+    margin-left: 5px;
     /*color:#fcf101;*/
 }
 
@@ -143,6 +153,7 @@ html {
     color: #7DE2D1 !important;
     /*font-family: Futura, serif;*/
     font-family: 'Roboto', sans-serif;
+    /*font-family: 'Slim Joe', 'Roboto', sans-serif;*/
     transition: color 0.1s linear;
     -webkit-transition: color 0.1s linear;
     -moz-transition: color 0.1s linear;
@@ -165,11 +176,11 @@ html {
 }
 
 
-.fa-nav {
-    color: #7DE2D1;
-    margin-right: 5px;
-    margin-left: 5px;
-}
+/*.fa-nav {*/
+    /*color: #7DE2D1;*/
+    /*margin-right: 5px;*/
+    /*margin-left: 5px;*/
+/*}*/
 
 #srch-term {
     background: transparent;
@@ -212,8 +223,9 @@ html {
 /* ================== Logout Button =========== */
 
 #logout {
-    /*font-family: Futura, serif;*/
-    font-family: 'Roboto', sans-serif;
+    /*font-family: Futura,'Roboto', serif;*/
+    /*font-family: "Slim Joe", 'Roboto', sans-serif;*/
+    font-family: 'Roboto', san-serif;
     color: #7DE2D1;
     margin-top:8px;
     background-color: transparent;
@@ -483,7 +495,7 @@ ul {
     /*font-family: Oswald, sans-serif;*/
     /*font-size: 16px;*/
     /*color: black;*/
-    line-height: 1.5;
+    /*line-height: 1.5;*/
     color: gray;
     font-style: italic;
     font-weight: bolder;
@@ -739,7 +751,10 @@ textarea, input, .form-control {
 
 .postInfoWrapper {
     /*width: 50%;*/
-    /*width: 50%;*/
+}
+
+.image-top-show-page-mobile {
+    display: none;
 }
 
 .showPageIntro {
@@ -812,6 +827,14 @@ textarea, input, .form-control {
 .show-all-content {
     max-height: 100%;
     max-width:740px; /*matches image width resizing*/
+}
+
+.post-subtitle-show-page {
+    color: gray;
+    font-family: 'Playfair Display', regular;
+    font-style: italic;
+    font-weight: bolder;
+    font-size: 1.4em;
 }
 
 .post-vote-options-row {
@@ -966,8 +989,9 @@ textarea, input, .form-control {
 }
 
 .commentBodyWrapper {
-    margin-top: 1em;
-    margin-bottom: 1em;
+    align-items: center;
+    display: flex;
+    margin-bottom: 10px;
 }
 
 .parentCommentOwnersProfileLink, .parentCommentOwnersProfileLink:hover {
@@ -1314,6 +1338,14 @@ textarea, input, .form-control {
     border-radius: 100px;
 }
 
+.profilePicNotOwner {
+    width: 200px;
+    height: 200px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 100px;
+}
+
 .change-profile-picture-alternate {
     position: absolute;
     /* opacity: 0.5; */
@@ -1412,6 +1444,10 @@ textarea, input, .form-control {
     justify-content: center;
     font-family: Oswald, sans-serif;
     font-size: 1.5em;
+}
+
+.profile-comment-list-wrapper, .profile-post-list-wrapper {
+    margin-top: 2em;
 }
 
 .posts-hr {
