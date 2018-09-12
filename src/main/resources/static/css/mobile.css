@@ -98,7 +98,16 @@
     }
 
     .postTitle {
-        font-size: 7.5vw;
+        font-size: 4vh;
+    }
+
+    .post-subtitle {
+        font-size: 3vh;
+        padding-top: 0.5vh;
+    }
+
+    .post-subtitle-show-page {
+        font-size: 3vh;
     }
 
     #emptySearchedContent {
@@ -259,10 +268,27 @@
 
     /*========================== Show Page ==========================================*/
 
+    .showPageWrapper {
+        margin-left: 0em;
+        margin-top: -1.5vh;
+    }
+
     .postWrapper-showPage {
         margin: 0 auto;
         display: flex;
         width: 100%;
+    }
+
+    .image-top-show-page-mobile {
+        display: block;
+    }
+
+    .image-top-show-page-mobile > p > img {
+        /*transform: scale(1.125);*/
+        /*margin-top: 0.25em;*/
+        /*margin-bottom: 0.25em;*/
+        max-width: 100% !important;
+        height: auto !important;
     }
 
     .profile-pic-wrapper-show-page {
@@ -301,13 +327,12 @@
         width: 100%;
     }
 
-    .showPageWrapper {
-        margin-left: 0em;
-        margin-top: 2em;
-    }
-
     .show-all-content {
         max-height: 100%;
+    }
+
+    .show-all-content > p > img:first-child {
+        display: none;
     }
 
     .editedCommentCancelBtn, .editedCommentSubmitBtn {
