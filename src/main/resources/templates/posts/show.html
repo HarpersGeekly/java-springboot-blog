@@ -10,7 +10,11 @@
     <!-- ================================================================================================================-->
     <!-- ====================================================  SHOW THE POST ============================================-->
     <!-- ================================================================================================================-->
-        <div class="postWrapper-showPage">
+    <div class="image-top-show-page-mobile">
+        <p th:utext="${post.htmlImage}"></p>
+    </div>
+
+    <div class="postWrapper-showPage">
 
             <div class="postInfoWrapper">
                 <div class="indent">
@@ -74,7 +78,7 @@
 
                 <div class="postDescription hidden show-all-content">
                     <p th:utext="${post.htmlImage}"></p>
-                    <div class="post-subtitle margin-top-bottom-1em indent">
+                    <div class="post-subtitle-show-page margin-top-bottom indent">
                         <p th:utext="${post.htmlSubtitle}"></p>
                     </div>
                     <p th:utext="${post.htmlDescription}"></p> <!--th:utext for markdown editor, not th:text-->
@@ -191,7 +195,6 @@
                     </button>
                 </div>
             </form>
-
         </div>
     <!-- ================================================================================================================-->
     <!--============================================= SHOW ALL COMMENTS =================================================-->
@@ -411,7 +414,6 @@
 
         <!--SHOW CHILD COMMENTS UNDERNEATH PARENT COMMENT:-->
         <div class="eachChildCommentDiv indent-comment" th:each="child : ${comment.getChildrenComments()}">
-
             <div class="child-comment" th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
         </div>
 
