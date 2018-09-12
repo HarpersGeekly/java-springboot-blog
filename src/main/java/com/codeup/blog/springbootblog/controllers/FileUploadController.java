@@ -60,4 +60,13 @@ public class FileUploadController {
             }
             return loggedInUser;
         }
+
+        @PostMapping("/profile/edit/fileupload/default")
+        public String setDefaultPicture(@RequestParam Long id) {
+            System.out.println("get to default file method");
+            User user = usersDao.findById(id);
+            user.setProfilePicture(null);
+            usersDao.save(user);
+            return "redirect:/profile";
+        }
     }
