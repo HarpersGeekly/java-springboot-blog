@@ -18,9 +18,9 @@
                 <div class="secretAjaxClass">
 
                     <th:block th:fragment="post">
-                        <div class="indent">
+                        <header class="indent">
                             <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
-                                <h4 th:utext="${post.htmlTitle}" class="postTitle"></h4>
+                                <h1 th:utext="${post.htmlTitle}" class="postTitle"></h1>
                             </a>
 
                             <!--<div class="post-tags-div">-->
@@ -43,7 +43,7 @@
                                 <h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${post.hitCount.postCount} : '0'"></h5>
 
                             </div>
-                        </div>
+                        </header>
 
                         <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
                             <div class="postDescription hidden">
