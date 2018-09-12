@@ -29,7 +29,7 @@
                         <a th:href="@{/profile/{id}(id=${post.user.id})}">
                             <div class="profile-pic-wrapper-show-page">
                                 <span th:if="${post.user.profilePicture} == null">
-                                    <img class="profile-pic-show-page profile-pic-show-page-mobile" src="/../images/user.png"/>
+                                    <img class="profile-pic-show-page profile-pic-show-page-mobile" src="/../images/default_user.png"/>
                                 </span>
                                 <span th:if="${post.user.profilePicture} != null">
                                     <img class="profile-pic-show-page profile-pic-show-page-mobile" th:src="@{'/uploads/' + ${post.user.profilePicture}}"/>
@@ -215,7 +215,7 @@
             <a th:href="@{/profile/{id}(id=${comment.user.id})}">
                 <div class="commentPicWrapper">
                     <span th:if="${comment.user.profilePicture} == null">
-                        <img class="profilePicComment" src="/../images/user.png"/>
+                        <img class="profilePicComment" src="/../images/default_user.png"/>
                     </span>
                     <span th:if="${comment.user.profilePicture} != null">
                         <img class="profilePicComment" th:src="@{'/uploads/' + ${comment.user.profilePicture}}"/>
@@ -486,6 +486,20 @@
             + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
         field.style.height = height + 'px';
     };
+    //==================================================================================================================
+    //====================================== hover over to reveal ellipsis =============================================
+    //==================================================================================================================
+
+    // $('.comment-ellipsis').addClass('hidden');
+
+    $('.commentInfoWrapper').on({
+        mouseenter: function () {
+            //stuff to do on mouse enter
+        },
+        mouseleave: function () {
+            //stuff to do on mouse leave
+        }
+    });
 
     //==================================================================================================================
     //========================================== comment tree ==========================================================
