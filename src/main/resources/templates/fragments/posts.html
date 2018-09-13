@@ -27,7 +27,7 @@
                                 <!--<a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>-->
                             <!--</div>-->
 
-                            <div class="postedByWrapper">By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+                            <div class="postedByWrapper">By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.makeSlug(post.user.username)})}">
                                 <span th:text="${post.user.username}"></span></a>
                                 <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
                                 <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
