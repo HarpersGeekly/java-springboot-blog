@@ -8,8 +8,10 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by RyanHarper on 11/7/17.
@@ -82,15 +84,21 @@ public class User {
 
     public User(){}
 
-    // use this constructor for update profile form.
-    public User(Long id, String username, String email, LocalDateTime date, String profilePicture, String bio) {
-        this.id = id;
+    public User(Long id, String username, String email) {
+        this.id=id;
         this.username = username;
         this.email = email;
-        this.date = date;
-        this.profilePicture = profilePicture;
-        this.bio = bio;
     }
+
+    // use this constructor for update profile form.
+//    public User(Long id, String username, String email, LocalDateTime date, String profilePicture, String bio) {
+//        this.id = id;
+//        this.username = username;
+//        this.email = email;
+//        this.date = date;
+//        this.profilePicture = profilePicture;
+//        this.bio = bio;
+//    }
 
     // security files will need the next constructor. It makes clones/copies. Why?
     // Spring dependencies require a copy of all the properties in the User object
@@ -236,6 +244,19 @@ public class User {
             profilePicture = profilePicturePath();
         }
     }
+    // CREATING A SLUG FOR URL, this-is-a-slug-in-url ==================================================================
+
+    private static final java.util.regex.Pattern NONLATIN = java.util.regex.Pattern.compile("[^\\w-]");
+    private static final java.util.regex.Pattern WHITESPACE = java.util.regex.Pattern.compile("[\\s]");
+
+    public String makeSlug(String input) {
+        String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
+        String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
+        String slug = NONLATIN.matcher(normalized).replaceAll("");
+        return slug.toLowerCase(Locale.ENGLISH);
+    }
+
+
 }
 
 //    @Size(min = 8, message="Your password must be between 8-20 characters.")
