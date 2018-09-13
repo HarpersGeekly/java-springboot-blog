@@ -26,7 +26,7 @@
                     <h4 th:utext="${post.getHtmlTitle()}" class="postTitle no-text-decoration"></h4>
 
                     <div class="post-info-wrapper-mobile">
-                        <a th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <a th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.user.makeSlug(post.user.username)})}">
                             <div class="profile-pic-wrapper-show-page">
                                 <span th:if="${post.user.profilePicture} == null">
                                     <img class="profile-pic-show-page profile-pic-show-page-mobile" src="/../images/default_user.png"/>
@@ -38,7 +38,7 @@
                         </a>
 
                         <div class="post-info-name-date-wrapper">
-                            <div>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}(id=${post.user.id})}">
+                            <div>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.makeSlug(post.user.username)})}">
                                 <span th:text="${post.user.username}"></span></a>
                                 <div class="float-right">
                                     <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
@@ -213,7 +213,7 @@
         <!--th:attr allows me to target this element specifically in show.html's ajax request-->
         <div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
             <!-- this div should be targeted with unique th:attr -->
-            <a th:href="@{/profile/{id}(id=${comment.user.id})}">
+            <a th:href="@{/profile/{id}/{username}(id=${comment.user.id}, username=${comment.user.makeSlug(comment.user.username)})}">
                 <div class="commentPicWrapper">
                     <span th:if="${comment.user.profilePicture} == null">
                         <img class="profilePicComment" src="/../images/default_user.png"/>
