@@ -607,13 +607,12 @@ textarea, input, .form-control {
 
 .postDescription > p > img {
     /*margin: 0 auto;*/
-    /*display: flex;*/
+    display: flex;
     /*margin-top: 0.25em;*/
     /*margin-bottom: 0.25em;*/
 }
 
 .sidebar-image > p > img {
-    max-width: 100px;
     max-width: 100px;
 }
 

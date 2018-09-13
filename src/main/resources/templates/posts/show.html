@@ -77,7 +77,9 @@
                 <!-- ======================================== Post Body ======================================-->
 
                 <div class="postDescription hidden show-all-content" th:if="${!isDisabled}">
-                    <p th:utext="${post.htmlImage}"></p>
+                    <div class="headline-image">
+                        <p th:utext="${post.htmlImage}"></p>
+                    </div>
                     <div class="post-subtitle-show-page margin-top-bottom indent">
                         <p th:utext="${post.htmlSubtitle}"></p>
                     </div>
