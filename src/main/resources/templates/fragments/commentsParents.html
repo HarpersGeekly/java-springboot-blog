@@ -28,7 +28,7 @@
                         <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                     </a>
                     <span class="comment-info-date-wrapper">
-                        <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
+                        <span class="commentedByDateTime margin-right" th:text="${#temporals.format(comment.date,  'h:mm a')}"
                               style="margin-right: 0.75em;"></span>
                         <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
                         <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
@@ -155,7 +155,7 @@
                     <!--=================================================================================================-->
 
                     <div th:if="${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"
-                         th:attr="id=${'ellipsis_' + comment.id}" class="hidden comment-ellipsis-div">
+                         th:attr="id=${'ellipsis_' + comment.id}" class="flex-center comment-ellipsis-div">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>

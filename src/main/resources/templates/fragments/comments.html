@@ -34,8 +34,7 @@
                     </a>
 
                     <span class="comment-info-date-wrapper">
-                        <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
-                              style="margin-right: 0.75em;"></span>
+                        <span class="commentedByDateTime margin-right" th:text="${#temporals.format(comment.date,  'h:mm a')}"></span>
                         <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
                         <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
                         <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
@@ -43,8 +42,7 @@
 
                     <span class="comment-info-date-mobile-wrapper">
                         <div class="comment-info-mobile">
-                            <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
-                                  style="margin-right: 0.75em;"></span>
+                            <span class="commentedByDateTime margin-right" th:text="${#temporals.format(comment.date,  'h:mm a')}"></span>
                             <span class="commentedByDate" th:text="${#temporals.monthNameShort(comment.date)}"></span>
                             <span class="commentedByDate" th:text="${#temporals.day(comment.date)}">,</span>
                             <span class="commentedByDate" th:text="${#temporals.year(comment.date)}"></span>
@@ -161,7 +159,7 @@
                     <!--=================================================================================================-->
 
                     <div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"
-                         th:attr="id=${'ellipsis_' + comment.id}" class="hidden comment-ellipsis-div">
+                         th:attr="id=${'ellipsis_' + comment.id}" class="flex-center comment-ellipsis-div">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>

@@ -208,6 +208,7 @@
         <!--// PAGINATION-->
         <!--<div class="container commentSection" th:each="comment : ${page}" th:data="*{page}">-->
         <!--PAGINATION \\-->
+        <th:block th:include="fragments/comments :: comment"></th:block>
 
         <!--th:attr allows me to target this element specifically in show.html's ajax request-->
         <div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
@@ -339,6 +340,7 @@
                     <!--================================== REPLY TO A COMMENT ===========================================-->
                     <!--=================================================================================================-->
 
+
                     <h5 th:if="${!isLoggedIn}" class="replyCommentNotLoggedInDiv"><span><a class="replyCommentNotLoggedInLink" th:href="${'/login'}">LOGIN</a></span></h5>
 
                     <div th:if="${isLoggedIn}">
@@ -357,7 +359,7 @@
                     <!--=================================================================================================-->
 
                     <div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"
-                         th:attr="id=${'ellipsis_' + comment.id}" class="hidden comment-ellipsis-div">
+                         th:attr="id=${'ellipsis_' + comment.id}" class="flex-center comment-ellipsis-div">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
@@ -383,6 +385,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="replyTextArea hidden" th:attr="id=${'replyTextArea_' + comment.id}">
@@ -491,6 +494,7 @@
     //====================================== hover over to reveal ellipsis =============================================
     //==================================================================================================================
 
+    $('.comment-ellipsis-div').addClass('hidden');
     $('.commentWrapper').on({
         mouseenter: function () {
             //stuff to do on mouse enter
