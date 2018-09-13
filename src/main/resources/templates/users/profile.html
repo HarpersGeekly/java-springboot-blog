@@ -171,12 +171,11 @@
 
             <div class="profile-info-wrapper">
                 <h3 class="profileLoggedInMessage" th:if="${isOwnProfile}">You are currently logged in.
-                    <span th:if="${ownerIsUser}">As a user, you can contribute to conversations by making comments and voting.</span>
+                    <span th:if="${ownerIsUser}">As a user, you can engage socially by making comments and voting.</span>
                     <span th:if="${ownerIsEditor} or ${ownerIsAdmin}">
-                        As an editor or admin, you can contribute to conversations by making comments, vote, and you can
+                        As an editor or admin, you can engage socially by making comments, vote, and you can
                         <a id="profileCreatePostLink" th:href="${'/posts/create'}">create a post.</a>
                         As an admin, you have access to the admin dashboard.</span>
-                    <!--<span th:if="${ownerIsAdmin}">As an admin, you have access to everything.</span>-->
                 </h3>
 
                 <h4 th:if="${ownerIsAdmin}">
@@ -320,6 +319,26 @@
             //stuff to do on mouse leave
             $('.profilePic').css("opacity", "1");
             $('.change-profile-picture-alternate').addClass('hidden');
+        }
+    });
+
+    //==================================================================================================================
+    //====================================== hover over to reveal ellipsis =============================================
+    //==================================================================================================================
+
+    $('.comment-ellipsis-div').addClass('hidden');
+    $('.commentWrapper').on({
+        mouseenter: function () {
+            //stuff to do on mouse enter
+            let $this = $(this);
+            let commentId = $this.data('edit-delete-comment-id');
+            $('#ellipsis_' + commentId).removeClass('hidden');
+        },
+        mouseleave: function () {
+            //stuff to do on mouse leave
+            let $this = $(this);
+            let commentId = $this.data('edit-delete-comment-id');
+            $('#ellipsis_' + commentId).addClass('hidden');
         }
     });
 
