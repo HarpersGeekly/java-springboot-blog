@@ -17,7 +17,7 @@
             <div class="flex-center">
                 <span class="margin-right" th:if="${!isParentComment} and ${comment.getParentComment() != null}">REPLIED TO
                     <i class="fas fa-reply flipped-reply"></i>
-                    <a class="parentCommentOwnersProfileLink" th:href="${'/profile/' + comment.getParentComment().getUser().getId()}"
+                    <a class="parentCommentOwnersProfileLink" th:href="@{/profile/{id}/{username}(id=${comment.getParentComment().getUser().getId()}, username=${comment.user.makeSlug(comment.getParentComment().getUser().getUsername())})}"
                        th:text="${'' + comment.getParentComment().getUser().getUsername()}">
                     </a>
                 </span>
