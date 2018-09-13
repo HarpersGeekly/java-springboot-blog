@@ -19,7 +19,7 @@
                     <i class="fas fa-reply flipped-reply"></i>
                     <a class="parentCommentOwnersProfileLink" th:href="${'/profile/' + comment.getParentComment().getUser().getId()}"
                        th:text="${'' + comment.getParentComment().getUser().getUsername()}">
-                    </a> on:
+                    </a>
                 </span>
             </div>
             <div class="flex-center">
@@ -74,7 +74,7 @@
             </form>
         </div>
 
-        <div class="flex">
+        <div class="flex relative">
             <div class="flex-center">
                         <span class="comment-info-date-wrapper">
                             <span class="commentedByDateTime" th:text="${#temporals.format(comment.date,  'h:mm a')}"
@@ -103,7 +103,8 @@
                 </span>
             </div>
 
-            <div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)} or ${isLoggedInUserAdmin}" th:attr="data-ellipsis-comment-id=${comment.id}" class="ellipsis-wrapper">
+            <div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)} or ${isLoggedInUserAdmin}"
+                 th:attr="id=${'ellipsis_' + comment.id}" class="comment-ellipsis-div flex-center margin-left">
                 <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </i>
