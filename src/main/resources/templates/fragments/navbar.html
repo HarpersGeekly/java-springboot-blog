@@ -19,7 +19,8 @@
 
                 <a class="navbar-brand" href="/posts">
                     <!--<img id="header-icon" src="/images/celtic-harp-24-8526.png"/>-->
-                    To Geek Is Human
+                    <!--To Geek Is Human-->
+                    Lorem Ipsum
                 </a>
 
             </div>
@@ -40,19 +41,21 @@
 
                     <li>
                         <a href="/posts/archived">
-                            <i class="fas fa-table fa-nav nav-icon"></i> All Posts
+                            <!--<i class="fas fa-table nav-icon"></i> -->
+                            All Posts
                         </a>
                     </li>
 
                     <li sec:authorize="hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')">
                         <a href="/posts/create">
-                            <i class="fas fa-pen-nib fa-nav nav-icon"></i> Create New Post
+                            <!--<i class="fas fa-pen-nib nav-icon"></i> -->
+                            Create New Post
                         </a>
                     </li>
 
                     <li sec:authorize="isAuthenticated()">
-                        <a th:href="'/profile/' + ${#authentication.principal.id}">
-                            <i class="fas fa-nav fa-user-circle nav-icon"></i>
+                        <a th:href="'/profile/' + ${#authentication.principal.id} + '/' + ${#authentication.principal.makeSlug(#authentication.principal.username)}">
+                            <!--<i class="fas fa-user-circle nav-icon"></i>-->
                             <!--<span th:text="${#authentication.principal.username}"></span>'s Profile-->
                             <span sec:authentication="principal.username"/>'s Profile
                         </a>
@@ -63,20 +66,23 @@
                     <li sec:authorize="isAuthenticated()">
                         <form th:action="@{/logout}" th:method="post">
                             <button id="logout" class="btn btn-link">
-                                <i class="fas fa-nav fa-hand-scissors"></i> Logout
+                                <!--<i class="fas fa-hand-scissors nav-icon"></i> -->
+                                Logout
                             </button>
                         </form>
                     </li>
 
                     <li sec:authorize="!isAuthenticated()">
                         <a href="/register">
-                            <i class="fas fa-nav fa-users"></i> Register
+                            <!--<i class="fas fa-users nav-icon"></i> -->
+                            Register
                         </a>
                     </li>
 
                     <li sec:authorize="!isAuthenticated()">
                         <a href="/login">
-                            <i class="fas fa-nav fa-sign-in-alt"></i> Login
+                            <!--<i class="fas fa-sign-in-alt nav-icon"></i> -->
+                            Login
                         </a>
                     </li>
 
