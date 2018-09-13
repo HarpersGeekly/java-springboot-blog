@@ -494,8 +494,8 @@
     //====================================== hover over to reveal ellipsis =============================================
     //==================================================================================================================
 
-    $('.comment-ellipsis-div').addClass('hidden');
     let hoverEllipsis = ()=> {
+        $('.comment-ellipsis-div').addClass('hidden');
         $('.commentWrapper').on({
             mouseenter: function () {
                 //stuff to do on mouse enter
@@ -620,7 +620,6 @@
                 commentVoting.removeClass('hidden'); // show the comment votes again
                 showReplyTextArea.removeClass('hidden'); // show the reply again
                 ellipsis.removeClass('hidden'); //show ellipsis option dropdown again
-                $('.commentWrapper').on('mouseenter mouseleave');
                 hoverEllipsis();
             })
         });

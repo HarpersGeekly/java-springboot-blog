@@ -326,21 +326,24 @@
     //====================================== hover over to reveal ellipsis =============================================
     //==================================================================================================================
 
-    $('.comment-ellipsis-div').addClass('hidden');
-    $('.commentWrapper').on({
-        mouseenter: function () {
-            //stuff to do on mouse enter
-            let $this = $(this);
-            let commentId = $this.data('edit-delete-comment-id');
-            $('#ellipsis_' + commentId).removeClass('hidden');
-        },
-        mouseleave: function () {
-            //stuff to do on mouse leave
-            let $this = $(this);
-            let commentId = $this.data('edit-delete-comment-id');
-            $('#ellipsis_' + commentId).addClass('hidden');
-        }
-    });
+    let hoverEllipsis = ()=> {
+        $('.comment-ellipsis-div').addClass('hidden');
+        $('.commentWrapper').on({
+            mouseenter: function () {
+                //stuff to do on mouse enter
+                let $this = $(this);
+                let commentId = $this.data('edit-delete-comment-id');
+                $('#ellipsis_' + commentId).removeClass('hidden');
+            },
+            mouseleave: function () {
+                //stuff to do on mouse leave
+                let $this = $(this);
+                let commentId = $this.data('edit-delete-comment-id');
+                $('#ellipsis_' + commentId).addClass('hidden');
+            }
+        });
+    };
+    hoverEllipsis();
 
     //==================================================================================================================
     //===================================== textarea expands as user types =============================================
@@ -407,8 +410,9 @@
         let button = $(this);
         let commentId = button.data('edit-btn-comment-id');
         let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
-        let ellipsis = $('[data-ellipsis-comment-id=' + commentId + ']');
+        let ellipsis = $('#ellipsis_' + commentId);
         commentEditForm.removeClass('hidden');
+        $('.commentWrapper').unbind('mouseenter mouseleave');
         ellipsis.addClass('hidden');
 
         //================================== AJAX ==================================
@@ -441,6 +445,7 @@
                 commentBody.removeClass('hidden'); // show the original comment back in the html
                 commentVoting.removeClass('hidden'); // show the comment votes again
                 ellipsis.removeClass('hidden'); //show ellipsis option dropdown again
+                hoverEllipsis();
             })
         });
         request.fail((a, b, c) => {
@@ -472,14 +477,14 @@
             let commentEditForm = $('[data-edit-form-comment-id=' + commentId + ']');
             let commentVoting = $('[data-commentVoting-comment-id=' + commentId + ']');
             let showReplyTextArea = $('[data-show-reply-textarea-comment-id=' + commentId + ']');
-            let ellipsis = $('[data-ellipsis-comment-id=' + commentId + ']');
-
+            let ellipsis = $('#ellipsis_' + commentId);
 
             commentEditForm.addClass('hidden'); // hide the edit form
             commentBody.removeClass('hidden').html(comment.body); // show the new updated comment in the html
             commentVoting.removeClass('hidden');
             showReplyTextArea.removeClass('hidden');
             ellipsis.removeClass('hidden');
+            hoverEllipsis();
         })
     });
 
