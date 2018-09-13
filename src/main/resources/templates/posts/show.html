@@ -176,7 +176,7 @@
         <!-- ================================================================================================================-->
         <!--============================================== FORM for COMMENTS ================================================-->
         <!-- ================================================================================================================-->
-        <div class="container alert alert-info" th:if="${isDisabled}">This post has been locked.</div>
+        <div class="container alert alert-info" th:if="${isDisabled}">This post is currently locked.</div>
         <div th:if="${!isDisabled}" class="container commentFormWrapper" sec:authorize="isAuthenticated()">
             <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
                 <div class="form-group">
