@@ -606,8 +606,10 @@ textarea, input, .form-control {
 }
 
 .postDescription > p > img {
-    margin-top: 0.25em;
-    margin-bottom: 0.25em;
+    /*margin: 0 auto;*/
+    /*display: flex;*/
+    /*margin-top: 0.25em;*/
+    /*margin-bottom: 0.25em;*/
 }
 
 .sidebar-image > p > img {
@@ -827,8 +829,9 @@ textarea, input, .form-control {
 }
 
 .post-vote-options-row {
-    margin-top: 1em;
     display: inline-flex;
+    align-items: center;
+    margin-top: 1em;
 }
 
 #editPostBtn {
