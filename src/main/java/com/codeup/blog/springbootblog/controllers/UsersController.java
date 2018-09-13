@@ -193,7 +193,7 @@ public class UsersController {
         return "redirect:profile/" + id;
     }
 
-    @GetMapping("/profile/{id}")
+    @GetMapping("/profile/{id}/{username}")
     public String showOtherUsersProfilePage(@PathVariable Long id, Model viewModel) {
         User user = usersDao.findById(id);
 
