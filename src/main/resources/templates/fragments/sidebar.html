@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="popularPostUserWrapper">
-                        <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.user.makeSlug(post.user.username)})}">
                             <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
                         </a>
                     </div>
@@ -65,13 +65,13 @@
                         <!--<i class="fas fa-comments popularPostCountIcon"></i>-->
                         <!--<h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>-->
                     <!--</div>-->
-
-                    <div class="popularPostTitleWrapper">
-
                         <div class="popularPostCountsWrapper">
                             <i class="fas fa-comments popularPostCountIcon"></i>
                             <h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>
                         </div>
+
+                    <div class="popularPostTitleWrapper">
+
 
                         <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
                             <!--<h4 class="popularTitleText" th:text="${post.title}"></h4>-->
@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="popularPostUserWrapper">
-                        <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.user.makeSlug(post.user.username)})}">
                             <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
                         </a>
                     </div>
@@ -110,7 +110,7 @@
                     </div>
 
                     <div class="popularPostUserWrapper">
-                        <a class="popularNamesLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                        <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.user.makeSlug(post.user.username)})}">
                             <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
                         </a>
                     </div>
@@ -131,7 +131,7 @@
 
                     <div class="popularNames">
                         <div th:each="user : ${popularUsers}">
-                            <a class="popularNamesLink" th:href="@{/profile/{id}(id=${user.id})}">
+                            <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${user.id}, username=${user.makeSlug(user.username)})}">
                                 <span th:text="${user.username}"></span>
                             </a>
                         </div>
