@@ -13,9 +13,13 @@
             <h4 class="popularityHeader">Tags</h4>
             <div class="eachPopularSection">
                 <div class="sidebar-category-tags-wrapper">
+                    <div class="sidebar-category-tags">
+                        <a th:href="@{/posts}"><i class="fas fa-home margin-right-lite"></i>Home</a>
+                    </div>
                     <div class="sidebar-category-tags" th:each="category : ${categories}">
                         <a class="tag" th:attr="data-tag-name=${category.name}" th:text="${category.name}"></a>
                         <!--th:href="@{/posts/search(term=${category.name})}"-->
+
                     </div>
                 </div>
             </div>
