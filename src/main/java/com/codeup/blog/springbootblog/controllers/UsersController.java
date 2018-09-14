@@ -117,7 +117,7 @@ public class UsersController {
     public String showRegisterForm(Model model) {
 
         if(userSvc.isLoggedIn()) {
-            return "redirect:/profile/" + userSvc.loggedInUser().getId();
+            return "redirect:/profile/" + userSvc.loggedInUser().getId() + "/" + userSvc.loggedInUser().getUsername();
         }
 
         model.addAttribute("user", new User());
@@ -181,7 +181,9 @@ public class UsersController {
         // Spring handles the logging in.
         userSvc.authenticate(user); // now that I have authenticate in the UserService, it automatically logs in the registered user,
         // so I no longer have to reroute them to the login page.
-        return "redirect:/profile/" + user.getId();
+        Long id = user.getId();
+        String username = user.getUsername();
+        return "redirect:/profile/" + id + "/" + username;
     }
 
     // ================================================= PROFILE =======================================================
@@ -190,7 +192,8 @@ public class UsersController {
     public String showProfilePage() {
         User userLoggedIn = userSvc.loggedInUser();
         Long id = userLoggedIn.getId();
-        return "redirect:profile/" + id;
+        String username = userLoggedIn.getUsername();
+        return "redirect:profile/" + id + "/" + username;
     }
 
     @GetMapping("/profile/{id}/{username}")
@@ -327,7 +330,7 @@ public class UsersController {
                 redir.addFlashAttribute("isLoggedInUserAdmin", role);
                 redir.addFlashAttribute("success", success);
                 redir.addFlashAttribute("successMessage", profileSuccess);
-                return "redirect:/profile/" + user.getId();
+                return "redirect:/profile/" + user.getId() + "/" + user.getUsername();
             }
         }
         for(String role : roles) {
@@ -341,7 +344,7 @@ public class UsersController {
         String profileSuccess = "Profile Updated!";
         redir.addFlashAttribute("success", success);
         redir.addFlashAttribute("successMessage", profileSuccess);
-        return "redirect:/profile/" + loggedInUser.getId();
+        return "redirect:/profile/" + loggedInUser.getId() + "/" + loggedInUser.getUsername();
     }
 
 
