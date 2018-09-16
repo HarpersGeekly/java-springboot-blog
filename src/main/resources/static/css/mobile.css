@@ -7,6 +7,10 @@
 
 @media screen and (max-width: 600px) {
 
+    .navbar-default {
+        box-shadow: none;
+    }
+
     .wordwrap {
         white-space: pre-wrap;      /* CSS3 */
         white-space: -moz-pre-wrap; /* Firefox */
