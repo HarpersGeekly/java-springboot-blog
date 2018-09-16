@@ -20,22 +20,23 @@ $(document).ready(function () {
         cropper = '';
 
     // on change show image with crop options
+    if(upload) { // kept getting null, the if check resolves this
         upload.addEventListener('change', (e) => {
             if (e.target.files.length) {
 
                 let file = event.target.files[0];
 
-                if(file.size>5*1024*1024) {
+                if (file.size > 5 * 1024 * 1024) {
                     alert("Images must be less than 5MB please");
                     $(form).get(0).reset();
                     return;
                 }
 
-                if(!file.type.match(/gif|png|jpg|jpeg/)) {
+                if (!file.type.match(/gif|png|jpg|jpeg/)) {
                     alert("Not a valid image type");
                     $(form).get(0).reset();
                     return;
-                    }
+                }
 
                 // start file reader
                 const reader = new FileReader();
@@ -60,6 +61,7 @@ $(document).ready(function () {
                 console.log(e.target.files[0].size / 1024 / 1024 + "MB");
             }
         });
+    }
 
     let file;
     let spinner = $('.saving-gif');
