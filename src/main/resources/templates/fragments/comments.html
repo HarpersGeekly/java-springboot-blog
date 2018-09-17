@@ -10,7 +10,7 @@
 
         <div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
 
-            <a th:href="@{/profile/{id}/{username}(id=${comment.user.id}, username=${comment.user.makeSlug(comment.user.username)})}">
+            <a th:href="@{/profile/{id}/{username}(id=${comment.user.id}, username=${formatter.makeSlug(comment.user.username)})}">
                 <div class="commentPicWrapper">
                         <span th:if="${comment.user.profilePicture} == null">
                             <img class="profilePicComment" src="/../images/default_user.png"/>
@@ -23,13 +23,13 @@
 
             <div class="commentInfoWrapper speech-bubble">
                 <h5 id="commentedBy">
-                    <a th:href="@{/profile/{id}/{username}(id=${comment.user.id}, username=${comment.user.makeSlug(comment.user.username)})}" style="text-decoration: none;">
+                    <a th:href="@{/profile/{id}/{username}(id=${comment.user.id}, username=${formatter.makeSlug(comment.user.username)})}" style="text-decoration: none;">
                         <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                     </a>
 
                     <!--<i class="fas fa-reply flipped-reply"></i>-->
                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                    <a class="parentCommentOwnersProfileLink margin-right" th:href="@{/profile/{id}/{username}(id=${comment.getParentComment().getUser().getId()}, username=${comment.user.makeSlug(comment.getParentComment().getUser().getUsername())})}"
+                    <a class="parentCommentOwnersProfileLink margin-right" th:href="@{/profile/{id}/{username}(id=${comment.getParentComment().getUser().getId()}, username=${formatter.makeSlug(comment.getParentComment().getUser().getUsername())})}"
                        th:text="${'' + comment.getParentComment().getUser().getUsername()}">
                     </a>
 
@@ -116,7 +116,7 @@
 
                         <div class="voteCountDiv">
                             <h5>
-                                <span class="commentVoteCount" th:text="${comment.voteCount()}"
+                                <span class="commentVoteCount" th:text="${formatter.formatCount(comment.voteCount())}"
                                       th:attr="data-voteCount-comment-id=${comment.id}"></span>
                             </h5>
                         </div>

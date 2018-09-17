@@ -17,13 +17,13 @@
             <div class="flex-center">
                 <span class="margin-right" th:if="${!isParentComment} and ${comment.getParentComment() != null}">REPLIED TO
                     <i class="fas fa-reply flipped-reply"></i>
-                    <a class="parentCommentOwnersProfileLink" th:href="@{/profile/{id}/{username}(id=${comment.getParentComment().getUser().getId()}, username=${comment.user.makeSlug(comment.getParentComment().getUser().getUsername())})}"
+                    <a class="parentCommentOwnersProfileLink" th:href="@{/profile/{id}/{username}(id=${comment.getParentComment().getUser().getId()}, username=${formatter.makeSlug(comment.getParentComment().getUser().getUsername())})}"
                        th:text="${'' + comment.getParentComment().getUser().getUsername()}">
                     </a>
                 </span>
             </div>
             <div class="flex-center">
-                <a th:href="@{/posts/{id}/{title}(id=${comment.getPost().getId()}, title=${comment.getPost().makeSlug(comment.post.title)})}">
+                <a th:href="@{/posts/{id}/{title}(id=${comment.getPost().getId()}, title=${formatter.makeSlug(comment.post.title)})}">
                     <h4 class="profilePageCommentPostTitle" th:utext="${comment.getPost().getHtmlTitle()}"></h4>
                 </a>
             </div>
@@ -98,7 +98,7 @@
             <div class="flex-center">
                 <!--<i class="fas fa-thumbs-up commentVoteNotLoggedIn"></i>-->
                 <span class="margin-right margin-left">LIKES:</span>
-                <span class="commentVoteCount" th:text="${comment.voteCount()}"
+                <span class="commentVoteCount" th:text="${formatter.formatCount(comment.voteCount())}"
                       th:attr="data-voteCount-comment-id=${comment.id}">
                 </span>
             </div>
