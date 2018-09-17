@@ -40,12 +40,12 @@
                             <!--<i class="fa fa-eye popularPostCountIcon"></i>-->
                             <!--<h5 class="popularPostCount" th:text="${post.hitCount != null} ? ${post.hitCount.postCount} : '0'"></h5>-->
                         <!--</div>-->
-                        <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                        <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
                             <div class="postDescription side-bar hidden">
                                 <p th:utext="${post.htmlImage}"></p>
                             </div>
                         </a>
-                        <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                        <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
                             <!--<h4 class="popularTitleText" th:text="${post.title}"></h4>-->
                             <!--markdown title:-->
                             <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="popularPostUserWrapper">
-                        <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.user.makeSlug(post.user.username)})}">
+                        <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
                             <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
                         </a>
                     </div>
@@ -71,13 +71,13 @@
                     <!--</div>-->
                         <div class="popularPostCountsWrapper">
                             <i class="fas fa-comments popularPostCountIcon"></i>
-                            <h5 class="popularPostCount" th:text="${post.getComments().size()}"></h5>
+                            <h5 class="popularPostCount" th:text="${formatter.formatCount(post.getComments().size())}"></h5>
                         </div>
 
                     <div class="popularPostTitleWrapper">
 
 
-                        <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                        <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
                             <!--<h4 class="popularTitleText" th:text="${post.title}"></h4>-->
                             <!--markdown title:-->
                             <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
@@ -85,7 +85,7 @@
                     </div>
 
                     <div class="popularPostUserWrapper">
-                        <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.user.makeSlug(post.user.username)})}">
+                        <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
                             <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
                         </a>
                     </div>
@@ -105,16 +105,16 @@
 
                         <div class="popularPostCountsWrapper">
                             <i class="fas fa-thumbs-up popularPostCountIcon"></i>
-                            <h5 class="popularPostCount" th:text="${post.voteCount()}"></h5>
+                            <h5 class="popularPostCount" th:text="${formatter.formatCount(post.voteCount())}"></h5>
                         </div>
 
-                        <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                        <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
                             <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
                         </a>
                     </div>
 
                     <div class="popularPostUserWrapper">
-                        <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.user.makeSlug(post.user.username)})}">
+                        <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
                             <span style="color:darkgray">by: </span><span th:text="${post.user.username}"></span>
                         </a>
                     </div>
@@ -129,13 +129,13 @@
                     <div class="popularKarmas">
                         <div th:each="karma : ${karmas}">
                             <i class="fas fa-hand-peace karma-icon-index-page"></i>
-                            <span th:text="${karma}"></span>
+                            <span th:text="${formatter.formatCount(karma)}"></span>
                         </div>
                     </div>
 
                     <div class="popularNames">
                         <div th:each="user : ${popularUsers}">
-                            <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${user.id}, username=${user.makeSlug(user.username)})}">
+                            <a class="popularNamesLink" th:href="@{/profile/{id}/{username}(id=${user.id}, username=${formatter.makeSlug(user.username)})}">
                                 <span th:text="${user.username}"></span>
                             </a>
                         </div>

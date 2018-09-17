@@ -19,7 +19,7 @@
 
                     <th:block th:fragment="post">
                         <header class="indent">
-                            <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                            <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
                                 <h1 th:utext="${post.htmlTitle}" class="postTitle"></h1>
                             </a>
 
@@ -27,7 +27,7 @@
                                 <!--<a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>-->
                             <!--</div>-->
 
-                            <div class="postedByWrapper">By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.makeSlug(post.user.username)})}">
+                            <div class="postedByWrapper">By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
                                 <span th:text="${post.user.username}"></span></a>
                                 <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
                                 <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
@@ -36,16 +36,16 @@
                             </div>
                             <div>
                                 <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                                <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+                                <h5 class="postVoteCountIndex" th:text="${formatter.formatCount(post.voteCount())}"></h5>
                                 <i class="fas fa-comments postCommentIconIndex"></i>
-                                <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+                                <h5 class="postCommentSizeIndex" th:text="${formatter.formatCount(post.getComments().size())}"></h5>
                                 <i class="fas fa-eye postHitCountIconIndex"></i>
-                                <h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${post.hitCount.postCount} : '0'"></h5>
+                                <h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${formatter.formatCount(post.hitCount.postCount)} : '0'"></h5>
 
                             </div>
                         </header>
 
-                        <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                        <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
                             <div class="postDescription hidden">
                                 <p th:utext="${post.htmlImage}"></p>
                             </div>
@@ -56,7 +56,9 @@
                         </div>
 
 
-                        <div th:if="${isOwnProfile} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="flex margin-left">
+                        <!-- ====================================== Post Edit and Delete Buttons =====================-->
+
+                        <div th:if="${isPostOwner} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                             <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             </i>
@@ -70,6 +72,21 @@
                                     <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" class="deleteCommentForm">
                                         <button class="dropdown-delete-btn" type="submit">
                                             <i class="fas fa-bomb"></i> delete
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!post.isDisabled()}" class="deleteCommentForm">
+                                    <form th:action="@{'/posts/' + ${post.id} + '/disable'}" method="post">
+                                        <button class="dropdown-delete-btn">
+                                            <i class="fas fa-lock"></i> disable
+                                        </button>
+                                    </form>
+                                </div>
+                                <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${post.isDisabled()}" class="deleteCommentForm">
+                                    <form th:action="@{'/posts/' + ${post.id} + '/enable'}" method="post">
+                                        <button class="dropdown-delete-btn">
+                                            <i class="fas fa-lock-open"></i> enable
                                         </button>
                                     </form>
                                 </div>

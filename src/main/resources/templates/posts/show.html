@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:include="fragments/header :: my-header('To Geek Is Human - Show Post')"></head>
+<head th:include="fragments/header :: my-header('To Geek Is Human - Show Post - ' + ${post.title})"></head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
@@ -23,10 +23,14 @@
                     <!--AFTER allowing markdown editing for titles. Uses new property in Post class and th:utext-->
                     <!--<h4 th:utext="${post.htmlTitle}" class="postTitle no-text-decoration"></h4>-->
                     <!-- OR call the method directly:-->
-                    <h4 th:utext="${post.getHtmlTitle()}" class="postTitle no-text-decoration"></h4>
+                    <h4 th:utext="${post.getHtmlTitle()}" class="postTitle no-text-decoration" id="post-title-show-page"></h4>
+
+                    <!--<div class="post-subtitle-show-page margin-top-bottom indent">-->
+                        <!--<p th:utext="${post.htmlSubtitle}"></p>-->
+                    <!--</div>-->
 
                     <div class="post-info-wrapper-mobile">
-                        <a th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.user.makeSlug(post.user.username)})}">
+                        <a class="flex-center" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
                             <div class="profile-pic-wrapper-show-page">
                                 <span th:if="${post.user.profilePicture} == null">
                                     <img class="profile-pic-show-page profile-pic-show-page-mobile" src="/../images/default_user.png"/>
@@ -38,7 +42,8 @@
                         </a>
 
                         <div class="post-info-name-date-wrapper">
-                            <div>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${post.makeSlug(post.user.username)})}">
+
+                            <div>By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
                                 <span th:text="${post.user.username}"></span></a>
                                 <div class="float-right">
                                     <span class="postedByDateTime" th:text="${#temporals.format(post.date,  'h:mm a')}"></span>
@@ -52,22 +57,24 @@
                                     <!--<span class="sidebar-category-tags"><a th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a></span>-->
                                     <span style="margin-left:1em">
                                         <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                                        <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+                                        <h5 class="postVoteCountIndex" th:text="${formatter.formatCount(post.voteCount())}"></h5>
                                         <i class="fas fa-comments postCommentIconIndex"></i>
-                                        <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+                                        <h5 class="postCommentSizeIndex" th:text="${formatter.formatCount(post.getComments().size())}"></h5>
                                         <i class="fas fa-eye postHitCountIconIndex"></i>
-                                        <h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${post.hitCount.postCount} : '0'"></h5>
+                                        <h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${formatter.formatCount(post.hitCount.postCount)} : '0'"></h5>
                                     </span>
                                 </div>
 
-                                <!--<div>-->
-                                    <!--<i class="fas fa-thumbs-up postUpVoteIconIndex"></i>-->
-                                    <!--<h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>-->
-                                    <!--<i class="fas fa-comments postCommentIconIndex"></i>-->
-                                    <!--<h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>-->
-                                    <!--<i class="fas fa-eye postHitCountIconIndex"></i>-->
-                                    <!--<h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${post.hitCount.post_count} : '0'"></h5>-->
-                                <!--</div-->
+                                <!-- AddToAny BEGIN -->
+                                <div class="a2a_kit a2a_kit_size_24 a2a_default_style">
+                                    <a class="a2a_button_facebook"></a>
+                                    <a class="a2a_button_twitter"></a>
+                                    <a class="a2a_button_reddit"></a>
+                                    <a class="a2a_button_google_gmail"></a>
+                                    <a class="a2a_button_copy_link"></a>
+                                </div>
+                                <script src="https://static.addtoany.com/menu/page.js"></script>
+                                <!-- AddToAny END -->
 
                             </div>
                         </div>
@@ -108,7 +115,7 @@
 
                         <div class="voteCountDiv">
                             <h5>
-                                <span class="postVoteCount" th:text="${post.voteCount()}" th:attr="data-voteCount-post-id=${post.id}"></span>
+                                <span class="postVoteCount" th:text="${formatter.formatCount(post.voteCount())}" th:attr="data-voteCount-post-id=${post.id}"></span>
                             </h5>
                         </div>
 
@@ -149,20 +156,22 @@
                                 </form>
                             </div>
 
-                            <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!isDisabled}">
+                            <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!isDisabled}" class="deleteCommentForm">
                                 <form th:action="@{'/posts/' + ${post.id} + '/disable'}" method="post">
-                                    <button>Disable</button>
+                                    <button class="dropdown-delete-btn">
+                                        <i class="fas fa-lock"></i> disable
+                                    </button>
                                 </form>
                             </div>
-                            <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${isDisabled}">
+                            <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${isDisabled}" class="deleteCommentForm">
                                 <form th:action="@{'/posts/' + ${post.id} + '/enable'}" method="post">
-                                    <button>Enable</button>
+                                    <button class="dropdown-delete-btn">
+                                        <i class="fas fa-lock-open"></i> enable
+                                    </button>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <!--id="editPostBtn"-->
-                    <!--id="deletePostBtn"-->
                 </div>
 
                 <div th:if="${!isLoggedIn and !isDisabled}" class="replyPostNotLoggedInWrapper">
@@ -170,7 +179,6 @@
                         <h5>You must be <span><a class="replyPostNotLoggedInLink" th:href="${'/login'}">logged in</a></span> to join the conversation</h5>
                     </div>
                 </div>
-
             </div>
 
         </div>
@@ -215,7 +223,7 @@
         <!--th:attr allows me to target this element specifically in show.html's ajax request-->
         <div class="commentWrapper" th:attr="data-edit-delete-comment-id=${comment.id}">
             <!-- this div should be targeted with unique th:attr -->
-            <a th:href="@{/profile/{id}/{username}(id=${comment.user.id}, username=${comment.user.makeSlug(comment.user.username)})}">
+            <a th:href="@{/profile/{id}/{username}(id=${comment.user.id}, username=${formatter.makeSlug(comment.user.username)})}">
                 <div class="commentPicWrapper">
                     <span th:if="${comment.user.profilePicture} == null">
                         <img class="profilePicComment" src="/../images/default_user.png"/>
@@ -229,7 +237,7 @@
             <div class="commentInfoWrapper speech-bubble">
 
                     <h5 th:classappend="${isParentComment} ? parentCommentStyling : commentedByStyling">
-                        <a th:href="@{/profile/{id}/{username}(id=${comment.user.id}, username=${comment.user.makeSlug(comment.user.username)})}" style="text-decoration: none;">
+                        <a th:href="@{/profile/{id}/{username}(id=${comment.user.id}, username=${formatter.makeSlug(comment.user.username)})}" style="text-decoration: none;">
                             <span class="commentedByNameText" th:text="${comment.user.username}"></span>
                         </a>
                         <span class="comment-info-date-wrapper">
@@ -317,7 +325,7 @@
 
                         <div class="voteCountDiv">
                             <h5>
-                                <span class="commentVoteCount" th:text="${comment.voteCount()}"
+                                <span class="commentVoteCount" th:text="${formatter.formatCount(comment.voteCount())}"
                                       th:attr="data-voteCount-comment-id=${comment.id}"></span>
                             </h5>
                         </div>
