@@ -303,55 +303,6 @@ public class Post {
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(parser.parse(description));
     }
-
-    // TITLE STRING MANIPULATION ==============================================================
-
-    public String titleToUppercase(String title) {
-
-        StringBuffer sb = new StringBuffer();
-
-        String[] sentence = title.split(" ");
-
-//        String dontcap =
-//                "a, an, the, and, as, as if, as long as, at, is, but, by, even if, for, from, if, if only, in, into, like, near, now, nor, of, off, on, on top of, once, onto, or, out of, over, past, so, than, that, till, to, up, upon, with, when, yet";
-//
-//        String[] wordsNotCapitalized = dontcap.split(",");
-//
-//        for(String wrd : wordsNotCapitalized) {
-//            System.out.println(wrd);
-//        }
-
-        for (String word : sentence) {
-
-            char[] letters = word.toCharArray(); // no need to trim()
-
-            for (int i = 0; i < letters.length; i++) {
-                if (letters[i] != '*' || letters[i] != '\"') {
-                    // Capitalize the first non-asterisk (even if that doesn't change it)
-                    letters[i] = Character.toUpperCase(letters[i]);
-                    // No need to look any further
-                    break;
-                }
-
-            }
-            // That's it for capitalizing!
-            word = new String(letters);
-            sb.append(word).append(" ");
-        }
-        return sb.toString().trim();
-    }
-
-    // CREATING A SLUG FOR URL, this-is-a-slug-in-url ==================================================================
-
-    private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
-    private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
-
-    public String makeSlug(String input) {
-        String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
-        String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
-        String slug = NONLATIN.matcher(normalized).replaceAll("");
-        return slug.toLowerCase(Locale.ENGLISH);
-    }
 }
 
 
