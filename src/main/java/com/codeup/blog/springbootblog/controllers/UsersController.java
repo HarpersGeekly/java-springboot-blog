@@ -38,6 +38,7 @@ public class UsersController {
     private PostService postSvc;
     private HitCountsRepository hitCountsDao;
     private RolesRepository rolesDao;
+    private FormatterUtil formatter = new FormatterUtil();
 
     @Autowired
     public UsersController(UsersRepository usersDao,
@@ -191,9 +192,7 @@ public class UsersController {
     @GetMapping("/profile")
     public String showProfilePage() {
         User userLoggedIn = userSvc.loggedInUser();
-        Long id = userLoggedIn.getId();
-        String username = userLoggedIn.getUsername();
-        return "redirect:profile/" + id + "/" + username;
+        return "redirect:profile/" + userLoggedIn.getId() + "/" + userLoggedIn.getUsername();
     }
 
     @GetMapping("/profile/{id}/{username}")
@@ -238,7 +237,12 @@ public class UsersController {
         boolean postsAreEmpty = user.getPosts().isEmpty();
         boolean commentsAreEmpty = user.getComments().isEmpty();
 
-        viewModel.addAttribute("posts", postSvc.postsByUserLimited(user.getId()));
+        List<Post> posts = postSvc.postsByResultSetIndexPage();
+        viewModel.addAttribute("posts", posts);
+        for(Post post : posts) {
+            boolean isDisabled = post.isDisabled();
+            viewModel.addAttribute("isDisabled", isDisabled);
+        }
         viewModel.addAttribute("postsAreEmpty", postsAreEmpty);
         viewModel.addAttribute("commentsAreEmpty", commentsAreEmpty);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
@@ -246,6 +250,7 @@ public class UsersController {
         viewModel.addAttribute("categories", categoriesDao.findAll());
         viewModel.addAttribute("karma", usersDao.totalKarmaByUser(user.getId()));
         viewModel.addAttribute("comments", comments);
+        viewModel.addAttribute("formatter", formatter);
         return "users/profile";
     }
 
