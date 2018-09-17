@@ -244,19 +244,6 @@ public class User {
             profilePicture = profilePicturePath();
         }
     }
-    // CREATING A SLUG FOR URL, this-is-a-slug-in-url ==================================================================
-
-    private static final java.util.regex.Pattern NONLATIN = java.util.regex.Pattern.compile("[^\\w-]");
-    private static final java.util.regex.Pattern WHITESPACE = java.util.regex.Pattern.compile("[\\s]");
-
-    public String makeSlug(String input) {
-        String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
-        String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
-        String slug = NONLATIN.matcher(normalized).replaceAll("");
-        return slug.toLowerCase(Locale.ENGLISH);
-    }
-
-
 }
 
 //    @Size(min = 8, message="Your password must be between 8-20 characters.")
