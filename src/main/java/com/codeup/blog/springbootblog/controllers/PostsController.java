@@ -33,7 +33,6 @@ public class PostsController {
     private final UsersRepository usersDao; //making queries to database
     private final RolesRepository rolesDao;
 
-
     private final UserService userSvc; //
 
     private final CommentService commentSvc;
@@ -42,6 +41,8 @@ public class PostsController {
     private final CategoriesRepository categoriesDao;
 
     private final HitCountsRepository hitCountsDao;
+
+    private final FormatterUtil formatter = new FormatterUtil();
 
     // Constructor "dependency injection", passing the PostService object into the PostController constructor,
     // everything ties together now. Services + Controller.
@@ -114,6 +115,7 @@ public class PostsController {
         viewModel.addAttribute("mostViewedPosts", postSvc.popularPostsByViews());
         viewModel.addAttribute("popularUsers", usersDao.popularUsersByKarma());
         viewModel.addAttribute("karmas", usersDao.popularUsersKarma());
+        viewModel.addAttribute("formatter", formatter);
         return "posts/index";
     }
 
@@ -140,6 +142,7 @@ public class PostsController {
             viewModel.addAttribute("nextResultSet", posts.subList(limit * batch, (limit * batch) + limit));
         }
 
+        viewModel.addAttribute("formatter", formatter);
         return "fragments/posts :: ajaxPosts";
     }
 
@@ -198,6 +201,7 @@ public class PostsController {
         viewModel.addAttribute("isPostOwner", isPostOwner);
         viewModel.addAttribute("isParentComment", isParentComment);
         viewModel.addAttribute("isDisabled", isDisabled);
+        viewModel.addAttribute("formatter", formatter);
 
         if (loggedInUser != null) {
             PostVote vote = post.getVoteFrom(loggedInUser);
@@ -257,7 +261,7 @@ public class PostsController {
 //        post.setDescription(xp.getAsText());
 //        This XSSPrevent isn't allowing me to update my code? What gives?
 
-        post.setTitle(post.titleToUppercase(post.getTitle()));
+        post.setTitle(formatter.titleToUppercase(post.getTitle()));
         post.setUser(userSvc.loggedInUser());
         post.setDate(LocalDateTime.now());
         postSvc.save(post);
@@ -321,7 +325,7 @@ public class PostsController {
 //        xp.setAsText(post.getTitle());
 //        post.setDescription(xp.getAsText());
 
-        post.setTitle(post.titleToUppercase(post.getTitle()));
+        post.setTitle(formatter.titleToUppercase(post.getTitle()));
         post.setId(id);
         postSvc.save(post);
         redir.addFlashAttribute("title", post.getTitle());
@@ -385,6 +389,7 @@ public class PostsController {
     @GetMapping("/posts/search-tag/{term}")
     public String searchByTag(@PathVariable String term, Model viewModel) {
         viewModel.addAttribute("searchedContent", postSvc.searchPostsByKeyword(term));
+        viewModel.addAttribute("formatter", formatter);
         return "fragments/searchedPosts :: searchedPosts";
     }
 
@@ -400,6 +405,7 @@ public class PostsController {
         viewModel.addAttribute("mostViewedPosts", postSvc.popularPostsByViews());
         viewModel.addAttribute("popularUsers", usersDao.popularUsersByKarma());
         viewModel.addAttribute("karmas", usersDao.popularUsersKarma());
+        viewModel.addAttribute("formatter", formatter);
         return "/posts/search";
     }
 
