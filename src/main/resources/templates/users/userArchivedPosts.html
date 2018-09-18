@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:include="fragments/header :: my-header('To Geek Is Human - Manage Posts')">
 </head>
 <body>
@@ -23,21 +23,13 @@
                 <th class="th-sm th-date-user-archive">Date
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
-                <th class="th-sm th-options-user-archive" th:if="${isOwnProfile}">Options
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
-                </th>
-                <!--<th class="th-sm th-edit-user-archive" th:if="${isOwnProfile}">Edit-->
-                    <!--<i class="fa float-right" aria-hidden="true"></i>-->
-                <!--</th>-->
-                <!--<th class="th-sm th-delete-user-archive" th:if="${isOwnProfile}">Delete-->
-                    <!--<i class="fa float-right" aria-hidden="true"></i>-->
-                <!--</th>-->
+                <th class="th-sm th-options-user-archive" th:if="${isOwnProfile} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Options</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="post : ${posts}">
                 <td>
-                    <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                    <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
                         <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
                     </a>
                 </td>
@@ -57,7 +49,7 @@
                     <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
 
                 </td>
-                <td th:if="${isOwnProfile}">
+                <td th:if="${isOwnProfile} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                     <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     </i>
@@ -71,6 +63,21 @@
                             <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" class="deleteCommentForm">
                                 <button class="dropdown-delete-btn" type="submit">
                                     <i class="fas fa-bomb"></i> delete
+                                </button>
+                            </form>
+                        </div>
+
+                        <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!post.isDisabled()}" class="deleteCommentForm">
+                            <form th:action="@{'/posts/' + ${post.id} + '/disable'}" method="post">
+                                <button class="dropdown-delete-btn">
+                                    <i class="fas fa-lock"></i> disable
+                                </button>
+                            </form>
+                        </div>
+                        <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${post.isDisabled()}" class="deleteCommentForm">
+                            <form th:action="@{'/posts/' + ${post.id} + '/enable'}" method="post">
+                                <button class="dropdown-delete-btn">
+                                    <i class="fas fa-lock-open"></i> enable
                                 </button>
                             </form>
                         </div>
