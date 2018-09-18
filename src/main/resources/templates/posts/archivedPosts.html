@@ -31,7 +31,7 @@
             <tbody>
             <tr th:each="post : ${posts}">
                 <td>
-                    <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${post.makeSlug(post.title)})}">
+                    <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
                         <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
                     </a>
                 </td>
@@ -82,7 +82,7 @@
         });
         $('#dtBasicExample').DataTable({
             // responsive: true,
-            "order": [[ 3, "desc" ]],
+            "order": [[ 4, "desc" ]], // this sorts a desired column. In this case, date.
         });
 
         // https://datatables.net/blog/2014-12-18
