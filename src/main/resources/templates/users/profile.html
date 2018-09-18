@@ -154,7 +154,7 @@
         </div>
 
         <div class="profile-upper-wrapper">
-            <div class="profile-picture-wrapper">
+            <div class="profile-picture-wrapper flex-center">
                 <span class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} == null">
                     <img th:classappend="${isOwnProfile} ? profilePic : profilePicNotOwner" src="/../images/default_user.png"/>
                         <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate hidden' : 'none'">
@@ -163,8 +163,8 @@
                 </span>
                 <span class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} != null">
                     <img th:classappend="${isOwnProfile} ? profilePic : profilePicNotOwner" th:src="@{'/uploads/' + ${profileUser.profilePicture}}"/>
-                        <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate hidden' : 'none'">
-                            <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
+                        <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate hidden' : 'none'" data-target="#modal" data-toggle="modal">
+                            <i class="fas fa-camera"></i>
                         </span>
                 </span>
             </div>
