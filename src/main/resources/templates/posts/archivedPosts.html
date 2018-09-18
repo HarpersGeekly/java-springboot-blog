@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:include="fragments/header :: my-header('To Geek Is Human - Manage Posts')">
 </head>
 <body>
@@ -26,6 +26,8 @@
                 <th class="th-sm th-date">Date
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
+                <th class="th-sm th-options-user-archive" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Options</th>
+
             </tr>
             </thead>
             <tbody>
@@ -55,6 +57,40 @@
                     <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
                     <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
 
+                </td>
+                <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                    <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </i>
+                    <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                        <div>
+                            <a class="dropdown-edit-btn"  th:href="${'/posts/' + post.id + '/edit'}">
+                                <i class="far fa-edit"></i> edit
+                            </a>
+                        </div>
+                        <div>
+                            <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" class="deleteCommentForm">
+                                <button class="dropdown-delete-btn" type="submit">
+                                    <i class="fas fa-bomb"></i> delete
+                                </button>
+                            </form>
+                        </div>
+
+                        <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!post.isDisabled()}" class="deleteCommentForm">
+                            <form th:action="@{'/posts/' + ${post.id} + '/disable'}" method="post">
+                                <button class="dropdown-delete-btn">
+                                    <i class="fas fa-lock"></i> disable
+                                </button>
+                            </form>
+                        </div>
+                        <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${post.isDisabled()}" class="deleteCommentForm">
+                            <form th:action="@{'/posts/' + ${post.id} + '/enable'}" method="post">
+                                <button class="dropdown-delete-btn">
+                                    <i class="fas fa-lock-open"></i> enable
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </td>
             </tr>
             </tbody>
