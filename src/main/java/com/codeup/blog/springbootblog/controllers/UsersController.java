@@ -61,12 +61,6 @@ public class UsersController {
 
     // ============================================= LOGGING IN USER ===================================================
 
-//    @GetMapping("/login")
-//    public String showLoginForm(Model viewModel) {
-//        viewModel.addAttribute("user", new User());
-//        return "/users/login";
-//    }
-
     @GetMapping("/login")
     public String showLoginForm(HttpServletRequest request, Model viewModel) {
 //        String referrer = request.getHeader("Referer");
@@ -274,6 +268,7 @@ public class UsersController {
         List<Post> posts = postSvc.postsByUser(user.getId());
         viewModel.addAttribute("posts", posts);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
+        viewModel.addAttribute("formatter", formatter);
         return "users/userArchivedPosts";
     }
 

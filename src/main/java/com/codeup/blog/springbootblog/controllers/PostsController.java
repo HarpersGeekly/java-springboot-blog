@@ -122,6 +122,7 @@ public class PostsController {
     @GetMapping("/posts/archived")
     public String showArchivedPosts(Model viewModel) {
         viewModel.addAttribute("posts", postSvc.findAll());
+        viewModel.addAttribute("formatter", formatter);
         return "posts/archivedPosts";
     }
 
@@ -260,7 +261,6 @@ public class PostsController {
 //        xp.setAsText(post.getTitle());
 //        post.setDescription(xp.getAsText());
 //        This XSSPrevent isn't allowing me to update my code? What gives?
-
         post.setTitle(formatter.titleToUppercase(post.getTitle()));
         post.setUser(userSvc.loggedInUser());
         post.setDate(LocalDateTime.now());
@@ -283,6 +283,7 @@ public class PostsController {
                 viewModel.addAttribute("isLoggedInUserAdmin", role);
                 viewModel.addAttribute("categories", categoriesDao.findAll());
                 viewModel.addAttribute("post", existingPost);
+                viewModel.addAttribute("formatter", formatter);
                 return "/posts/edit";
             }
         }
@@ -292,6 +293,7 @@ public class PostsController {
         } else {
             viewModel.addAttribute("categories", categoriesDao.findAll());
             viewModel.addAttribute("post", existingPost);
+            viewModel.addAttribute("formatter", formatter);
             return "/posts/edit";
         }
     }
@@ -304,6 +306,7 @@ public class PostsController {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("categories", categoriesDao.findAll());
             viewModel.addAttribute("post", post);
+            viewModel.addAttribute("formatter", formatter);
             return "/posts/edit";
         }
 
