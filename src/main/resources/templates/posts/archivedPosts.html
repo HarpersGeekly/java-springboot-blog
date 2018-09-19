@@ -43,12 +43,12 @@
                     </a>
                 </td>
                 <td>
-                    <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                    <h5 class="postVoteCountIndex" th:text="${post.voteCount()}"></h5>
+                    <i class="fas fa-thumbs-up post-info-fa-icon"></i>
+                    <h5 class="post-info-count" th:text="${post.voteCount()}"></h5>
                 </td>
                 <td>
-                    <i class="fas fa-comments postCommentIconIndex"></i>
-                    <h5 class="postCommentSizeIndex" th:text="${post.getComments().size()}"></h5>
+                    <i class="fas fa-comments post-info-fa-icon"></i>
+                    <h5 class="post-info-count" th:text="${post.getComments().size()}"></h5>
                 </td>
                 <td>
                     <span class="postedByDate hidden" th:text="${post.date}"></span>
