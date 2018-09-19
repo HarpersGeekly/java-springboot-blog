@@ -132,6 +132,10 @@
         width: 100%;
     }
 
+    .commentSubmitBtn {
+        float: right;
+    }
+
     /*=============== PROFILE =====================*/
 
     .profileWelcome {
