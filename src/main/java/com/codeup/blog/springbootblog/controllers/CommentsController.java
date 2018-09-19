@@ -22,12 +22,14 @@ public class CommentsController {
     private UserService userSvc;
     private CommentService commentSvc;
     private PostVoteService postVoteSvc;
+    private FormatterUtil formatter;
 
-    public CommentsController(PostService postSvc, UserService userSvc, CommentService commentSvc, PostVoteService postVoteSvc) {
+    public CommentsController(PostService postSvc, UserService userSvc, CommentService commentSvc, PostVoteService postVoteSvc, FormatterUtil formatter) {
         this.postSvc = postSvc;
         this.userSvc = userSvc;
         this.commentSvc = commentSvc;
         this.postVoteSvc = postVoteSvc;
+        this.formatter = formatter;
     }
 
 //============================================= COMMENT ON A POST ======================================================
@@ -47,6 +49,7 @@ public class CommentsController {
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("comment", comment);
+        viewModel.addAttribute("formatter", formatter);
 
         if (validation.hasErrors()) {
 //            viewModel.addAttribute("errors", validation); // By using BindingResult validation instead of Error validation, don't need "errors" attritbute
@@ -226,11 +229,15 @@ public class CommentsController {
 
         if (validation.hasErrors()) {
             viewModel.addAttribute("comment", comment);
+            viewModel.addAttribute("formatter", formatter);
+
             return "fragments/commentError :: ajaxError";
         }
 
         Comment newComment = commentSvc.saveNewComment(post, parent, body); // saving in the comment service
         viewModel.addAttribute("comment", newComment);
+        viewModel.addAttribute("formatter", formatter);
+
 //        viewModel.addAttribute("children", children);
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("postOwner", user);
