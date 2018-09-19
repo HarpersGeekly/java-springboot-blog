@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head th:include="fragments/header :: my-header">
-</head>
 <body>
 
 <div th:fragment="my-navbar">
@@ -17,10 +15,9 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a class="navbar-brand" href="/posts">
+                <a class="navbar-brand flex-center" th:href="@{/posts}">
                     <!--<img id="header-icon" src="/images/celtic-harp-24-8526.png"/>-->
-                    <!--To Geek Is Human-->
-                    Lorem Ipsum
+                    <h1 class="navbar-brand-text">To Geek Is Human</h1>
                 </a>
 
             </div>
@@ -40,47 +37,46 @@
                     </li>
 
                     <li>
-                        <a href="/posts/archived">
+                        <a th:href="@{/posts/archived}">
                             <!--<i class="fas fa-table nav-icon"></i> -->
                             All Posts
                         </a>
                     </li>
 
                     <li sec:authorize="hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')">
-                        <a href="/posts/create">
+                        <a th:href="@{/posts/create}">
                             <!--<i class="fas fa-pen-nib nav-icon"></i> -->
                             Create New Post
                         </a>
                     </li>
 
-                    <li sec:authorize="isAuthenticated()">
+                    <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal != null}">
                         <a th:href="'/profile/' + ${#authentication.principal.id} + '/' + ${formatter.makeSlug(#authentication.principal.username)}">
                             <!--<i class="fas fa-user-circle nav-icon"></i>-->
-                            <!--<span th:text="${#authentication.principal.username}"></span>'s Profile-->
-                            <span sec:authentication="principal.username"/>'s Profile
+                            <span th:text="${#authentication.principal.username}"/>'s Profile
                         </a>
                     </li>
 
                     <!--<li><a href="/roll-dice">Roll Dice</a></li>-->
 
-                    <li sec:authorize="isAuthenticated()">
-                        <form th:action="@{/logout}" th:method="post">
-                            <button id="logout" class="btn btn-link">
-                                <!--<i class="fas fa-hand-scissors nav-icon"></i> -->
-                                Logout
-                            </button>
-                        </form>
+                    <li sec:authorize="isAuthenticated()" class="flex-center">
+                        <a th:href="@{/logout}" th:method="post" class="float-left">
+                            <span class="flex-center">
+                                <span class="dot flex-center margin-right-lite"></span>
+                                <span/>Logout
+                            </span>
+                        </a>
                     </li>
 
                     <li sec:authorize="!isAuthenticated()">
-                        <a href="/register">
+                        <a th:href="@{/register}">
                             <!--<i class="fas fa-users nav-icon"></i> -->
                             Register
                         </a>
                     </li>
 
                     <li sec:authorize="!isAuthenticated()">
-                        <a href="/login">
+                        <a th:href="@{/login}">
                             <!--<i class="fas fa-sign-in-alt nav-icon"></i> -->
                             Login
                         </a>
