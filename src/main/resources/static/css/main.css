@@ -22,6 +22,7 @@ html {
     --main-og-blue: #7DE2D1;
     --main-blue:  #0bd8ff;
     --main-blue-hover: #339989;
+    --main-login-green: lime;
     --main-pink: #fc32be;
     --main-yellow: #f1ff40;
     --main-orange: #E07A5F;
@@ -30,7 +31,8 @@ html {
     --main-light-gray: lightgray;
     --main-font-size: 14px;
     --main-font: Roboto, sans-serif;
-    --main-font-logo: East Sea Dokdo, regular;
+    /*--main-font-logo: East Sea Dokdo, regular;*/
+    --main-font-logo: Big John, regular;
     --main-font-post: Oswald, regular, sans-serif;
     --main-font-subtitle: Playfair Display, regular;
     /*--main-padding: 15px;*/
@@ -62,6 +64,11 @@ html {
 .flex-center {
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+.flex-justify {
+   display: flex;
     justify-content: center;
 }
 
@@ -105,12 +112,17 @@ html {
     float:right;
 }
 
+.float-left {
+    float: left;
+}
+
 /*============================================================ NAVBAR ====================================================*/
 
 .navbar-default {
     border: none;
     /*background-color: #3f403c;*/
     background-color: #373737;
+    /*background-image: linear-gradient(to right, #3f403c, #596455, #6d8c74, #79b69d, #7de2d1);*/
     box-shadow: 0px 0px 20px darkgrey;
 
     /*-webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 0 65%);*/
@@ -120,9 +132,6 @@ html {
 }
 
 .navbar-default .navbar-brand {
-    color: #7DE2D1;
-    font-family: 'East Sea Dokdo', regular;
-    font-size: 2.75em;
     text-decoration: none;
     transition: color 0.1s linear;
     -webkit-transition: color 0.1s linear;
@@ -134,7 +143,13 @@ html {
     height: 50px;
     padding: 10px 15px;
     font-size: 18px;
-    line-height: 20px;
+}
+
+.navbar-brand-text {
+    font-size: 32px;
+    color: #7DE2D1;
+    font-family: var(--main-font-logo);
+    text-decoration: none;
 }
 
 .navbar-default .navbar-brand:hover,
@@ -178,18 +193,29 @@ html {
 }
 
 .nav > li > a {
-    /*color: #fc8aaa !important;*/
     color: #7DE2D1 !important;
-    /*font-family: Futura, serif;*/
     font-family: var(--main-font);
-    /*font-family: 'Slim Joe', var(--main-font);*/
     transition: color 0.1s linear;
     -webkit-transition: color 0.1s linear;
     -moz-transition: color 0.1s linear;
 }
-
 .nav > li > a:hover, .nav > li > a:active  {
     color: #339989 !important;
+}
+
+.profile-pic-navbar {
+    text-decoration: none;
+    border-radius: 100px;
+    width:35px;
+    height:35px;
+}
+
+.dot {
+    height: 6px;
+    width: 6px;
+    background-color: var(--main-login-green);
+    border-radius: 50%;
+    display: inline-block;
 }
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
@@ -254,7 +280,6 @@ html {
 #logout {
     font-family: var(--main-font);
     color: #7DE2D1;
-    margin-top:8px;
     background-color: transparent;
     outline: none;
     text-decoration: none;
@@ -265,7 +290,6 @@ html {
 
 #logout:hover, #logout:active {
     color: #339989;
-    margin-top:8px;
     background-color: transparent;
     outline: none;
     text-decoration: none;
@@ -494,6 +518,10 @@ ul {
     color: #3f403c;
 }
 
+#post-title-show-page {
+    font-size: 36px !important;
+}
+
 .postTitle:hover {
     text-decoration: underline;
 }
@@ -515,37 +543,48 @@ ul {
     text-decoration: none;
 }
 
-.postUpVoteIconIndex {
+.post-info-fa-icon {
     display: inline-block;
     color: #888888;
 }
 
-.postVoteCountIndex {
+.post-info-count {
     padding-right: 1em;
     display: inline-block;
     color: #888888;
 }
 
-.postCommentIconIndex {
-    display: inline-block;
-    color: #888888;
-}
+/*.postUpVoteIconIndex {*/
+    /*display: inline-block;*/
+    /*color: #888888;*/
+/*}*/
 
-.postCommentSizeIndex {
-    padding-right: 1em;
-    display: inline-block;
-    color: #888888;
-}
+/*.postVoteCountIndex {*/
+    /*padding-right: 1em;*/
+    /*display: inline-block;*/
+    /*color: #888888;*/
+/*}*/
 
-.postHitCountIconIndex {
-    display: inline-block;
-    color: #888888;
-}
+/*.postCommentIconIndex {*/
+    /*display: inline-block;*/
+    /*color: #888888;*/
+/*}*/
 
-.postHitCountSizeIndex {
-    display: inline-block;
-    color: #888888;
-}
+/*.postCommentSizeIndex {*/
+    /*padding-right: 1em;*/
+    /*display: inline-block;*/
+    /*color: #888888;*/
+/*}*/
+
+/*.postHitCountIconIndex {*/
+    /*display: inline-block;*/
+    /*color: #888888;*/
+/*}*/
+
+/*.postHitCountSizeIndex {*/
+    /*display: inline-block;*/
+    /*color: #888888;*/
+/*}*/
 
 .post-tags-div {
     margin-bottom: 5px;
@@ -618,6 +657,10 @@ textarea, input, .form-control {
     display: flex;
     /*margin-top: 0.25em;*/
     /*margin-bottom: 0.25em;*/
+}
+
+.postDescription > p > a {
+    color: var(--main-pink);
 }
 
 .sidebar-image > p > img {
@@ -758,7 +801,7 @@ textarea, input, .form-control {
 }
 
 .postInfoWrapper {
-    /*width: 50%;*/
+    width: 50%;
 }
 
 .image-top-show-page-mobile {
@@ -770,6 +813,10 @@ textarea, input, .form-control {
     text-align: left;
     margin-bottom: 1em;
     font-size:1.8em;
+}
+
+.a2a_kit, .a2a_kit_size_24, .a2a_default_style > a > span {
+    border-radius: 100px !important;
 }
 
 .showPageWrapper {
@@ -1026,13 +1073,12 @@ textarea, input, .form-control {
     font-family: var(--main-font);
     border-radius: 0;
     margin: auto;
-    width:79%;
-    height: 5em;
+    width: 100%;
+    height: 66px;
     resize: none;
 }
 
 .commentSubmitBtn {
-    margin-left: 8.55em;
 }
 
 #commentHRLeader {

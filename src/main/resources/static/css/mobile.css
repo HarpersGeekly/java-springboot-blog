@@ -11,6 +11,17 @@
         box-shadow: none;
     }
 
+    .navbar-brand {
+        transform: translateX(-50%);
+        left: 50%;
+        position: absolute;
+    }
+
+    .navbar-brand-text {
+        font-size: 24px !important;
+        line-height: 0.875;
+    }
+
     .wordwrap {
         white-space: pre-wrap;      /* CSS3 */
         white-space: -moz-pre-wrap; /* Firefox */
@@ -274,6 +285,10 @@
     .postWrapper-showPage {
         margin: 0 auto;
         display: flex;
+        width: 100%;
+    }
+
+    .postInfoWrapper {
         width: 100%;
     }
 
