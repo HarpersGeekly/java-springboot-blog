@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.codeup.blog.springbootblog.Models.FormatterUtil;
 import com.codeup.blog.springbootblog.Models.MailSender;
 import com.codeup.blog.springbootblog.Models.PasswordToken;
 import com.codeup.blog.springbootblog.Models.User;
@@ -41,6 +42,9 @@ public class PasswordController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private FormatterUtil formatter;
+
     // ============================================ EDIT PASSWORD ====================================================
 
     @GetMapping("/profile/{id}/editPassword")
@@ -48,6 +52,7 @@ public class PasswordController {
         // find the user in the database:
         User existingUser = usersDao.findById(id);
         viewModel.addAttribute("user", existingUser);
+        viewModel.addAttribute("formatter", formatter);
         return "users/editPassword";
     }
 
@@ -91,7 +96,8 @@ public class PasswordController {
 
     // Display forgotPassword page
     @RequestMapping(value = "/forgot", method = RequestMethod.GET)
-    public String displayForgotPasswordPage() {
+    public String displayForgotPasswordPage(Model viewModel) {
+        viewModel.addAttribute("formatter", formatter);
         return "users/forgotPassword";
     }
 
@@ -177,6 +183,7 @@ public class PasswordController {
         }
 
         viewModel.addAttribute("user", user);
+        viewModel.addAttribute("formatter", formatter);
         return "users/resetPassword";
     }
 
