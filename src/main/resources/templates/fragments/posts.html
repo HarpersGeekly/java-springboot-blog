@@ -35,12 +35,12 @@
                                 <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
                             </div>
                             <div>
-                                <i class="fas fa-thumbs-up postUpVoteIconIndex"></i>
-                                <h5 class="postVoteCountIndex" th:text="${formatter.formatCount(post.voteCount())}"></h5>
-                                <i class="fas fa-comments postCommentIconIndex"></i>
-                                <h5 class="postCommentSizeIndex" th:text="${formatter.formatCount(post.getComments().size())}"></h5>
-                                <i class="fas fa-eye postHitCountIconIndex"></i>
-                                <h5 class="postHitCountSizeIndex" th:text="${post.hitCount != null} ? ${formatter.formatCount(post.hitCount.postCount)} : '0'"></h5>
+                                <i class="fas fa-thumbs-up post-info-fa-icon"></i>
+                                <h5 class="post-info-count" th:text="${formatter.formatCount(post.voteCount())}"></h5>
+                                <i class="fas fa-comments post-info-fa-icon"></i>
+                                <h5 class="post-info-count" th:text="${formatter.formatCount(post.getComments().size())}"></h5>
+                                <i class="fas fa-eye post-info-fa-icon"></i>
+                                <h5 class="post-info-count" th:text="${post.hitCount != null} ? ${formatter.formatCount(post.hitCount.postCount)} : '0'"></h5>
 
                             </div>
                         </header>
