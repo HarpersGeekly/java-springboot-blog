@@ -5,29 +5,37 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
+<div class="jumbotron flex-center">
+    <h2 class="display-3">Archived Posts</h2>
+</div>
+
+<th:block th:fragment="posts-table">
 <div class="preloader"></div>
 <span class="archive-table hidden">
     <div class="table-responsive">
-        <table style="table-layout: fixed;" id="dtBasicExample" data-toggle="table" class="table table-dark table-striped table-bordered table-sm" cellspacing="0" width="100%" >
+        <table style="table-layout: fixed;" id="dtBasicExample" data-toggle="table" class="table table-sm" cellspacing="0" width="100%" >
             <thead>
             <tr>
-                <th class="th-sm th-title">Title
+                <th class="">Title
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
-                <th class="th-sm th-editor">Editor
+                <th class="">
+                    <i class="fas fa-user-circle post-info-fa-icon margin-right-lite"></i>Editor
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
-                <th class="th-sm th-likes">Likes
+                <th class="">
+                    <i class="fas fa-thumbs-up post-info-fa-icon margin-right-lite"></i>Likes
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
-                <th class="th-sm th-comments">Comments
+                <th class="">
+                    <i class="fas fa-comments post-info-fa-icon margin-right-lite"></i>Comments
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
-                <th class="th-sm th-date">Date
+                <th class="">Date
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
-                <th class="th-sm th-options-user-archive" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Options</th>
-
+                <th class="" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                    <i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Options</th>
             </tr>
             </thead>
             <tbody>
@@ -38,16 +46,14 @@
                     </a>
                 </td>
                 <td>
-                    <a class="popularTitleLink" th:href="@{/profile/{id}(id=${post.user.id})}">
+                    <a class="popularTitleLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
                         <h4 class="popularTitleText" th:utext="${post.user.username}"></h4>
                     </a>
                 </td>
                 <td>
-                    <i class="fas fa-thumbs-up post-info-fa-icon"></i>
                     <h5 class="post-info-count" th:text="${post.voteCount()}"></h5>
                 </td>
                 <td>
-                    <i class="fas fa-comments post-info-fa-icon"></i>
                     <h5 class="post-info-count" th:text="${post.getComments().size()}"></h5>
                 </td>
                 <td>
@@ -97,12 +103,13 @@
         </table>
     </div>
 </span>
+</th:block>
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<Script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></Script>
-<Script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></Script>
-<Script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></Script>
-<Script src="https://cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></Script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script>
 <script>
 
     // $(window).load(function(){
@@ -119,6 +126,7 @@
         $('#dtBasicExample').DataTable({
             // responsive: true,
             "order": [[ 4, "desc" ]], // this sorts a desired column. In this case, date.
+            "pageLength": 6
         });
 
         // https://datatables.net/blog/2014-12-18
