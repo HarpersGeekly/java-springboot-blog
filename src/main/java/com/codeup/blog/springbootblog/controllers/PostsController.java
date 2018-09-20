@@ -237,6 +237,7 @@ public class PostsController {
             }
         }
         viewModel.addAttribute("post", new Post());
+        viewModel.addAttribute("formatter", formatter);
         viewModel.addAttribute("categories", categoriesDao.findAll());
         return "/posts/create";
     }
@@ -253,6 +254,7 @@ public class PostsController {
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("post", post);
+            viewModel.addAttribute("formatter", formatter);
             viewModel.addAttribute("categories", categoriesDao.findAll());
             return "/posts/create";
         }
