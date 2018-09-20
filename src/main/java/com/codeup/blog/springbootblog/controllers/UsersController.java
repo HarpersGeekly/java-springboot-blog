@@ -280,6 +280,7 @@ public class UsersController {
         User existingUser = usersDao.findById(id);
         // pass it to the view: pre-populate the form with the values from that user ie: th:field="{user.username}"
         viewModel.addAttribute("user", existingUser);
+        viewModel.addAttribute("formatter", formatter);
         return "users/editUser";
     }
 
@@ -363,6 +364,14 @@ public class UsersController {
         redir.addFlashAttribute("successDelete", usersDao.findById(id) == null);
         redir.addFlashAttribute("successMessage", "Sorry to see you go! Your account has been deactivated.");
         return "redirect:/login";
+    }
+
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard(Model viewModel) {
+        viewModel.addAttribute("formatter", formatter);
+        viewModel.addAttribute("posts", postSvc.findAll());
+        viewModel.addAttribute("users", usersDao.findAll());
+        return "users/adminDashboard";
     }
 
 }
