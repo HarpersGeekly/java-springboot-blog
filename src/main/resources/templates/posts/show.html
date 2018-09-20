@@ -181,33 +181,39 @@
                         <h5>You must be <span><a class="replyPostNotLoggedInLink" th:href="${'/login'}">logged in</a></span> to join the conversation</h5>
                     </div>
                 </div>
+
+                <!-- ================================================================================================================-->
+                <!--============================================== FORM for COMMENTS ================================================-->
+                <!-- ================================================================================================================-->
+                <div class="alert alert-info" th:if="${isDisabled}"><i class="fas fa-lock margin-right-lite"></i>This post is currently locked.</div>
+                <div th:if="${!isDisabled}" class="commentFormWrapper margin-left-right" sec:authorize="isAuthenticated()">
+                    <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
+                        <div class="form-group">
+                            <label for="commentFormBody"></label>
+                            <textarea class="form-control" id="commentFormBody" name="body"
+                                      th:field="*{body}"
+                                      th:placeholder="Comment...">
+                            </textarea>
+
+                            <div class="commentsErrorAJAX"></div>
+                            <!-- ======================== submit comment ================================-->
+
+                            <input class="form-control" type="hidden" id="postId" th:value="${post.id}"/>
+                            <button class="btn btn-primary commentSubmitBtn">
+                                <i class="far fa-comment-alt"></i> Comment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+
+
+
             </div>
 
         </div>
 
-        <!-- ================================================================================================================-->
-        <!--============================================== FORM for COMMENTS ================================================-->
-        <!-- ================================================================================================================-->
-        <div class="container alert alert-info" th:if="${isDisabled}">This post is currently locked.</div>
-        <div th:if="${!isDisabled}" class="container commentFormWrapper" sec:authorize="isAuthenticated()">
-            <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
-                <div class="form-group">
-                    <label for="commentFormBody"></label>
-                    <textarea class="form-control" id="commentFormBody" name="body"
-                              th:field="*{body}"
-                              th:placeholder="Comment...">
-                            </textarea>
 
-                    <div class="commentsErrorAJAX"></div>
-                    <!-- ======================== submit comment ================================-->
-
-                    <input class="form-control" type="hidden" id="postId" th:value="${post.id}"/>
-                    <button class="btn btn-primary commentSubmitBtn">
-                        <i class="far fa-comment-alt"></i> Comment
-                    </button>
-                </div>
-            </form>
-        </div>
     <!-- ================================================================================================================-->
     <!--============================================= SHOW ALL COMMENTS =================================================-->
     <!-- ================================================================================================================-->
@@ -433,11 +439,11 @@
             <div class="child-comment" th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
         </div>
 
-        <hr class="commentHR"/>
 
         <!--ALL NEW CHILD COMMENTS COMING IN ARE APPENDED HERE-->
         <div class="childCommentDiv indent-comment" th:attr="data-child-node-comment-id=${comment.id}"></div>
 
+        <hr class="commentHR"/>
     </div>
 </div>
 
@@ -483,25 +489,25 @@
     //==================================================================================================================
     //===================================== textarea expands as user types =============================================
     //==================================================================================================================
-    document.addEventListener("input", function (event) {
-        if (event.target.tagName.toLowerCase() !== 'textarea') return;
-        autoExpand(event.target);
-    }, false);
-
-    let autoExpand = function (field) {
-        // Do things...
-        // Reset field height
-        field.style.height = 'inherit';
-        // Get the computed styles for the element
-        let computed = window.getComputedStyle(field);
-        // Calculate the height
-        let height = parseInt(computed.getPropertyValue('border-top-width'), 10)
-            + parseInt(computed.getPropertyValue('padding-top'), 10)
-            + field.scrollHeight
-            + parseInt(computed.getPropertyValue('padding-bottom'), 10)
-            + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
-        field.style.height = height + 'px';
-    };
+    // document.addEventListener("input", function (event) {
+    //     if (event.target.tagName.toLowerCase() !== 'textarea') return;
+    //     autoExpand(event.target);
+    // }, false);
+    //
+    // let autoExpand = function (field) {
+    //     // Do things...
+    //     // Reset field height
+    //     field.style.height = 'inherit';
+    //     // Get the computed styles for the element
+    //     let computed = window.getComputedStyle(field);
+    //     // Calculate the height
+    //     let height = parseInt(computed.getPropertyValue('border-top-width'), 10)
+    //         + parseInt(computed.getPropertyValue('padding-top'), 10)
+    //         + field.scrollHeight
+    //         + parseInt(computed.getPropertyValue('padding-bottom'), 10)
+    //         + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
+    //     field.style.height = height + 'px';
+    // };
     //==================================================================================================================
     //====================================== hover over to reveal ellipsis =============================================
     //==================================================================================================================
