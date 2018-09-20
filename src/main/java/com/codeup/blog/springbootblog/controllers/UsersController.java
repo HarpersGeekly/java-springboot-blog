@@ -370,7 +370,11 @@ public class UsersController {
     public String adminDashboard(Model viewModel) {
         viewModel.addAttribute("formatter", formatter);
         viewModel.addAttribute("posts", postSvc.findAll());
-        viewModel.addAttribute("users", usersDao.findAll());
+        List<User> users = (List<User>) usersDao.findAll();
+        viewModel.addAttribute("users", users);
+        for(User user : users) {
+            viewModel.addAttribute("karma", usersDao.totalKarmaByUser(user.getId()));
+        }
         return "users/adminDashboard";
     }
 
