@@ -5,102 +5,15 @@
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<div class="preloader"></div>
-<span class="archive-table hidden">
-    <div class="table-responsive">
-        <table style="table-layout: fixed;" id="dtBasicExample" data-toggle="table" class="table table-dark table-striped table-bordered table-sm" cellspacing="0" width="100%">
-            <thead>
-            <tr>
-                <th class="th-sm th-title-user-archive">Title
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
-                </th>
-                <th class="th-sm th-likes-user-archive">Likes
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
-                </th>
-                <th class="th-sm th-comments-user-archive">Comments
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
-                </th>
-                <th class="th-sm th-date-user-archive">Date
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
-                </th>
-                <th class="th-sm th-options-user-archive" th:if="${isOwnProfile} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Options</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${posts}">
-                <td>
-                    <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
-                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
-                    </a>
-                </td>
-                <td>
-                    <i class="fas fa-thumbs-up post-info-fa-icon"></i>
-                    <h5 class="post-info-count" th:text="${post.voteCount()}"></h5>
-                </td>
-                <td>
-                    <i class="fas fa-comments post-info-fa-icon"></i>
-                    <h5 class="post-info-count" th:text="${post.getComments().size()}"></h5>
-                </td>
-                <td>
-                    <span class="postedByDate hidden" th:text="${post.date}"></span>
-                    <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
-                    <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
-                    <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
-                    <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
+<th:block th:include="posts/archivedPosts :: posts-table"></th:block>
 
-                </td>
-                <td th:if="${isOwnProfile} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-                    <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    </i>
-                    <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
-                        <div>
-                            <a class="dropdown-edit-btn"  th:href="${'/posts/' + post.id + '/edit'}">
-                                <i class="far fa-edit"></i> edit
-                            </a>
-                        </div>
-                        <div>
-                            <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" class="deleteCommentForm">
-                                <button class="dropdown-delete-btn" type="submit">
-                                    <i class="fas fa-bomb"></i> delete
-                                </button>
-                            </form>
-                        </div>
-
-                        <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!post.isDisabled()}" class="deleteCommentForm">
-                            <form th:action="@{'/posts/' + ${post.id} + '/disable'}" method="post">
-                                <button class="dropdown-delete-btn">
-                                    <i class="fas fa-lock"></i> disable
-                                </button>
-                            </form>
-                        </div>
-                        <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${post.isDisabled()}" class="deleteCommentForm">
-                            <form th:action="@{'/posts/' + ${post.id} + '/enable'}" method="post">
-                                <button class="dropdown-delete-btn">
-                                    <i class="fas fa-lock-open"></i> enable
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</span>
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<Script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></Script>
-<Script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></Script>
-<Script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></Script>
-<Script src="https://cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></Script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script>
 <script>
-
-    // $(window).load(function(){
-    //     $('.preloader').fadeOut('slow',function(){
-    //         $(this).remove();
-    //     });
-    // });
 
     $(document).ready(function () {
         $('.preloader').fadeOut('slow',function(){
@@ -110,6 +23,7 @@
         $('#dtBasicExample').DataTable({
             // responsive: true,
             "order": [[ 3, "desc" ]],
+            "pageLength": 6
         });
 
         // https://datatables.net/blog/2014-12-18
