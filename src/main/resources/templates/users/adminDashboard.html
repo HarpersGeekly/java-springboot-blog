@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:include="fragments/header :: my-header('To Geek Is Human - Admin Dashboard')">
+</head>
+<body>
+<nav th:include="fragments/navbar :: my-navbar"></nav>
+
+<header class="flex-center">
+    <h1>Admin Dashboard</h1>
+</header>
+
+<div class="jumbotron">
+    <p class="lead flex-center">Welcome to the admin dashboard. Below you can edit, delete, and disable posts or users.</p>
+</div>
+
+<div class="container">
+    <h2><i class="fas fa-users margin-right-lite"></i>Users</h2>
+    <div class="preloader"></div>
+    <span class="archive-table hidden">
+    <div class="table-responsive">
+        <table style="table-layout: fixed;" id="dtUsers" data-toggle="table" class="table table-sm" cellspacing="0" width="100%" >
+            <thead>
+            <tr>
+                <th class="">
+                    <i class="fas fa-user-circle post-info-fa-icon margin-right-lite"></i>Username
+                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                </th>
+
+                <th class="">
+                    <i class="far fa-handshake post-info-fa-icon margin-right-lite"></i>Date
+                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                </th>
+                <th class="">
+                    <i class="far fa-hand-peace post-info-fa-icon margin-right-lite"></i>Karma
+                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                </th>
+                <th class="">
+                    <i class="fas fa-lock post-info-fa-icon margin-right-lite"></i> Status
+                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                </th>
+                <th class="">Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td>
+                    <a class="popularTitleLink" th:href="@{/profile/{id}/{username}(id=${user.id}, title=${formatter.makeSlug(user.username)})}">
+                        <h4 class="popularTitleText" th:text="${user.username}"></h4>
+                    </a>
+                </td>
+                <td>
+                    <span class="postedByDate" th:text="${#temporals.monthNameShort(user.date)}"></span>
+                    <span class="postedByDate" th:text="${#temporals.day(user.date)}"></span>
+                    <span class="postedByDate" th:text="${#temporals.year(user.date)}"></span>
+                    <span class="postedByDateTime" th:text="${#temporals.format(user.date, 'h:mm a')}"></span>
+                </td>
+
+                <td>
+                    <h5 class="post-info-count" th:text="${formatter.formatCount(karma)}"></h5>
+                </td>
+
+                <td>
+                    <!--<h5 th:text="${user.isDisabled()}"></h5>-->
+                    <h5>status</h5>
+                </td>
+
+
+                <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                    <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </i>
+                    <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                        <div>
+                            <a class="dropdown-edit-btn"  th:href="${'/profile/' + user.id + '/edit'}">
+                                <i class="far fa-edit"></i> edit
+                            </a>
+                        </div>
+                        <div>
+                            <form th:action="@{'/profile/' + ${user.id} + '/delete'}" method="post" class="deleteCommentForm">
+                                <button class="dropdown-delete-btn" type="submit">
+                                    <i class="fas fa-bomb"></i> delete
+                                </button>
+                            </form>
+                        </div>
+
+                        <!--<div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!post.isDisabled()}" class="deleteCommentForm">-->
+                            <!--<form th:action="@{'/posts/' + ${post.id} + '/disable'}" method="post">-->
+                                <!--<button class="dropdown-delete-btn">-->
+                                    <!--<i class="fas fa-lock"></i> disable-->
+                                <!--</button>-->
+                            <!--</form>-->
+                        <!--</div>-->
+                        <!--<div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${post.isDisabled()}" class="deleteCommentForm">-->
+                            <!--<form th:action="@{'/posts/' + ${post.id} + '/enable'}" method="post">-->
+                                <!--<button class="dropdown-delete-btn">-->
+                                    <!--<i class="fas fa-lock-open"></i> enable-->
+                                <!--</button>-->
+                            <!--</form>-->
+                        <!--</div>-->
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</span>
+</div>
+
+<hr/>
+
+<div class="container">
+    <h2><i class="fas fa-comments margin-right-lite"></i>Posts</h2>
+    <th:block th:include="posts/archivedPosts :: posts-table"></th:block>
+</div>
+
+
+<footer th:include="fragments/footer :: my-footer"></footer>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('.preloader').fadeOut('slow',function(){
+            $(this).remove();
+            $('.archive-table').removeClass('hidden');
+        });
+        $('#dtBasicExample').DataTable({
+            // responsive: true,
+            "order": [[ 4, "desc" ]], // this sorts a desired column. In this case, date.
+            "pageLength": 6
+        });
+        $('#dtUsers').DataTable({
+            // responsive: true,
+            "order": [[ 4, "desc" ]], // this sorts a desired column. In this case, date.
+            "pageLength": 6
+        });
+
+        // https://datatables.net/blog/2014-12-18
+
+    });
+</script>
+</body>
+</html>
