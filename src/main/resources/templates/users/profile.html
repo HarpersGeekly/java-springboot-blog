@@ -174,8 +174,9 @@
                     <span th:if="${ownerIsUser}">As a user, you can engage socially by making comments and voting.</span>
                     <span th:if="${ownerIsEditor} or ${ownerIsAdmin}">
                         As an editor or admin, you can engage socially by making comments, vote, and you can
-                        <a id="profileCreatePostLink" th:href="${'/posts/create'}">create a post.</a>
-                        As an admin, you have access to the admin dashboard.</span>
+                        <a class="profileLoggedInMessageLink" th:href="${'/posts/create'}">create a post.</a>
+                        As an admin, you have access to the <a class="profileLoggedInMessageLink" th:href="${'/admin/dashboard'}">admin dashboard.</a>
+                    </span>
                 </h3>
 
                 <h4 th:if="${ownerIsAdmin}">
