@@ -52,6 +52,9 @@ public class User {
     @Column
     private String bio;
 
+    @Column(nullable = false, columnDefinition = "bit default 0")
+    private boolean banned = false;
+
     //=============================== RELATIONSHIPS =========================================
     //=======================================================================================
 
@@ -223,6 +226,14 @@ public class User {
         this.hitCount = hitCount;
     }
 
+    public boolean isBanned() {
+        return banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
+    }
+
 
     //==================================== METHODS ==========================================
     //=======================================================================================
@@ -243,6 +254,14 @@ public class User {
         if (profilePicture == null) {
             profilePicture = profilePicturePath();
         }
+    }
+
+    public boolean ban() {
+        return this.banned = true;
+    }
+
+    public boolean unban() {
+        return this.banned = false;
     }
 }
 
