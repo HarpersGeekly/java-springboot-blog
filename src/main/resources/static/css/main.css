@@ -410,7 +410,7 @@ html {
 }
 
 .popularityHeader {
-    font-family: Oswald, sans-serif;
+    font-family: var(--main-font-post);
     text-align: center;
 }
 
@@ -514,12 +514,11 @@ ul {
 }
 
 .postTitle {
-    font-family: Oswald, sans-serif;
+    font-family: var(--main-font-post);
     /*font-size: 2.3em;*/
     /*font-size: 2em;*/
     font-size:24px;
     /*font-size:6vw;*/
-    margin-right: 1em;
     /*display: inline-block;*/
     color: #3f403c;
 }
@@ -659,10 +658,7 @@ textarea, input, .form-control {
 }
 
 .postDescription > p > img {
-    /*margin: 0 auto;*/
     display: flex;
-    /*margin-top: 0.25em;*/
-    /*margin-bottom: 0.25em;*/
 }
 
 .postDescription > p > a {
@@ -720,7 +716,6 @@ textarea, input, .form-control {
 }
 
 #show-more-posts:hover {
-    /*background: #888888;*/
     background: #7DE2D1;
     cursor: pointer;
 }
@@ -815,7 +810,7 @@ textarea, input, .form-control {
 }
 
 .showPageIntro {
-    font-family: 'Oswald', sans-serif;
+    font-family: var(--main-font-post);
     text-align: left;
     margin-bottom: 1em;
     font-size:1.8em;
@@ -1354,13 +1349,9 @@ textarea, input, .form-control {
 
 /*=============================================== Profile page ========================================================*/
 
-.profileWelcome {
-    font-family: Oswald, sans-serif;
+.profileWelcome, .archivedPostsWelcome {
+    font-family: var(--main-font-post);
     font-size: 2.5em;
-}
-
-#profileCreatePostLink {
-    color: var(--main-orange);
 }
 
 #profilePageWrapper {
@@ -1430,6 +1421,15 @@ textarea, input, .form-control {
 .profileLoggedInMessage {
     font-size: 1.0875em;
 }
+
+.profileLoggedInMessageLink {
+    color: var(--main-orange);
+}
+
+.profileLoggedInMessageLink:hover {
+    text-decoration: none;
+}
+
 .profileInfoText {
     font-size: 14px;
 }
@@ -1444,10 +1444,6 @@ textarea, input, .form-control {
 
 .user-color {
     color: var(--main-og-blue);
-}
-
-#profileCreatePostLink:hover {
-    text-decoration: none;
 }
 
 .profileChangeInfoDiv {
@@ -1503,7 +1499,7 @@ textarea, input, .form-control {
 .profile-page-latest-posts-greeting {
     /*display: flex;*/
     justify-content: center;
-    font-family: Oswald, sans-serif;
+    font-family: var(--main-font-post);
     font-size: 1.5em;
 }
 
@@ -1682,6 +1678,7 @@ textarea, input, .form-control {
 }
 
 /*// ======== All Posts =====*/
+/*th-sm*/
 .th-title {
     width: 200%;
 }
@@ -1703,25 +1700,25 @@ textarea, input, .form-control {
 
 /*// ======== USER POSTS =======*/
 
-.th-title-user-archive {
-    width: 175%;
-}
+/*.th-title-user-archive {*/
+    /*width: 175%;*/
+/*}*/
 
-.th-likes-user-archive {
-    width: 10%;
-}
+/*.th-likes-user-archive {*/
+    /*width: 10%;*/
+/*}*/
 
-.th-comments-user-archive {
-    width: 18%;
-}
+/*.th-comments-user-archive {*/
+    /*width: 18%;*/
+/*}*/
 
-.th-date-user-archive {
-    width: 45%;
-}
+/*.th-date-user-archive {*/
+    /*width: 45%;*/
+/*}*/
 
-.th-options-user-archive {
-    width: 10%;
-}
+/*.th-options-user-archive {*/
+    /*width: 10%;*/
+/*}*/
 
 /*.th-edit-user-archive {*/
     /*width: 10%;*/

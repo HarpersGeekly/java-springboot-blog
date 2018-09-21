@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:include="fragments/header :: my-header('To Geek Is Human - Manage Posts')">
+<head th:include="fragments/header :: my-header('To Geek Is Human - Manage User Posts')">
 </head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
-<th:block th:include="posts/archivedPosts :: posts-table"></th:block>
+<div class="jumbotron flex-center">
+    <h2 class="display-3 archivedPostsWelcome"><span th:text="${user.username}"></span>'s Posts</h2>
+</div>
+
+<div class="container">
+    <th:block th:include="posts/archivedPosts :: posts-table"></th:block>
+</div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
