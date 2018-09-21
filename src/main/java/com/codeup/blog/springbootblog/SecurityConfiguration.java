@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * Created by RyanHarper on 11/8/17.
@@ -56,12 +57,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // non-logged in users
                 .authorizeRequests()
-                .antMatchers("/posts", "/posts/{id}", "/login", "/register", "/profile/{id}", "/color", "/forgot") // anyone can see the home and register page
+                .antMatchers("/posts", "/posts/{id}", "/login", "/register", "/profile/{id}/{username}", "/color", "/forgot") // anyone can see the home and register page
                 .permitAll()
                 .and()
 
                 // logout
-                .logout()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/posts") //after logout, go to posts page.
 //                .logoutSuccessUrl("/login?logout") // original convention
 
