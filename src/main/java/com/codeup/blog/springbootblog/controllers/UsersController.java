@@ -266,6 +266,7 @@ public class UsersController {
 
         User user = usersDao.findById(id);
         List<Post> posts = postSvc.postsByUser(user.getId());
+        viewModel.addAttribute("user", user);
         viewModel.addAttribute("posts", posts);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
         viewModel.addAttribute("formatter", formatter);
@@ -368,6 +369,17 @@ public class UsersController {
 
     @GetMapping("/admin/dashboard")
     public String adminDashboard(Model viewModel) {
+        User loggedInUser = userSvc.loggedInUser();
+        if(loggedInUser == null) {
+            return "redirect:/login";
+        } else {
+            List<String> roles = rolesDao.ofUserWith(loggedInUser.getUsername());
+            for (String role : roles) {
+                if (!role.equals("ROLE_ADMIN")) {
+                    return "redirect:/posts";
+                }
+            }
+        }
         viewModel.addAttribute("formatter", formatter);
         viewModel.addAttribute("posts", postSvc.findAll());
         List<User> users = (List<User>) usersDao.findAll();
