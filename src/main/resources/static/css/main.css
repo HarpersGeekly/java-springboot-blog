@@ -26,8 +26,8 @@ html {
     --main-pink: #fc32be;
     --main-yellow: #f1ff40;
     --main-orange: #E07A5F;
-    --main-gray: #373737;
-    --main-gray-2: #888888;
+    --main-dark-gray: #373737;
+    --main-gray: #888888;
     --main-light-gray: lightgray;
     --main-font-size: 14px;
     --main-font: Roboto, sans-serif;
@@ -559,6 +559,11 @@ ul {
     color: #888888;
 }
 
+.cmt-sec-ahref-link:hover {
+    text-decoration: none;
+}
+
+
 /*.postUpVoteIconIndex {*/
     /*display: inline-block;*/
     /*color: #888888;*/
@@ -835,11 +840,11 @@ textarea, input, .form-control {
 
 .postedByDateTime {
     margin-right: 0.75em;
-    color: var(--main-gray-2);
+    color: var(--main-gray);
 }
 
 .postedByDate {
-    color: var(--main-gray-2);
+    color: var(--main-gray);
 }
 
 #postCategory-ShowPage {
@@ -988,6 +993,10 @@ textarea, input, .form-control {
 
 #commentedBy {
     border-radius: 20px;
+}
+
+.fa-chevron-right {
+    color: var(--main-gray);
 }
 
 .replyCommentNotLoggedInDiv {
@@ -1349,7 +1358,7 @@ textarea, input, .form-control {
 
 /*=============================================== Profile page ========================================================*/
 
-.profileWelcome, .archivedPostsWelcome {
+.profileWelcome {
     font-family: var(--main-font-post);
     font-size: 2.5em;
 }
@@ -1666,11 +1675,15 @@ textarea, input, .form-control {
 /*======================== Manage Posts page ===============*/
 
 .archive-table {
-    padding-top: 4em;
     display: flex;
     justify-content: center;
     margin: 0 auto;
     width: 95%;
+}
+
+.archivedPostsWelcome {
+    font-family: var(--main-font-post);
+    font-size: 2.5em;
 }
 
 .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
