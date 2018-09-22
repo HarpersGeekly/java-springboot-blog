@@ -55,11 +55,13 @@
                                 <div>
                                     <a class="post-tag " th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
                                     <!--<span class="sidebar-category-tags"><a th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a></span>-->
-                                    <span style="margin-left:1em">
+                                    <span class="margin-left">
                                         <i class="fas fa-thumbs-up post-info-fa-icon"></i>
                                         <h5 class="post-info-count" th:text="${formatter.formatCount(post.voteCount())}"></h5>
-                                        <i class="fas fa-comments post-info-fa-icon"></i>
-                                        <h5 class="post-info-count" th:text="${formatter.formatCount(post.getComments().size())}"></h5>
+                                        <a id="cmt-sec-ahref-link" href="#commentHRLeader">
+                                            <i class="fas fa-comments post-info-fa-icon"></i>
+                                            <h5 class="post-info-count" th:text="${formatter.formatCount(post.getComments().size())}"></h5>
+                                        </a>
                                         <i class="fas fa-eye post-info-fa-icon"></i>
                                         <h5 class="post-info-count" th:text="${post.hitCount != null} ? ${formatter.formatCount(post.hitCount.postCount)} : '0'"></h5>
                                         <!--<i class="far fa-share-square post-info-fa-icon"></i>-->
