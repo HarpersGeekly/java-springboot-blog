@@ -230,6 +230,8 @@ public class UsersController {
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
         boolean commentsAreEmpty = user.getComments().isEmpty();
+        //if user is banned:
+        boolean isBanned = user.isBanned();
 
         List<Post> posts = postSvc.postsByResultSetIndexPage();
         viewModel.addAttribute("posts", posts);
@@ -241,6 +243,7 @@ public class UsersController {
         viewModel.addAttribute("commentsAreEmpty", commentsAreEmpty);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
         viewModel.addAttribute("profileUser", user);
+        viewModel.addAttribute("isBanned", isBanned);
         viewModel.addAttribute("categories", categoriesDao.findAll());
         viewModel.addAttribute("karma", usersDao.totalKarmaByUser(user.getId()));
         viewModel.addAttribute("comments", comments);
@@ -267,6 +270,7 @@ public class UsersController {
         User user = usersDao.findById(id);
         List<Post> posts = postSvc.postsByUser(user.getId());
         viewModel.addAttribute("user", user);
+        viewModel.addAttribute("isBanned", user.isBanned());
         viewModel.addAttribute("posts", posts);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
         viewModel.addAttribute("formatter", formatter);
