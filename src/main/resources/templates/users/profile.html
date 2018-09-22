@@ -170,9 +170,14 @@
             </div>
 
             <div class="profile-info-wrapper">
-                <h3 class="profileLoggedInMessage" th:if="${isOwnProfile}">You are currently logged in.
-                    <span th:if="${ownerIsUser}">As a user, you can engage socially by making comments and voting.</span>
-                    <span th:if="${ownerIsEditor} or ${ownerIsAdmin}">
+                <h3 class="profileLoggedInMessage alert-danger flex-center" th:if="${isBanned}">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    You are currently BANNED. You are prohibited from voting or commenting.
+                </h3>
+
+                <h3 class="profileLoggedInMessage" th:if="${isOwnProfile} and ${!isBanned}">You are currently logged in.
+                    <span th:if="${ownerIsUser} and ${!isBanned}">As a user, you can engage socially by making comments and voting.</span>
+                    <span th:if="(${ownerIsEditor} or ${ownerIsAdmin}) and ${!isBanned}">
                         As an editor or admin, you can engage socially by making comments, vote, and you can
                         <a class="profileLoggedInMessageLink" th:href="${'/posts/create'}">create a post.</a>
                         As an admin, you have access to the <a class="profileLoggedInMessageLink" th:href="${'/admin/dashboard'}">admin dashboard.</a>
