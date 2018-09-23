@@ -117,7 +117,7 @@
                         <div class="voteCountDiv">
                             <h5>
                                 <span class="commentVoteCount" th:text="${formatter.formatCount(comment.voteCount())}"
-                                      th:attr="data-voteCount-comment-id=${comment.id}"></span>
+                                      th:attr="data-voteCount-comment-id=${comment.id}" th:if="${isLoggedIn} and ${!isBanned}"></span>
                             </h5>
                         </div>
 
