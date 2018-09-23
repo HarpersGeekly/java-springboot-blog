@@ -96,7 +96,7 @@
                 <!-- =============================== Comment Votes =========================-->
 
                 <div class="comment-vote-reply-options-row">
-                    <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
+                    <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}" th:if="${!isBanned}">
 
                         <div class="upvoteDiv">
 
@@ -143,7 +143,7 @@
 
                     <h5 th:if="${!isLoggedIn}" class="replyCommentNotLoggedInDiv"><span><a class="replyCommentNotLoggedInLink" th:href="${'/login'}">LOGIN</a></span></h5>
 
-                    <div th:if="${isLoggedIn}">
+                    <div th:if="${isLoggedIn} and ${!isBanned}">
 
                         <h5 class="showReplyTextArea" th:attr="data-show-reply-textarea-comment-id=${comment.id}">
                             <!--data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
