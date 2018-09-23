@@ -192,19 +192,24 @@ public class PostsController {
         boolean isParentComment = comment.isParentComment(comment);
         boolean isDisabled = post.isDisabled();
 
+
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("postOwner", postOwner);
+        viewModel.addAttribute("isPostOwner", isPostOwner);
         viewModel.addAttribute("loggedInUser", loggedInUser);
+        viewModel.addAttribute("isLoggedIn", isLoggedIn);
         viewModel.addAttribute("comment", comment);
         viewModel.addAttribute("comments", comments);
         viewModel.addAttribute("categories", categories);
-        viewModel.addAttribute("isLoggedIn", isLoggedIn);
-        viewModel.addAttribute("isPostOwner", isPostOwner);
         viewModel.addAttribute("isParentComment", isParentComment);
         viewModel.addAttribute("isDisabled", isDisabled);
         viewModel.addAttribute("formatter", formatter);
 
         if (loggedInUser != null) {
+            long loggedInUserId = loggedInUser.getId();
+            User user = usersDao.findById(loggedInUserId);
+            boolean isBanned = user.isBanned();
+            viewModel.addAttribute("isBanned", isBanned);
             PostVote vote = post.getVoteFrom(loggedInUser);
             viewModel.addAttribute("upvote", vote != null && vote.isUpvote());
             viewModel.addAttribute("downvote", vote != null && vote.isDownVote());

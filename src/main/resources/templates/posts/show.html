@@ -100,7 +100,7 @@
                 <!-- ====================================== Post Voting ======================================-->
                 <div class="post-vote-options-row">
 
-                    <div class="postVoting" th:if="${!isDisabled}">
+                    <div class="postVoting" th:if="${!isDisabled} and ${!isBanned}">
                         <div class="upvoteDiv">
 
                             <div th:if="${!isLoggedIn}">
@@ -188,7 +188,8 @@
                 <!--============================================== FORM for COMMENTS ================================================-->
                 <!-- ================================================================================================================-->
                 <div class="alert alert-info" th:if="${isDisabled}"><i class="fas fa-lock margin-right-lite"></i>This post is currently locked.</div>
-                <div th:if="${!isDisabled}" class="commentFormWrapper margin-left-right" sec:authorize="isAuthenticated()">
+                <div th:if="${!isDisabled} and (${isLoggedIn} and ${!isBanned})" class="commentFormWrapper margin-left-right">
+                    <!--sec:authorize="isAuthenticated()"-->
                     <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
                         <div class="form-group">
                             <label for="commentFormBody"></label>
@@ -315,7 +316,7 @@
                 <!-- =============================== Comment Votes =========================-->
 
                 <div class="comment-vote-reply-options-row">
-                    <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
+                    <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}" th:if="${!isBanned}">
 
                         <div class="upvoteDiv">
 
@@ -363,7 +364,7 @@
 
                     <h5 th:if="${!isLoggedIn}" class="replyCommentNotLoggedInDiv"><span><a class="replyCommentNotLoggedInLink" th:href="${'/login'}">LOGIN</a></span></h5>
 
-                    <div th:if="${isLoggedIn}">
+                    <div th:if="${isLoggedIn} and ${!isBanned}">
 
                         <h5 class="showReplyTextArea" th:attr="data-show-reply-textarea-comment-id=${comment.id}">
                             <!--data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
