@@ -237,7 +237,7 @@
                             <h5 class="profileChangeInfoLink" data-target="#modal3" data-toggle="modal3">change password</h5>
                         </a>
                     </div>
-                    <div class="profileChangeInfoDiv">
+                    <div class="profileChangeInfoDiv" th:if="${ownerIsAdmin} or ${ownerIsEditor}">
                         <i class="fas fa-archive profileArchiveIcon"></i>
                         <a th:href="@{/profile/{id}/archived(id=${profileUser.id})}">
                             <h5 class="profileChangeInfoLink" data-target="#modal4">manage posts</h5>
