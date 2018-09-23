@@ -96,7 +96,7 @@
                 <!-- =============================== Comment Votes =========================-->
 
                 <div class="comment-vote-reply-options-row">
-                    <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}" th:if="${!isBanned}">
+                    <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}" th:if="${isLoggedIn} and ${!isBanned}">
 
                         <div class="upvoteDiv">
 

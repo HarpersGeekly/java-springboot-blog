@@ -100,7 +100,7 @@
                 <!-- ====================================== Post Voting ======================================-->
                 <div class="post-vote-options-row">
 
-                    <div class="postVoting" th:if="${!isDisabled} and ${!isBanned}">
+                    <div class="postVoting" th:if="${!isDisabled} and (${isLoggedIn} and ${!isBanned})">
                         <div class="upvoteDiv">
 
                             <div th:if="${!isLoggedIn}">
@@ -316,7 +316,7 @@
                 <!-- =============================== Comment Votes =========================-->
 
                 <div class="comment-vote-reply-options-row">
-                    <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}" th:if="${!isBanned}">
+                    <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}" th:if="${isLoggedIn} and ${!isBanned}">
 
                         <div class="upvoteDiv">
 
