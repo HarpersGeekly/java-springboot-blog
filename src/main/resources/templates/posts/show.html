@@ -53,12 +53,12 @@
                                 </div>
 
                                 <div>
-                                    <a class="post-tag " th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
+                                    <a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>
                                     <!--<span class="sidebar-category-tags"><a th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a></span>-->
                                     <span class="margin-left">
                                         <i class="fas fa-thumbs-up post-info-fa-icon"></i>
                                         <h5 class="post-info-count" th:text="${formatter.formatCount(post.voteCount())}"></h5>
-                                        <a id="cmt-sec-ahref-link" href="#commentHRLeader">
+                                        <a id="cmt-sec-ahref-link" href="#voting-area">
                                             <i class="fas fa-comments post-info-fa-icon"></i>
                                             <h5 class="post-info-count" th:text="${formatter.formatCount(post.getComments().size())}"></h5>
                                         </a>
@@ -68,17 +68,6 @@
                                         <!--<h5 class="post-info-fa-count">Share</h5>-->
                                     </span>
                                 </div>
-
-                                <!--&lt;!&ndash; AddToAny BEGIN &ndash;&gt;-->
-                                <!--<div class="a2a_kit a2a_kit_size_24 a2a_default_style">-->
-                                    <!--<a class="a2a_button_facebook"></a>-->
-                                    <!--<a class="a2a_button_twitter"></a>-->
-                                    <!--<a class="a2a_button_reddit"></a>-->
-                                    <!--<a class="a2a_button_google_gmail"></a>-->
-                                    <!--<a class="a2a_button_copy_link"></a>-->
-                                <!--</div>-->
-                                <!--<script src="https://static.addtoany.com/menu/page.js"></script>-->
-                                <!--&lt;!&ndash; AddToAny END &ndash;&gt;-->
 
                             </div>
                         </div>
@@ -98,7 +87,7 @@
                 </div>
 
                 <!-- ====================================== Post Voting ======================================-->
-                <div class="post-vote-options-row">
+                <div class="post-vote-options-row" id="voting-area">
 
                     <div class="postVoting" th:if="${!isDisabled}">
                         <div class="upvoteDiv">
@@ -119,7 +108,7 @@
 
                         <div class="voteCountDiv">
                             <h5>
-                                <span class="postVoteCount" th:text="${formatter.formatCount(post.voteCount())}" th:attr="data-voteCount-post-id=${post.id}" th:if="${isLoggedIn} and ${!isBanned}"></span>
+                                <span class="postVoteCount" th:if="${!isLoggedIn} or (${isLoggedIn} and ${!isBanned})" th:text="${formatter.formatCount(post.voteCount())}" th:attr="data-voteCount-post-id=${post.id}"></span>
                             </h5>
                         </div>
 
@@ -176,6 +165,22 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- AddToAny BEGIN -->
+                    <!-- AddToAny BEGIN -->
+                    <div class="a2a_kit a2a_kit_size_24 a2a_default_style margin-left">
+                    <a class="a2a_button_facebook"></a>
+                    <a class="a2a_button_twitter"></a>
+                    <a class="a2a_button_reddit"></a>
+                    <a class="a2a_button_google_gmail"></a>
+                    <a class="a2a_button_copy_link"></a>
+                    </div>
+                    <script src="https://static.addtoany.com/menu/page.js"></script>
+                    <!-- AddToAny END -->
+
+
+
                 </div>
 
                 <div th:if="${!isLoggedIn and !isDisabled}" class="replyPostNotLoggedInWrapper">
@@ -337,7 +342,7 @@
                         <div class="voteCountDiv">
                             <h5>
                                 <span class="commentVoteCount" th:text="${formatter.formatCount(comment.voteCount())}"
-                                      th:attr="data-voteCount-comment-id=${comment.id}" th:if="${isLoggedIn} and ${!isBanned}"></span>
+                                      th:attr="data-voteCount-comment-id=${comment.id}" th:if="${!isLoggedIn} or (${isLoggedIn} and ${!isBanned})"></span>
                             </h5>
                         </div>
 
