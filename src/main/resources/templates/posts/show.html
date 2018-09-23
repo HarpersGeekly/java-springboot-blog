@@ -379,7 +379,7 @@
                     <!--==================================== EDIT AND DELETE DROPDOWN ===================================-->
                     <!--=================================================================================================-->
 
-                    <div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"
+                    <div sec:authorize="isAuthenticated()" th:if="${!isBanned} and (${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})"
                          th:attr="id=${'ellipsis_' + comment.id}" class="flex-center comment-ellipsis-div">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

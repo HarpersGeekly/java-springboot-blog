@@ -103,7 +103,7 @@
                 </span>
             </div>
 
-            <div sec:authorize="isAuthenticated()" th:if="${comment.isOwnedBy(#authentication.principal.id)} or ${isLoggedInUserAdmin}"
+            <div sec:authorize="isAuthenticated()" th:if="${!isBanned} and (${comment.isOwnedBy(#authentication.principal.id)} or ${isLoggedInUserAdmin})"
                  th:attr="id=${'ellipsis_' + comment.id}" class="comment-ellipsis-div flex-center margin-left">
                 <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
