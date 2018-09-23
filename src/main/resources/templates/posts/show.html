@@ -100,14 +100,14 @@
                 <!-- ====================================== Post Voting ======================================-->
                 <div class="post-vote-options-row">
 
-                    <div class="postVoting" th:if="${!isDisabled} and (${isLoggedIn} and ${!isBanned})">
+                    <div class="postVoting" th:if="${!isDisabled}">
                         <div class="upvoteDiv">
 
                             <div th:if="${!isLoggedIn}">
                                 <i class="fas fa-thumbs-up commentVoteNotLoggedIn"></i>
                             </div>
 
-                            <div th:if="${isLoggedIn}" >
+                            <div th:if="${isLoggedIn} and ${!isBanned}">
                                 <form th:action="@{/posts/upvote/{postId}(postId=${post.id})}" method='POST'
                                       th:attr="data-upvote-post-id=${post.id}">
                                     <i th:classappend="${upvote} ? stayActive : postUpvote"
@@ -125,7 +125,7 @@
 
                         <div class="downvoteDiv">
 
-                            <div th:if="${isLoggedIn}">
+                            <div th:if="${isLoggedIn} and ${!isBanned}">
                                 <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
                                       th:attr="data-downvote-post-id=${post.id}">
                                     <i th:classappend="${downvote} ? stayActive : postDownvote"
@@ -316,7 +316,7 @@
                 <!-- =============================== Comment Votes =========================-->
 
                 <div class="comment-vote-reply-options-row">
-                    <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}" th:if="${isLoggedIn} and ${!isBanned}">
+                    <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
 
                         <div class="upvoteDiv">
 
@@ -324,7 +324,7 @@
                                 <i class="fas fa-thumbs-up commentVoteNotLoggedIn"></i>
                             </div>
 
-                            <div th:if="${isLoggedIn}" >
+                            <div  th:if="${isLoggedIn} and ${!isBanned}">
                                 <form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"
                                       th:attr="data-upvote-comment-id=${comment.id}">
                                     <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isUpvote()} ? stayActive : commentUpvote"
@@ -342,7 +342,7 @@
                         </div>
 
                         <div class="downvoteDiv">
-                            <div th:if="${isLoggedIn}">
+                            <div  th:if="${isLoggedIn} and ${!isBanned}">
                                 <form th:action="@{/comment/downvote/{commentId}(commentId=${comment.id})}" method="POST"
                                       th:attr="data-downvote-comment-id=${comment.id}">
                                     <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isDownvote()} ? stayActive : commentDownvote"
