@@ -49,9 +49,10 @@ public class FileUploadController {
             usersDao.save(loggedInUser);
 
             //Reset the current principal loggedinUser with the changes applied so that the profile picture won't show the default placeholder after they reload the page.
-            UserWithRoles principal = new UserWithRoles(loggedInUser, Collections.emptyList());
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            userSvc.authenticate(loggedInUser);
+//            UserWithRoles principal = new UserWithRoles(loggedInUser, Collections.emptyList());
+//            Authentication authentication = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             try {
                 uploadedFile.transferTo(destinationFile);
