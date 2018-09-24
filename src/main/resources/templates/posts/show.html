@@ -183,9 +183,9 @@
 
                 </div>
 
-                <div th:if="${!isLoggedIn and !isDisabled}" class="replyPostNotLoggedInWrapper">
+                <div th:if="${!isLoggedIn and !isDisabled}" class="replyPostNotLoggedInWrapper margin-top-bottom">
                     <div class="replyPostNotLoggedInDiv">
-                        <h5>You must be <span><a class="replyPostNotLoggedInLink" th:href="${'/login'}">logged in</a></span> to join the conversation</h5>
+                        <div class="replyPostNotLoggedInText">You must be <span><a class="replyPostNotLoggedInLink" th:href="${'/login'}">logged in</a></span> to join the conversation.</div>
                     </div>
                 </div>
 
@@ -193,6 +193,10 @@
                 <!--============================================== FORM for COMMENTS ================================================-->
                 <!-- ================================================================================================================-->
                 <div class="alert alert-info" th:if="${isDisabled}"><i class="fas fa-lock margin-right-lite"></i>This post is currently locked.</div>
+                <div class="profileLoggedInMessage margin-top-bottom alert alert-danger flex-center" th:if="${isBanned}">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    You are currently BANNED. You are prohibited from voting or commenting.
+                </div>
                 <div th:if="${!isDisabled} and (${isLoggedIn} and ${!isBanned})" class="commentFormWrapper margin-left-right">
                     <!--sec:authorize="isAuthenticated()"-->
                     <form th:action="${'/posts/' + post.id}" method="post" th:object="${comment}" class="commentForm">
@@ -215,10 +219,16 @@
                 </div>
 
 
+                <div class="flex">
+                    <div class="replyPostNotLoggedInText margin-right">Discussion</div>
+                    <div>
+                        <i class="fas fa-comments post-info-fa-icon margin-right-lite"></i>
+                        <h5 class="post-info-count" th:text="${formatter.formatCount(post.getComments().size())} + ' COMMENTS'"></h5>
+                    </div>
+                </div>
 
 
             </div>
-
         </div>
 
 

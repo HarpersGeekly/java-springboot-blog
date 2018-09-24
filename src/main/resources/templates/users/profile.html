@@ -170,10 +170,10 @@
             </div>
 
             <div class="profile-info-wrapper">
-                <h3 class="profileLoggedInMessage alert-danger flex-center" th:if="${isBanned}">
+                <div class="profileLoggedInMessage alert alert-danger flex-center" th:if="${isBanned}">
                     <i class="fas fa-exclamation-triangle"></i>
                     You are currently BANNED. You are prohibited from voting or commenting.
-                </h3>
+                </div>
 
                 <h3 class="profileLoggedInMessage" th:if="${isOwnProfile} and ${!isBanned}">You are currently logged in.
                     <span th:if="${ownerIsUser} and ${!isBanned}">As a user, you can engage socially by making comments and voting.</span>
