@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.*;
+import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.PostVoteService;
@@ -23,13 +24,15 @@ public class CommentsController {
     private CommentService commentSvc;
     private PostVoteService postVoteSvc;
     private FormatterUtil formatter;
+    private UsersRepository usersDao;
 
-    public CommentsController(PostService postSvc, UserService userSvc, CommentService commentSvc, PostVoteService postVoteSvc, FormatterUtil formatter) {
+    public CommentsController(PostService postSvc, UserService userSvc, CommentService commentSvc, PostVoteService postVoteSvc, FormatterUtil formatter, UsersRepository usersDao) {
         this.postSvc = postSvc;
         this.userSvc = userSvc;
         this.commentSvc = commentSvc;
         this.postVoteSvc = postVoteSvc;
         this.formatter = formatter;
+        this.usersDao = usersDao;
     }
 
 //============================================= COMMENT ON A POST ======================================================
@@ -224,25 +227,30 @@ public class CommentsController {
         System.out.println("Get to reply controller");
 
         Post post = postSvc.findOne(postId);
-        User user = post.getUser();
+        User postOwner = post.getUser();
+        User loggedInUser = userSvc.loggedInUser();
         Comment parent = commentSvc.findOne(parentId);
 
         if (validation.hasErrors()) {
             viewModel.addAttribute("comment", comment);
             viewModel.addAttribute("formatter", formatter);
-
             return "fragments/commentError :: ajaxError";
         }
 
         Comment newComment = commentSvc.saveNewComment(post, parent, body); // saving in the comment service
         viewModel.addAttribute("comment", newComment);
         viewModel.addAttribute("formatter", formatter);
-
-//        viewModel.addAttribute("children", children);
         viewModel.addAttribute("post", post);
-        viewModel.addAttribute("postOwner", user);
+        viewModel.addAttribute("postOwner", postOwner);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser()));
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
+
+        if (loggedInUser != null) {
+            long loggedInUserId = loggedInUser.getId();
+            User user = usersDao.findById(loggedInUserId);
+            boolean isBanned = user.isBanned();
+            viewModel.addAttribute("isBanned", isBanned);
+        }
 
 //        viewModel.addAttribute("comments", commentSvc.commentsOnPost(post.getId()));
         return "fragments/comments :: ajaxComment";
