@@ -451,17 +451,17 @@ html {
 }
 
 .popularPostCountIcon {
-    color: #888888;
+    color: var(--main-gray);
 }
 
 .popularPostCount{
     display: inline-block;
-    color: #888888;
+    color: var(--main-gray);
 }
 
 .popularTitleLink {
     text-decoration: none;
-    color: #888888;
+    color: var(--main-gray);
     transition: color 0.1s linear;
     -webkit-transition: color 0.1s linear;
     -moz-transition: color 0.1s linear;
@@ -497,7 +497,7 @@ html {
 
 .popularKarmas {
     padding-right: 1em;
-    color: #888888;
+    color: var(--main-gray);
 }
 
 .indexPagePostsWrapper {
@@ -559,7 +559,7 @@ ul {
     font-weight: bolder;
     font-size: 1.4em;
     /*font-size: 16px;*/
-    /*color: #888888;*/
+    /*color: var(--main-gray;*/
 }
 
 .no-text-decoration:hover {
@@ -568,13 +568,13 @@ ul {
 
 .post-info-fa-icon {
     display: inline-block;
-    color: #888888;
+    color: var(--main-gray);
 }
 
 .post-info-count {
     padding-right: 1em;
     display: inline-block;
-    color: #888888;
+    color: var(--main-gray);
 }
 
 .cmt-sec-ahref-link:hover {
@@ -584,34 +584,34 @@ ul {
 
 /*.postUpVoteIconIndex {*/
     /*display: inline-block;*/
-    /*color: #888888;*/
+    /*color: var(--main-gray;*/
 /*}*/
 
 /*.postVoteCountIndex {*/
     /*padding-right: 1em;*/
     /*display: inline-block;*/
-    /*color: #888888;*/
+    /*color: var(--main-gray;*/
 /*}*/
 
 /*.postCommentIconIndex {*/
     /*display: inline-block;*/
-    /*color: #888888;*/
+    /*color: var(--main-gray;*/
 /*}*/
 
 /*.postCommentSizeIndex {*/
     /*padding-right: 1em;*/
     /*display: inline-block;*/
-    /*color: #888888;*/
+    /*color: var(--main-gray;*/
 /*}*/
 
 /*.postHitCountIconIndex {*/
     /*display: inline-block;*/
-    /*color: #888888;*/
+    /*color: var(--main-gray;*/
 /*}*/
 
 /*.postHitCountSizeIndex {*/
     /*display: inline-block;*/
-    /*color: #888888;*/
+    /*color: var(--main-gray;*/
 /*}*/
 
 .post-tags-div {
@@ -926,7 +926,7 @@ textarea, input, .form-control {
     margin-right: 1em;
     margin-top: 0.55em;
     background: none;
-    color: #888888;
+    color: var(--main-gray);
 }
 
 #editPostBtn:hover {
@@ -939,7 +939,7 @@ textarea, input, .form-control {
     background: none;
     border: none;
     margin-top: 0.55em;
-    color: #888888;
+    color: var(--main-gray);
 }
 
 #deletePostBtn:hover {
@@ -948,7 +948,7 @@ textarea, input, .form-control {
 
 .postVoteCount {
     font-family: var(--main-font);
-    color: #888888;
+    color: var(--main-gray);
 }
 
 /*.replyPostNotLoggedInWrapper {*/
@@ -1013,13 +1013,13 @@ textarea, input, .form-control {
 }
 
 .parentCommentStyling {
-    border-bottom: 1px solid #88888852;
+    border-bottom: 1px solid var(--main-gray);
     /*background-color: #99999930;*/
     /*border-radius: 20px;*/
 }
 
 .commentedByStyling {
-    border-bottom: 0px solid #888888;
+    border-bottom: 0px solid var(--main-gray);
 }
 
 #commentedBy {
@@ -1037,12 +1037,12 @@ textarea, input, .form-control {
 .replyCommentNotLoggedInLink {
     margin-left: 25px;
     font-size: 14px;
-    color: #888888;
+    color: var(--main-gray);
 }
 
 .replyCommentNotLoggedInLink:hover {
     text-decoration: none;
-    color: #888888;
+    color: var(--main-gray);
 }
 
 .flipped-reply {
@@ -1068,11 +1068,11 @@ textarea, input, .form-control {
 }
 
 .commentedByDateTime {
-    color: #888888;
+    color: var(--main-gray);
 }
 
 .commentedByDate {
-    color: #888888;
+    color: var(--main-gray);
 }
 
 .commentBodyWrapper {
@@ -1083,7 +1083,7 @@ textarea, input, .form-control {
 
 .parentCommentOwnersProfileLink, .parentCommentOwnersProfileLink:hover {
     /*color: black;*/
-    color: #888888;
+    color: var(--main-gray);
     /*padding-right: 10px;*/
 }
 
@@ -1204,7 +1204,7 @@ textarea, input, .form-control {
 
 .commentVoteCount {
     font-family: var(--main-font);
-    color: #888888;
+    color: var(--main-gray);
 }
 
 .downvoteDiv {
@@ -1289,7 +1289,7 @@ textarea, input, .form-control {
 .showReplyTextArea, .showReplyTextAreaAJAX {
     float: left;
     cursor: pointer;
-    color: #888888;
+    color: var(--main-gray);
     margin-right: 1.5em;
 }
 
@@ -1310,7 +1310,11 @@ textarea, input, .form-control {
     font-size: 24px;
 }
 
-.comment-ellipsis:hover {
+.roles-dropdown {
+    color: var(--main-gray);
+}
+
+.comment-ellipsis:hover, .roles-dropdown:hover {
     cursor: pointer;
     color: black;
 }
@@ -1606,7 +1610,7 @@ textarea, input, .form-control {
 }
 
 .manage-posts-button:hover {
-    /*background: #888888;*/
+    /*background: var(--main-gray;*/
     background: #7DE2D1;
     cursor: pointer;
 }
@@ -1912,7 +1916,7 @@ textarea, input, .form-control {
 }
 
 .scrollUp:hover {
-    color: #888888;
+    color: var(--main-gray);
     cursor:pointer;
     z-index: 9999;
 }
