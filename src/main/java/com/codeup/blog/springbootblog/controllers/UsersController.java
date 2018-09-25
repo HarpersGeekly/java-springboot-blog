@@ -432,4 +432,26 @@ public class UsersController {
 //        In browser console we can see a response similar to: {id: 7, userId: 1, role: "ROLE_ADMIN"}
     }
 
+    @PostMapping("admin/dashboard/grant-editor/{id}")
+    public @ResponseBody
+    UserRole grantEditorPermissions(@PathVariable Long id) {
+        User user = usersDao.findById(id);
+        UserRole ur = rolesDao.findUserRoleByUserId(user.getId());
+        ur.setRole("ROLE_EDITOR");
+        ur.setUserId(user.getId());
+        rolesDao.save(ur);
+        return ur;
+    }
+
+    @PostMapping("admin/dashboard/grant-user/{id}")
+    public @ResponseBody
+    UserRole grantUserPermissions(@PathVariable Long id) {
+        User user = usersDao.findById(id);
+        UserRole ur = rolesDao.findUserRoleByUserId(user.getId());
+        ur.setRole("ROLE_USER");
+        ur.setUserId(user.getId());
+        rolesDao.save(ur);
+        return ur;
+    }
+
 }
