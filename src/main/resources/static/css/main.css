@@ -24,6 +24,8 @@ html {
     --main-blue-hover: #339989;
     --main-login-green: lime;
     --main-pink: #fc32be;
+    --main-red: #a94442;
+    --main-red-lite: #f2dede;
     --main-yellow: #f1ff40;
     --main-orange: #E07A5F;
     --main-dark-gray: #373737;
@@ -102,16 +104,32 @@ html {
     margin-left: 10px;
 }
 
+.margin-left-auto {
+    margin-left: auto;
+}
+
 .margin-left-lite {
     margin-left: 5px;
+}
+
+.margin-left-large {
+    margin-left: 25px;
 }
 
 .margin-right {
     margin-right: 10px;
 }
 
+.margin-right-auto {
+    margin-right: auto;
+}
+
 .margin-right-lite {
     margin-right: 5px;
+}
+
+.margin-right-large {
+    margin-right: 25px;
 }
 
 .float-right {
@@ -662,6 +680,12 @@ textarea, input, .form-control {
     font-size: 16px;
 }
 
+.postDescription > p:nth-of-type(2):first-letter  {
+    color: #3f403c;
+    font-size: xx-large;
+    font-family: var(--main-font-subtitle);
+}
+
 .postDescription > p > img {
     display: flex;
 }
@@ -890,8 +914,10 @@ textarea, input, .form-control {
 
 .post-vote-options-row {
     display: inline-flex;
+    /*justify-content: space-between;*/
     align-items: center;
     margin-top: 1em;
+    width:100%;
 }
 
 #editPostBtn {
@@ -933,12 +959,17 @@ textarea, input, .form-control {
 .replyPostNotLoggedInDiv {
     background-color: #eeeeee;
     padding: 0.25em 1em;
-    border-radius: 25px;
-    border: 1px solid black;
+    /*border-radius: 25px;*/
+    /*border: 1px solid black;*/
     margin: 0 auto;
-    width: 40%;
+    /*width: 40%;*/
     justify-content: center;
     text-align: center;
+}
+
+.replyPostNotLoggedInText {
+    font-family: var(--main-font-subtitle);
+    font-size: 20px;
 }
 
 .replyPostNotLoggedInLink {
@@ -1004,6 +1035,7 @@ textarea, input, .form-control {
 }
 
 .replyCommentNotLoggedInLink {
+    margin-left: 25px;
     font-size: 14px;
     color: #888888;
 }
@@ -1177,7 +1209,6 @@ textarea, input, .form-control {
 
 .downvoteDiv {
     float: right;
-    margin-right: 2em;
 }
 
 .editAndDeleteWrapper {
@@ -1922,6 +1953,13 @@ textarea, input, .form-control {
     margin-left: -1em;
 }
 
+.admin-dash-banned {
+    color: var(--main-pink);
+}
+
+.admin-dash-not-banned {
+    color: var(--main-login-green);
+}
 
 /*Cyberpunk color:#fff300*/
 

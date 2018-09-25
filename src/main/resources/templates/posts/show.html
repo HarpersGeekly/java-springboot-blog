@@ -132,7 +132,7 @@
                     <!-- ====================================== Post Edit and Delete Buttons =====================-->
 
                     <div th:if="${isPostOwner} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-                        <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+                        <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle margin-left-large"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
                         <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
@@ -166,20 +166,16 @@
                         </div>
                     </div>
 
-
                     <!-- AddToAny BEGIN -->
-                    <!-- AddToAny BEGIN -->
-                    <div class="a2a_kit a2a_kit_size_24 a2a_default_style margin-left">
-                    <a class="a2a_button_facebook"></a>
-                    <a class="a2a_button_twitter"></a>
-                    <a class="a2a_button_reddit"></a>
-                    <a class="a2a_button_google_gmail"></a>
-                    <a class="a2a_button_copy_link"></a>
+                    <div class="a2a_kit a2a_kit_size_24 a2a_default_style margin-left-auto margin-right">
+                        <a class="a2a_button_facebook"></a>
+                        <a class="a2a_button_twitter"></a>
+                        <a class="a2a_button_reddit"></a>
+                        <a class="a2a_button_google_gmail"></a>
+                        <a class="a2a_button_copy_link"></a>
                     </div>
                     <script src="https://static.addtoany.com/menu/page.js"></script>
                     <!-- AddToAny END -->
-
-
 
                 </div>
 

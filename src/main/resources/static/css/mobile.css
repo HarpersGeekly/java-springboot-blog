@@ -251,6 +251,9 @@
         width: 100%;
     }
 
+    .postVoting {
+        margin-left: 15px;
+    }
     /*.read-more-div {*/
         /*font-size: 1.3em;*/
         /*margin-left: 0.5em;*/
@@ -337,7 +340,7 @@
     }
 
     .replyPostNotLoggedInDiv {
-        width: 55%;
+        /*width: 55%;*/
     }
 
     #custom-content-width {
