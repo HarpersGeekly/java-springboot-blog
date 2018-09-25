@@ -104,8 +104,20 @@
                     </div>
                 </td>
                 <td>
-                    <div th:text="${rolesDao.findRoleByUserId(user.getId())}" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
-                    <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu"></div>
+                    <div th:attr="data-user-id=${user.id}" th:text="${rolesDao.findRoleByUserId(user.getId())}"
+                         class="roles-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </div>
+                    <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                        <div>
+                            <form th:attr="data-form-grant-admin-id=${user.id}" class="dropdown-edit-btn roles-dropdown-admin-select" th:action="${'/admin/dashboard/grant-admin/' + user.id}" method="post">
+                                <i class="far fa-edit"></i> GRANT: Admin (ROLE_ADMIN)
+                            </form>
+                        </div>
+
+<!-->
+<!-->
+
+                    </div>
                 </td>
             </tr>
             </tbody>
@@ -148,6 +160,23 @@
 
         // https://datatables.net/blog/2014-12-18
 
+        let container = $('.container');
+        container.on('click', '.roles-dropdown-admin-select', function() {
+
+            let button = $(this);
+            let userId = button.data('form-grant-admin-id');
+            let grantAdminForm = $('[data-form-grant-admin-id=' + userId + ']');
+            let request = $.ajax({
+                url: grantAdminForm.attr('action'),
+                method: 'POST',
+                dataType: 'json',
+                data: grantAdminForm.serialize()
+            });
+            request.done(function(userRole) {
+                let rolesDropdownText = $('[data-user-id=' + userId + ']');
+                rolesDropdownText.html(userRole.role);
+            })
+        })
     });
 </script>
 </body>
