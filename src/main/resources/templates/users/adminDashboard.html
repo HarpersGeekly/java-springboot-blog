@@ -162,7 +162,6 @@
 
         let container = $('.container');
         container.on('click', '.roles-dropdown-admin-select', function() {
-
             let button = $(this);
             let userId = button.data('form-grant-admin-id');
             let grantAdminForm = $('[data-form-grant-admin-id=' + userId + ']');
@@ -175,8 +174,11 @@
             request.done(function(userRole) {
                 let rolesDropdownText = $('[data-user-id=' + userId + ']');
                 rolesDropdownText.html(userRole.role);
-            })
         })
+
+
+        })
+
     });
 </script>
 </body>
