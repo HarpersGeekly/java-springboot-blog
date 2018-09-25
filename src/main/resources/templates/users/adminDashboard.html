@@ -39,6 +39,8 @@
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
                 <th class=""><i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Options</th>
+                <th class=""><i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Role</th>
+
             </tr>
             </thead>
             <tbody>
@@ -56,7 +58,7 @@
                 </td>
 
                 <td>
-                    <h5 class="post-info-count" th:text="${formatter.formatCount(karma)}"></h5>
+                    <h5 class="post-info-count" th:text="${formatter.formatCount(usersDao.totalKarmaByUser(user.getId()))}"></h5>
                 </td>
 
                 <td th:if="${user.isBanned()}">
@@ -100,6 +102,10 @@
                             </form>
                         </div>
                     </div>
+                </td>
+                <td>
+                    <div th:text="${rolesDao.findRoleByUserId(user.getId())}" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
+                    <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu"></div>
                 </td>
             </tr>
             </tbody>
