@@ -384,13 +384,13 @@ public class UsersController {
                 }
             }
         }
+
         viewModel.addAttribute("formatter", formatter);
         viewModel.addAttribute("posts", postSvc.findAll());
         List<User> users = (List<User>) usersDao.findAll();
         viewModel.addAttribute("users", users);
-        for(User user : users) {
-            viewModel.addAttribute("karma", usersDao.totalKarmaByUser(user.getId()));
-        }
+        viewModel.addAttribute("rolesDao", rolesDao);
+        viewModel.addAttribute("usersDao", usersDao);
         return "users/adminDashboard";
     }
 
