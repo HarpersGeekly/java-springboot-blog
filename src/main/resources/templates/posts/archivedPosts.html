@@ -36,6 +36,11 @@
                 </th>
                 <th class="" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                     <i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Options</th>
+
+                <th class="hidden">
+                    <!--hide this <th> to be able to search for content specific for a post inside the search bar-->
+                    Description
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -98,6 +103,12 @@
                         </div>
                     </div>
                 </td>
+
+                <!--hide this <td> to be able to search for content specific for a post inside the search bar-->
+                <td class="hidden">
+                <span th:utext="${post.htmlDescription}"></span>
+                </td>
+
             </tr>
             </tbody>
         </table>
