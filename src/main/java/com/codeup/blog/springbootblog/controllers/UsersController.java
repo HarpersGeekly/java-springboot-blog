@@ -362,7 +362,7 @@ public class UsersController {
         System.out.println("get to delete");
 
         User user = usersDao.findById(id);
-        long role_id = rolesDao.findByUserId(user.getId());
+        long role_id = rolesDao.findRoleIdByUserId(user.getId());
         rolesDao.delete(role_id);
         usersDao.delete(id);
         userSvc.deleteSession();
@@ -394,7 +394,7 @@ public class UsersController {
         return "users/adminDashboard";
     }
 
-    //================================================ DISABLE AND ENABLE POSTS =============================================
+//================================================ DISABLE AND ENABLE POSTS ============================================
 //======================================================================================================================
 
 
@@ -412,6 +412,24 @@ public class UsersController {
         user.unban();
         usersDao.save(user);
         return "redirect:/admin/dashboard";
+    }
+
+
+//================================================ GRANT PERMISSIONS ===================================================
+//======================================================================================================================
+
+    @PostMapping("admin/dashboard/grant-admin/{id}")
+    public @ResponseBody
+    UserRole grantAdminPermissions(@PathVariable Long id) {
+        User user = usersDao.findById(id);
+        UserRole ur = rolesDao.findUserRoleByUserId(user.getId());
+        ur.setRole("ROLE_ADMIN");
+        ur.setUserId(user.getId());
+        rolesDao.save(ur);
+        return ur;
+//        The @ResponseBody annotation tells a controller that the object returned is automatically serialized into
+//        JSON and passed back into the HttpResponse object.
+//        In browser console we can see a response similar to: {id: 7, userId: 1, role: "ROLE_ADMIN"}
     }
 
 }
