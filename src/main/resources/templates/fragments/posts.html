@@ -3,7 +3,7 @@
 <body>
 <th:block th:fragment="ajaxPosts">
 
-    <div class="content" th:each="post : ${nextResultSet}">
+    <article class="content" th:each="post : ${nextResultSet}">
             <!--<div class="postPicWrapper">-->
                 <!--&lt;!&ndash;<span th:if="${post.user.profilePicture} == null">&ndash;&gt;-->
                 <!--&lt;!&ndash;<img class="profilePicPostIndex" src="/../images/default_user.png"/>&ndash;&gt;-->
@@ -15,45 +15,46 @@
 
             <!--<div class="postInfoWrapper">-->
 
-                <div class="secretAjaxClass">
+                <section class="secretAjaxClass">
 
                     <th:block th:fragment="post">
                         <header class="indent">
                             <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
                                 <h1 th:utext="${post.htmlTitle}" class="postTitle"></h1>
                             </a>
+                        </header>
 
                             <!--<div class="post-tags-div">-->
                                 <!--<a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>-->
                             <!--</div>-->
 
-                            <div class="postedByWrapper">By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
+                            <section class="postedByWrapper">By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
                                 <span th:text="${post.user.username}"></span></a>
                                 <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
                                 <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
                                 <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
                                 <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
-                            </div>
-                            <div>
+                            </section>
+                            <section>
                                 <i class="fas fa-thumbs-up post-info-fa-icon"></i>
                                 <h5 class="post-info-count" th:text="${formatter.formatCount(post.voteCount())}"></h5>
                                 <i class="fas fa-comments post-info-fa-icon"></i>
                                 <h5 class="post-info-count" th:text="${formatter.formatCount(post.getComments().size())}"></h5>
                                 <i class="fas fa-eye post-info-fa-icon"></i>
                                 <h5 class="post-info-count" th:text="${post.hitCount != null} ? ${formatter.formatCount(post.hitCount.postCount)} : '0'"></h5>
+                            </section>
+                            <section>
+                                <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
+                                    <div class="postDescription hidden">
+                                        <p th:utext="${post.htmlImage}"></p>
+                                    </div>
+                                </a>
+                                <div class="post-subtitle indent">
+                                    <p th:utext="${post.htmlSubtitle}"></p>
+                                </div>
+                            </section>
 
-                            </div>
-                        </header>
 
-                        <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
-                            <div class="postDescription hidden">
-                                <p th:utext="${post.htmlImage}"></p>
-                            </div>
-                        </a>
-
-                        <div class="post-subtitle indent">
-                            <p th:utext="${post.htmlSubtitle}"></p>
-                        </div>
 
 
                         <!-- ====================================== Post Edit and Delete Buttons =====================-->
@@ -93,10 +94,10 @@
                             <!--</div>-->
                         <!--</div>-->
 
-                        <hr class="posts-hr"/>
+                        <!--<hr class="posts-hr" align="left"/>-->
                     </th:block>
-            </div>
-    </div>
+            </section>
+    </article>
 </th:block>
 </body>
 </html>
