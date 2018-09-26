@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog;
 
 
+import com.codeup.blog.springbootblog.Models.FormatterUtil;
 import com.codeup.blog.springbootblog.Models.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,6 +33,11 @@ public class SpringbootBlogApplication extends SpringBootServletInitializer  {
 	@Bean
 	public Java8TimeDialect java8TimeDialect() {
 		return new Java8TimeDialect();
+	}
+
+	@Bean
+	public FormatterUtil formatterUtil() {
+		return new FormatterUtil();
 	}
 
 	public static void main(String[] args) {
