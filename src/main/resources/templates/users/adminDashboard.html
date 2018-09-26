@@ -109,8 +109,26 @@
                     </div>
                     <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
                         <div>
-                            <form th:attr="data-form-grant-admin-id=${user.id}" class="dropdown-edit-btn roles-dropdown-admin-select" th:action="${'/admin/dashboard/grant-admin/' + user.id}" method="post">
+                            <form th:attr="data-form-grant-admin-id=${user.id}"
+                                  class="dropdown-edit-btn roles-dropdown-select-admin"
+                                  th:action="${'/admin/dashboard/grant-admin/' + user.id}" method="post">
                                 <i class="far fa-edit"></i> GRANT: Admin (ROLE_ADMIN)
+                            </form>
+                        </div>
+
+                        <div>
+                            <form th:attr="data-form-grant-editor-id=${user.id}"
+                                  class="dropdown-edit-btn roles-dropdown-select-editor"
+                                  th:action="${'/admin/dashboard/grant-editor/' + user.id}" method="post">
+                                <i class="far fa-edit"></i> GRANT: Editor (ROLE_EDITOR)
+                            </form>
+                        </div>
+
+                        <div>
+                            <form th:attr="data-form-grant-user-id=${user.id}"
+                                  class="dropdown-edit-btn roles-dropdown-select-user"
+                                  th:action="${'/admin/dashboard/grant-user/' + user.id}" method="post">
+                                <i class="far fa-edit"></i> GRANT: User (ROLE_USER)
                             </form>
                         </div>
 
@@ -143,6 +161,58 @@
 <script>
 
     $(document).ready(function () {
+
+        let container = $('.container');
+
+        container.on('click', '.roles-dropdown-select-admin', function() {
+            let button = $(this);
+            let userId = button.data('form-grant-admin-id');
+            let grantAdminForm = $('[data-form-grant-admin-id=' + userId + ']');
+            let request = $.ajax({
+                url: grantAdminForm.attr('action'),
+                method: 'POST',
+                dataType: 'json',
+                data: grantAdminForm.serialize()
+            });
+            request.done(function(userRole) {
+                let rolesDropdownText = $('[data-user-id=' + userId + ']');
+                rolesDropdownText.html(userRole.role);
+            })
+        });
+
+        container.on('click', '.roles-dropdown-select-editor', function() {
+            let button = $(this);
+            let userId = button.data('form-grant-editor-id');
+            let grantEditorForm = $('[data-form-grant-editor-id=' + userId + ']');
+            let request = $.ajax({
+                url: grantEditorForm.attr('action'),
+                method: 'POST',
+                dataType: 'json',
+                data: grantEditorForm.serialize()
+            });
+            request.done(function(userRole) {
+                let rolesDropdownText = $('[data-user-id=' + userId + ']');
+                rolesDropdownText.html(userRole.role);
+            })
+        });
+
+        container.on('click', '.roles-dropdown-select-user', function() {
+            let button = $(this);
+            let userId = button.data('form-grant-user-id');
+            let grantUserForm = $('[data-form-grant-user-id=' + userId + ']');
+            let request = $.ajax({
+                url: grantUserForm.attr('action'),
+                method: 'POST',
+                dataType: 'json',
+                data: grantUserForm.serialize()
+            });
+            request.done(function(userRole) {
+                let rolesDropdownText = $('[data-user-id=' + userId + ']');
+                rolesDropdownText.html(userRole.role);
+            })
+        });
+
+
         $('.preloader').fadeOut('slow',function(){
             $(this).remove();
             $('.archive-table').removeClass('hidden');
@@ -159,25 +229,8 @@
         });
 
         // https://datatables.net/blog/2014-12-18
+        // https://datatables.net/blog/2014-12-18
 
-        let container = $('.container');
-        container.on('click', '.roles-dropdown-admin-select', function() {
-            let button = $(this);
-            let userId = button.data('form-grant-admin-id');
-            let grantAdminForm = $('[data-form-grant-admin-id=' + userId + ']');
-            let request = $.ajax({
-                url: grantAdminForm.attr('action'),
-                method: 'POST',
-                dataType: 'json',
-                data: grantAdminForm.serialize()
-            });
-            request.done(function(userRole) {
-                let rolesDropdownText = $('[data-user-id=' + userId + ']');
-                rolesDropdownText.html(userRole.role);
-        })
-
-
-        })
 
     });
 </script>
