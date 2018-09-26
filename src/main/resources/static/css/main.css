@@ -2,7 +2,9 @@ body {
     /*!*margin: 0;*!*/
     padding-top: 50px;
     /*min-height: 100vh;*/
-    background: var(--main-background-color);
+    /*background: var(--main-background-color);*/
+    background: rgb(255,250,251);
+    background: linear-gradient(90deg, rgba(255,250,251,1) 0%, rgba(232,232,232,1) 100%);
     /*font-family: Georgia, serif;*/
     font-size: var(--main-font-size); /* 16px = 1.0875em, 14px = 1em */
     font-family: var(--main-font);
@@ -139,6 +141,10 @@ html {
 
 .float-left {
     float: left;
+}
+
+.no-text-decoration:hover {
+    text-decoration: none;
 }
 
 /*============================================================ NAVBAR ====================================================*/
@@ -429,7 +435,7 @@ html {
 }
 
 .popularityHeader {
-    font-family: var(--main-font-post);
+    font-family: var(--main-font-logo);
     text-align: center;
 }
 
@@ -547,15 +553,16 @@ ul {
     position : relative; /* needed for ::before to work, which has absolute. */
 }
 
-.postTitle::before {
-    content: " ";
-    position: absolute;
-    bottom: 34px;
-    display: block;
-    width: 35px;
-    height: 4px;
-    background-color: var(--main-pink);
-}
+/*.postTitle::before {*/
+    /*content: " ";*/
+    /*position: absolute;*/
+    /*bottom: 34px;*/
+    /*display: block;*/
+    /*width: 35px;*/
+    /*height: 4px;*/
+    /*background-color: var(--main-pink);*/
+/*}*/
+
 
 #post-title-show-page {
     font-family: var(--main-font-post);
@@ -564,7 +571,7 @@ ul {
 }
 
 .postTitle:hover {
-    text-decoration: underline;
+    text-decoration: none;
     color: var(--main-pink);
 }
 
@@ -586,9 +593,7 @@ ul {
     /*color: var(--main-gray;*/
 }
 
-.no-text-decoration:hover {
-    text-decoration: none;
-}
+
 
 .post-info-fa-icon {
     display: inline-block;
@@ -997,7 +1002,7 @@ textarea, input, .form-control {
 }
 
 .replyPostNotLoggedInLink {
-    color: black;
+    color: var(--main-pink);
     text-decoration: underline;
     font-weight: bold;
 }
@@ -1599,7 +1604,8 @@ textarea, input, .form-control {
 
 .posts-hr {
     border-top: 5px solid var(--main-pink);
-    width: 10%;
+    width: 8%;
+    margin-bottom: -10px;
 }
 
 .profilePostTitleDiv {

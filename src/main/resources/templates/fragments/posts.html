@@ -19,10 +19,11 @@
 
                     <th:block th:fragment="post">
                         <header class="indent">
-                            <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
+                            <hr class="posts-hr" align="left"/>
+                            <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}" class="no-text-decoration">
                                 <h1 th:utext="${post.htmlTitle}" class="postTitle"></h1>
                             </a>
-                        </header>
+
 
                             <!--<div class="post-tags-div">-->
                                 <!--<a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>-->
@@ -43,6 +44,9 @@
                                 <i class="fas fa-eye post-info-fa-icon"></i>
                                 <h5 class="post-info-count" th:text="${post.hitCount != null} ? ${formatter.formatCount(post.hitCount.postCount)} : '0'"></h5>
                             </section>
+
+                        </header>
+
                             <section>
                                 <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
                                     <div class="postDescription hidden">
@@ -53,7 +57,6 @@
                                     <p th:utext="${post.htmlSubtitle}"></p>
                                 </div>
                             </section>
-
 
 
 
@@ -94,7 +97,6 @@
                             <!--</div>-->
                         <!--</div>-->
 
-                        <!--<hr class="posts-hr" align="left"/>-->
                     </th:block>
             </section>
     </article>
