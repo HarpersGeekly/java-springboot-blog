@@ -23,6 +23,7 @@ html {
     --main-blue:  #0bd8ff;
     --main-blue-hover: #339989;
     --main-login-green: lime;
+    --main-neon-green: #50f9b7;
     --main-pink: #fc32be;
     --main-red: #a94442;
     --main-red-lite: #f2dede;
@@ -506,6 +507,7 @@ html {
 
 /*each post*/
 .content {
+    margin-bottom: 40px;
     max-width: 740px; /*matches the image resize max-width. */
 }
 
@@ -542,6 +544,17 @@ ul {
     transition: color 0.1s linear;
     -webkit-transition: color 0.1s linear;
     -moz-transition: color 0.1s linear;
+    position : relative; /* needed for ::before to work, which has absolute. */
+}
+
+.postTitle::before {
+    content: " ";
+    position: absolute;
+    bottom: 34px;
+    display: block;
+    width: 35px;
+    height: 4px;
+    background-color: var(--main-pink);
 }
 
 #post-title-show-page {
@@ -1585,7 +1598,8 @@ textarea, input, .form-control {
 }
 
 .posts-hr {
-    border-width: 5px;
+    border-top: 5px solid var(--main-pink);
+    width: 10%;
 }
 
 .profilePostTitleDiv {
