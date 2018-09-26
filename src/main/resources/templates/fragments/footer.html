@@ -39,7 +39,7 @@
                         </li>
 
                         <li sec:authorize="isAuthenticated()">
-                            <a th:href="'/profile/' + ${#authentication.principal.id}">
+                            <a th:href="'/profile/' + ${#authentication.principal.id} + '/' + ${formatter.makeSlug(#authentication.principal.username)}">
                                 <i class="fas fa-footer fa-user-circle"></i>
                                 <span th:text="${#authentication.principal.username}"></span>'s Profile
                             </a>
