@@ -553,6 +553,11 @@ ul {
     color: var(--main-pink);
 }
 
+.postTitle:active {
+    text-decoration: underline;
+    color: var(--main-pink);
+}
+
 .post-subtitle {
     font-family: var(--main-font-subtitle);
     /*font-size: 16px;*/
