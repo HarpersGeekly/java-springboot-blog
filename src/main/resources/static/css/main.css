@@ -30,7 +30,7 @@ html {
     --main-orange: #E07A5F;
     --main-dark-gray: #373737;
     --main-gray: #888888;
-    --main-light-gray: lightgray;
+    --main-light-gray: #c0c0c0;
     --main-font-size: 14px;
     --main-font: Roboto, sans-serif;
     /*--main-font-logo: East Sea Dokdo, regular;*/
@@ -171,14 +171,14 @@ html {
 
 .navbar-brand-text {
     font-size: 32px;
-    color: #7DE2D1;
+    color: var(--main-og-blue);
     font-family: var(--main-font-logo);
     text-decoration: none;
 }
 
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:active {
-    color: #339989;
+    color: var(--main-blue-hover);
     text-decoration: none;
 }
 
@@ -187,7 +187,7 @@ html {
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-     background-color: #fffafb;
+     background-color: var(--main-background-color);
 }
 
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
@@ -210,21 +210,21 @@ html {
 /*}*/
 
 .nav-icon {
-    color: #7DE2D1;
+    color: var(--main-og-blue);
     margin-right: 5px;
     margin-left: 5px;
     /*color:#fcf101;*/
 }
 
 .nav > li > a {
-    color: #7DE2D1 !important;
+    color: var(--main-og-blue) !important;
     font-family: var(--main-font);
     transition: color 0.1s linear;
     -webkit-transition: color 0.1s linear;
     -moz-transition: color 0.1s linear;
 }
 .nav > li > a:hover, .nav > li > a:active  {
-    color: #339989 !important;
+    color: var(--main-blue-hover) !important;
 }
 
 .profile-pic-navbar {
@@ -256,7 +256,7 @@ html {
 
 
 /*.fa-nav {*/
-    /*color: #7DE2D1;*/
+    /*color: var(--main-og-blue;*/
     /*margin-right: 5px;*/
     /*margin-left: 5px;*/
 /*}*/
@@ -273,11 +273,11 @@ html {
 }
 
 #searchBtnIcon {
-    color: #7DE2D1;
+    color: var(--main-og-blue);
 }
 
 #searchBtnIcon:hover {
-    color: #339989;
+    color: var(--main-blue-hover);
 }
 
 /* ================= Search Results Page ====== */
@@ -303,7 +303,7 @@ html {
 
 #logout {
     font-family: var(--main-font);
-    color: #7DE2D1;
+    color: var(--main-og-blue);
     background-color: transparent;
     outline: none;
     text-decoration: none;
@@ -313,7 +313,7 @@ html {
 }
 
 #logout:hover, #logout:active {
-    color: #339989;
+    color: var(--main-blue-hover);
     background-color: transparent;
     outline: none;
     text-decoration: none;
@@ -372,7 +372,7 @@ html {
 .sidebar-category-tags > a:hover {
     text-decoration: none;
     cursor: pointer;
-    color: #7DE2D1;
+    color: var(--main-og-blue);
 }
 
 #loadergif {
@@ -410,7 +410,7 @@ html {
 
 .indexEachCategory:hover {
     text-decoration: none;
-    color: #7DE2D1;
+    color: var(--main-og-blue);
 }
 
 /*wraps the whole index page*/
@@ -468,7 +468,7 @@ html {
 }
 
 .popularTitleLink:hover {
-    color: #7DE2D1;
+    color: var(--main-og-blue);
     text-decoration: none;
 }
 
@@ -491,7 +491,7 @@ html {
 }
 
 .popularNamesLink:hover {
-    color: #7DE2D1;
+    color: var(--main-og-blue);
     text-decoration: none;
 }
 
@@ -554,7 +554,7 @@ ul {
     /*font-size: 16px;*/
     /*color: black;*/
     /*line-height: 1.5;*/
-    color: gray;
+    color: var(--main-gray);
     font-style: italic;
     font-weight: bolder;
     font-size: 1.4em;
@@ -633,7 +633,7 @@ ul {
     background-color: #ffdac9;
     cursor:pointer;
     text-decoration: none;
-    /*color: #7DE2D1;*/
+    /*color: var(--main-og-blue;*/
 }
 
 .postedByWrapper {
@@ -648,7 +648,7 @@ ul {
 
 .postedByNameTextIndex:hover {
     text-decoration: none;
-    color: #7DE2D1;
+    color: var(--main-og-blue);
 }
 
 textarea, input, .form-control {
@@ -717,19 +717,19 @@ textarea, input, .form-control {
 /*}*/
 
 .fa-read-more {
-    color: #339989;
+    color: var(--main-blue-hover);
 }
 
 .read-more {
     text-decoration: underline;
-    color: #339989;
+    color: var(--main-blue-hover);
     transition: color 0.1s linear;
     -webkit-transition: color 0.1s linear;
     -moz-transition: color 0.1s linear;
 }
 
 .read-more:hover {
-    color: #7DE2D1;
+    color: var(--main-og-blue);
 }
 
 #show-more-posts {
@@ -745,7 +745,7 @@ textarea, input, .form-control {
 }
 
 #show-more-posts:hover {
-    background: #7DE2D1;
+    background: var(--main-og-blue);
     cursor: pointer;
 }
 
@@ -1014,7 +1014,7 @@ textarea, input, .form-control {
 
 .parentCommentStyling {
     border-bottom: 1px solid var(--main-gray);
-    /*background-color: #99999930;*/
+    /*background-color: var(--main-gray30;*/
     /*border-radius: 20px;*/
 }
 
@@ -1136,47 +1136,47 @@ textarea, input, .form-control {
 .postUpvote, .postDownvote {
     font-size: 1.3em;
     /*color: #2B2C28;*/
-    color: #c0c0c0;
+    color: var(--main-light-gray);
 }
 
 .postUpvote:hover, .postDownvote:hover {
-    color: #7DE2D1;
+    color: var(--main-og-blue);
     cursor: pointer;
 }
 
 .postUpvote:active, .postDownvote:active {
     cursor: pointer;
-    color: #339989;
+    color: var(--main-blue-hover);
 }
 
 .commentVoteNotLoggedIn {
     font-size: 1.3em;
-    color: #c0c0c0;
+    color: var(--main-light-gray);
 }
 
 .commentUpvote, .commentDownvote {
     font-size: 1.3em;
     /*color: #2B2C28;*/
-    color: #c0c0c0;
+    color: var(--main-light-gray);
 }
 
 .commentUpvote:hover, .commentDownvote:hover {
-    color: #7DE2D1;
+    color: var(--main-og-blue);
     cursor: pointer;
 }
 
 .commentUpvote:active, .commentDownvote:active {
     cursor: pointer;
-    color: #339989;
+    color: var(--main-blue-hover);
 }
 
 .stayActive {
-    color: #7DE2D1;
+    color: var(--main-og-blue);
     cursor: pointer;
 }
 
 .stayActive:hover {
-    color: #339989;
+    color: var(--main-blue-hover);
     cursor: pointer;
 }
 
@@ -1242,14 +1242,14 @@ textarea, input, .form-control {
     text-align: center;
     display: block;
     padding: 1em;
-    color: #c0c0c0;
+    color: var(--main-light-gray);
     background-color: #fffafc;
     text-decoration: none;
 }
 
 .dropdown-delete-btn{
     border: none;
-    color: #c0c0c0;
+    color: var(--main-light-gray);
     background-color: #fffafc;
     /* display: block; */
     padding: 1em;
@@ -1273,7 +1273,7 @@ textarea, input, .form-control {
 }
 
 .fa-edit, .fa-bomb {
-    color: #c0c0c0;
+    color: var(--main-light-gray);
 }
 
 .replyNotLoggedIn {
@@ -1290,7 +1290,8 @@ textarea, input, .form-control {
     float: left;
     cursor: pointer;
     color: var(--main-gray);
-    margin-right: 1.5em;
+    margin-right: 25px;
+    margin-left:25px;
 }
 
 .showReplyTextArea:hover, .showReplyTextAreaAJAX:hover {
@@ -1302,11 +1303,12 @@ textarea, input, .form-control {
     float: left;
     cursor: pointer;
     color: var(--main-orange);
-    margin-right: 1em;
+    margin-right: 25px;
+    margin-left:25px;
 }
 
 .comment-ellipsis {
-    color: #c0c0c0;
+    color: var(--main-light-gray);
     font-size: 24px;
 }
 
@@ -1496,7 +1498,7 @@ textarea, input, .form-control {
 
 .profileChangeInfoLink {
     display: inline-block;
-    color: #999999;
+    color: var(--main-gray);
     margin-right: 1em;
 }
 
@@ -1572,12 +1574,12 @@ textarea, input, .form-control {
     float: left;
     margin-right: 20px;
     background: none;
-    color: #999999;
+    color: var(--main-gray);
 }
 
 #profileDeletePostBtn {
     background: none;
-    color: #999999;
+    color: var(--main-gray);
 }
 
 #profileEditPostBtn:hover, #profileDeletePostBtn:hover {
@@ -1611,7 +1613,7 @@ textarea, input, .form-control {
 
 .manage-posts-button:hover {
     /*background: var(--main-gray;*/
-    background: #7DE2D1;
+    background: var(--main-og-blue);
     cursor: pointer;
 }
 
@@ -1678,7 +1680,7 @@ textarea, input, .form-control {
 }
 
 #editUserDeleteButton, #editUserDeleteButton:active {
-    background-color: #7DE2D1;
+    background-color: var(--main-og-blue);
     float: left;
 }
 
@@ -1781,14 +1783,14 @@ textarea, input, .form-control {
 
 .btn {
     border-radius: 0;
-    background-color: #7DE2D1;
+    background-color: var(--main-og-blue);
     color: #131515;
     border: hidden #a1a1a1;
     outline:none;
 }
 
 .btn:hover, .btn:active {
-    background-color: #339989;
+    background-color: var(--main-blue-hover);
     color: #131515;
     outline:none
 }
@@ -1812,7 +1814,7 @@ textarea, input, .form-control {
     position: absolute;
     bottom: 0;
     left: 0;
-    color: #7DE2D1;
+    color: var(--main-og-blue);
 
     /*height: 120px;*/
     z-index: 9000;
@@ -1827,17 +1829,17 @@ textarea, input, .form-control {
 
 
 .footerList>li>a {
-    color: #7DE2D1;
+    color: var(--main-og-blue);
     font-family: Futura, serif;
 }
 
 .footerList>li>a:hover, .footerList>li>a:active {
-    color: #339989;
+    color: var(--main-blue-hover);
     text-decoration: none;
 }
 
 .fa-footer {
-    color: #7DE2D1;
+    color: var(--main-og-blue);
     margin-right: 5px;
     margin-left: 5px;
 }
