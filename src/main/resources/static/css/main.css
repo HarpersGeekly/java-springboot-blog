@@ -545,6 +545,8 @@ ul {
 }
 
 #post-title-show-page {
+    font-family: var(--main-font-post);
+    color: var(--main-dark-gray);
     font-size: 36px !important;
 }
 
