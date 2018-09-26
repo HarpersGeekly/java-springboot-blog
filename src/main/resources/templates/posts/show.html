@@ -57,7 +57,7 @@
                                     <!--<span class="sidebar-category-tags"><a th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a></span>-->
                                     <span class="margin-left">
                                         <i class="fas fa-thumbs-up post-info-fa-icon"></i>
-                                        <h5 class="post-info-count" th:text="${formatter.formatCount(post.voteCount())}"></h5>
+                                        <h5 class="post-info-count" id="post-info-vote-count" th:text="${formatter.formatCount(post.voteCount())}"></h5>
                                         <a id="cmt-sec-ahref-link" href="#voting-area">
                                             <i class="fas fa-comments post-info-fa-icon"></i>
                                             <h5 class="post-info-count" th:text="${formatter.formatCount(post.getComments().size())}"></h5>
@@ -117,7 +117,7 @@
                             <div th:if="${isLoggedIn} and ${!isBanned}">
                                 <form th:action="@{/posts/downvote/{postId}(postId=${post.id})}" method='POST'
                                       th:attr="data-downvote-post-id=${post.id}">
-                                    <i th:classappend="${downvote} ? stayActive : postDownvote"
+                                    <i th:classappend="${downvote} ? stayActiveDown : postDownvote"
                                        class="fas fa-thumbs-down postDownvote" th:if="${isLoggedIn}"></i>
                                 </form>
                             </div>
@@ -746,6 +746,7 @@
             request.done(function (post) {
 
                 $('.postVoteCount').html(post.voteCount);
+                $('#post-info-vote-count').html(post.voteCount);
                 $('.postUpvote').removeClass("stayActive");
             })
         } else {
@@ -762,7 +763,8 @@
             request.done(function (post) {
 
                 $('.postVoteCount').html(post.voteCount);
-                $('.postDownvote').removeClass("stayActive");
+                $('#post-info-vote-count').html(post.voteCount);
+                $('.postDownvote').removeClass("stayActiveDown");
                 $('.postUpvote').addClass("stayActive");
             });
 
@@ -774,7 +776,7 @@
 
     postWrapper.on("click", ".postDownvote", function (e) {
 
-        if ($(e.target).hasClass('stayActive')) {
+        if ($(e.target).hasClass('stayActiveDown')) {
             //remove vote
             let button = $(this);
             let postId = button.parent().data('downvote-post-id');
@@ -788,7 +790,8 @@
             request.done(function (post) {
 
                 $('.postVoteCount').html(post.voteCount);
-                $('.postDownvote').removeClass("stayActive");
+                $('#post-info-vote-count').html(post.voteCount);
+                $('.postDownvote').removeClass("stayActiveDown");
             })
         } else {
             //downvote
@@ -805,8 +808,9 @@
             request.done(function (post) {
 
                 $('.postVoteCount').html(post.voteCount);
+                $('#post-info-vote-count').html(post.voteCount);
                 $('.postUpvote').removeClass("stayActive");
-                $('.postDownvote').addClass("stayActive");
+                $('.postDownvote').addClass("stayActiveDown");
             });
 
             request.fail((a, b, c) => {
