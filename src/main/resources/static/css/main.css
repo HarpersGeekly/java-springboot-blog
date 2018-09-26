@@ -538,7 +538,10 @@ ul {
     font-size:24px;
     /*font-size:6vw;*/
     /*display: inline-block;*/
-    color: #3f403c;
+    color: var(--main-dark-gray);
+    transition: color 0.1s linear;
+    -webkit-transition: color 0.1s linear;
+    -moz-transition: color 0.1s linear;
 }
 
 #post-title-show-page {
@@ -547,6 +550,7 @@ ul {
 
 .postTitle:hover {
     text-decoration: underline;
+    color: var(--main-pink);
 }
 
 .post-subtitle {
@@ -1139,15 +1143,25 @@ textarea, input, .form-control {
     color: var(--main-light-gray);
 }
 
-.postUpvote:hover, .postDownvote:hover {
+.postUpvote:hover {
     color: var(--main-og-blue);
     cursor: pointer;
 }
 
-.postUpvote:active, .postDownvote:active {
+.postDownvote:hover {
+    color: var(--main-red);
     cursor: pointer;
-    color: var(--main-blue-hover);
 }
+
+/*.postUpvote:active {*/
+    /*cursor: pointer;*/
+    /*color: var(--main-blue-hover);*/
+/*}*/
+
+/*.postDownvote:active {*/
+    /*cursor: pointer;*/
+    /*color: var(--main-red-lite);*/
+/*}*/
 
 .commentVoteNotLoggedIn {
     font-size: 1.3em;
@@ -1177,6 +1191,16 @@ textarea, input, .form-control {
 
 .stayActive:hover {
     color: var(--main-blue-hover);
+    cursor: pointer;
+}
+
+.stayActiveDown {
+    color: var(--main-red);
+    cursor: pointer;
+}
+
+.stayActiveDown:hover {
+    color: var(--main-red-lite);
     cursor: pointer;
 }
 
