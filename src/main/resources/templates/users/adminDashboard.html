@@ -103,10 +103,11 @@
                         </div>
                     </div>
                 </td>
-                <td>
+                <td class="flex">
                     <div th:attr="data-user-id=${user.id}" th:text="${rolesDao.findRoleByUserId(user.getId())}"
                          class="roles-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     </div>
+                    <span class="margin-left">&#9661;</span>
                     <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
                         <div>
                             <form th:attr="data-form-grant-admin-id=${user.id}"
