@@ -429,8 +429,8 @@ html {
 /*popularity column on left side of screen*/
 .popularityWrapper {
     /*border-right: 2px solid #eeeeee;*/
-    padding-left: 3em;
-    padding-right: 2.5em;
+    padding-left: 20px;
+    padding-right: 25px;
     flex:1;
 }
 
@@ -448,7 +448,7 @@ html {
 }
 
 .popularPostTitleWrapper {
-    display:flex;
+    /*display:flex;*/
     flex-wrap:wrap;
 }
 
