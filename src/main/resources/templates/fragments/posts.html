@@ -21,7 +21,7 @@
                         <header class="indent">
                             <hr class="posts-hr" align="left"/>
                             <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}" class="no-text-decoration">
-                                <h1 th:utext="${post.htmlTitle}" class="postTitle"></h1>
+                                <h1 th:utext="${post.htmlTitle}" class="postTitle" th:title="${post.title}"></h1>
                             </a>
 
 
