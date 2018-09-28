@@ -356,7 +356,7 @@
                             <div  th:if="${isLoggedIn} and ${!isBanned}">
                                 <form th:action="@{/comment/downvote/{commentId}(commentId=${comment.id})}" method="POST"
                                       th:attr="data-downvote-comment-id=${comment.id}">
-                                    <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isDownvote()} ? stayActive : commentDownvote"
+                                    <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isDownvote()} ? stayActiveDown : commentDownvote"
                                        class="fas fa-thumbs-down commentDownvote"
                                        th:if="${isLoggedIn}" th:attr="data-downvoteIcon-comment-id=${comment.id}"></i>
                                 </form>
@@ -883,7 +883,7 @@
                 let commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
                 commentVoteCount.html(comment.voteCount);
-                commentDownIcon.removeClass("stayActive");
+                commentDownIcon.removeClass("stayActiveDown");
                 commentUpIcon.addClass("stayActive");
             })
         }
@@ -892,7 +892,7 @@
     container.on("click", ".commentDownvote", function (e) {
         e.preventDefault();
 
-        if ($(e.target).hasClass('stayActive')) {
+        if ($(e.target).hasClass('stayActiveDown')) {
             //remove vote
             let button = $(this);
             let commentId = button.parent().data('downvote-comment-id');
@@ -910,7 +910,7 @@
                 let commentVoteCount = $('[data-voteCount-comment-id=' + commentId + ']');
 
                 commentVoteCount.html(comment.voteCount);
-                commentDownIcon.removeClass("stayActive");
+                commentDownIcon.removeClass("stayActiveDown");
             })
         } else {
             //downvote
@@ -931,7 +931,7 @@
 
                 commentVoteCount.html(comment.voteCount);
                 commentUpIcon.removeClass("stayActive");
-                commentDownIcon.addClass("stayActive");
+                commentDownIcon.addClass("stayActiveDown");
             })
         }
     });

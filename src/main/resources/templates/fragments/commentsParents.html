@@ -103,7 +103,7 @@
                             <div th:if="${isLoggedIn}" >
                                 <form th:action="@{/comment/upvote/{commentId}(commentId=${comment.id})}" method="POST"
                                       th:attr="data-upvote-comment-id=${comment.id}">
-                                    <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isUpvote()} ? stayActive : commentUpvote"
+                                    <i th:classappend="${comment.getVoteFrom(#authentication.principal) != null &amp;&amp; comment.getVoteFrom(#authentication.principal).isUpvote()} ? stayActiveDown : commentUpvote"
                                        class="fas fa-thumbs-up commentUpvote"
                                        th:if="${isLoggedIn}" th:attr="data-upvoteIcon-comment-id=${comment.id}"></i>
                                 </form>
