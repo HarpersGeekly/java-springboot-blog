@@ -29,7 +29,7 @@
                                 <!--<a class="post-tag" th:each="tag : ${post.getCategories()}" th:text="${tag.name}" th:href="@{/posts/search(term=${tag.name})}"></a>-->
                             <!--</div>-->
 
-                            <section class="postedByWrapper">By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
+                            <section class="postedByWrapper">By: <a class="postedByNameTextIndex" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}" th:title="${post.user.username}">
                                 <span th:text="${post.user.username}"></span></a>
                                 <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
                                 <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
@@ -48,7 +48,7 @@
                         </header>
 
                             <section>
-                                <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
+                                <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}" th:title="${post.title}">
                                     <div class="postDescription hidden">
                                         <p th:utext="${post.htmlImage}"></p>
                                     </div>
