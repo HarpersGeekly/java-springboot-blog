@@ -40,7 +40,7 @@ public class FormatterUtil {
 
     public String titleToUppercase(String title) {
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         String[] sentence = title.split(" ");
 
