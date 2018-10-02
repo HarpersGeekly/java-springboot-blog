@@ -104,9 +104,9 @@
     }
 
     .eachPopularSection {
-        padding-right: 2em;
-        padding-left: 2em;
-        margin-bottom: 3em;
+        padding-right: 10px;
+        padding-left: 10px;
+        margin-bottom: 40px;
     }
 
     .postTitle {
