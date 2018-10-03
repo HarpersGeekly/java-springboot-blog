@@ -188,7 +188,7 @@ public class PostsController {
         hitCountsDao.save(postHitCount);
 
         boolean isLoggedIn = userSvc.isLoggedIn();
-        boolean isPostOwner = userSvc.isLoggedInAndPostMatchesUser(post.getUser());
+        boolean isPostOwner = userSvc.isLoggedInAndOwnerMatchesUser(post.getUser());
         boolean isParentComment = comment.isParentComment(comment);
         boolean isDisabled = post.isDisabled();
 

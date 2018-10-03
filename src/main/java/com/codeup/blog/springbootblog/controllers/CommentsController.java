@@ -49,7 +49,7 @@ public class CommentsController {
         System.out.println(postOwner.getUsername());
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("postOwner", postOwner);
-        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser())); // show post edit button
+        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndOwnerMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("comment", comment);
         viewModel.addAttribute("formatter", formatter);
@@ -242,7 +242,7 @@ public class CommentsController {
         viewModel.addAttribute("formatter", formatter);
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("postOwner", postOwner);
-        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndPostMatchesUser(post.getUser()));
+        viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndOwnerMatchesUser(post.getUser()));
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
 
         if (loggedInUser != null) {

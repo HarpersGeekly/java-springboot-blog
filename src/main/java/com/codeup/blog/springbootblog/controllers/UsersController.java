@@ -283,6 +283,10 @@ public class UsersController {
     public String showProfileEditPage(@PathVariable Long id, Model viewModel) {
         // find the user in the database:
         User existingUser = usersDao.findById(id);
+        if(!userSvc.isLoggedInAndOwnerMatchesUser(existingUser)) {
+            System.out.println("got here");
+            return "redirect:/login";
+        }
         // pass it to the view: pre-populate the form with the values from that user ie: th:field="{user.username}"
         viewModel.addAttribute("user", existingUser);
         viewModel.addAttribute("formatter", formatter);

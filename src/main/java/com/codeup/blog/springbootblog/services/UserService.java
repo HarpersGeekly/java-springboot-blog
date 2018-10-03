@@ -29,7 +29,7 @@ public class UserService {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public boolean isLoggedInAndPostMatchesUser(User user) {
+    public boolean isLoggedInAndOwnerMatchesUser(User user) {
         return isLoggedIn() && (loggedInUser().getId() == user.getId());
     }
 
