@@ -74,6 +74,7 @@ public class PasswordController {
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("user", user);
+            viewModel.addAttribute("formatter", formatter);
             return "users/editPassword";
         }
 
