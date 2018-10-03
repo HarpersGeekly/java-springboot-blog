@@ -500,9 +500,18 @@ html {
     color: var(--main-gray);
 }
 
+.popularPostCountIconSlider {
+    color: var(--main-og-blue);
+}
+
 .popularPostCount{
     display: inline-block;
     color: var(--main-gray);
+}
+
+.popularPostCountSlider {
+    display: inline-block;
+    color: var(--main-og-blue);
 }
 
 .popularTitleLink {
@@ -538,6 +547,14 @@ html {
 
 .popularNamesLink:hover {
     color: var(--main-og-blue);
+    text-decoration: none;
+}
+
+.popularNamesLinkSlider {
+    color: var(--main-orange);
+}
+
+.popularNamesLinkSlider:hover {
     text-decoration: none;
 }
 
@@ -764,9 +781,30 @@ textarea, input, .form-control {
     color: black;
 }
 
-.side-bar > p > img {
+.post-description-side-bar > p > img {
     margin: 0 auto;
     max-width: 100% !important;
+}
+
+.post-description-side-bar {
+    width: 100%;
+    font-size: 1em;
+    color: #555;
+    line-height: 1.6;
+    position: relative;
+}
+
+.popular-post-bottom-slider {
+    display:none;
+    padding: 10px;
+    position: absolute;
+    bottom: 0px;
+    background: rgba(0,0,0,0.7);
+    width: 100%;
+}
+
+.post-description-side-bar:hover .popular-post-bottom-slider {
+    display: block;
 }
 
 /*.postDescription:before {*/
