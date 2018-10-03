@@ -28,7 +28,7 @@ public class User {
     @Column(nullable = false, unique = true)
     @Pattern(regexp = "(?=^.{3,20}$)^[a-zA-Z][a-zA-Z0-9 ]*[._-]?[a-zA-Z0-9 ]+$", message = "Username must be alphanumeric only.")
     @NotBlank(message="Please enter a username.")
-    @Size(min = 2, message="Your username must be at least 2 characters.")
+    @Length(min = 8, max = 20, message="Your username must be between 2-20 characters.")
     private String username;
 
     @Column(nullable = false, unique = true)
