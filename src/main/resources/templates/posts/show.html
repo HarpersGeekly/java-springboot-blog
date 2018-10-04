@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:include="fragments/header :: my-header('To Geek Is Human - Show Post - ' + ${post.title})"></head>
+<link rel="stylesheet" href="/bower_components/emojionearea/dist/emojionearea.css"/>
+
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
@@ -462,26 +464,18 @@
 </div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
-<!--https://github.com/OneSignal/emoji-picker-->
-<script src="lib/js/config.js"></script>
-<script src="lib/js/util.js"></script>
-<script src="lib/js/jquery.emojiarea.js"></script>
-<script src="lib/js/emoji-picker.js"></script>
+<script type="text/javascript" src="/bower_components/emojione/lib/js/emojione.js"></script>
+<script type="text/javascript" src="/bower_components/emojionearea/dist/emojionearea.js"></script>
+
 <script>
 
-
-    $(function() {
-        // Initializes and creates emoji set from sprite sheet
-        window.emojiPicker = new EmojiPicker({
-            emojiable_selector: '[data-emojiable=true]',
-            assetsPath: '../lib/img/',
-            popupButtonClasses: 'fa fa-smile-o'
-        });
-        // Finds all elements with `emojiable_selector` and converts them to rich emoji input fields
-        // You may want to delay this step if you have dynamically created input fields that appear later in the loading process
-        // It can be called as many times as necessary; previously converted input fields will not be converted again
-        window.emojiPicker.discover();
+    // ======================================= EMOJI INIT =======================================
+    $("#commentFormBody").emojioneArea({
+        pickerPosition: "left",
+        tonesStyle: "bullet"
     });
+    // https://github.com/mervick/emojionearea#usage
+    // ==========================================================================================
 
     let postWrapper = $('.postWrapper-showPage');
     let container = $('.container');
@@ -589,6 +583,7 @@
             //comment id's will always be undefined here because I'm not returning an object, I'm returning html.
 
             $('#commentFormBody').val(''); // clear the input field.
+            $('.emojionearea-editor').empty(); // clear the input field (after the added emoji functionality)
 
             // check if html is that error fragment. (html could be both error or comment):
             if (!(html.includes("commentBodyText"))) { // if it's an error...
