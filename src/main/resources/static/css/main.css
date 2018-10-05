@@ -1541,12 +1541,12 @@ textarea, input, .form-control {
 }
 
 .profile-upper-wrapper {
-    display: flex;
-    overflow: hidden;
+    width: 50%;
+    margin: 0 auto;
 }
 
 .profile-picture-wrapper {
-    float: left;
+    /*float: left;*/
     /*border-style: solid;*/
     /*width: 13.7%;*/
 }
@@ -1595,8 +1595,9 @@ textarea, input, .form-control {
 }
 
 .profile-info-wrapper {
-    float: right;
-    padding-left: 3em;
+    /*float: right;*/
+    /*padding-left: 3em;*/
+    /*padding-left: 3em;*/
 }
 
 .profileLoggedInMessage {
@@ -1625,6 +1626,10 @@ textarea, input, .form-control {
 
 .user-color {
     color: var(--main-og-blue);
+}
+
+.user-banned-color {
+    color: var(--main-red);
 }
 
 .profileChangeInfoDiv {

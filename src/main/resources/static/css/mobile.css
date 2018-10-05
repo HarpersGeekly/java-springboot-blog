@@ -155,8 +155,7 @@
     }
 
     .profile-picture-wrapper {
-        position: absolute;
-        left: 32%;
+
     }
 
     .change-profile-picture-alternate {
@@ -164,8 +163,11 @@
     }
 
     .profile-info-wrapper {
-        margin-top: 125px;
-        padding-left: 1em;
+        /*padding-left: 1em;*/
+    }
+
+    .profile-upper-wrapper {
+        width: 100%;
     }
 
     #profileChangePictureLink {
@@ -481,5 +483,10 @@
     /*.th-delete-user-archive {*/
         /*width: 10%;*/
     /*}*/
+
+    .emojionearea .emojionearea-picker.emojionearea-picker-position-left, .emojionearea .emojionearea-picker.emojionearea-picker-position-right {
+        top: 100px !important;
+        right: 325px !important;
+    }
 
 }
