@@ -152,15 +152,15 @@
             <div class="profile-picture-wrapper flex-center">
                 <div class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} == null">
                     <img th:classappend="${isOwnProfile} ? profilePic : profilePicNotOwner" src="/../images/default_user.png"/>
-                        <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate' : 'hidden'">
-                            <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
-                        </span>
+                    <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate' : 'hidden'">
+                        <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
+                    </span>
                 </div>
                 <div class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} != null">
                     <img th:classappend="${isOwnProfile} ? profilePic : profilePicNotOwner" th:src="@{'/uploads/' + ${profileUser.profilePicture}}"/>
-                        <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate' : 'hidden'">
-                            <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
-                        </span>
+                    <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate' : 'hidden'">
+                        <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
+                    </span>
                 </div>
             </div>
         <div class="profile-upper-wrapper flex-center">
@@ -186,7 +186,7 @@
 
                 <h4 th:if="${ownerIsAdmin}">
                     <i class="far fa-address-card"></i>
-                    <span class="profileInfoText user-admin-color">ADMIN</span><span><a class="profileLoggedInMessageLink user-admin-color" th:href="${'/admin/dashboard'}"> [Visit admin dashboard]</a></span>
+                    <span class="profileInfoText user-admin-color">ADMIN</span><span><a class="profileLoggedInMessageLink user-admin-color" th:href="${'/admin/dashboard'}"> [visit admin dashboard]</a></span>
                 </h4>
                 <h4 th:if="${ownerIsEditor}">
                     <i class="far fa-address-card"></i>
@@ -199,19 +199,19 @@
 
                 <h4>
                     <i class="far fa-envelope profileEmailIcon"></i>
-                    Email:
+                    <span class="profileInfoText">Email:</span>
                     <span class="profileInfoText" th:text="${profileUser.email}"></span>
                 </h4>
 
                 <h4>
                     <i class="far fa-hand-peace"></i>
-                    Likes:
+                    <span class="profileInfoText">Likes:</span>
                     <span class="profileInfoText" th:text="${formatter.formatCount(karma)}"></span>
                 </h4>
 
                 <h4>
                     <i class="far fa-handshake profileJoinIcon"></i>
-                    Joined:
+                    <span class="profileInfoText">Joined:</span>
                     <span class="profileInfoText" th:text="${#temporals.monthNameShort(profileUser.date)}"></span>
                     <span class="profileInfoText" th:text="${#temporals.day(profileUser.date)}"></span>,
                     <span class="profileInfoText" th:text="${#temporals.year(profileUser.date)}"></span>
@@ -219,13 +219,13 @@
 
                 <h4>
                     <i class="fas fa-book-open"></i>
-                    Bio:
+                    <span class="profileInfoText">Bio:</span>
                     <span class="profileInfoText" th:text="${profileUser.bio != null} ? ${profileUser.bio} : '(no bio)'"></span>
                 </h4>
 
                 <h4>
                     <i class="fas fa-eye"></i>
-                    Profile Views:
+                    <span class="profileInfoText">Profile Views:</span>
                     <span class="profileInfoText" th:text="${profileUser.hitCount != null} ? ${formatter.formatCount(profileUser.hitCount.profileCount)} : '1'"></span>
                 </h4>
 
