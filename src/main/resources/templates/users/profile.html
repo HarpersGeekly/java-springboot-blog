@@ -140,7 +140,7 @@
                                     </form>
                                 </div>
                                 <div>
-                                    <button class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-default modal-profile-close-btn" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
 
@@ -150,18 +150,18 @@
         </div>
 
             <div class="profile-picture-wrapper flex-center">
-                <span class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} == null">
+                <div class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} == null">
                     <img th:classappend="${isOwnProfile} ? profilePic : profilePicNotOwner" src="/../images/default_user.png"/>
                         <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate' : 'hidden'">
-                            <i class="fas fa-camera" style="color: red" data-target="#modal" data-toggle="modal"></i>
+                            <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
                         </span>
-                </span>
-                <span class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} != null">
+                </div>
+                <div class="logged-in-user-profile-wrapper" th:if="${profileUser.profilePicture} != null">
                     <img th:classappend="${isOwnProfile} ? profilePic : profilePicNotOwner" th:src="@{'/uploads/' + ${profileUser.profilePicture}}"/>
                         <span th:classappend="${isOwnProfile} ? 'change-profile-picture-alternate' : 'hidden'">
-                            <i class="fas fa-camera" style="color: red" data-target="#modal" data-toggle="modal"></i>
+                            <i class="fas fa-camera" data-target="#modal" data-toggle="modal"></i>
                         </span>
-                </span>
+                </div>
             </div>
         <div class="profile-upper-wrapper flex-center">
 
@@ -318,19 +318,17 @@
 <script>
 
     let container = $('.container');
-    // $('.profile-comment-list-wrapper').addClass('hidden');
 
-    $(".logged-in-user-profile-wrapper").on({
-        mouseenter: function () {
-            //stuff to do on mouse enter
-            $('.profilePic').css("opacity", "0.5");
-            $('.change-profile-picture-alternate').removeClass('hidden');
-        },
-        mouseleave: function () {
-            //stuff to do on mouse leave
-            $('.profilePic').css("opacity", "1");
-            $('.change-profile-picture-alternate').addClass('hidden');
-        }
+    $('.change-profile-picture-alternate').on('click', function() {
+        $('.profile-picture-wrapper').hide();
+    });
+
+    // $('#modal').on('hidden.bs.modal', function () {
+    //     $('.profile-picture-wrapper').show();
+    // });
+
+    $('.modal-profile-close-btn').on('click', function() {
+        $('.profile-picture-wrapper').show();
     });
 
     //==================================================================================================================

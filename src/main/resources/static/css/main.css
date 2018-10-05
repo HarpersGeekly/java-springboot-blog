@@ -1581,6 +1581,42 @@ textarea, input, .form-control {
     cursor:pointer;
 }
 
+/*==============*/
+
+.logged-in-user-profile-wrapper {
+    position: relative;
+    display: inline-block; /* added */
+    overflow: hidden; /* added */
+}
+
+.logged-in-user-profile-wrapper:hover span {
+    opacity: 1; /* added */
+    top: 0; /* added */
+    z-index: 500;
+    background: rgba(255, 255, 255, .5);
+}
+/* added */
+.logged-in-user-profile-wrapper:hover span i {
+    top: 50%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+}
+/* added */
+.logged-in-user-profile-wrapper span {
+    display: block;
+    position: absolute;
+    top: -100%;
+    opacity: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    color: inherit;
+}
+/*==============*/
+
 .fa-camera {
     color: white;
 }
