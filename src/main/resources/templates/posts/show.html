@@ -221,7 +221,7 @@
                     <div class="replyPostNotLoggedInText margin-right">Discussion</div>
                     <div>
                         <i class="fas fa-comments post-info-fa-icon margin-right-lite"></i>
-                        <h5 class="post-info-count" th:text="${formatter.formatCount(post.getComments().size())} + ' COMMENTS'"></h5>
+                        <h5 class="post-info-count" id="discussion-count" th:text="${formatter.formatCount(post.getComments().size())} + ' COMMENTS'"></h5>
                     </div>
                 </div>
 
@@ -590,25 +590,27 @@
                 $('.commentsErrorAJAX').html(html).hide().fadeIn() // error belongs in the error div.
             }
 
+            let test = $('#discussion-count').text() + 1;
+            console.log(test);
+            console.log(test);
+
             if (html.includes("commentBodyText")) { // if it's a comment...
                 if ($('.commentsErrorAJAX').length >= 1) { // check if error exists first
                     $('.commentsErrorAJAX').css("display", "none"); // if error exists, hide it.
                 }
                 $('.commentsAJAX').prepend(html).hide().fadeIn(); // comment belongs in the comment div
+                // $('.editedCommentForm').addClass('hidden'); //hide the edit form.
+                // $('.replyTextArea').addClass('hidden'); // hide the reply text area.
+                $('.showReplyTextAreaCancel').addClass('hidden');
+                $('.replyFormBody').val('');
+                // $('#commentedBy').css("background-color", "#99999930");
+
+                // let commentId = $('.commentWrapper').data('[data-edit-delete-comment-id]');
+                // let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
+                // $replyFormBody.val('');
+
             }
-
-            // $('.editedCommentForm').addClass('hidden'); //hide the edit form.
-            // $('.replyTextArea').addClass('hidden'); // hide the reply text area.
-            $('.showReplyTextAreaCancel').addClass('hidden');
-            $('.replyFormBody').val('');
-            // $('#commentedBy').css("background-color", "#99999930");
-
-            // let commentId = $('.commentWrapper').data('[data-edit-delete-comment-id]');
-            // let $replyFormBody = $('[data-reply-form-body-comment-id=' + commentId + ']');
-            // $replyFormBody.val('');
-
         });
-
         request.fail((a, b, c) => {
             console.log(a, b, c)
         });

@@ -24,6 +24,10 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<!--<maven.test.skip>true</maven.test.skip> for deployment-->
+
+		<property name="hibernate.connection.CharSet" value="utf8mb4" />
+		<property name="hibernate.connection.characterEncoding" value="utf8mb4"/>
+		<property name="hibernate.connection.useUnicode" value="true"/>
 	</properties>
 
 	<dependencies>
