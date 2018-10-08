@@ -483,7 +483,7 @@ html {
 }
 
 .eachPopularPost {
-    margin-bottom: 0.8em;
+    margin-bottom: 15px;
 }
 
 .popularPostTitleWrapper {
@@ -529,6 +529,7 @@ html {
 
 .popularTitleText {
     font-size: 1em;
+    margin: 0;
 }
 
 .popularPostUserWrapper {
