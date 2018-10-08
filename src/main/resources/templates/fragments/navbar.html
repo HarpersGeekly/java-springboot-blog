@@ -36,6 +36,26 @@
                         </form>
                     </li>
 
+                    <!--<li class="dropdown">-->
+                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
+                        <!--<ul class="dropdown-menu">-->
+                            <!--<li><a href="#">Action</a></li>-->
+                            <!--<li><a href="#">Another action</a></li>-->
+                            <!--<li><a href="#">Something else here</a></li>-->
+                            <!--<li class="divider"></li>-->
+                            <!--<li><a href="#">Separated link</a></li>-->
+                            <!--<li class="divider"></li>-->
+                            <!--<li><a href="#">One more separated link</a></li>-->
+                            <!--<li sec:authorize="isAuthenticated()" class="flex-center">-->
+                                <!--<a th:href="@{/logout}" th:method="post" class="float-left">-->
+                                    <!--<span class="flex-center">-->
+                                        <!--<span class="dot flex-center margin-right-lite"></span>Logout-->
+                                    <!--</span>-->
+                                <!--</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+
                     <li>
                         <a th:href="@{/posts/archived}">
                             <!--<i class="fas fa-table nav-icon"></i> -->
@@ -50,10 +70,10 @@
                         </a>
                     </li>
 
-                    <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal != null}">
+                    <li sec:authorize="isAuthenticated()">
                         <a th:href="'/profile/' + ${#authentication.principal.id} + '/' + ${formatter.makeSlug(#authentication.principal.username)}">
-                            <!--<i class="fas fa-user-circle nav-icon"></i>-->
-                            <span th:text="${#authentication.principal.username}"/>'s Profile
+                            <!--<i class="fas fa-footer fa-user-circle"></i>-->
+                            <span th:text="${#authentication.principal.username}"></span>'s Profile
                         </a>
                     </li>
 
@@ -63,7 +83,7 @@
                         <a th:href="@{/logout}" th:method="post" class="float-left">
                             <span class="flex-center">
                                 <span class="dot flex-center margin-right-lite"></span>
-                                <span/>Logout
+                                Logout
                             </span>
                         </a>
                     </li>
