@@ -30,9 +30,9 @@
                 <div class="eachPopularPost" th:each="post : ${mostViewedPosts}">
 
                     <a th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
-                        <div class="postDescription post-description-side-bar hidden">
+                        <div class="post-description-side-bar hidden">
                             <p th:utext="${post.htmlImage}"></p>
-                            <span class="popular-post-bottom-slider">
+                            <div class="popular-post-bottom-slider">
 
                                 <i class="fa fa-eye popularPostCountIconSlider"></i>
                                 <div class="popularPostCountSlider margin-right" th:text="${post.hitCount != null} ? ${formatter.formatCount(post.hitCount.postCount)} : '0'"></div>
@@ -43,8 +43,8 @@
                                 <i class="fas fa-comments popularPostCountIconSlider"></i>
                                 <div class="popularPostCountSlider" th:text="${formatter.formatCount(post.getComments().size())}"></div>
 
-                                <span class="float-right popularNamesLinkSlider" th:text="${'by: ' + post.user.username}"></span>
-                            </span>
+                                <!--<span class="float-right popularNamesLinkSlider" th:text="${'by: ' + post.user.username}"></span>-->
+                            </div>
                         </div>
                     </a>
 

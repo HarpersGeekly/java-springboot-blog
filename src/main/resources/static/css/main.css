@@ -781,30 +781,40 @@ textarea, input, .form-control {
     color: black;
 }
 
+.post-description-side-bar > p {
+    margin:0;
+}
+
 .post-description-side-bar > p > img {
     margin: 0 auto;
     max-width: 100% !important;
 }
 
 .post-description-side-bar {
+    margin: 0;
     width: 100%;
-    font-size: 1em;
-    color: #555;
-    line-height: 1.6;
     position: relative;
+    display: inline-block;
+    overflow: hidden;
 }
 
 .popular-post-bottom-slider {
-    display:none;
-    padding: 10px;
+    margin: 0;
     position: absolute;
-    bottom: 0px;
-    background: rgba(0,0,0,0.7);
+    bottom: 0;
     width: 100%;
+    padding: 10px;
+    z-index: 1;
+    background: rgba(0,0,0,0.7);
+    transition: transform 0.3s ease;
 }
 
 .post-description-side-bar:hover .popular-post-bottom-slider {
-    display: block;
+    transform: translate(0, 0);
+}
+
+.post-description-side-bar .popular-post-bottom-slider {
+    transform: translate(0, 100%);
 }
 
 /*.postDescription:before {*/
@@ -1096,7 +1106,7 @@ textarea, input, .form-control {
 
 .commentSection {
     /*display: inline-block;*/
-    width: 70%;
+    width: 55%;
 }
 
 .commentWrapper {
