@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:include="fragments/header :: my-header('To Geek Is Human - Show Post - ' + ${post.title})"></head>
-<link rel="stylesheet" href="/bower_components/emojionearea/dist/emojionearea.css"/>
-
+<head th:include="fragments/header :: my-header('To Geek Is Human - Show Post - ' + ${post.title})">
+</head>
 <body>
 <nav th:include="fragments/navbar :: my-navbar"></nav>
 
@@ -286,10 +285,6 @@
                 <!-- =============================== Comment Body =========================-->
 
                 <div class="commentBodyWrapper">
-
-                    <!--uncomment if I want to have @Poster for the parent comments, but thinking maybe not necessary-->
-                    <!--<a th:if="${isChildComment != null}" th:href="${'/profile/' + post.user.id}" th:text="${'@' + post.user.username}"></a>-->
-
                     <span th:text="${comment.body}" class="commentBodyText"
                         th:attr="data-comment-body-comment-id=${comment.id}">
                     </span>
@@ -464,9 +459,6 @@
 </div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
-<script type="text/javascript" src="/bower_components/emojione/lib/js/emojione.js"></script>
-<script type="text/javascript" src="/bower_components/emojionearea/dist/emojionearea.js"></script>
-
 <script>
 
     // ======================================= EMOJI INIT =======================================
@@ -475,6 +467,8 @@
         tonesStyle: "bullet"
     });
     // https://github.com/mervick/emojionearea#usage
+
+    $('.emojionearea-editor').empty();
     // ==========================================================================================
 
     let postWrapper = $('.postWrapper-showPage');
