@@ -46,7 +46,6 @@ public class CommentsController {
         Post post = postSvc.findOne(postId);
         User postOwner = post.getUser();
         System.out.println("get to comment on post controller:");
-        System.out.println(postOwner.getUsername());
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("postOwner", postOwner);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndOwnerMatchesUser(post.getUser())); // show post edit button
@@ -67,10 +66,13 @@ public class CommentsController {
             return "fragments/commentError :: ajaxError";
         }
 
+        System.out.println("before save:" + comment.getBody());
         comment.setPost(post);
         comment.setUser(userSvc.loggedInUser());
         comment.setDate(LocalDateTime.now());
         commentSvc.save(comment);
+
+        System.out.println("after save:" + comment.getBody());
 
 //      return comment;
 //      By returning this fragment (fragments/comments.html), we get all of our Thymeleaf-operated HTML
