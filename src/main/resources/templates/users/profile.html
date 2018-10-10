@@ -250,7 +250,7 @@
                     </div>
                     <div class="profileChangeInfoDiv">
                         <i class="fas fa-upload uploadIcon"></i>
-                            <h5 class="profileChangeInfoLink" data-target="#modal" data-toggle="modal">change profile picture</h5>
+                            <h5 class="profileChangeInfoLink" id="change-profile-picture-main" data-target="#modal" data-toggle="modal">change profile picture</h5>
                     </div>
                 </th:block>
                 <!-- Button trigger modal -->
@@ -319,16 +319,12 @@
 
     let container = $('.container');
 
-    $('.change-profile-picture-alternate').on('click', function() {
-        $('.profile-picture-wrapper').hide();
+    $('.change-profile-picture-alternate, #change-profile-picture-main').on('click', function() {
+        $('.profile-picture-wrapper').addClass('hidden');
     });
 
-    // $('#modal').on('hidden.bs.modal', function () {
-    //     $('.profile-picture-wrapper').show();
-    // });
-
-    $('.modal-profile-close-btn').on('click', function() {
-        $('.profile-picture-wrapper').show();
+    $('#modal').on('hidden.bs.modal', function () {
+        $('.profile-picture-wrapper').removeClass('hidden');
     });
 
     //==================================================================================================================
