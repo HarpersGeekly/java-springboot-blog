@@ -83,7 +83,7 @@
 
                             <div class="page">
                                 <!-- ======================== Upload Image Form ============================================ -->
-                                <form th:action="@{'/profile/edit/fileupload'}" method="POST" enctype="multipart/form-data"
+                                <form th:if="${isOwnProfile} and ${!isBanned}" th:action="@{'/profile/edit/fileupload'}" method="POST" enctype="multipart/form-data"
                                       id="edit-profile-picture-form">
                                 <!-- input file -->
                                     <div class="box" id="modalUploadPicBtnBox">
