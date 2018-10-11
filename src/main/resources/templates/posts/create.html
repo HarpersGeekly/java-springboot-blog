@@ -15,7 +15,7 @@
         <label>Tips &amp; Guidelines:</label>
         <blockquote>
             <ol>
-                <li><h5>If possible, start your post with an image. Large images will be scaled.</h5></li>
+                <li><h5>If possible, start your post with a Headline Image. Large images will be scaled accordingly.</h5></li>
                 <li><h5>For links to conveniently open in a new tab, copy the following HTML:</h5></li>
                 &lt;a href="url goes here" target="_blank">text goes here&lt;/a&gt;
                 <li><h5>For code, wrap your code in backticks: ```code```</h5></li>
@@ -202,6 +202,8 @@
         $('.form-group-post-subtitle [data-btn="h1"]').addClass('hidden');
         $('.form-group-post-subtitle [data-btn="h2"]').addClass('hidden');
         $('.form-group-post-subtitle [data-btn="h3"]').addClass('hidden');
+        $('.form-group-post-subtitle [data-btn="bold"]').addClass('hidden');
+        $('.form-group-post-subtitle [data-btn="italic"]').addClass('hidden');
 
         $.fn.markdownEditor.defaults.height = '325px';
         $('#myEditor').markdownEditor({
@@ -235,7 +237,7 @@
 
         $.fn.markdownEditor.defaults.height = '100px';
         $('#headline-image').markdownEditor({
-            imageUpload: true, // Activate the option
+            imageUpload: false, // Activate the option
             uploadPath: '/posts/image.json', // Path of the server side script that receives the files
             fullscreen: false,
             preview: true,
