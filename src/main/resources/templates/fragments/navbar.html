@@ -63,7 +63,7 @@
                         </a>
                     </li>
 
-                    <li sec:authorize="hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')">
+                    <li sec:authorize:access="hasAnyRole('ADMIN', 'EDITOR')">
                         <a th:href="@{/posts/create}">
                             <!--<i class="fas fa-pen-nib nav-icon"></i> -->
                             Create New Post
