@@ -63,19 +63,23 @@
                         </a>
                     </li>
 
-                    <li sec:authorize:access="hasAnyRole('ADMIN', 'EDITOR')">
-                        <a th:href="@{/posts/create}">
-                            <!--<i class="fas fa-pen-nib nav-icon"></i> -->
-                            Create New Post
-                        </a>
-                    </li>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <li sec:authorize:access="hasAnyRole('ADMIN', 'EDITOR')">
+                            <a th:href="@{/posts/create}">
+                                <!--<i class="fas fa-pen-nib nav-icon"></i> -->
+                                Create New Post
+                            </a>
+                        </li>
+                    </th:block>
 
-                    <li sec:authorize="isAuthenticated()">
-                        <a th:href="'/profile/' + ${#authentication.principal.id} + '/' + ${formatter.makeSlug(#authentication.principal.username)}">
-                            <!--<i class="fas fa-footer fa-user-circle"></i>-->
-                            <span th:text="${#authentication.principal.username}"></span>'s Profile
-                        </a>
-                    </li>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <li>
+                            <a th:href="'/profile/' + ${#authentication.principal.id} + '/' + ${formatter.makeSlug(#authentication.principal.username)}">
+                                <!--<i class="fas fa-footer fa-user-circle"></i>-->
+                                <span th:text="${#authentication.principal.username}"></span>'s Profile
+                            </a>
+                        </li>
+                    </th:block>
 
                     <!--<li><a href="/roll-dice">Roll Dice</a></li>-->
 
