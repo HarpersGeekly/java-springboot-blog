@@ -1,3 +1,4 @@
+
 package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.User;
@@ -26,48 +27,48 @@ public class FileUploadController {
         this.userSvc = userSvc;
     }
 
-        @Value("${file-upload-path}")
-        private String uploadPath;
+    @Value("${file-upload-path}")
+    private String uploadPath;
 
 //        @GetMapping("/profile/edit/fileupload")
 //        public String showUploadFileForm() {
 //            return "users/editUser";
 //        }
 
-        @PostMapping("/profile/edit/fileupload")
-        public @ResponseBody User saveFile(
-                @RequestParam(name = "croppedImage") MultipartFile uploadedFile) {
-            //let exception be thrown for maxsize and solve the issue in the ajax.done with if fails, then show html in the partial
+    @PostMapping("/profile/edit/fileupload")
+    public @ResponseBody User saveFile(
+            @RequestParam(name = "croppedImage") MultipartFile uploadedFile) {
+        //let exception be thrown for maxsize and solve the issue in the ajax.done with if fails, then show html in the partial
 
-            System.out.println("get to FileUploadController");
+        System.out.println("get to FileUploadController");
 
-            User loggedInUser = userSvc.loggedInUser(); // is a user from the session
-            loggedInUser = usersDao.findById(loggedInUser.getId()); //now is a user from the database
-            String filepath = Paths.get(uploadPath, loggedInUser.profilePicturePath()).toString(); //first is path, second is additional string to be joined to form the final path string
-            File destinationFile = new File(filepath);
-            loggedInUser.updateProfilePicture();
-            usersDao.save(loggedInUser);
+        User loggedInUser = userSvc.loggedInUser(); // is a user from the session
+        loggedInUser = usersDao.findById(loggedInUser.getId()); //now is a user from the database
+        String filepath = Paths.get(uploadPath, loggedInUser.profilePicturePath()).toString(); //first is path, second is additional string to be joined to form the final path string
+        File destinationFile = new File(filepath);
+        loggedInUser.updateProfilePicture();
+        usersDao.save(loggedInUser);
 
-            //Reset the current principal loggedinUser with the changes applied so that the profile picture won't show the default placeholder after they reload the page.
-            userSvc.authenticate(loggedInUser);
+        //Reset the current principal loggedinUser with the changes applied so that the profile picture won't show the default placeholder after they reload the page.
+//        userSvc.authenticate(loggedInUser);
 //            UserWithRoles principal = new UserWithRoles(loggedInUser, Collections.emptyList());
 //            Authentication authentication = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
 //            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            try {
-                uploadedFile.transferTo(destinationFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return loggedInUser;
+        try {
+            uploadedFile.transferTo(destinationFile);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        @PostMapping("/profile/edit/fileupload/default")
-        public String setDefaultPicture(@RequestParam Long id) {
-            System.out.println("get to default file method");
-            User user = usersDao.findById(id);
-            user.setProfilePicture(null);
-            usersDao.save(user);
-            return "redirect:/profile";
-        }
+        return loggedInUser;
     }
+
+    @PostMapping("/profile/{id}/edit/fileupload/default")
+    public String setDefaultPicture(@PathVariable Long id) {
+        System.out.println("get to default file method");
+        User user = usersDao.findById(id);
+        user.setProfilePicture(null);
+        usersDao.save(user);
+        return "redirect:/profile";
+    }
+}
