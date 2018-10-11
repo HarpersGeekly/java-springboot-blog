@@ -115,7 +115,10 @@
 
     .post-subtitle {
         font-size: 3vh;
-        padding-top: 0.5vh;
+    }
+
+    .post-subtitle > p {
+        margin: 0;
     }
 
     .post-subtitle-show-page {
@@ -239,7 +242,7 @@
         display: flex !important;
         transform: scale(1.1);
         margin-top: 25px;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         max-width: 100% !important;
         height: auto !important;
     }
