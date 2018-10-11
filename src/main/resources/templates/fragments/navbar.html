@@ -64,12 +64,14 @@
                     </li>
 
                     <th:block sec:authorize="isAuthenticated()">
-                        <li sec:authorize:access="hasAnyRole('ADMIN', 'EDITOR')">
-                            <a th:href="@{/posts/create}">
-                                <!--<i class="fas fa-pen-nib nav-icon"></i> -->
-                                Create New Post
-                            </a>
-                        </li>
+                        <th:block sec:authorize="hasAnyRole('ADMIN', 'EDITOR')">
+                            <li>
+                                <a th:href="@{/posts/create}">
+                                    <!--<i class="fas fa-pen-nib nav-icon"></i> -->
+                                    Create New Post
+                                </a>
+                            </li>
+                        </th:block>
                     </th:block>
 
                     <th:block sec:authorize="isAuthenticated()">
@@ -83,28 +85,34 @@
 
                     <!--<li><a href="/roll-dice">Roll Dice</a></li>-->
 
-                    <li sec:authorize="isAuthenticated()" class="flex-center">
-                        <a th:href="@{/logout}" th:method="post" class="float-left">
-                            <span class="flex-center">
-                                <span class="dot flex-center margin-right-lite"></span>
-                                Logout
-                            </span>
-                        </a>
-                    </li>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <li class="flex-center">
+                            <a th:href="@{/logout}" th:method="post" class="float-left">
+                                <span class="flex-center">
+                                    <span class="dot flex-center margin-right-lite"></span>
+                                    Logout
+                                </span>
+                            </a>
+                        </li>
+                    </th:block>
 
-                    <li sec:authorize="!isAuthenticated()">
-                        <a th:href="@{/register}">
-                            <!--<i class="fas fa-users nav-icon"></i> -->
-                            Register
-                        </a>
-                    </li>
+                    <th:block sec:authorize="!isAuthenticated()">
+                        <li>
+                            <a th:href="@{/register}">
+                                <!--<i class="fas fa-users nav-icon"></i> -->
+                                Register
+                            </a>
+                        </li>
+                    </th:block>
 
-                    <li sec:authorize="!isAuthenticated()">
-                        <a th:href="@{/login}">
-                            <!--<i class="fas fa-sign-in-alt nav-icon"></i> -->
-                            Login
-                        </a>
-                    </li>
+                    <th:block sec:authorize="!isAuthenticated()">
+                        <li>
+                            <a th:href="@{/login}">
+                                <!--<i class="fas fa-sign-in-alt nav-icon"></i> -->
+                                Login
+                            </a>
+                        </li>
+                    </th:block>
 
                 </ul>
             </div>
