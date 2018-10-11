@@ -16,14 +16,13 @@
                 </button>
 
                 <a class="navbar-brand flex-center" th:href="@{/posts}">
-                    <!--<img id="header-icon" src="/images/celtic-harp-24-8526.png"/>-->
                     <h1 class="navbar-brand-text">To Geek Is Human</h1>
                 </a>
 
             </div>
 
             <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right flex">
 
                     <li>
                         <form th:action="@{/posts/search}" method="GET" class="navbar-form">
@@ -63,15 +62,13 @@
                         </a>
                     </li>
 
-                    <th:block sec:authorize="isAuthenticated()">
-                        <th:block sec:authorize="hasAnyRole('ADMIN', 'EDITOR')">
-                            <li>
-                                <a th:href="@{/posts/create}">
-                                    <!--<i class="fas fa-pen-nib nav-icon"></i> -->
-                                    Create New Post
-                                </a>
-                            </li>
-                        </th:block>
+                    <th:block sec:authorize="hasAnyRole('EDITOR','ADMIN')">
+                        <li>
+                            <a th:href="@{/posts/create}">
+                                <!--<i class="fas fa-pen-nib nav-icon"></i> -->
+                                Create New Post
+                            </a>
+                        </li>
                     </th:block>
 
                     <th:block sec:authorize="isAuthenticated()">
