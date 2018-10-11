@@ -28,7 +28,7 @@ public class User {
     @Column(nullable = false, unique = true)
     @Pattern(regexp = "(?=^.{3,20}$)^[a-zA-Z][a-zA-Z0-9 ]*[._-]?[a-zA-Z0-9 ]+$", message = "Username must be alphanumeric only.")
     @NotBlank(message="Please enter a username.")
-    @Length(min = 8, max = 20, message="Your username must be between 2-20 characters.")
+    @Length(min = 2, max = 20, message="Your username must be between 2-20 characters.")
     private String username;
 
     @Column(nullable = false, unique = true)
@@ -92,16 +92,6 @@ public class User {
         this.username = username;
         this.email = email;
     }
-
-    // use this constructor for update profile form.
-//    public User(Long id, String username, String email, LocalDateTime date, String profilePicture, String bio) {
-//        this.id = id;
-//        this.username = username;
-//        this.email = email;
-//        this.date = date;
-//        this.profilePicture = profilePicture;
-//        this.bio = bio;
-//    }
 
     // security files will need the next constructor. It makes clones/copies. Why?
     // Spring dependencies require a copy of all the properties in the User object
