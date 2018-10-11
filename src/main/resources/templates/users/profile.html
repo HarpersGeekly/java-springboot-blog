@@ -84,7 +84,7 @@
                             <div class="page">
                                 <!-- ======================== Upload Image Form ============================================ -->
                                 <form th:action="@{'/profile/edit/fileupload'}" method="POST" enctype="multipart/form-data"
-                                      id="data-edit-profile-picture-form">
+                                      id="edit-profile-picture-form">
                                 <!-- input file -->
                                     <div class="box" id="modalUploadPicBtnBox">
                                         <label for="file-input" class="custom-file-upload btn btn-secondary">
@@ -134,8 +134,9 @@
 
                             <div class="modal-footer" id="modal-footer">
                                 <div>
-                                    <form th:action="@{'/profile/edit/fileupload/default'}" method="POST" th:object="${profileUser}">
-                                        <input type="hidden" th:field="*{id}"/>
+                                    <form th:action="@{/profile/{id}/edit/fileupload/default(id=${profileUser.id})}" method="POST"
+                                          id="edit-profile-picture-form-default" th:attr="data-edit-profile-picture-form-default-id=${profileUser.id}">
+                                        <!--<input type="hidden" th:field="*{id}"/>-->
                                         <button class="btn btn-default"><i class="fas fa-user-circle"></i>Use Default Picture</button>
                                     </form>
                                 </div>
@@ -324,6 +325,10 @@
     });
 
     $('#modal').on('hidden.bs.modal', function () {
+        $('.profile-picture-wrapper').removeClass('hidden');
+    });
+
+    $('.modal-profile-close-btn').on('click', function() {
         $('.profile-picture-wrapper').removeClass('hidden');
     });
 
