@@ -263,6 +263,16 @@
                     </a>
                 </div>
 
+                <div class="flex-center">
+                    <div th:if="${isOwnProfile} and (${ownerIsAdmin} or ${ownerIsEditor})">
+                         <!--sec:authorize:access="hasAnyRole('ADMIN', 'EDITOR')">-->
+                        <a th:href="@{/posts/create}" class="manage-posts-link-bottom-page">
+                            <button class="create-posts-button">create a post</button>
+                        </a>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     <!--</th:block>-->
@@ -290,17 +300,17 @@
                     </div>
                 </div>
 
-                <div th:if="${isOwnProfile} and ${!postsAreEmpty}" sec:authorize="hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')" class="flex-center">
-                    <a th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}" class="manage-posts-link-bottom-page" >
-                        <button class="manage-posts-button" data-target="#modal4">manage posts</button>
-                    </a>
-                </div>
+                <!--<div th:if="${isOwnProfile} and ${!postsAreEmpty}" sec:authorize="hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')" class="flex-center">-->
+                    <!--<a th:href="@{/profile/{id}/archived(id=${#authentication.principal.id})}" class="manage-posts-link-bottom-page" >-->
+                        <!--<button class="manage-posts-button" data-target="#modal4">manage posts</button>-->
+                    <!--</a>-->
+                <!--</div>-->
 
-                <div th:if="${!isOwnProfile} and ${!postsAreEmpty}" class="flex-center">
-                    <a th:href="@{/profile/{id}/archived(id=${profileUser.id})}" class="manage-posts-link-bottom-page">
-                        <button class="manage-posts-button" data-target="#modal4">view all posts</button>
-                    </a>
-                </div>
+                <!--<div th:if="${!isOwnProfile} and ${!postsAreEmpty}" class="flex-center">-->
+                    <!--<a th:href="@{/profile/{id}/archived(id=${profileUser.id})}" class="manage-posts-link-bottom-page">-->
+                        <!--<button class="manage-posts-button" data-target="#modal4">view all posts</button>-->
+                    <!--</a>-->
+                <!--</div>-->
             </div>
 
             <div th:classappend="${ownerIsUser} ? active : none" class="profile-comment-list-wrapper tab-pane" id="2">
