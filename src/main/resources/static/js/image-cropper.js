@@ -107,7 +107,7 @@ $(document).ready(function () {
     $('.container').on("click", ".confirm", (e) => {
         e.preventDefault();
 
-        let form = new FormData($("#data-edit-profile-picture-form")[0]);
+        let form = new FormData($("#edit-profile-picture-form")[0]);
         form.append("croppedImage", file);
 
         let request = $.ajax({
