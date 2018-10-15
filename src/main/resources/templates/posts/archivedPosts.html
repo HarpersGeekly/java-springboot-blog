@@ -31,6 +31,10 @@
                     <i class="fas fa-comments post-info-fa-icon margin-right-lite"></i>Comments
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
+                <th class="">
+                    <i class="fas fa-lock post-info-fa-icon margin-right-lite"></i>Status
+                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                </th>
                 <th class="">Date
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
@@ -60,6 +64,13 @@
                 </td>
                 <td>
                     <h5 class="post-info-count" th:text="${post.getComments().size()}"></h5>
+                </td>
+                <td th:if="${post.isDisabled()}">
+                    <h5 class="admin-dash-banned">DISABLED</h5>
+                </td>
+
+                <td th:if="${!post.isDisabled()}">
+                    <h5 class="admin-dash-not-banned">-------</h5>
                 </td>
                 <td>
                     <span class="postedByDate hidden" th:text="${post.date}"></span>
@@ -136,7 +147,7 @@
         });
         $('#dtBasicExample').DataTable({
             // responsive: true,
-            "order": [[ 4, "desc" ]], // this sorts a desired column. In this case, date.
+            "order": [[ 5, "desc" ]], // this sorts a desired column. In this case, date.
             "pageLength": 6
         });
 
