@@ -1,6 +1,7 @@
 package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.*;
+import com.codeup.blog.springbootblog.repositories.CommentsFlagsRepository;
 import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.PostService;
@@ -25,14 +26,16 @@ public class CommentsController {
     private PostVoteService postVoteSvc;
     private FormatterUtil formatter;
     private UsersRepository usersDao;
+    private CommentsFlagsRepository commentsFlagsDao;
 
-    public CommentsController(PostService postSvc, UserService userSvc, CommentService commentSvc, PostVoteService postVoteSvc, FormatterUtil formatter, UsersRepository usersDao) {
+    public CommentsController(PostService postSvc, UserService userSvc, CommentService commentSvc, PostVoteService postVoteSvc, FormatterUtil formatter, UsersRepository usersDao, CommentsFlagsRepository commentsFlagsDao) {
         this.postSvc = postSvc;
         this.userSvc = userSvc;
         this.commentSvc = commentSvc;
         this.postVoteSvc = postVoteSvc;
         this.formatter = formatter;
         this.usersDao = usersDao;
+        this.commentsFlagsDao = commentsFlagsDao;
     }
 
 //============================================= COMMENT ON A POST ======================================================
@@ -111,9 +114,13 @@ public class CommentsController {
 
     @PostMapping("/posts/comment/{commentId}/delete")
     public @ResponseBody
-    Comment deleteComment(@PathVariable Long commentId) {
+    Comment deleteComment(@PathVariable Long commentId, Model viewModel) {
         Comment comment = commentSvc.findOne(commentId);
-        commentSvc.delete(commentId);
+
+//        commentSvc.delete(commentId);
+
+        comment.setBody("[deleted]");
+        commentSvc.save(comment);
         return comment;
     }
 
@@ -264,4 +271,23 @@ public class CommentsController {
         Comment comment = commentSvc.findOne(commentId);
         return comment.getUser();
     }
+
+    //=================================== FLAG COMMENT ======================================
+
+    @PostMapping("/comment/{id}/flag")
+    public @ResponseBody
+    CommentFlag makeFlag(@PathVariable Long id) {
+        Comment comment = commentSvc.findOne(id);
+        User loggedInUser = userSvc.loggedInUser();
+        User user = usersDao.findById(loggedInUser.getId());
+        CommentFlag commentFlag = new CommentFlag();
+        commentFlag.setComment(comment);
+        commentFlag.setFlagger(user);
+        commentFlag.setCount(commentFlag.getCount() + 1);
+        commentsFlagsDao.save(commentFlag);
+        return commentFlag;
+    }
+
+
+
 }
