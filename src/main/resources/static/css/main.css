@@ -1389,7 +1389,7 @@ textarea, input, .form-control {
     z-index: 9999;
 }
 
-.dropdown-edit-btn  {
+.dropdown-edit-btn, .dropdown-report-btn  {
     text-align: center;
     display: block;
     padding: 1em;
@@ -1409,14 +1409,14 @@ textarea, input, .form-control {
     text-decoration: none;
 }
 
-.dropdown-delete-btn:hover, .dropdown-edit-btn:hover {
+.dropdown-delete-btn:hover, .dropdown-edit-btn:hover, .dropdown-report-btn:hover {
     background-color: #f4eef0;
     color: var(--main-orange);
     text-decoration: none;
     cursor: pointer;
 }
 
-.dropdown-delete-btn:active, .dropdown-edit-btn:active {
+.dropdown-delete-btn:active, .dropdown-edit-btn:active, .dropdown-report-btn:active {
     background-color: #f4eef0;
     color: var(--main-orange);
     text-decoration: none;
