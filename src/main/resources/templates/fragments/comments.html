@@ -185,6 +185,20 @@
                             </div>
                         </div>
                     </div>
+                    <div sec:authorize="isAuthenticated()" th:if="${!isBanned} and (${!comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})"
+                         th:attr="id=${'ellipsis_' + comment.id}" class="flex-center comment-ellipsis-div">
+                        <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </i>
+                        <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                            <div>
+                                <h5 class="dropdown-edit-btn" th:attr="data-flag-comment-id=${comment.id}">
+                                    <i class="fab fa-font-awesome-flag"></i> report
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="replyTextArea hidden" th:attr="id=${'replyTextArea_' + comment.id}">
