@@ -323,7 +323,7 @@
 
                 <!-- =============================== Comment Votes =========================-->
 
-                <div class="comment-vote-reply-options-row">
+                <div class="comment-vote-reply-options-row" th:attr="data-comment-vote-reply-options-id=${comment.id}">
                     <div class="commentVoting" th:attr="data-commentVoting-comment-id=${comment.id}">
 
                         <div class="upvoteDiv">
@@ -722,7 +722,11 @@
         request.done(function () {
             $('[data-edit-delete-comment-id=' + commentId + ']').fadeOut("slow", function () {
                 $('[data-edit-delete-comment-id=' + commentId + ']').remove(); // new way targets element directly.
-            })
+            });
+
+            // $('[data-comment-vote-reply-options-id=' + commentId + ']').remove();
+            // $('[data-comment-body-comment-id=' + commentId + ']').html('[deleted]');
+
             // $button.parent().parent().parent().parent().parent().remove(); // removes from html (old way/bad way)
         });
         request.fail((a, b, c) => {
