@@ -2,6 +2,8 @@ package com.codeup.blog.springbootblog.services;
 
 import com.codeup.blog.springbootblog.Models.Comment;
 import com.codeup.blog.springbootblog.Models.Post;
+import com.codeup.blog.springbootblog.Models.User;
+import com.codeup.blog.springbootblog.repositories.CommentsFlagsRepository;
 import com.codeup.blog.springbootblog.repositories.CommentsRepository;
 import com.codeup.blog.springbootblog.repositories.CommentsVotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,14 @@ public class CommentService {
     private final CommentsRepository commentsDao;
     private final CommentsVotesRepository commentsVoteDao;
     private final UserService userSvc;
+    private final CommentsFlagsRepository commentsFlagsDao;
 
     @Autowired
-    CommentService(CommentsRepository commentsDao, UserService userSvc, CommentsVotesRepository commentsVoteDao) {
+    CommentService(CommentsRepository commentsDao, UserService userSvc, CommentsVotesRepository commentsVoteDao, CommentsFlagsRepository commentsFlagsDao) {
         this.commentsDao = commentsDao;
         this.userSvc = userSvc;
         this.commentsVoteDao = commentsVoteDao;
+        this.commentsFlagsDao = commentsFlagsDao;
     }
 
     private static final int MAX_COMMENT_LEVEL = 5;
@@ -40,10 +44,13 @@ public class CommentService {
         commentsDao.delete(id);
     }
 
-    public List<Comment> commentsOnPost(Long postId) {
-        return commentsDao.commentsOnPost(postId);
-    }
+//    public List<Comment> commentsOnPost(Long postId) {
+//        return commentsDao.commentsOnPost(postId);
+//    }
 
+    public List<Comment> findCommentsByPostId(Long id) {
+        return commentsDao.findCommentsByPostId(id);
+    }
     public List<Comment> findAllByUserIdOrderByDateDesc(Long id) {
         return commentsDao.findAllByUserIdOrderByDateDesc(id);
     }
@@ -75,8 +82,6 @@ public class CommentService {
     public long numberofCommentsOnPost(Long id) {
         return commentsDao.numberOfCommentsOnPost(id);
     }
-
-
 
 
 }
