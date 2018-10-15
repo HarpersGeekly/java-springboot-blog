@@ -1,6 +1,5 @@
 package com.codeup.blog.springbootblog.Models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -9,7 +8,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,16 +43,25 @@ public class Comment {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentVote> commentVotes;
 
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<CommentFlag> commentFlags;
+
+//    @Column(nullable = false, columnDefinition = "bit default 0")
+//    private boolean isDeleted = false;
+
     public Comment() {
     }
 
-//    public Comment(String body, Post post, User user, LocalDateTime date, List<CommentVote> commentVotes) {
-//        this.body = body;
-//        this.post = post;
-//        this.user = user;
-//        this.date = date;
-//        this.commentVotes = commentVotes;
-//    }
+    public Comment(Long id, Comment parentComment, String body, Post post, User user, LocalDateTime date, List<CommentVote> commentVotes, List<Comment> childrenComments) {
+        this.id = id;
+        this.parentComment = parentComment;
+        this.body = body;
+        this.post = post;
+        this.user = user;
+        this.date = date;
+        this.commentVotes = commentVotes;
+        this.childrenComments = childrenComments;
+    }
 
     public boolean isOwnedBy(long userId) {
         return getUser() != null && getUser().getId().equals(userId);
@@ -186,17 +193,27 @@ public class Comment {
         return level;
     }
 
-    // Do I need this constructor?
-    public Comment(Long id, Comment parentComment, String body, Post post, User user, LocalDateTime date, List<CommentVote> commentVotes, List<Comment> childrenComments) {
-        this.id = id;
-        this.parentComment = parentComment;
-        this.body = body;
-        this.post = post;
-        this.user = user;
-        this.date = date;
-        this.commentVotes = commentVotes;
-        this.childrenComments = childrenComments;
+    public List<CommentFlag> getCommentFlags() {
+        return commentFlags;
     }
+
+    public void setCommentFlags(List<CommentFlag> commentFlags) {
+        this.commentFlags = commentFlags;
+    }
+
+//    public boolean delete() {
+//        return this.isDeleted = true;
+//    }
+//
+//    public boolean isDeleted() {
+//        return isDeleted;
+//    }
+//
+//    public void setDeleted(boolean deleted) {
+//        isDeleted = deleted;
+//    }
+
+
 //    //==================================================
 //    //==================================================
 

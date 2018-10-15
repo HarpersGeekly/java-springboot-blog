@@ -117,9 +117,13 @@ public class CommentsController {
     Comment deleteComment(@PathVariable Long commentId, Model viewModel) {
         Comment comment = commentSvc.findOne(commentId);
 
-//        commentSvc.delete(commentId);
+        commentSvc.delete(commentId);
 
-        comment.setBody("[deleted]");
+//        comment.setBody("[deleted]");
+//        boolean isDeleted = comment.delete();
+//        viewModel.addAttribute("comment", comment);
+//        viewModel.addAttribute("isDeleted", isDeleted);
+
         commentSvc.save(comment);
         return comment;
     }
