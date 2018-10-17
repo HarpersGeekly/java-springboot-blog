@@ -1,5 +1,6 @@
 package com.codeup.blog.springbootblog.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -44,6 +45,7 @@ public class Comment {
     private List<CommentVote> commentVotes;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<CommentFlag> commentFlags;
 
 //    @Column(nullable = false, columnDefinition = "bit default 0")
