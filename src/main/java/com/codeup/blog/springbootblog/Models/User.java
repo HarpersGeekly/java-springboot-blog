@@ -82,6 +82,10 @@ public class User {
     @JsonIgnore
     private HitCount hitCount;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "flagger")
+    @JsonIgnore // can put on getter as well
+    private List<CommentFlag> commentFlags;
+
     //=============================== CONSTRUCTORS ==========================================
     //=======================================================================================
 
@@ -110,6 +114,7 @@ public class User {
         this.bio = copy.bio;
         this.passwordToken = copy.passwordToken;
         this.hitCount = copy.hitCount;
+        this.commentFlags = copy.commentFlags;
 //        this.role = copy.role;
     }
 
@@ -225,6 +230,8 @@ public class User {
     }
 
 
+
+
     //==================================== METHODS ==========================================
     //=======================================================================================
 
@@ -253,14 +260,35 @@ public class User {
     public boolean unban() {
         return this.banned = false;
     }
+
+
+    public List<CommentFlag> getCommentFlags() {
+        return commentFlags;
+    }
+
+    public void setCommentFlags(List<CommentFlag> commentFlags) {
+        this.commentFlags = commentFlags;
+    }
 }
 
-//    @Size(min = 8, message="Your password must be between 8-20 characters.")
-//    @Size.List({
-//            @Size(min = 8, message = "Your password must be between 8-20 characters."),
-//            @Size(max = 20, message = "Your password must be between 8-20 characters.")
-//    })
 
-//    @Pattern(regexp = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/",
-//            message="")
 
+//    Difference between @JsonIgnore and @JsonBackReference, @JsonManagedReference
+
+//    "Used to solve the Infinite recursion (StackOverflowError)"
+//
+// @JsonIgnore is not designed to solve the Infinite Recursion problem, it just ignores the annotated property from
+// being serialized or deserialized. But if there was a two-way linkage between fields, since @JsonIgnore ignores
+// the annotated property, you may avoid the infinite recursion.
+//
+// On the other hand, @JsonManagedReference and @JsonBackReference are designed to handle this
+// two-way linkage between fields, one for Parent role, the other for Child role, respectively:
+//
+// For avoiding the problem, linkage is handled
+//  such that the property annotated with @JsonManagedReference
+// annotation is handled normally (serialized normally, no special handling for deserialization) and the property
+// annotated with @JsonBackReference annotation is not serialized; and during deserialization, its value is set to
+// instance that has the "managed" (forward) link.
+//
+// To recap, if you don't need those properties in the serialization or deserialization process,
+// you can use @JsonIgnore. Otherwise, using the @JsonManagedReference /@JsonBackReference pair is the way to go.
