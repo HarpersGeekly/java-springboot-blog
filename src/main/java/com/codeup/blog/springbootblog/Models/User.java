@@ -229,8 +229,13 @@ public class User {
         this.banned = banned;
     }
 
+    public List<CommentFlag> getCommentFlags() {
+        return commentFlags;
+    }
 
-
+    public void setCommentFlags(List<CommentFlag> commentFlags) {
+        this.commentFlags = commentFlags;
+    }
 
     //==================================== METHODS ==========================================
     //=======================================================================================
@@ -261,14 +266,6 @@ public class User {
         return this.banned = false;
     }
 
-
-    public List<CommentFlag> getCommentFlags() {
-        return commentFlags;
-    }
-
-    public void setCommentFlags(List<CommentFlag> commentFlags) {
-        this.commentFlags = commentFlags;
-    }
 }
 
 
