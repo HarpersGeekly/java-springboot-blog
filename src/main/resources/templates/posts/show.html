@@ -416,15 +416,24 @@
                     </div>
                     <div sec:authorize="isAuthenticated()" th:if="${!isBanned} and (${!comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})"
                          th:attr="id=${'ellipsis_' + comment.id}" class="flex-center comment-ellipsis-div">
+
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
-                        <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
-                            <div>
-                                <h5 class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">
+
+                        <div class="dropdown-menu edit-delete-dropdown report-dropdown" aria-labelledby="dropdownMenu">
+                            <form th:action="@{/comment/{id}/flag(id=${comment.id})}" method="POST"
+                                  th:object="${comment}"
+                                  th:attr="data-flag-comment-form-id=${comment.id}"
+                            class="flagCommentForm">
+
+                                <input type="hidden" name="id" th:attr="data-flag-comment-id=${comment.id}" th:value="${comment.id}"/>
+
+                                <div class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}" th:value="${comment.id}">
                                     <i class="fab fa-font-awesome-flag"></i> report
-                                </h5>
-                            </div>
+                                    <!--<i class="fas fa-check"></i> reported-->
+                                </div>
+                            </form>
                         </div>
                     </div>
 
@@ -443,7 +452,7 @@
                             <textarea contenteditable="true" class="form-control replyFormBody" id="replyFormBody" name="body"
                                       th:field="*{body}"
                                       th:attr="data-reply-form-body-comment-id=${comment.id}">
-                                </textarea>
+                            </textarea>
 
                             <input class="form-control" type="hidden" name="id" th:field="*{id}"/>
                             <button class="btn btn-primary commentReplyBtn"
@@ -622,10 +631,6 @@
     <!-- =================================================================================================================-->
     <!-- ============================================== EDIT Comment =====================================================-->
     <!-- =================================================================================================================-->
-
-    //The edit button is only an event trigger. When I click on the edit button:
-    //A new textarea is revealed in place of the comment.body. Textarea should be populated with the original comment text. (controller)
-    //When I click on the new submit button, new data should replace the previous data. (controller)
 
     container.on("click", ".dropdown-edit-btn", function () {
 
@@ -1006,6 +1011,33 @@
             console.log(a, b, c)
         });
 
+    })
+
+// <!-- ==================================================================================================================-->
+// <!-- ============================================== FLAG COMMENT ======================================================-->
+// <!-- ==================================================================================================================-->
+
+
+    container.on("click", ".dropdown-report-btn", function(e) {
+        console.log("clicked report button");
+        e.stopPropagation(); //keeps the dropdown menu open on click.
+        e.preventDefault();
+
+        let button = $(this);
+        let commentId = button.data('flag-comment-id');
+        let flagForm = $('[data-flag-comment-form-id=' + commentId + ']');
+        console.log(commentId);
+
+        let request = $.ajax({
+            url: '/comment/' + commentId + '/flag',
+            method: 'POST',
+            // data: flagForm.serialize()
+            data: commentId
+        });
+        request.done((commentFlag) => {
+            console.log("back from flag method");
+            button.html('<i class="fas fa-check"></i> reported');
+        });
     })
 
 </script>
