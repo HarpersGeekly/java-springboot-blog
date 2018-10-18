@@ -12,9 +12,6 @@ public class CommentFlag {
     @GeneratedValue
     private Long id;
 
-    @Column
-    private int count;
-
     @ManyToOne
     @JoinColumn(name = "user_flagger_id")
     private User flagger;
@@ -25,8 +22,7 @@ public class CommentFlag {
 
     public CommentFlag(){}
 
-    public CommentFlag(int count, User flagger, Comment comment) {
-        this.count = count;
+    public CommentFlag(User flagger, Comment comment) {
         this.flagger = flagger;
         this.comment = comment;
     }
@@ -58,12 +54,4 @@ public class CommentFlag {
         this.comment = comment;
     }
 
-    @JsonIgnore
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 }
