@@ -429,11 +429,13 @@
 
                                 <input type="hidden" name="id" th:attr="data-flag-comment-id=${comment.id}" th:value="${comment.id}"/>
 
-                                <div class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}" th:value="${comment.id}">
+                                <div th:if="${!commentFlag.getComment().getId().equals(comment.getId())}" class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">
                                     <i class="fab fa-font-awesome-flag"></i> report
-                                    <!--<i class="fas fa-check"></i> reported-->
                                 </div>
                             </form>
+                            <div th:if="${commentFlag.getComment().getId().equals(comment.getId())}" class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">
+                                <i class="fas fa-check"></i> reported
+                            </div>
                         </div>
                     </div>
 
