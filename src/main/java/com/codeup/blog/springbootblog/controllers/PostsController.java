@@ -193,7 +193,6 @@ public class PostsController {
         boolean isParentComment = comment.isParentComment(comment);
         boolean isDisabled = post.isDisabled();
 
-
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("postOwner", postOwner);
         viewModel.addAttribute("isPostOwner", isPostOwner);
@@ -215,7 +214,6 @@ public class PostsController {
             viewModel.addAttribute("upvote", vote != null && vote.isUpvote());
             viewModel.addAttribute("downvote", vote != null && vote.isDownVote());
         }
-
         return "posts/show";
     }
 
