@@ -114,7 +114,6 @@ public class User {
         this.bio = copy.bio;
         this.passwordToken = copy.passwordToken;
         this.hitCount = copy.hitCount;
-        this.commentFlags = copy.commentFlags;
 //        this.role = copy.role;
     }
 
