@@ -281,15 +281,22 @@ public class CommentsController {
     @PostMapping("/comment/{id}/flag")
     public @ResponseBody
     CommentFlag makeFlag(@PathVariable Long id) {
+
         Comment comment = commentSvc.findOne(id);
         User loggedInUser = userSvc.loggedInUser();
         User user = usersDao.findById(loggedInUser.getId());
-        CommentFlag commentFlag = new CommentFlag();
-        commentFlag.setComment(comment);
-        commentFlag.setFlagger(user);
-        commentFlag.setCount(commentFlag.getCount() + 1);
-        commentsFlagsDao.save(commentFlag);
-        return commentFlag;
+
+        //check if a user has already flagged this comment (can't flag again)
+        boolean hasReported = comment.commentHasBeenFlaggedByLoggedInUser(user);
+        if(!hasReported) {
+            CommentFlag commentFlag = new CommentFlag();
+            commentFlag.setComment(comment);
+            commentFlag.setFlagger(user);
+            commentsFlagsDao.save(commentFlag);
+            return commentFlag;
+        } else {
+            return null;
+        }
     }
 
 
