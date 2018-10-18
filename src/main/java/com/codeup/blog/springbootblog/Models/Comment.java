@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.ui.Model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -203,17 +205,27 @@ public class Comment {
         this.commentFlags = commentFlags;
     }
 
-//    public boolean delete() {
-//        return this.isDeleted = true;
-//    }
-//
-//    public boolean isDeleted() {
-//        return isDeleted;
-//    }
-//
-//    public void setDeleted(boolean deleted) {
-//        isDeleted = deleted;
-//    }
+    private boolean flagged;
+
+    public boolean commentHasBeenFlaggedByLoggedInUser(User user) {
+        List<CommentFlag> flags = user.getCommentFlags();
+            for (CommentFlag cf : flags) {
+                if (cf.getComment().getId().equals(this.id)) {
+                    return true;
+                }
+            }
+        return false;
+    }
+
+    public List<Long> userIdsWhoHaveFlagged() {
+        List<CommentFlag> flags = this.getCommentFlags();
+        List<Long> userIdsOfFlags = new ArrayList<>();
+        for(CommentFlag cf : flags) {
+            Long userId = cf.getFlagger().getId();
+            userIdsOfFlags.add(userId);
+        }
+        return userIdsOfFlags;
+    }
 
 
 //    //==================================================
