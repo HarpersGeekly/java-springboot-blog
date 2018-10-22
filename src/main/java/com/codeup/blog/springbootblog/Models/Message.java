@@ -14,10 +14,12 @@ public class Message {
     @Column
     private String body;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "user_sender_id")
     private User sender;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "user_receiver_id")
     private User receiver;
 
     @Column
@@ -26,12 +28,14 @@ public class Message {
     @Column(nullable = false, columnDefinition = "bit default 0")
     private boolean unread = true;
 
-    public Message(Long id, String body, User sender, User receiver, LocalDateTime created_on) {
-        this.id = id;
+    public Message(){}
+
+    public Message(String body, User sender, User receiver, LocalDateTime created_on, boolean unread) {
         this.body = body;
         this.sender = sender;
         this.receiver = receiver;
         this.created_on = created_on;
+        this.unread = unread;
     }
 
     public Long getId() {
@@ -80,9 +84,5 @@ public class Message {
 
     public void setUnread(boolean unread) {
         this.unread = unread;
-    }
-
-    public boolean read() {
-        return this.unread = false;
     }
 }
