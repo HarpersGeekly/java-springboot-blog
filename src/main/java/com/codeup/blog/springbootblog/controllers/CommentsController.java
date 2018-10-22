@@ -124,7 +124,7 @@ public class CommentsController {
 //        viewModel.addAttribute("comment", comment);
 //        viewModel.addAttribute("isDeleted", isDeleted);
 
-        commentSvc.save(comment);
+//        commentSvc.save(comment);
         return comment;
     }
 
@@ -285,6 +285,11 @@ public class CommentsController {
         Comment comment = commentSvc.findOne(id);
         User loggedInUser = userSvc.loggedInUser();
         User user = usersDao.findById(loggedInUser.getId());
+
+        if(comment.getCommentFlags() != null && comment.getCommentFlags().size() > 1) {
+            System.out.println("comment is majorly flagged");
+            //send a notification to all admins??? or have the admin dashboard only show comments that are flagged
+        }
 
         //check if a user has already flagged this comment (can't flag again)
         boolean hasReported = comment.commentHasBeenFlaggedByLoggedInUser(user);
