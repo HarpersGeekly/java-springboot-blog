@@ -286,6 +286,9 @@
             <li th:classappend="${ownerIsUser} ? active : none">
                 <a href="#2" data-toggle="tab" id="tabComments">Comments</a>
             </li>
+            <li>
+                <a href="#3" data-toggle="tab" id="tabMessages">Messages</a>
+            </li>
         </ul>
 
         <div class="tab-content">
@@ -318,6 +321,14 @@
                 </h5>
                 <div th:each="comment : ${comments}">
                     <th:block th:replace="fragments/commentsProfile :: commentLite"></th:block>
+                </div>
+            </div>
+
+            <div class="profile-message-list-wrapper tab-pane" id="3">
+                <div th:each="message : ${messages}">
+                    <span th:text="${message.sender}"></span>
+                    <span th:text="${message.body}"></span>
+                    <span th:text="${message.created_on}"></span>
                 </div>
             </div>
         </div>
