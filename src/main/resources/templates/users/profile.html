@@ -324,9 +324,9 @@
                 </div>
             </div>
 
-            <div class="profile-message-list-wrapper tab-pane" id="3">
-                <div th:each="message : ${messages}">
-                    <span th:text="${message.sender}"></span>
+            <div th:if="${isOwnProfile}" class="profile-message-list-wrapper tab-pane" id="3">
+                <div th:each="message : ${messagesReceived}">
+                    <span th:text="${message.sender.username}"></span>
                     <span th:text="${message.body}"></span>
                     <span th:text="${message.created_on}"></span>
                 </div>
