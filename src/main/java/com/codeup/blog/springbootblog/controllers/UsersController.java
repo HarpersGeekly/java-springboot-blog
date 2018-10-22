@@ -1,10 +1,7 @@
 package com.codeup.blog.springbootblog.controllers;
 
 import com.codeup.blog.springbootblog.Models.*;
-import com.codeup.blog.springbootblog.repositories.CategoriesRepository;
-import com.codeup.blog.springbootblog.repositories.HitCountsRepository;
-import com.codeup.blog.springbootblog.repositories.RolesRepository;
-import com.codeup.blog.springbootblog.repositories.UsersRepository;
+import com.codeup.blog.springbootblog.repositories.*;
 import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.UserService;
@@ -38,6 +35,7 @@ public class UsersController {
     private PostService postSvc;
     private HitCountsRepository hitCountsDao;
     private RolesRepository rolesDao;
+    private MessageRepository messageDao;
     private FormatterUtil formatter = new FormatterUtil();
 
     @Autowired
@@ -48,6 +46,7 @@ public class UsersController {
                            CommentService commentSvc,
                            PostService postSvc,
                            HitCountsRepository hitCountsDao,
+                           MessageRepository messageDao,
                            RolesRepository rolesDao) {
         this.usersDao = usersDao;
         this.passwordEncoder = passwordEncoder;
@@ -57,6 +56,7 @@ public class UsersController {
         this.postSvc = postSvc;
         this.hitCountsDao = hitCountsDao;
         this.rolesDao = rolesDao;
+        this.messageDao = messageDao;
     }
 
     // ============================================= LOGGING IN USER ===================================================
@@ -227,6 +227,9 @@ public class UsersController {
                 }
             }
         }
+
+        List<Message> messagesReceived = messageDao.findAllByReceiverId(user.getId());
+
         //if posts are empty:
         boolean postsAreEmpty = user.getPosts().isEmpty();
         boolean commentsAreEmpty = user.getComments().isEmpty();
@@ -248,6 +251,7 @@ public class UsersController {
         viewModel.addAttribute("karma", usersDao.totalKarmaByUser(user.getId()));
         viewModel.addAttribute("comments", comments);
         viewModel.addAttribute("formatter", formatter);
+        viewModel.addAttribute("messagesReceived", messagesReceived);
         return "users/profile";
     }
 
@@ -457,6 +461,20 @@ public class UsersController {
         ur.setUserId(user.getId());
         rolesDao.save(ur);
         return ur;
+    }
+
+    // Messages
+    @PostMapping("/messages/{senderId}/{receiverId}")
+    private String createMessage(@PathVariable Long senderId, @PathVariable Long receiverId) {
+
+        User sender = usersDao.findOne(senderId);
+        User receiver = usersDao.findOne(receiverId);
+        Message message = new Message();
+        message.setBody("testing");
+        message.setSender(sender);
+        message.setReceiver(receiver);
+
+        return "/profile";
     }
 
 }
