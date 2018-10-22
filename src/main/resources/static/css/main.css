@@ -297,7 +297,7 @@ html {
     border-bottom-color: transparent;
 }
 
-.nav > li > a#tabPosts, a#tabComments {
+.nav > li > a#tabPosts, a#tabComments, a#tabMessages {
     color: black !important;
 }
 
