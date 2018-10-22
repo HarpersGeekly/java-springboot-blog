@@ -86,6 +86,14 @@ public class User {
     @JsonIgnore // can put on getter as well
     private List<CommentFlag> commentFlags;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
+    @JsonIgnore
+    private List<Message> messagesSent;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "receiver")
+    @JsonIgnore
+    private List<Message> messagesReceived;
+
     //=============================== CONSTRUCTORS ==========================================
     //=======================================================================================
 
