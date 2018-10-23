@@ -398,6 +398,7 @@ public class UsersController {
         viewModel.addAttribute("posts", postSvc.findAll());
         List<User> users = (List<User>) usersDao.findAll();
         viewModel.addAttribute("users", users);
+        viewModel.addAttribute("flaggedComments", commentSvc.mostFlaggedComments());
         viewModel.addAttribute("rolesDao", rolesDao);
         viewModel.addAttribute("usersDao", usersDao);
         return "users/adminDashboard";
