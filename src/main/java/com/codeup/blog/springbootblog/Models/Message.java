@@ -28,14 +28,22 @@ public class Message {
     @Column(nullable = false, columnDefinition = "bit default 0")
     private boolean unread = true;
 
+    @Column(nullable = false, columnDefinition = "bit default 0")
+    private boolean senderDeleted = false;
+
+    @Column(nullable = false, columnDefinition = "bit default 0")
+    private boolean receiverDeleted = false;
+
     public Message(){}
 
-    public Message(String body, User sender, User receiver, LocalDateTime created_on, boolean unread) {
+    public Message(String body, User sender, User receiver, LocalDateTime created_on, boolean unread, boolean senderDeleted, boolean receiverDeleted) {
         this.body = body;
         this.sender = sender;
         this.receiver = receiver;
         this.created_on = created_on;
         this.unread = unread;
+        this.senderDeleted = senderDeleted;
+        this.receiverDeleted = receiverDeleted;
     }
 
     public Long getId() {
@@ -84,5 +92,21 @@ public class Message {
 
     public void setUnread(boolean unread) {
         this.unread = unread;
+    }
+
+    public boolean isSenderDeleted() {
+        return senderDeleted;
+    }
+
+    public void setSenderDeleted(boolean senderDeleted) {
+        this.senderDeleted = senderDeleted;
+    }
+
+    public boolean isReceiverDeleted() {
+        return receiverDeleted;
+    }
+
+    public void setReceiverDeleted(boolean receiverDeleted) {
+        this.receiverDeleted = receiverDeleted;
     }
 }
