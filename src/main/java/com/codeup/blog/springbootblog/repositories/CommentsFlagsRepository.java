@@ -10,4 +10,7 @@ import java.util.List;
 public interface CommentsFlagsRepository extends CrudRepository<CommentFlag, Long> {
 
     CommentFlag findOneByCommentId(Long id);
+
+    @Query("SELECT count(comment_id) from comment_flags where comment_id LIKE ?1")
+    Long countCommentFlagByCommentId(Long id);
 }
