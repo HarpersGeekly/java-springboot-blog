@@ -51,8 +51,13 @@ public class CommentService {
     public List<Comment> findCommentsByPostId(Long id) {
         return commentsDao.findCommentsByPostId(id);
     }
+
     public List<Comment> findAllByUserIdOrderByDateDesc(Long id) {
         return commentsDao.findAllByUserIdOrderByDateDesc(id);
+    }
+
+    public List<Comment> mostFlaggedComments() {
+        return commentsDao.mostFlaggedComments();
     }
 
     public Comment saveNewComment(Post post, Comment parent, String body) {
