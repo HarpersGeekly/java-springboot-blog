@@ -286,11 +286,6 @@ public class CommentsController {
         User loggedInUser = userSvc.loggedInUser();
         User user = usersDao.findById(loggedInUser.getId());
 
-        if(comment.getCommentFlags() != null && comment.getCommentFlags().size() > 1) {
-            System.out.println("comment is majorly flagged");
-            //send a notification to all admins??? or have the admin dashboard only show comments that are flagged
-        }
-
         //check if a user has already flagged this comment (can't flag again)
         boolean hasReported = comment.commentHasBeenFlaggedByLoggedInUser(user);
         if(!hasReported) {
@@ -298,6 +293,12 @@ public class CommentsController {
             commentFlag.setComment(comment);
             commentFlag.setFlagger(user);
             commentsFlagsDao.save(commentFlag);
+
+            if(comment.getCommentFlags() != null && comment.getCommentFlags().size() > 1) {
+                System.out.println("comment is majorly flagged");
+                //send a notification to all admins??? or have the admin dashboard only show comments that are flagged
+            }
+
             return commentFlag;
         } else {
             return null;
