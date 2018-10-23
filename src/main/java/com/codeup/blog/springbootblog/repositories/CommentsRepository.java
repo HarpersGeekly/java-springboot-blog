@@ -38,6 +38,9 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
 //    List<Comment> commentsOnPost(Long id);
     List<Comment> findCommentsByPostId(Long id);
 
+    @Query("SELECT c.id, c.body, c.user_id, c.created_date FROM comments c LEFT JOIN comment_flags cf ON c.id = cf.comment_id GROUP BY c.id HAVING COUNT(cf.comment_id) >= 10")
+    List<Comment> mostFlaggedComments();
+
     @Deprecated
     @Query(nativeQuery = true,
             countQuery = "SELECT count(*) FROM redwood_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null", /*need to count rows for pagination */
