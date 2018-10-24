@@ -38,23 +38,23 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
 //    List<Comment> commentsOnPost(Long id);
     List<Comment> findCommentsByPostId(Long id);
 
-    @Query("SELECT c.id, c.body, c.user_id, c.created_date FROM comments c LEFT JOIN comment_flags cf ON c.id = cf.comment_id GROUP BY c.id HAVING COUNT(cf.comment_id) >= 10")
+    @Query(nativeQuery = true, value="SELECT c.id, c.body, c.created_date, c.parent_id, c.post_id, c.user_id, c.flagged FROM spring_blog_db.comments c LEFT JOIN spring_blog_db.comment_flags cf ON c.id = cf.comment_id GROUP BY c.id HAVING COUNT(cf.comment_id) >= 2")
     List<Comment> mostFlaggedComments();
 
     @Deprecated
     @Query(nativeQuery = true,
-            countQuery = "SELECT count(*) FROM redwood_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null", /*need to count rows for pagination */
+            countQuery = "SELECT count(*) FROM spring_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null", /*need to count rows for pagination */
             value =
-                    "SELECT * FROM redwood_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null ORDER BY ?#{#pageable}")
+                    "SELECT * FROM spring_blog_db.comments c WHERE c.post_id = ?1 AND c.parent_id IS null ORDER BY ?#{#pageable}")
     Page<Comment> postCommentsByPage(Long id, Pageable pageable);
 
     @Deprecated
     @Query(nativeQuery = true,
-            value="SELECT count(*) FROM redwood_blog_db.comments c WHERE c.post_id = ?1")
+            value="SELECT count(*) FROM spring_blog_db.comments c WHERE c.post_id = ?1")
     long numberOfCommentsOnPost(Long id);
 
 //    @Query(nativeQuery = true,
-//            value = "SELECT * FROM redwood_blog_db.comments c WHERE c.parent_id = ?1")
+//            value = "SELECT * FROM spring_blog_db.comments c WHERE c.parent_id = ?1")
 //    void deleteChildren(Long id);
     //=================================== BEFORE PAGINATION =====================================================
 //    List<Comment> sortAllByTime(Long id);
