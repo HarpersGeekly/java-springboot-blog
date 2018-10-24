@@ -36,6 +36,7 @@ public class UsersController {
     private HitCountsRepository hitCountsDao;
     private RolesRepository rolesDao;
     private MessageRepository messageDao;
+    private CommentsFlagsRepository commentsFlagsDao;
     private FormatterUtil formatter = new FormatterUtil();
 
     @Autowired
@@ -47,6 +48,7 @@ public class UsersController {
                            PostService postSvc,
                            HitCountsRepository hitCountsDao,
                            MessageRepository messageDao,
+                           CommentsFlagsRepository commentsFlagsDao,
                            RolesRepository rolesDao) {
         this.usersDao = usersDao;
         this.passwordEncoder = passwordEncoder;
@@ -57,6 +59,7 @@ public class UsersController {
         this.hitCountsDao = hitCountsDao;
         this.rolesDao = rolesDao;
         this.messageDao = messageDao;
+        this.commentsFlagsDao = commentsFlagsDao;
     }
 
     // ============================================= LOGGING IN USER ===================================================
@@ -399,6 +402,7 @@ public class UsersController {
         List<User> users = (List<User>) usersDao.findAll();
         viewModel.addAttribute("users", users);
         viewModel.addAttribute("flaggedComments", commentSvc.mostFlaggedComments());
+        viewModel.addAttribute("commentsFlagsDao", commentsFlagsDao);
         viewModel.addAttribute("rolesDao", rolesDao);
         viewModel.addAttribute("usersDao", usersDao);
         return "users/adminDashboard";
