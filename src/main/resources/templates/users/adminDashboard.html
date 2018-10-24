@@ -133,9 +133,6 @@
                             </form>
                         </div>
 
-<!-->
-<!-->
-
                     </div>
                 </td>
             </tr>
@@ -176,11 +173,10 @@
                     <i class="fa fa-sort float-right" aria-hidden="true"></i>
                 </th>
                 <th class=""><i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Options</th>
-
             </tr>
             </thead>
             <tbody>
-                <tr th:each="comment : ${flaggedComments}">
+                <tr th:each="comment : ${flaggedComments}" th:attr="data-flagged-comment-id=${comment.id}">
                     <td>
                         <span th:text="${comment.user.username}"></span>
                     </td>
@@ -196,13 +192,19 @@
                         </i>
                         <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
                             <div>
-                                <a class="dropdown-edit-btn"  th:href="${'/posts/comment/' + comment.id + '/edit'}">
+                                <a class="dropdown-edit-btn dropdown-edit-comment-btn" th:attr="data-edit-btn-comment-id=${comment.id}">
                                     <i class="far fa-edit"></i> edit
                                 </a>
                             </div>
                             <div>
-                                <form th:action="@{'/posts/comment/' + comment.id + '/delete'}" method="post" class="deleteCommentForm">
-                                    <button class="dropdown-delete-btn" type="submit">
+                                <form th:action="@{/posts/comment/{commentId}/delete(commentId=${comment.id})}"
+                                      method="POST"
+                                      th:object="${comment}"
+                                      class="deleteCommentForm">
+
+                                    <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
+
+                                    <button class="dropdown-delete-btn dropdown-delete-comment-btn" th:attr="data-delete-btn-comment-id=${comment.id}">
                                         <i class="fas fa-bomb"></i> delete
                                     </button>
                                 </form>
@@ -275,6 +277,36 @@
                 rolesDropdownText.html(userRole.role);
             })
         });
+
+        // <!-- =================================================================================================================-->
+        // <!-- ============================================== DELETE Comment  ==================================================-->
+        // <!-- =================================================================================================================-->
+        //
+        container.on("click", ".dropdown-delete-comment-btn", function (e) {
+             // use event delegation that targets an elements parent, something, that isn't dynamic: .container
+             e.preventDefault(); // prevent default form behavior and instead use ajax.
+             let commentInformation = $(this).parent().serialize();
+             let button = $(this);
+             // Look for element with this attribute. We're looking for siblings(other comments) within the container.
+             let commentId = button.siblings('[data-comment-id]').data('comment-id');
+             console.log("flagged comment id:" + commentId);
+
+             let request = $.ajax({
+                 url: '/posts/comment/' + commentId + '/delete',
+                 method: 'POST',
+                 data: commentInformation
+                 // data: JSON.stringify({id: deleteCommentId}),
+             });
+             request.done(function () {
+                 console.log("back from flagged comment delete");
+                 $('[data-flagged-comment-id=' + commentId + ']').fadeOut("slow", function () {
+                     $('[data-flagged-comment-id=' + commentId + ']').remove(); // new way targets element directly.
+                 });
+             });
+             request.fail((a, b, c) => {
+                 console.log(a, b, c)
+             });
+         });
 
 
         $('.preloader').fadeOut('slow',function(){
