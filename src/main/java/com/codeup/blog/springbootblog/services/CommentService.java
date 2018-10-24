@@ -20,14 +20,12 @@ public class CommentService {
     private final CommentsRepository commentsDao;
     private final CommentsVotesRepository commentsVoteDao;
     private final UserService userSvc;
-    private final CommentsFlagsRepository commentsFlagsDao;
 
     @Autowired
-    CommentService(CommentsRepository commentsDao, UserService userSvc, CommentsVotesRepository commentsVoteDao, CommentsFlagsRepository commentsFlagsDao) {
+    CommentService(CommentsRepository commentsDao, UserService userSvc, CommentsVotesRepository commentsVoteDao) {
         this.commentsDao = commentsDao;
         this.userSvc = userSvc;
         this.commentsVoteDao = commentsVoteDao;
-        this.commentsFlagsDao = commentsFlagsDao;
     }
 
     private static final int MAX_COMMENT_LEVEL = 5;
