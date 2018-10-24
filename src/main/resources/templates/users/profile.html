@@ -286,7 +286,7 @@
             <li th:classappend="${ownerIsUser} ? active : none">
                 <a href="#2" data-toggle="tab" id="tabComments">Comments</a>
             </li>
-            <li>
+            <li th:if="${isOwnProfile}">
                 <a href="#3" data-toggle="tab" id="tabMessages">Messages</a>
             </li>
         </ul>
@@ -324,7 +324,7 @@
                 </div>
             </div>
 
-            <div th:if="${isOwnProfile}" class="profile-message-list-wrapper tab-pane" id="3">
+            <div class="profile-message-list-wrapper tab-pane" id="3">
                 <div th:each="message : ${messagesReceived}">
                     <span th:text="${message.sender.username}"></span>
                     <span th:text="${message.body}"></span>
