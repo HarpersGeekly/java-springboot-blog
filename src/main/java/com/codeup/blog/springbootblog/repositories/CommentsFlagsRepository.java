@@ -11,6 +11,7 @@ public interface CommentsFlagsRepository extends CrudRepository<CommentFlag, Lon
 
     CommentFlag findOneByCommentId(Long id);
 
-    @Query(countQuery = "SELECT count(comment_id) from comment_flags where comment_id LIKE ?1")
+//    @Query(nativeQuery = true, value = "SELECT count(comment_id) from comment_flags where comment_id LIKE ?1")
+//    Long flagCountByCommentId(Long id);
     Long countCommentFlagByCommentId(Long id);
 }
