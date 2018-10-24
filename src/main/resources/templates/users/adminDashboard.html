@@ -10,7 +10,7 @@
 </header>
 
 <div class="jumbotron">
-    <p class="lead flex-center">Welcome to the admin dashboard. Below you can edit, delete, and disable posts or users.</p>
+    <p class="lead flex-center">Welcome to the admin dashboard. Below you can edit, delete, disable posts or users, and manage flagged comments.</p>
 </div>
 
 <div class="container">
@@ -152,6 +152,69 @@
     <th:block th:include="posts/archivedPosts :: posts-table"></th:block>
 </div>
 
+<hr/>
+
+<div class="container">
+    <h2><i class="fab fa-font-awesome-flag margin-right-lite"></i>Flagged Comments</h2>
+    <div class="preloader"></div>
+    <span class="archive-table hidden">
+    <div class="table-responsive">
+        <table style="table-layout: fixed;" id="dtFlaggedComments" data-toggle="table" class="table table-sm" cellspacing="0" width="100%" >
+            <thead>
+            <tr>
+                <th class="">
+                    <i class="fas fa-user-circle post-info-fa-icon margin-right-lite"></i>Author
+                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                </th>
+
+                <th class="">
+                    <i class="fas fa-comment-alt post-info-fa-icon margin-right-lite"></i>Body
+                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                </th>
+                <th class="">
+                    <i class="fas fa-flag post-info-fa-icon margin-right-lite"></i>Flag Count
+                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                </th>
+                <th class=""><i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Options</th>
+
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="comment : ${flaggedComments}">
+                    <td>
+                        <span th:text="${comment.user.username}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${comment.body}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${commentsFlagsDao.countCommentFlagByCommentId(comment.id)}"></span>
+                    </td>
+                    <td>
+                        <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </i>
+                        <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                            <div>
+                                <a class="dropdown-edit-btn"  th:href="${'/posts/comment/' + comment.id + '/edit'}">
+                                    <i class="far fa-edit"></i> edit
+                                </a>
+                            </div>
+                            <div>
+                                <form th:action="@{'/posts/comment/' + comment.id + '/delete'}" method="post" class="deleteCommentForm">
+                                    <button class="dropdown-delete-btn" type="submit">
+                                        <i class="fas fa-bomb"></i> delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </span>
+</div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -226,6 +289,11 @@
         $('#dtUsers').DataTable({
             // responsive: true,
             "order": [[ 0, "asc" ]], // this sorts a desired column. In this case, Username. zero-based
+            "pageLength": 6
+        });
+        $('#dtFlaggedComments').DataTable({
+            // responsive: true,
+            "order": [[ 2, "desc" ]], // this sorts a desired column. In this case, Flag count. zero-based
             "pageLength": 6
         });
 
