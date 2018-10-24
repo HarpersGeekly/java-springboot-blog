@@ -9,6 +9,33 @@
 </body>
 </html>
 
+<!--<div sec:authorize="isAuthenticated()" th:if="${!isBanned} and (${!comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})"-->
+     <!--th:attr="id=${'ellipsis_' + comment.id}" class="flex-center comment-ellipsis-div">-->
+
+    <!--<i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"-->
+       <!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+    <!--</i>-->
+
+    <!--<div class="dropdown-menu edit-delete-dropdown report-dropdown" aria-labelledby="dropdownMenu">-->
+        <!--<form th:action="@{/comment/{id}/flag(id=${comment.id})}" method="POST"-->
+              <!--th:object="${comment}"-->
+              <!--th:attr="data-flag-comment-form-id=${comment.id}"-->
+              <!--class="flagCommentForm">-->
+
+            <!--<input type="hidden" name="id" th:attr="data-flag-comment-id=${comment.id}" th:value="${comment.id}"/>-->
+
+            <!--<div th:if="${!comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())}" class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">-->
+                <!--<i class="fab fa-font-awesome-flag"></i> report-->
+            <!--</div>-->
+
+            <!--<div th:if="${comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())}" class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">-->
+                <!--<i class="fas fa-check"></i> reported-->
+            <!--</div>-->
+
+        <!--</form>-->
+    <!--</div>-->
+<!--</div>-->
+
 <!--//    @Pattern(regexp = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/", message="")-->
 
 <!-- ============== HOW AN OLD POST USED TO LOOK ==============================-->
