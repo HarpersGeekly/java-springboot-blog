@@ -418,14 +418,13 @@
                                   class="flagCommentForm">
 
                                 <input type="hidden" name="id" th:attr="data-flag-comment-id=${comment.id}" th:value="${comment.id}"/>
-                                <div th:if="${!comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and (${!comment.isOwnedBy(#authentication.principal.id)} or ${!#authorization.expression('hasRole(''ROLE_ADMIN'')')})" class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">
+                                <div th:if="${!comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and ${!comment.isOwnedBy(#authentication.principal.id)}" class="dropdown-report-btn dropdown-report-comment-btn" th:attr="data-flag-comment-id=${comment.id}">
                                     <i class="fab fa-font-awesome-flag"></i> report
                                 </div>
-
-                                <div th:if="${comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and (${!comment.isOwnedBy(#authentication.principal.id)} or ${!#authorization.expression('hasRole(''ROLE_ADMIN'')')})" class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">
+                            </form>
+                                <div th:if="${comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and ${!comment.isOwnedBy(#authentication.principal.id)}" class="dropdown-report-btn">
                                     <i class="fas fa-check"></i> reported
                                 </div>
-                            </form>
                         </div>
                     </div>
 
@@ -1010,7 +1009,7 @@
 // <!-- ==================================================================================================================-->
 
 
-    container.on("click", ".dropdown-report-btn", function(e) {
+    container.on("click", ".dropdown-report-comment-btn", function(e) {
         console.log("clicked report button");
         e.stopPropagation(); //keeps the dropdown menu open on click.
         e.preventDefault();
