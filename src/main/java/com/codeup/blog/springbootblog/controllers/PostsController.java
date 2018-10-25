@@ -173,8 +173,7 @@ public class PostsController {
 //                }
 //            }
 //        }
-//        List<Comment> comments = commentSvc.commentsOnPost(id);
-        List<Comment> comments = commentSvc.findCommentsByPostId(id);
+        List<Comment> comments = commentSvc.commentsOnPost(id);
         List<Category> categories = (List<Category>) categoriesDao.findAll();
 
         HitCount postHitCount = post.getHitCount();
