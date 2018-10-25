@@ -42,12 +42,8 @@ public class CommentService {
         commentsDao.delete(id);
     }
 
-//    public List<Comment> commentsOnPost(Long postId) {
-//        return commentsDao.commentsOnPost(postId);
-//    }
-
-    public List<Comment> findCommentsByPostId(Long id) {
-        return commentsDao.findCommentsByPostId(id);
+    public List<Comment> commentsOnPost(Long postId) {
+        return commentsDao.commentsOnPost(postId);
     }
 
     public List<Comment> findAllByUserIdOrderByDateDesc(Long id) {
