@@ -30,15 +30,14 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
 //    @Query(nativeQuery = true, value="SELECT * from comments c where c.user_id=?1 ORDER BY c.created_date DESC")
     List<Comment> findAllByUserIdOrderByDateDesc(Long id);
 
-//    @Query(nativeQuery = true,
-////            ORDER BY ID/ NEWEST COMMENT...
-////            value = "SELECT * FROM comments c WHERE c.post_id = ?1 AND c.parent_id IS NULL ORDER BY c.created_date ASC")
-////            ORDER BY COMMENT COUNT?:
+    @Query(nativeQuery = true,
+//            ORDER BY ID/ NEWEST COMMENT...
+            value = "SELECT * FROM comments c WHERE c.post_id = ?1 AND c.parent_id IS NULL ORDER BY c.created_date ASC")
+//            ORDER BY COMMENT COUNT?:
 //            value = "SELECT c.id, c.body, c.created_date, c.post_id, c.user_id, c.parent_id, IFNULL(SUM(cv.type), 0) AS totalCommentVotes FROM comments c LEFT JOIN comments_votes cv ON cv.comment_id = c.id JOIN posts p ON c.post_id = p.id WHERE c.parent_id IS NULL AND c.post_id = ?1 GROUP BY c.id ORDER BY totalCommentVotes DESC")
-//    List<Comment> commentsOnPost(Long id);
-    List<Comment> findCommentsByPostId(Long id);
+    List<Comment> commentsOnPost(Long id);
 
-    @Query(nativeQuery = true, value="SELECT c.id, c.body, c.created_date, c.parent_id, c.post_id, c.user_id, c.flagged FROM spring_blog_db.comments c LEFT JOIN spring_blog_db.comment_flags cf ON c.id = cf.comment_id GROUP BY c.id HAVING COUNT(cf.comment_id) >= 2")
+    @Query(nativeQuery = true, value="SELECT c.id, c.body, c.created_date, c.parent_id, c.post_id, c.user_id, c.flagged,  FROM spring_blog_db.comments c LEFT JOIN spring_blog_db.comment_flags cf ON c.id = cf.comment_id GROUP BY c.id HAVING COUNT(cf.comment_id) >= 2")
     List<Comment> mostFlaggedComments();
 
     @Deprecated
