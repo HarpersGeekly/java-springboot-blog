@@ -463,7 +463,6 @@
             <div class="child-comment" th:include="fragments/comments :: ajaxComment(comment=${child})"></div>
         </div>
 
-
         <!--ALL NEW CHILD COMMENTS COMING IN ARE APPENDED HERE-->
         <div class="childCommentDiv indent-comment" th:attr="data-child-node-comment-id=${comment.id}"></div>
 
@@ -705,6 +704,7 @@
             commentBody.removeClass('hidden').html(comment.body); // show the new updated comment in the html
             commentVoting.removeClass('hidden');
             showReplyTextArea.removeClass('hidden');
+            $('.showReplyTextArea').prop('disabled', false);
             ellipsis.removeClass('hidden');
             hoverEllipsis();
         })
@@ -732,6 +732,8 @@
             $('[data-edit-delete-comment-id=' + commentId + ']').fadeOut("slow", function () {
                 $('[data-edit-delete-comment-id=' + commentId + ']').remove(); // new way targets element directly.
             });
+
+            $('.showReplyTextArea').prop('disabled', false);
 
             // $('[data-comment-vote-reply-options-id=' + commentId + ']').remove();
             // $('[data-comment-body-comment-id=' + commentId + ']').html('[deleted]');
@@ -989,6 +991,8 @@
                     cancelReply.addClass('hidden');
                 }
                 childCommentDiv.append(html).hide().fadeIn(1500); //append the comment in the childCommentDiv
+
+                $('.showReplyTextArea').prop('disabled', false);
 
                 //scroll to reply when commented
                 $('html, body').animate({
