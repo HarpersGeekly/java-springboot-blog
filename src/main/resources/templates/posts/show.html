@@ -418,7 +418,7 @@
                                   class="flagCommentForm">
 
                                 <input type="hidden" name="id" th:attr="data-flag-comment-id=${comment.id}" th:value="${comment.id}"/>
-                                <div th:if="${!comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and ${!comment.isOwnedBy(#authentication.principal.id)}" class="dropdown-report-btn dropdown-report-comment-btn" th:attr="data-flag-comment-id=${comment.id}">
+                                <div th:if="${!#authorization.expression('hasRole(''ROLE_ADMIN'')')} and (${!comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and ${!comment.isOwnedBy(#authentication.principal.id)})" class="dropdown-report-btn dropdown-report-comment-btn" th:attr="data-flag-comment-id=${comment.id}">
                                     <i class="fab fa-font-awesome-flag"></i> report
                                 </div>
                             </form>
