@@ -158,19 +158,19 @@
                     <!--==================================== EDIT AND DELETE DROPDOWN ===================================-->
                     <!--=================================================================================================-->
 
-                    <div sec:authorize="isAuthenticated()" th:if="${!isBanned} and (${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})"
+                    <div sec:authorize="isAuthenticated()" th:if="${!isBanned}"
                          th:attr="id=${'ellipsis_' + comment.id}" class="flex-center comment-ellipsis-div">
                         <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
                         <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
 
-                            <div>
+                            <div th:if="(${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})">
                                 <a class="dropdown-edit-btn" th:attr="data-edit-btn-comment-id=${comment.id}">
                                     <i class="far fa-edit"></i> edit
                                 </a>
                             </div>
-                            <div>
+                            <div th:if="(${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})">
                                 <form th:action="@{/posts/comment/{commentId}/delete(commentId=${comment.id})}"
                                       method="POST"
                                       th:object="${comment}"
@@ -183,11 +183,17 @@
                                     </button>
                                 </form>
                             </div>
-                            <div th:if="${!comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and ${!comment.isOwnedBy(#authentication.principal.id)}" class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">
-                                <i class="fab fa-font-awesome-flag"></i> report
-                            </div>
+                            <form th:action="@{/comment/{id}/flag(id=${comment.id})}" method="POST"
+                                  th:object="${comment}"
+                                  th:attr="data-flag-comment-form-id=${comment.id}"
+                                  class="flagCommentForm">
 
-                            <div th:if="${comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())}" class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">
+                                <input type="hidden" name="id" th:attr="data-flag-comment-id=${comment.id}" th:value="${comment.id}"/>
+                                <div th:if="${!#authorization.expression('hasRole(''ROLE_ADMIN'')')} and (${!comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and ${!comment.isOwnedBy(#authentication.principal.id)})" class="dropdown-report-btn dropdown-report-comment-btn" th:attr="data-flag-comment-id=${comment.id}">
+                                    <i class="fab fa-font-awesome-flag"></i> report
+                                </div>
+                            </form>
+                            <div th:if="${comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and ${!comment.isOwnedBy(#authentication.principal.id)}" class="dropdown-report-btn">
                                 <i class="fas fa-check"></i> reported
                             </div>
                         </div>
