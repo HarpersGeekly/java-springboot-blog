@@ -47,7 +47,7 @@ public class PostsController {
     // Constructor "dependency injection", passing the PostService object into the PostController constructor,
     // everything ties together now. Services + Controller.
     // Autowiring makes it so we don't have to build the object ourselves in the main method of SpringBlogApplication,
-    // Spring handles this.
+    // Spring handles this. It also makes sure that the objects above are ready to go before use in Controller.
 
     // Before I made a PostsRepository, I used dummy hard code in the PostService
     // in the form of a List<Post> posts. But now the PostsRepository is being built in the PostsService
