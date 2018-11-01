@@ -13,30 +13,29 @@
     <p class="lead flex-center">Welcome to the admin dashboard. Below you can edit, delete, disable posts or users, and manage flagged comments.</p>
 </div>
 
-<div class="container">
+<div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
     <h2><i class="fas fa-users margin-right-lite"></i>Users</h2>
     <div class="preloader"></div>
-    <span class="archive-table hidden">
-    <div class="table-responsive">
-        <table style="table-layout: fixed;" id="dtUsers" data-toggle="table" class="table table-sm" cellspacing="0" width="100%" >
+    <div class="table-responsive col-md-12">
+        <table id="dtUsers" data-toggle="table" class="table archive-table hidden" cellspacing="0" width="100%">
             <thead>
             <tr>
-                <th class="">
+                <th class="th-sm">
                     <i class="fas fa-user-circle post-info-fa-icon margin-right-lite"></i>Username
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
                 </th>
 
                 <th class="">
                     <i class="far fa-handshake post-info-fa-icon margin-right-lite"></i>Joined
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
                 </th>
                 <th class="">
                     <i class="far fa-hand-peace post-info-fa-icon margin-right-lite"></i>Karma
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
                 </th>
                 <th class="">
                     <i class="fas fa-lock post-info-fa-icon margin-right-lite"></i> Status
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
                 </th>
                 <th class=""><i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Options</th>
                 <th class=""><i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Role</th>
@@ -61,15 +60,15 @@
                     <h5 class="post-info-count" th:text="${formatter.formatCount(usersDao.totalKarmaByUser(user.getId()))}"></h5>
                 </td>
 
-                <td th:if="${user.isBanned()}">
+                <td th:if="${user.isBanned()}" th:attr="id=${'userIsBannedTd_' + user.id}">
                     <h5 class="admin-dash-banned">BANNED</h5>
                 </td>
 
-                <td th:if="${!user.isBanned()}">
+                <td th:if="${!user.isBanned()}" th:attr="id=${'userNotBannedTd_' + user.id}">
                     <h5 class="admin-dash-not-banned">-------</h5>
                 </td>
 
-                <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                <td>
                     <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     </i>
@@ -80,35 +79,26 @@
                             </a>
                         </div>
                         <div>
-                            <form th:action="@{'/profile/' + ${user.id} + '/delete'}" method="post" class="deleteCommentForm">
+                            <form th:action="@{'/profile/' + ${user.id} + '/delete'}" method="post">
                                 <button class="dropdown-delete-btn" type="submit">
                                     <i class="fas fa-bomb"></i> delete
                                 </button>
                             </form>
                         </div>
-
-                        <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!user.isBanned()}" class="deleteCommentForm">
-                            <form th:action="@{'/profile/' + ${user.id} + '/ban'}" method="post">
-                                <button class="dropdown-delete-btn">
-                                    <i class="fas fa-lock"></i> ban
-                                </button>
+                        <div th:if="${!user.isBanned()}">
+                            <form th:action="${'/admin/dashboard/ban/' + user.id}" method="post"
+                                  th:attr="data-form-ban-user-id=${user.id}"
+                                class="dropdown-delete-btn dropdown-ban-user-btn flex-center">
+                                    <i class="fas fa-lock margin-right-lite"></i> ban
                             </form>
                         </div>
-                        <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${user.isBanned()}" class="deleteCommentForm">
-                            <form th:action="@{'/profile/' + ${user.id} + '/unban'}" method="post">
-                                <button class="dropdown-delete-btn">
-                                    <i class="fas fa-lock-open"></i> unban
-                                </button>
+                        <div th:if="${user.isBanned()}">
+                            <form th:action="${'/admin/dashboard/unban/' + user.id}" method="post"
+                                  th:attr="data-form-unban-user-id=${user.id}"
+                                  class="dropdown-delete-btn dropdown-unban-user-btn flex-center">
+                                    <i class="fas fa-lock-open margin-right-lite"></i> unban
                             </form>
                         </div>
-                    </div>
-                </td>
-                <td class="flex">
-                    <div th:attr="data-user-id=${user.id}" th:text="${rolesDao.findRoleByUserId(user.getId())}"
-                         class="roles-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    </div>
-                    <span class="margin-left">&#9661;</span>
-                    <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
                         <div>
                             <form th:attr="data-form-grant-admin-id=${user.id}"
                                   class="dropdown-edit-btn roles-dropdown-select-admin"
@@ -116,7 +106,6 @@
                                 <i class="far fa-edit"></i> GRANT: Admin (ROLE_ADMIN)
                             </form>
                         </div>
-
                         <div>
                             <form th:attr="data-form-grant-editor-id=${user.id}"
                                   class="dropdown-edit-btn roles-dropdown-select-editor"
@@ -124,7 +113,6 @@
                                 <i class="far fa-edit"></i> GRANT: Editor (ROLE_EDITOR)
                             </form>
                         </div>
-
                         <div>
                             <form th:attr="data-form-grant-user-id=${user.id}"
                                   class="dropdown-edit-btn roles-dropdown-select-user"
@@ -132,91 +120,235 @@
                                 <i class="far fa-edit"></i> GRANT: User (ROLE_USER)
                             </form>
                         </div>
-
                     </div>
+                </td>
+                <td>
+                    <span>
+                        <div th:attr="data-user-id=${user.id}" th:text="${rolesDao.findRoleByUserId(user.getId())}">
+                        </div>
+                    </span>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-</span>
 </div>
 
 <hr/>
 
 <div class="container">
     <h2><i class="fas fa-comments margin-right-lite"></i>Posts</h2>
-    <th:block th:include="posts/archivedPosts :: posts-table"></th:block>
+    <div class="table-responsive col-md-12">
+        <table id="dtPosts" class="table archive-table hidden">
+            <thead>
+            <tr>
+                <th>Title
+                    <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+                </th>
+                <th>
+                    <i class="fas fa-user-circle post-info-fa-icon margin-right-lite"></i>Editor
+                    <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+                </th>
+                <th>
+                    <i class="fas fa-thumbs-up post-info-fa-icon margin-right-lite"></i>Likes
+                    <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+                </th>
+                <th>
+                    <i class="fas fa-comments post-info-fa-icon margin-right-lite"></i>Comments
+                    <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+                </th>
+                <th>
+                    <i class="fas fa-lock post-info-fa-icon margin-right-lite"></i>Status
+                    <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+                </th>
+                <th>Date
+                    <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+                </th>
+                <th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                    <i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Options</th>
+
+                <th class="hidden">
+                    <!--hide this <th> to be able to search for content specific for a post inside the search bar-->
+                    Description
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts}">
+                <td class="col-md-4">
+                    <a class="popularTitleLink" th:href="@{/posts/{id}/{title}(id=${post.id}, title=${formatter.makeSlug(post.title)})}">
+                        <h4 class="popularTitleText" th:utext="${post.htmlTitle}"></h4>
+                    </a>
+                </td>
+                <td>
+                    <a class="popularTitleLink" th:href="@{/profile/{id}/{username}(id=${post.user.id}, username=${formatter.makeSlug(post.user.username)})}">
+                        <h4 class="popularTitleText" th:utext="${post.user.username}"></h4>
+                    </a>
+                </td>
+                <td>
+                    <h5 class="post-info-count" th:text="${post.voteCount()}"></h5>
+                </td>
+                <td>
+                    <h5 class="post-info-count" th:text="${post.getComments().size()}"></h5>
+                </td>
+                <td th:if="${post.isDisabled()}">
+                    <h5 class="admin-dash-banned">DISABLED</h5>
+                </td>
+
+                <td th:if="${!post.isDisabled()}">
+                    <h5 class="admin-dash-not-banned">-------</h5>
+                </td>
+                <td>
+                    <span class="postedByDate hidden" th:text="${post.date}"></span>
+                    <span class="postedByDate" th:text="${#temporals.monthNameShort(post.date)}"></span>
+                    <span class="postedByDate" th:text="${#temporals.day(post.date)}"></span>
+                    <span class="postedByDate" th:text="${#temporals.year(post.date)}"></span>
+                    <span class="postedByDateTime" th:text="${#temporals.format(post.date, 'h:mm a')}"></span>
+
+                </td>
+                <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                    <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </i>
+                    <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                        <div>
+                            <a class="dropdown-edit-btn"  th:href="${'/posts/' + post.id + '/edit'}">
+                                <i class="far fa-edit"></i> edit
+                            </a>
+                        </div>
+                        <div>
+                            <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post">
+                                <button class="dropdown-delete-btn" type="submit">
+                                    <i class="fas fa-bomb"></i> delete
+                                </button>
+                            </form>
+                        </div>
+
+                        <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!post.isDisabled()}">
+                            <form th:action="@{'/posts/' + ${post.id} + '/disable'}" method="post">
+                                <button class="dropdown-delete-btn">
+                                    <i class="fas fa-lock"></i> disable
+                                </button>
+                            </form>
+                        </div>
+                        <div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${post.isDisabled()}">
+                            <form th:action="@{'/posts/' + ${post.id} + '/enable'}" method="post">
+                                <button class="dropdown-delete-btn">
+                                    <i class="fas fa-lock-open"></i> enable
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+
+                <!--hide this <td> to be able to search for content specific for a post inside the search bar-->
+                <td class="hidden">
+                <span th:utext="${post.htmlDescription}"></span>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--<th:block th:include="posts/archivedPosts :: posts-table"></th:block>-->
 </div>
 
 <hr/>
 
-<div class="container">
-    <h2><i class="fab fa-font-awesome-flag margin-right-lite"></i>Flagged Comments</h2>
-    <div class="preloader"></div>
-    <span class="archive-table hidden">
-    <div class="table-responsive">
-        <table style="table-layout: fixed;" id="dtFlaggedComments" data-toggle="table" class="table table-sm" cellspacing="0" width="100%" >
-            <thead>
-            <tr>
-                <th class="">
-                    <i class="fas fa-user-circle post-info-fa-icon margin-right-lite"></i>Author
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
-                </th>
+    <div class="container">
+        <h2><i class="fab fa-font-awesome-flag margin-right-lite"></i>Flagged Comments</h2>
+        <div class="preloader"></div>
+        <div class="table-responsive col-md-12">
+            <table id="dtFlaggedComments" data-toggle="table" class="table archive-table hidden">
+                <thead>
+                <tr>
+                    <th class="">
+                        <i class="fas fa-user-circle post-info-fa-icon margin-right-lite"></i>Author
+                        <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+                    </th>
 
-                <th class="">
-                    <i class="fas fa-comment-alt post-info-fa-icon margin-right-lite"></i>Body
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
-                </th>
-                <th class="">
-                    <i class="fas fa-flag post-info-fa-icon margin-right-lite"></i>Flag Count
-                    <i class="fa fa-sort float-right" aria-hidden="true"></i>
-                </th>
-                <th class=""><i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Options</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr th:each="comment : ${flaggedComments}" th:attr="data-flagged-comment-id=${comment.id}">
-                    <td>
-                        <span th:text="${comment.user.username}"></span>
-                    </td>
-                    <td>
-                        <span th:text="${comment.body}"></span>
-                    </td>
-                    <td>
-                        <span th:text="${commentsFlagsDao.countCommentFlagByCommentId(comment.id)}"></span>
-                    </td>
-                    <td>
-                        <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        </i>
-                        <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
-                            <div>
-                                <a class="dropdown-edit-btn dropdown-edit-comment-btn" th:attr="data-edit-btn-comment-id=${comment.id}">
-                                    <i class="far fa-edit"></i> edit
-                                </a>
-                            </div>
-                            <div>
-                                <form th:action="@{/posts/comment/{commentId}/delete(commentId=${comment.id})}"
-                                      method="POST"
-                                      th:object="${comment}"
-                                      class="deleteCommentForm">
-
-                                    <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
-
-                                    <button class="dropdown-delete-btn dropdown-delete-comment-btn" th:attr="data-delete-btn-comment-id=${comment.id}">
-                                        <i class="fas fa-bomb"></i> delete
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </td>
+                    <th class="">
+                        <i class="fas fa-comment-alt post-info-fa-icon margin-right-lite"></i>Body
+                        <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+                    </th>
+                    <th class="">
+                        <i class="fas fa-flag post-info-fa-icon margin-right-lite"></i>Flag Count
+                        <!--<i class="fa fa-sort float-right" aria-hidden="true"></i>-->
+                    </th>
+                    <th class=""><i class="fas fa-wrench post-info-fa-icon margin-right-lite"></i>Options</th>
                 </tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <tr th:each="comment : ${flaggedComments}" th:attr="data-flagged-comment-id=${comment.id}">
+                        <td>
+                            <span th:text="${comment.user.username}"></span>
+                        </td>
+                        <td class="col-md-4">
+                            <span th:text="${comment.body}"></span>
+                        </td>
+                        <td>
+                            <span th:text="${commentsFlagsDao.countCommentFlagByCommentId(comment.id)}"></span>
+                        </td>
+                        <td>
+                            <i class="fas fa-ellipsis-h fa-lg comment-ellipsis dropdown-toggle"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </i>
+                            <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
+                                <div>
+                                    <a class="dropdown-edit-btn dropdown-edit-comment-btn" th:attr="data-edit-btn-comment-id=${comment.id}">
+                                        <i class="far fa-edit"></i> edit
+                                    </a>
+                                </div>
+                                <div>
+                                    <form th:action="@{/posts/comment/{commentId}/delete(commentId=${comment.id})}"
+                                          method="POST"
+                                          th:object="${comment}"
+                                          class="deleteCommentForm">
+
+                                        <input type="hidden" name="id" th:attr="data-comment-id=${comment.id}" th:value="${comment.id}"/>
+
+                                        <button class="dropdown-delete-btn dropdown-delete-comment-btn" th:attr="data-delete-btn-comment-id=${comment.id}">
+                                            <i class="fas fa-bomb"></i> delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--<div class="container">-->
+                <!--<div class="row">-->
+                    <!--<div class="col-md-12">-->
+                        <!--<table class="table">-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                                <!--<th>Invoice</th>-->
+                                <!--<th>Date</th>-->
+                                <!--<th>Amount</th>-->
+                                <!--<th>Status</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--<tr>-->
+                                <!--<td>12345</td>-->
+                                <!--<td>Feb 1, 2014</td>-->
+                                <!--<td>$45.00</td>-->
+                                <!--<td>Owing</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>67890</td>-->
+                                <!--<td>Jan 30, 2014</td>-->
+                                <!--<td>$19.99</td>-->
+                                <!--<td>Overdue</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
     </div>
-    </span>
-</div>
 
 <footer th:include="fragments/footer :: my-footer"></footer>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -230,6 +362,52 @@
 
         let container = $('.container');
 
+        container.on('click', '.dropdown-ban-user-btn', function() {
+            let button = $(this);
+            let userId = button.data('form-ban-user-id');
+            let banUserForm = $('[data-form-ban-user-id=' + userId + ']');
+
+            let request = $.ajax({
+                url: banUserForm.attr('action'),
+                method: 'POST',
+                data: banUserForm.serialize()
+            });
+            request.done(() => {
+
+                banUserForm.attr('action', '/admin/dashboard/unban/' + userId);
+                button.removeClass("dropdown-ban-user-btn");
+                button.addClass("dropdown-unban-user-btn");
+                button.html('<i class="fas fa-lock-open margin-right-lite"></i> unban');
+                let userNotBannedTd = $('#userNotBannedTd_' + userId);
+                userNotBannedTd.html('<h5 class="admin-dash-banned">BANNED</h5>')
+            });
+            request.fail((a, b, c) => {
+                console.log(a, b, c)
+            });
+        });
+
+        container.on('click', '.dropdown-unban-user-btn', function() {
+            let button = $(this);
+            let userId = button.data('form-unban-user-id');
+            let unbanUserForm = $('[data-form-unban-user-id=' + userId + ']');
+
+            let request = $.ajax({
+                url: unbanUserForm.attr('action'),
+                method: 'POST',
+                data: unbanUserForm.serialize()
+            });
+            request.done(() => {
+
+                button.html('<i class="fas fa-lock margin-right-lite"></i> ban');
+
+                let userIsBannedTd = $('#userIsBannedTd_' + userId);
+                userIsBannedTd.html('<h5 class="admin-dash-not-banned">-------</h5>')
+            });
+            request.fail((a, b, c) => {
+                console.log(a, b, c)
+            });
+        });
+
         container.on('click', '.roles-dropdown-select-admin', function() {
             let button = $(this);
             let userId = button.data('form-grant-admin-id');
@@ -240,10 +418,10 @@
                 dataType: 'json',
                 data: grantAdminForm.serialize()
             });
-            request.done(function(userRole) {
+            request.done((userRole) => {
                 let rolesDropdownText = $('[data-user-id=' + userId + ']');
                 rolesDropdownText.html(userRole.role);
-            })
+            });
         });
 
         container.on('click', '.roles-dropdown-select-editor', function() {
@@ -256,7 +434,7 @@
                 dataType: 'json',
                 data: grantEditorForm.serialize()
             });
-            request.done(function(userRole) {
+            request.done((userRole) => {
                 let rolesDropdownText = $('[data-user-id=' + userId + ']');
                 rolesDropdownText.html(userRole.role);
             })
@@ -272,7 +450,7 @@
                 dataType: 'json',
                 data: grantUserForm.serialize()
             });
-            request.done(function(userRole) {
+            request.done((userRole) => {
                 let rolesDropdownText = $('[data-user-id=' + userId + ']');
                 rolesDropdownText.html(userRole.role);
             })
@@ -283,13 +461,12 @@
         // <!-- =================================================================================================================-->
         //
         container.on("click", ".dropdown-delete-comment-btn", function (e) {
-             // use event delegation that targets an elements parent, something, that isn't dynamic: .container
-             e.preventDefault(); // prevent default form behavior and instead use ajax.
+
+             e.preventDefault();
              let commentInformation = $(this).parent().serialize();
              let button = $(this);
              // Look for element with this attribute. We're looking for siblings(other comments) within the container.
              let commentId = button.siblings('[data-comment-id]').data('comment-id');
-             console.log("flagged comment id:" + commentId);
 
              let request = $.ajax({
                  url: '/posts/comment/' + commentId + '/delete',
@@ -297,8 +474,7 @@
                  data: commentInformation
                  // data: JSON.stringify({id: deleteCommentId}),
              });
-             request.done(function () {
-                 console.log("back from flagged comment delete");
+             request.done(() => {
                  $('[data-flagged-comment-id=' + commentId + ']').fadeOut("slow", function () {
                      $('[data-flagged-comment-id=' + commentId + ']').remove(); // new way targets element directly.
                  });
@@ -308,19 +484,18 @@
              });
          });
 
-
         $('.preloader').fadeOut('slow',function(){
             $(this).remove();
             $('.archive-table').removeClass('hidden');
         });
-        $('#dtBasicExample').DataTable({
-            // responsive: true,
-            "order": [[ 5, "desc" ]], // this sorts a desired column. In this case, date. zero-based
-            "pageLength": 6
-        });
         $('#dtUsers').DataTable({
             // responsive: true,
             "order": [[ 0, "asc" ]], // this sorts a desired column. In this case, Username. zero-based
+            "pageLength": 6
+        });
+        $('#dtPosts').DataTable({
+            // responsive: true,
+            "order": [[ 5, "desc" ]], // this sorts a desired column. In this case, date. zero-based
             "pageLength": 6
         });
         $('#dtFlaggedComments').DataTable({
