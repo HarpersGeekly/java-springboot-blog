@@ -408,24 +408,30 @@ public class UsersController {
         return "users/adminDashboard";
     }
 
-//================================================ DISABLE AND ENABLE POSTS ============================================
+//================================================ BAN AND UNBAN USERS =================================================
 //======================================================================================================================
 
 
-    @PostMapping("/profile/{id}/ban")
-    public String disablePost(@PathVariable long id) {
+    @PostMapping("/admin/dashboard/ban/{id}")
+    public @ResponseBody
+    User banUser(@PathVariable long id) {
+        System.out.println("get to ban method in controller");
         User user = usersDao.findOne(id);
         user.ban();
         usersDao.save(user);
-        return "redirect:/admin/dashboard";
+        System.out.println("saved user");
+        return user;
     }
 
-    @PostMapping("/profile/{id}/unban")
-    public String enablePost(@PathVariable long id) {
+    @PostMapping("/admin/dashboard/unban/{id}")
+    public @ResponseBody
+    User unbanUser(@PathVariable long id) {
+        System.out.println("get to unban method in controller");
         User user = usersDao.findOne(id);
         user.unban();
         usersDao.save(user);
-        return "redirect:/admin/dashboard";
+        System.out.println("saved user");
+        return user;
     }
 
 
