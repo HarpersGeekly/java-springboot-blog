@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -198,7 +199,11 @@ public class Comment {
     }
 
     public List<CommentFlag> getCommentFlags() {
-        return commentFlags;
+        if(commentFlags != null) {
+            return commentFlags;
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     public void setCommentFlags(List<CommentFlag> commentFlags) {
@@ -220,11 +225,14 @@ public class Comment {
     public List<Long> userIdsWhoHaveFlagged() {
         List<CommentFlag> flags = this.getCommentFlags();
         List<Long> userIdsOfFlags = new ArrayList<>();
-        for(CommentFlag cf : flags) {
-            Long userId = cf.getFlagger().getId();
-            userIdsOfFlags.add(userId);
-        }
+        if(!flags.isEmpty()) {
+            for (CommentFlag cf : flags) {
+                Long userId = cf.getFlagger().getId();
+                userIdsOfFlags.add(userId);
+            }
         return userIdsOfFlags;
+        }
+        return Collections.emptyList();
     }
 
 }
