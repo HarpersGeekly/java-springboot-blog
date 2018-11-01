@@ -1911,42 +1911,42 @@ textarea, input, .form-control {
 
 /*======================== Manage Posts page ===============*/
 
-.archive-table {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    width: 95%;
-}
+/*.archive-table {*/
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*margin: 0 auto;*/
+    /*width: 95%;*/
+/*}*/
 
 .archivedPostsWelcome {
     font-family: var(--main-font-post);
     font-size: 2.5em;
 }
 
-.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
-     border: none;
-}
+/*.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {*/
+     /*border: none;*/
+/*}*/
 
 /*// ======== All Posts =====*/
 /*th-sm*/
-.th-title {
-    width: 200%;
-}
+/*.th-title {*/
+    /*width: 200%;*/
+/*}*/
 
-.th-editor {
-    width: 15%;
-}
-.th-likes {
-    width: 10%;
-}
+/*.th-editor {*/
+    /*width: 15%;*/
+/*}*/
+/*.th-likes {*/
+    /*width: 10%;*/
+/*}*/
 
-.th-comments {
-    width: 10%;
-}
+/*.th-comments {*/
+    /*width: 10%;*/
+/*}*/
 
-.th-date {
-    width: 18%;
-}
+/*.th-date {*/
+    /*width: 18%;*/
+/*}*/
 
 /*// ======== USER POSTS =======*/
 
