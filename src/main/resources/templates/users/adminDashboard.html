@@ -85,20 +85,44 @@
                                 </button>
                             </form>
                         </div>
-                        <div th:if="${!user.isBanned()}">
+
+                        <!--for use when first arrived on page-->
+                        <div th:if="${!user.isBanned()}" th:attr="id=${'ban-wrapper-arrive_' + user.id}">
                             <form th:action="${'/admin/dashboard/ban/' + user.id}" method="post"
                                   th:attr="data-form-ban-user-id=${user.id}"
                                 class="dropdown-delete-btn dropdown-ban-user-btn flex-center">
                                     <i class="fas fa-lock margin-right-lite"></i> ban
                             </form>
                         </div>
-                        <div th:if="${user.isBanned()}">
+                        <!--for use when first arrived on page-->
+                        <div th:if="${user.isBanned()}" th:attr="id=${'unban-wrapper-arrive_' + user.id}">
                             <form th:action="${'/admin/dashboard/unban/' + user.id}" method="post"
                                   th:attr="data-form-unban-user-id=${user.id}"
                                   class="dropdown-delete-btn dropdown-unban-user-btn flex-center">
                                     <i class="fas fa-lock-open margin-right-lite"></i> unban
                             </form>
                         </div>
+
+                        <!--for use after ajax!-->
+                        <div class="hidden" th:attr="id=${'ban-wrapper_' + user.id}">
+                            <form th:action="${'/admin/dashboard/ban/' + user.id}" method="post"
+                                  th:attr="data-form-ban-user-id=${user.id}"
+                                  class="dropdown-delete-btn dropdown-ban-user-btn flex-center">
+                                <i class="fas fa-lock margin-right-lite"></i> ban
+                            </form>
+                        </div>
+                        <!--for use after ajax-->
+                        <div class="hidden" th:attr="id=${'unban-wrapper_' + user.id}">
+                            <form th:action="${'/admin/dashboard/unban/' + user.id}" method="post"
+                                  th:attr="data-form-unban-user-id=${user.id}"
+                                  class="dropdown-delete-btn dropdown-unban-user-btn flex-center">
+                                <i class="fas fa-lock-open margin-right-lite"></i> unban
+                            </form>
+                        </div>
+
+
+
+
                         <div>
                             <form th:attr="data-form-grant-admin-id=${user.id}"
                                   class="dropdown-edit-btn roles-dropdown-select-admin"
@@ -367,19 +391,29 @@
             let userId = button.data('form-ban-user-id');
             let banUserForm = $('[data-form-ban-user-id=' + userId + ']');
 
+            let banArriveWrapper = $('#ban-wrapper-arrive_' + userId);
+            let banWrapper = $('#ban-wrapper_' + userId);
+            let unbanWrapper = $('#unban-wrapper_' + userId);
+
+            let userIsBannedTd = $('#userIsBannedTd_' + userId);
+            let userNotBannedTd = $('#userNotBannedTd_' + userId);
+
+            banArriveWrapper.addClass('hidden');
+            banWrapper.addClass('hidden');
+            unbanWrapper.removeClass('hidden');
+
             let request = $.ajax({
                 url: banUserForm.attr('action'),
                 method: 'POST',
                 data: banUserForm.serialize()
             });
-            request.done(() => {
+            request.done((boolean) => {
 
-                banUserForm.attr('action', '/admin/dashboard/unban/' + userId);
-                button.removeClass("dropdown-ban-user-btn");
-                button.addClass("dropdown-unban-user-btn");
-                button.html('<i class="fas fa-lock-open margin-right-lite"></i> unban');
-                let userNotBannedTd = $('#userNotBannedTd_' + userId);
-                userNotBannedTd.html('<h5 class="admin-dash-banned">BANNED</h5>')
+                if(boolean === true) {
+                    userNotBannedTd.html('<h5 class="admin-dash-banned">BANNED</h5>');
+                    userIsBannedTd.html('<h5 class="admin-dash-banned">BANNED</h5>');
+                }
+
             });
             request.fail((a, b, c) => {
                 console.log(a, b, c)
@@ -391,17 +425,29 @@
             let userId = button.data('form-unban-user-id');
             let unbanUserForm = $('[data-form-unban-user-id=' + userId + ']');
 
+            let userIsBannedTd = $('#userIsBannedTd_' + userId);
+            let userNotBannedTd = $('#userNotBannedTd_' + userId);
+
+            let unbanArriveWrapper = $('#unban-wrapper-arrive_' + userId);
+            let banWrapper = $('#ban-wrapper_' + userId);
+            let unbanWrapper = $('#unban-wrapper_' + userId);
+
+            unbanArriveWrapper.addClass('hidden');
+            unbanWrapper.addClass('hidden');
+            banWrapper.removeClass('hidden');
+
             let request = $.ajax({
                 url: unbanUserForm.attr('action'),
                 method: 'POST',
                 data: unbanUserForm.serialize()
             });
-            request.done(() => {
+            request.done((boolean) => {
 
-                button.html('<i class="fas fa-lock margin-right-lite"></i> ban');
+                if(boolean === false) {
+                    userNotBannedTd.html('<h5 class="admin-dash-not-banned">--------</h5>');
+                    userIsBannedTd.html('<h5 class="admin-dash-not-banned">--------</h5>');
+                }
 
-                let userIsBannedTd = $('#userIsBannedTd_' + userId);
-                userIsBannedTd.html('<h5 class="admin-dash-not-banned">-------</h5>')
             });
             request.fail((a, b, c) => {
                 console.log(a, b, c)
@@ -427,6 +473,8 @@
         container.on('click', '.roles-dropdown-select-editor', function() {
             let button = $(this);
             let userId = button.data('form-grant-editor-id');
+            console.log(userId);
+
             let grantEditorForm = $('[data-form-grant-editor-id=' + userId + ']');
             let request = $.ajax({
                 url: grantEditorForm.attr('action'),
