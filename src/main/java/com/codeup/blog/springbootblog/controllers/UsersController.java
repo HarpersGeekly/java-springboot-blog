@@ -414,24 +414,20 @@ public class UsersController {
 
     @PostMapping("/admin/dashboard/ban/{id}")
     public @ResponseBody
-    User banUser(@PathVariable long id) {
-        System.out.println("get to ban method in controller");
+    boolean banUser(@PathVariable long id) {
         User user = usersDao.findOne(id);
         user.ban();
         usersDao.save(user);
-        System.out.println("saved user");
-        return user;
+        return user.isBanned();
     }
 
     @PostMapping("/admin/dashboard/unban/{id}")
     public @ResponseBody
-    User unbanUser(@PathVariable long id) {
-        System.out.println("get to unban method in controller");
+    boolean unbanUser(@PathVariable long id) {
         User user = usersDao.findOne(id);
         user.unban();
         usersDao.save(user);
-        System.out.println("saved user");
-        return user;
+        return user.isBanned();
     }
 
 
