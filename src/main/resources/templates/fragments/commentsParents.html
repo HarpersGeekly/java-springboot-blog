@@ -160,12 +160,12 @@
                         </i>
                         <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
 
-                            <div>
+                            <div th:if="(${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})">
                                 <a class="dropdown-edit-btn" th:attr="data-edit-btn-comment-id=${comment.id}">
                                     <i class="far fa-edit"></i> edit
                                 </a>
                             </div>
-                            <div>
+                            <div th:if="(${comment.isOwnedBy(#authentication.principal.id)} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')})">
                                 <form th:action="@{/posts/comment/{commentId}/delete(commentId=${comment.id})}"
                                       method="POST"
                                       th:object="${comment}"
@@ -177,13 +177,6 @@
                                         <i class="fas fa-bomb"></i> delete
                                     </button>
                                 </form>
-                            </div>
-                            <div th:if="${!comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and ${!comment.isOwnedBy(#authentication.principal.id)}" class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">
-                                <i class="fab fa-font-awesome-flag"></i> report
-                            </div>
-
-                            <div th:if="${comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())}" class="dropdown-report-btn" th:attr="data-flag-comment-id=${comment.id}">
-                                <i class="fas fa-check"></i> reported
                             </div>
                         </div>
                     </div>
