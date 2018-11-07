@@ -73,7 +73,7 @@
 
                                 <button type="submit" class="btn btn-primary" id="updateUserBtn">
                                     <i class="fas fa-wrench"></i> Update</button>
-                                 <a th:href="@{/profile}" class="btn btn-primary" id="updateUserCancelBtn">
+                                 <a th:href="@{'/profile/' + ${user.id} + '/' + ${user.username}}" class="btn btn-primary" id="updateUserCancelBtn">
                                      <i class="fas fa-ban"></i> Cancel
                                  </a>
 
