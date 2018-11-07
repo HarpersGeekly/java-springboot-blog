@@ -193,7 +193,7 @@
                                     <i class="fab fa-font-awesome-flag"></i> report
                                 </div>
                             </form>
-                            <div th:if="${comment.userIdsWhoHaveFlagged().contains(loggedInUser.getId())} and ${!comment.isOwnedBy(#authentication.principal.id)}" class="dropdown-report-btn">
+                            <div th:if="${comment.userIdsWhoHaveFlagged().contains(#authentication.principal.id)} and ${!comment.isOwnedBy(#authentication.principal.id)}" class="dropdown-report-btn">
                                 <i class="fas fa-check"></i> reported
                             </div>
                         </div>
