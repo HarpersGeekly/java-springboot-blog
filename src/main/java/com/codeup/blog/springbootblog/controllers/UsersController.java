@@ -239,7 +239,7 @@ public class UsersController {
         //if user is banned:
         boolean isBanned = user.isBanned();
 
-        List<Post> posts = postSvc.postsByResultSetIndexPage();
+        List<Post> posts = postSvc.postsByUserLimited(id);
         viewModel.addAttribute("posts", posts);
         for(Post post : posts) {
             boolean isDisabled = post.isDisabled();
@@ -406,6 +406,13 @@ public class UsersController {
         viewModel.addAttribute("rolesDao", rolesDao);
         viewModel.addAttribute("usersDao", usersDao);
         return "users/adminDashboard";
+    }
+
+    @GetMapping("admin/dashboard/modal/{id}/edit")
+    public @ResponseBody User getModalUser(@PathVariable Long id, Model viewModel) {
+        User user = usersDao.findById(id);
+        viewModel.addAttribute("modal-user", user);
+        return user;
     }
 
 //================================================ BAN AND UNBAN USERS =================================================
