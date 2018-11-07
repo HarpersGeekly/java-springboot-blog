@@ -97,6 +97,10 @@ public class PostService {
         return postsDao.popularPostsByViews();
     }
 
+    public long count() {
+        return postsDao.count();
+    }
+
     // save takes care of insert and update
 //    public Post update(Post post) {
 //        post.setId((long)(post.getId() - 1), post);
