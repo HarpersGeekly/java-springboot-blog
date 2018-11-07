@@ -405,6 +405,9 @@ public class UsersController {
         viewModel.addAttribute("commentsFlagsDao", commentsFlagsDao);
         viewModel.addAttribute("rolesDao", rolesDao);
         viewModel.addAttribute("usersDao", usersDao);
+        viewModel.addAttribute("usersCount", usersDao.count());
+        viewModel.addAttribute("postsCount", postSvc.count());
+        viewModel.addAttribute("flagCount", commentsFlagsDao.count());
         return "users/adminDashboard";
     }
 
