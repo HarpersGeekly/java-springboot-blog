@@ -44,6 +44,85 @@
             </thead>
             <tbody>
             <tr th:each="user : ${users}">
+
+                <!-- Modal -->
+                <div class="modal fade" id="editUserAdminDashboard" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Edit User</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="edit-user-modal">
+
+
+                                <form th:action="@{'/profile/' + ${user.id} + '/edit'}" method="POST" th:object="${user}" id="editUserForm">
+
+                                    <div class="form-group">
+                                        <label for="editFormUsername">Username</label>
+                                        <input type="text" id="editFormUsername" name="username" class="form-control" th:value="${user.username}"/>
+                                        <!--<input type="text" id="editFormUsername" name="username" class="form-control" th:value="${user.username}"/>-->
+                                        <!--th:field="*{username}" takes care of both the name and value attribute. If th:field is used instead, can delete name attribute-->
+                                        <!--<div-->
+                                                <!--th:if="${#fields.hasErrors('username')}"-->
+                                                <!--class="alert alert-danger alert-dismissible"-->
+                                                <!--role="alert">-->
+                                            <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+                                                <!--<span aria-hidden="true">&times;</span>-->
+                                            <!--</button>-->
+                                            <!--<i class="fas fa-exclamation-triangle"></i>-->
+                                            <!--<span th:errors="*{username}"/>-->
+                                        <!--</div>-->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="editFormEmail">Email</label>
+                                        <input type="text" id="editFormEmail" name="email" class="form-control" th:value="${user.email}"/>
+                                        <!--th:field="*{email}"-->
+                                        <!--<div-->
+                                                <!--th:if="${#fields.hasErrors('email')}"-->
+                                                <!--class="alert alert-danger alert-dismissible"-->
+                                                <!--role="alert">-->
+                                            <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+                                                <!--<span aria-hidden="true">&times;</span>-->
+                                            <!--</button>-->
+                                            <!--<i class="fas fa-exclamation-triangle"></i>-->
+                                            <!--<span th:errors="*{email}"/>-->
+                                        <!--</div>-->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="editFormBio">Bio</label>
+                                        <textarea id="editFormBio" name="bio" class="form-control" th:value="${user.bio}" style="resize:none" maxlength="1500"></textarea>
+                                        <!--<span id="chars"></span><span> characters remaining</span>-->
+                                        <!--<div-->
+                                                <!--th:if="${#fields.hasErrors('bio')}"-->
+                                                <!--class="alert alert-danger alert-dismissible"-->
+                                                <!--role="alert">-->
+                                            <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+                                                <!--<span aria-hidden="true">&times;</span>-->
+                                            <!--</button>-->
+                                            <!--<i class="fas fa-exclamation-triangle"></i>-->
+                                            <!--<span th:errors="*{bio}"/>-->
+                                        <!--</div>-->
+                                    </div>
+
+                                    <input type="hidden" id="editFormPassword" name="password" class="form-control" th:value="${user.password}"/>
+                                    <input type="hidden" id="date" name="date" class="form-control" th:value="${user.date}"/>
+                                    <input th:if="${user.getProfilePicture() != null}" type="hidden" id="profilePicture" name="profilePicture" class="form-control" th:value="${user.profilePicture}"/>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <td>
                     <a class="popularTitleLink" th:href="@{/profile/{id}/{username}(id=${user.id}, title=${formatter.makeSlug(user.username)})}">
                         <h4 class="popularTitleText" th:text="${user.username}"></h4>
@@ -73,10 +152,10 @@
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     </i>
                     <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
-                        <div>
-                            <a class="dropdown-edit-btn"  th:href="${'/profile/' + user.id + '/edit'}">
+                        <div data-toggle="modal" data-target="#editUserAdminDashboard">
+                            <!--<a class="dropdown-edit-btn"  th:href="${'/admin/dashboard/modal/' + user.id + '/edit'}">-->
                                 <i class="far fa-edit"></i> edit
-                            </a>
+                            <!--</a>-->
                         </div>
                         <div>
                             <form th:action="@{'/profile/' + ${user.id} + '/delete'}" method="post">
@@ -119,10 +198,6 @@
                                 <i class="fas fa-lock-open margin-right-lite"></i> unban
                             </form>
                         </div>
-
-
-
-
                         <div>
                             <form th:attr="data-form-grant-admin-id=${user.id}"
                                   class="dropdown-edit-btn roles-dropdown-select-admin"
@@ -152,6 +227,7 @@
                         </div>
                     </span>
                 </td>
+
             </tr>
             </tbody>
         </table>
@@ -279,7 +355,7 @@
 
 <hr/>
 
-    <div class="container">
+<div class="container">
         <h2><i class="fab fa-font-awesome-flag margin-right-lite"></i>Flagged Comments</h2>
         <div class="preloader"></div>
         <div class="table-responsive col-md-12">
@@ -553,8 +629,6 @@
         });
 
         // https://datatables.net/blog/2014-12-18
-        // https://datatables.net/blog/2014-12-18
-
 
     });
 </script>
