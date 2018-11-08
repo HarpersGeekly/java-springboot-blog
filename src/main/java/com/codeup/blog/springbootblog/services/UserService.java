@@ -1,6 +1,8 @@
 package com.codeup.blog.springbootblog.services;
 
 import com.codeup.blog.springbootblog.Models.User;
+import com.codeup.blog.springbootblog.repositories.RolesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -8,7 +10,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
 
 /**
  * Created by RyanHarper on 11/7/17.
@@ -16,17 +17,20 @@ import java.util.Collections;
 @Service("usersSvc")
 public class UserService {
 
+    @Autowired
+    private RolesRepository rolesDao;
+
     public boolean isLoggedIn() {
-        boolean isAnonymousUser = //starts with an anonymous user...gets authenticated:
-                SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken;
-        return !isAnonymousUser; // now is not an anonymous user!
+        boolean isAnonymousUser =
+                SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken; //starts with an anonymous user
+        return !isAnonymousUser; // authenticated
     }
 
     public User loggedInUser() {
-        if (!isLoggedIn()) {// if you are an anonymous user...return null.
+        if (!isLoggedIn()) {
             return null;
-        } // otherwise return a User who has authentication!
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // return a User who has authentication
     }
 
     public boolean isLoggedInAndOwnerMatchesUser(User user) {
@@ -35,8 +39,8 @@ public class UserService {
 
     // Automatically logs in User:
     public void authenticate(User user) {
-        // I'm not using roles so I'm using an empty list for the roles
-        UserDetails userDetails = new UserWithRoles(user, Collections.emptyList());
+//        UserDetails userDetails = new UserWithRoles(user, Collections.emptyList()); // if not using roles.
+        UserDetails userDetails = new UserWithRoles(user, rolesDao.ofUserWith(user.getUsername())); // if using roles
         Authentication auth = new UsernamePasswordAuthenticationToken(
                 userDetails,
                 userDetails.getPassword(),
