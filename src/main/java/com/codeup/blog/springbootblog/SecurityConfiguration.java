@@ -67,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .logoutSuccessUrl("/login?logout") // original convention
 
 
-                /* Pages that require authentication */
+                /* Pages that require authentication (logging in) */
                 .and()
                 .authorizeRequests()
                 .antMatchers("/posts/create",
@@ -80,68 +80,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/profile",
                         "/profile/{id}/edit",
                         "/profile/{id}/delete",
-                        "/profile/{id}/editPassword"
-                ).authenticated(); // only authenticated (logged in) users can access
-
-                //restricted area
-//                .authorizeRequests()
-//                .antMatchers("/posts/create",
-//                        "/posts/{id}/edit",
-//                        "/posts/{id}/delete",
-//                        "/posts/{id}/comment",
-//                        "/posts/{postId}/comment/{commentId}/edit",
-//                        "/posts/{postId}/comment/{commentId}/delete",
-//                        "/posts/{id}/comment/{commentId}",
-//                        "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete",
-//                        "/profile",
-//                        "/profile/{id}/edit",
-//                        "/profile/{id}/delete",
-//                        "/profile/{id}/editPassword",
-//                        "/posts/{id}/disable"
-//                ).hasAnyAuthority("ROLE_ADMIN", "ROLE_EDITOR")
-//                .and()
-//
-//                //restricted area
-//                .authorizeRequests()
-//                .antMatchers("/posts/{id}/comment",
-//                "/posts/{postId}/comment/{commentId}/edit",
-//                "/posts/{postId}/comment/{commentId}/delete",
-//                "/posts/{id}/comment/{commentId}",
-//                "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete",
-//                "/profile",
-//                "/profile/{id}/edit",
-//                "/profile/{id}/delete",
-//                "/profile/{id}/editPassword"
-//                ).hasAuthority("ROLE_USER");
-
-
+                        "/profile/{id}/editPassword",
+                        "/profile/edit/fileupload",
+                        "/posts/comment/{commentId}/edit",
+                        "/posts/comment/{commentId}/delete",
+                        "/posts/{type}/{postId}",
+                        "/posts/{postId}/removeVote",
+                        "/comment/{type}/{commentId}",
+                        "/comment/{commentId}/removeVote",
+                        "/posts/{postId}/comment/{parentId}/reply",
+                        "/posts/retrieveUsername/comment/{commentId}",
+                        "/comment/{id}/flag",
+                        "/profile/{id}/edit/fileupload/default",
+                        "/posts/{id}/disable",
+                        "/posts/{id}/enable",
+                        "/posts/title.json",
+                        "/posts/subtitle.json",
+                        "/posts/description.json",
+                        "/posts/image.json"
+                ).authenticated() // only authenticated (logged in) users can access
+                .and()
+                .authorizeRequests().antMatchers("/admin/dashboard").access("hasRole('ROLE_ADMIN')");
     }
 
-//    If we want to secure the website that everybody who uses it will be required to login, we need to use isAuthenticated() method:
-//            .antMatchers("/*").authenticated()
-
-
-    // ADMINS: (CAN DO EVERYTHING)
-        // Edit/Delete Users :
-//            "/profile/{id}/edit",
-//            "/profile/{id}/delete",
-//            "/profile/{id}/editPassword"
-//
-
-        // Create/Edit/Delete Posts:
-//            "/posts/create",
-//            "/posts/{id}/edit",
-//            "/posts/{id}/delete",
-
-        // Create/Edit/Delete Comments:
-//            "/posts/{id}/comment",
-//            "/posts/{postId}/comment/{commentId}/edit",
-//            "/posts/{postId}/comment/{commentId}/delete",
-//            "/posts/{id}/comment/{commentId}",
-//            "/posts/{postId}/comment/{parentId}/reply",
-//            "/posts/{postId}/comment/{commentId}/reply/{replyId}/delete",
-
-//============= :) WE DID ALL THE SECURITY STEPS AND MADE CLASSES JUST TO USE THIS NEXT METHOD :) ==================
+//============= ALL THE SECURITY STEPS AND MADE CLASSES JUST TO USE THIS NEXT METHOD ===================
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
