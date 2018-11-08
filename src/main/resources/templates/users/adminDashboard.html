@@ -14,7 +14,7 @@
 </div>
 
 <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
-    <h2><i class="fas fa-users margin-right-lite"></i>Users</h2>
+    <h2><i class="fas fa-users margin-right-lite"></i>Users (<span th:text="${usersCount}"></span>)</h2>
     <div class="preloader"></div>
     <div class="table-responsive col-md-12">
         <table id="dtUsers" data-toggle="table" class="table archive-table hidden" cellspacing="0" width="100%">
@@ -57,56 +57,21 @@
                             </div>
                             <div class="modal-body" id="edit-user-modal">
 
-
-                                <form th:action="@{'/profile/' + ${user.id} + '/edit'}" method="POST" th:object="${user}" id="editUserForm">
+                                <form th:action="@{'/admin/dashboard/modal' + ${user.id} + '/edit'}" method="POST" th:object="${user}" id="editUserForm">
 
                                     <div class="form-group">
                                         <label for="editFormUsername">Username</label>
-                                        <input type="text" id="editFormUsername" name="username" class="form-control" th:value="${user.username}"/>
-                                        <!--<input type="text" id="editFormUsername" name="username" class="form-control" th:value="${user.username}"/>-->
-                                        <!--th:field="*{username}" takes care of both the name and value attribute. If th:field is used instead, can delete name attribute-->
-                                        <!--<div-->
-                                                <!--th:if="${#fields.hasErrors('username')}"-->
-                                                <!--class="alert alert-danger alert-dismissible"-->
-                                                <!--role="alert">-->
-                                            <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
-                                                <!--<span aria-hidden="true">&times;</span>-->
-                                            <!--</button>-->
-                                            <!--<i class="fas fa-exclamation-triangle"></i>-->
-                                            <!--<span th:errors="*{username}"/>-->
-                                        <!--</div>-->
+                                        <input type="text" id="editFormUsername" name="username" class="form-control"/>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="editFormEmail">Email</label>
-                                        <input type="text" id="editFormEmail" name="email" class="form-control" th:value="${user.email}"/>
-                                        <!--th:field="*{email}"-->
-                                        <!--<div-->
-                                                <!--th:if="${#fields.hasErrors('email')}"-->
-                                                <!--class="alert alert-danger alert-dismissible"-->
-                                                <!--role="alert">-->
-                                            <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
-                                                <!--<span aria-hidden="true">&times;</span>-->
-                                            <!--</button>-->
-                                            <!--<i class="fas fa-exclamation-triangle"></i>-->
-                                            <!--<span th:errors="*{email}"/>-->
-                                        <!--</div>-->
+                                        <input type="text" id="editFormEmail" name="email" class="form-control"/>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="editFormBio">Bio</label>
-                                        <textarea id="editFormBio" name="bio" class="form-control" th:value="${user.bio}" style="resize:none" maxlength="1500"></textarea>
-                                        <!--<span id="chars"></span><span> characters remaining</span>-->
-                                        <!--<div-->
-                                                <!--th:if="${#fields.hasErrors('bio')}"-->
-                                                <!--class="alert alert-danger alert-dismissible"-->
-                                                <!--role="alert">-->
-                                            <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
-                                                <!--<span aria-hidden="true">&times;</span>-->
-                                            <!--</button>-->
-                                            <!--<i class="fas fa-exclamation-triangle"></i>-->
-                                            <!--<span th:errors="*{bio}"/>-->
-                                        <!--</div>-->
+                                        <textarea id="editFormBio" name="bio" class="form-control" style="resize:none" maxlength="1500"></textarea>
                                     </div>
 
                                     <input type="hidden" id="editFormPassword" name="password" class="form-control" th:value="${user.password}"/>
@@ -152,7 +117,8 @@
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     </i>
                     <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
-                        <div data-toggle="modal" data-target="#editUserAdminDashboard">
+                        <div data-toggle="modal" data-target="#editUserAdminDashboard" class="dropdown-edit-btn dropdown-edit-user-btn"
+                             th:attr="data-edit-user-id=${user.id}">
                             <!--<a class="dropdown-edit-btn"  th:href="${'/admin/dashboard/modal/' + user.id + '/edit'}">-->
                                 <i class="far fa-edit"></i> edit
                             <!--</a>-->
@@ -237,7 +203,7 @@
 <hr/>
 
 <div class="container">
-    <h2><i class="fas fa-comments margin-right-lite"></i>Posts</h2>
+    <h2><i class="fas fa-comments margin-right-lite"></i>Posts (<span th:text="${postsCount}"></span>)</h2>
     <div class="table-responsive col-md-12">
         <table id="dtPosts" class="table archive-table hidden">
             <thead>
@@ -356,7 +322,7 @@
 <hr/>
 
 <div class="container">
-        <h2><i class="fab fa-font-awesome-flag margin-right-lite"></i>Flagged Comments</h2>
+        <h2><i class="fab fa-font-awesome-flag margin-right-lite"></i>Flagged Comments (<span th:text="${flagCount}"></span>)</h2>
         <div class="preloader"></div>
         <div class="table-responsive col-md-12">
             <table id="dtFlaggedComments" data-toggle="table" class="table archive-table hidden">
@@ -461,6 +427,29 @@
     $(document).ready(function () {
 
         let container = $('.container');
+
+        container.on('click', '.dropdown-edit-user-btn', function() {
+            let button = $(this);
+            let userId = button.data('edit-user-id');
+            let request = $.ajax({
+                url: '/admin/dashboard/modal/' + userId + '/edit',
+                method: 'GET',
+                data: userId
+            });
+            request.done((user) => {
+
+                let editFormUserName = $('#editFormUsername');
+                let editFormEmail = $('#editFormEmail');
+                let editFormBio = $('#editFormBio');
+                editFormUserName.val(user.username);
+                editFormEmail.val(user.email);
+                editFormBio.val(user.bio);
+
+            });
+            request.fail((a, b, c) => {
+                console.log(a, b, c)
+            });
+        });
 
         container.on('click', '.dropdown-ban-user-btn', function() {
             let button = $(this);
