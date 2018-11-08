@@ -97,16 +97,16 @@ public class PostsController {
 //        viewModel.addAttribute("posts", postSvc.findAll());
 //        viewModel.addAttribute("page", postSvc.postsByPage(pageable));
 
-        if(userSvc.loggedInUser() != null) {
-            System.out.println("");
-            User loggedInUser = userSvc.loggedInUser();
-            List<String> myRoles = rolesDao.ofUserWith(loggedInUser.getUsername());
-            for (String role : myRoles) {
-                if (role.equals("ROLE_ADMIN")) {
-                    viewModel.addAttribute("isLoggedInUserAdmin", role);
-                }
-            }
-        }
+//        if(userSvc.loggedInUser() != null) {
+//            System.out.println("");
+//            User loggedInUser = userSvc.loggedInUser();
+//            List<String> myRoles = rolesDao.ofUserWith(loggedInUser.getUsername());
+//            for (String role : myRoles) {
+//                if (role.equals("ROLE_ADMIN")) {
+//                    viewModel.addAttribute("isLoggedInUserAdmin", role);
+//                }
+//            }
+//        }
 
         viewModel.addAttribute("posts", postSvc.postsByResultSetIndexPage());
         viewModel.addAttribute("categories", categoriesDao.findAll());
