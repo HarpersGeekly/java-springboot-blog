@@ -92,8 +92,8 @@
 
         <div class="form-group form-group-post-description">
             <label class="create-post-form-labels" for="myEditor">Description:</label>
-            <textarea type="text" name="description" class="form-control" id="myEditor" th:field="*{description}"  style="resize: none" maxlength="5000"></textarea>
-            <span id="description-chars">5000</span><span> characters max (Click the Preview tab to update)</span>
+            <textarea type="text" name="description" class="form-control" id="myEditor" th:field="*{description}"  style="resize: none" maxlength="50000"></textarea>
+            <span id="description-chars">50000</span><span> characters max (Click the Preview tab to update)</span>
             <div
                     th:if="${#fields.hasErrors('description')}"
                     class="alert alert-danger alert-dismissible"
@@ -214,7 +214,7 @@
             // This callback is called when the user click on the preview button:
             onPreview: function (content, callback) {
 
-                let maxDescriptionLength = 5000;
+                let maxDescriptionLength = 50000;
                 let length = $('#myEditor').val().length;
                 let length2 = maxDescriptionLength-length;
                 if(length > 0) {
