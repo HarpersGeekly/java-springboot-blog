@@ -37,7 +37,7 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
 //            value = "SELECT c.id, c.body, c.created_date, c.post_id, c.user_id, c.parent_id, IFNULL(SUM(cv.type), 0) AS totalCommentVotes FROM comments c LEFT JOIN comments_votes cv ON cv.comment_id = c.id JOIN posts p ON c.post_id = p.id WHERE c.parent_id IS NULL AND c.post_id = ?1 GROUP BY c.id ORDER BY totalCommentVotes DESC")
     List<Comment> commentsOnPost(Long id);
 
-    @Query(nativeQuery = true, value="SELECT c.id, c.body, c.created_date, c.parent_id, c.post_id, c.user_id, c.flagged FROM comments c LEFT JOIN comment_flags cf ON c.id = cf.comment_id GROUP BY c.id HAVING COUNT(cf.comment_id) >= 2")
+    @Query(nativeQuery = true, value="SELECT c.id, c.body, c.created_date, c.parent_id, c.post_id, c.user_id FROM comments c LEFT JOIN comment_flags cf ON c.id = cf.comment_id GROUP BY c.id HAVING COUNT(cf.comment_id) >= 2")
     List<Comment> mostFlaggedComments();
 
     @Deprecated
