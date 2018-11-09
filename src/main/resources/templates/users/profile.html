@@ -187,7 +187,7 @@
 
                 <h4 th:if="${ownerIsAdmin}">
                     <i class="far fa-address-card"></i>
-                    <span class="profileInfoText user-admin-color">ADMIN</span><span><a th:if="${isLoggedInUserAdmin}" class="profileLoggedInMessageLink user-admin-color" th:href="${'/admin/dashboard'}"> [visit admin dashboard]</a></span>
+                    <span class="profileInfoText user-admin-color">ADMIN</span>
                 </h4>
                 <h4 th:if="${ownerIsEditor}">
                     <i class="far fa-address-card"></i>
@@ -262,11 +262,17 @@
                     </a>
                 </div>
 
-                <div class="flex-center">
+                <div class="flex-center-space">
                     <div th:if="${isOwnProfile} and (${ownerIsAdmin} or ${ownerIsEditor})">
                          <!--sec:authorize:access="hasAnyRole('ADMIN', 'EDITOR')">-->
                         <a th:href="@{/posts/create}" class="manage-posts-link-bottom-page">
-                            <button class="create-posts-button">create a post</button>
+                            <button class="profile-action-item-button create-posts-button">create a post</button>
+                        </a>
+                    </div>
+                    <div th:if="${isOwnProfile} and ${ownerIsAdmin}">
+                        <!--sec:authorize:access="hasAnyRole('ADMIN', 'EDITOR')">-->
+                        <a th:href="@{/admin/dashboard}" class="manage-posts-link-bottom-page">
+                            <button class="profile-action-item-button admin-dashboard-button">admin dashboard</button>
                         </a>
                     </div>
                 </div>
