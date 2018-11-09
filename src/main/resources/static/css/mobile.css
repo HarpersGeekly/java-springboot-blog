@@ -340,10 +340,6 @@
         align-items: center;
     }
 
-    .post-vote-options-row {
-        margin-left:0.5em;
-    }
-
     .replyPostNotLoggedInDiv {
         /*width: 55%;*/
     }
@@ -437,47 +433,47 @@
 
     /*// ========= ALL POSTS =========*/
 
-    .th-title {
-        width: 25%;
-    }
+    /*.th-title {*/
+        /*width: 25%;*/
+    /*}*/
 
-    .th-editor {
-        width: 15%;
-    }
+    /*.th-editor {*/
+        /*width: 15%;*/
+    /*}*/
 
-    .th-likes {
-        width: 15%;
-    }
+    /*.th-likes {*/
+        /*width: 15%;*/
+    /*}*/
 
-    .th-comments {
-        width: 30%;
-    }
+    /*.th-comments {*/
+        /*width: 30%;*/
+    /*}*/
 
-    .th-date {
-        width: 15%;
-    }
+    /*.th-date {*/
+        /*width: 15%;*/
+    /*}*/
 
     /*// ======== USER POSTS =======*/
 
-    .th-title-user-archive {
-        width: 20%;
-    }
+    /*.th-title-user-archive {*/
+        /*width: 20%;*/
+    /*}*/
 
-    .th-likes-user-archive {
-        width: 15%;
-    }
+    /*.th-likes-user-archive {*/
+        /*width: 15%;*/
+    /*}*/
 
-    .th-comments-user-archive {
-        width: 30%;
-    }
+    /*.th-comments-user-archive {*/
+        /*width: 30%;*/
+    /*}*/
 
-    .th-date-user-archive {
-        width: 15%;
-    }
+    /*.th-date-user-archive {*/
+        /*width: 15%;*/
+    /*}*/
 
-    .th-options-user-archive {
-        width: 10%;
-    }
+    /*.th-options-user-archive {*/
+        /*width: 10%;*/
+    /*}*/
 
     /*.th-edit-user-archive {*/
         /*width: 10%;*/
