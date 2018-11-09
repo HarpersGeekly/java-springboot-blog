@@ -40,9 +40,9 @@ public class Post {
     @Length(min = 5, max = 200, message="Subtitle must be between 5-200 characters.")
     private String subtitle;
 
-    @Column(columnDefinition = "TEXT", length = 5000, nullable = false) // column, text for more, not-null
+    @Column(columnDefinition = "TEXT", length = 50000, nullable = false) // column, text for more, not-null
     @NotBlank(message = "Description cannot be empty.")
-    @Length(min = 5, max = 5000, message="Description must be between 5-5000 characters.")
+    @Length(min = 5, max = 50000, message="Description must be between 5-50000 characters.")
 //    @Size.List({
 //            @Size(min = 5, message = "Description must be at least 5 characters."),
 //            @Size(max = 5000, message = "Description is too long. Must be 5000 characters or less.")
