@@ -34,7 +34,6 @@ public class User {
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Please enter an email address.")
     @Email(message = "That email is not a valid email address.")
-    @JsonIgnore
     private String email;
 
     @Column(nullable = false)
@@ -105,7 +104,7 @@ public class User {
         this.email = email;
     }
 
-    // security files will need the next constructor. It makes clones/copies. Why?
+    // security files will need the next constructor. Only for properties needed to login It makes clones/copies. Why?
     // Spring dependencies require a copy of all the properties in the User object
     // because it's the only one that requires authentication:
     public User(User copy) {
@@ -114,15 +113,13 @@ public class User {
         this.username = copy.username;
         this.password = copy.password;
         this.date = copy.date;
-        this.posts = copy.posts;
-        this.comments = copy.comments;
-        this.votes = copy.votes;
-        this.commentVotes = copy.commentVotes;
-        this.profilePicture = copy.profilePicture;
         this.bio = copy.bio;
-        this.passwordToken = copy.passwordToken;
-        this.hitCount = copy.hitCount;
-//        this.role = copy.role;
+    }
+
+    public User(String username, String email, String bio) {
+        this.username = username;
+        this.email = email;
+        this.bio = bio;
     }
 
     //================================  GETTERS AND SETTERS =================================
@@ -274,8 +271,6 @@ public class User {
     }
 
 }
-
-
 
 //    Difference between @JsonIgnore and @JsonBackReference, @JsonManagedReference
 
