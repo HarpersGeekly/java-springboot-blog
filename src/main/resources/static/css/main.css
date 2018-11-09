@@ -1794,7 +1794,7 @@ textarea, input, .form-control {
     text-decoration: none;
 }
 
-.manage-posts-button, .create-posts-button {
+.profile-action-item-button {
     display: block;
     padding: 16px 32px;
     font-family: var(--main-font);
@@ -1810,6 +1810,14 @@ textarea, input, .form-control {
 
 .create-posts-button {
     background: var(--main-og-blue);
+}
+
+.admin-dashboard-button {
+    background: var(--main-pink);
+}
+
+.admin-dashboard-button:hover {
+    background: var(--main-light-gray);
 }
 
 .manage-posts-button:hover, .create-posts-button:hover {
