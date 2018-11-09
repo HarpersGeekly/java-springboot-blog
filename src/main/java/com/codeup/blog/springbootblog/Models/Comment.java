@@ -210,8 +210,6 @@ public class Comment {
         this.commentFlags = commentFlags;
     }
 
-    private boolean flagged;
-
     public boolean commentHasBeenFlaggedByLoggedInUser(User user) {
         List<CommentFlag> flags = user.getCommentFlags();
             for (CommentFlag cf : flags) {
