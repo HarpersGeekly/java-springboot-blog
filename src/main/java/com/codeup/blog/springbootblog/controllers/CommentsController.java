@@ -44,10 +44,14 @@ public class CommentsController {
     @PostMapping("/posts/{postId}")
     public
 //    public @ResponseBody no longer converting the comment into a json string. now returning a template
-    String postComment(@PathVariable Long postId, @Valid Comment comment, BindingResult validation, Model viewModel) {
+    String postComment(@PathVariable Long postId, @Valid Comment comment, BindingResult validation,
+                       Model viewModel, Authentication token) {
 
         Post post = postSvc.findOne(postId);
         User postOwner = post.getUser();
+        User user = usersDao.findById(userSvc.loggedInUser().getId());
+//        System.out.println(token.getPrincipal().equals(userSvc.loggedInUser())); [true]
+
         System.out.println("get to comment on post controller:");
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("postOwner", postOwner);
@@ -71,12 +75,11 @@ public class CommentsController {
 
         System.out.println("before save:" + comment.getBody());
         comment.setPost(post);
-        comment.setUser(userSvc.loggedInUser());
+        comment.setUser(user);
         comment.setDate(LocalDateTime.now());
         commentSvc.save(comment);
 
         System.out.println("after save:" + comment.getBody());
-
 //      return comment;
 //      By returning this fragment (fragments/comments.html), we get all of our Thymeleaf-operated HTML
         return "fragments/commentsParents :: ajaxParent";
