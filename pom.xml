@@ -25,9 +25,13 @@
 		<java.version>1.8</java.version>
 		<!--<maven.test.skip>true</maven.test.skip> for deployment-->
 
-		<property name="hibernate.connection.CharSet" value="utf8mb4" />
-		<property name="hibernate.connection.characterEncoding" value="utf8mb4"/>
-		<property name="hibernate.connection.useUnicode" value="true"/>
+		<!--<property name="hibernate.connection.CharSet" value="utf8mb4" />-->
+		<!--<property name="hibernate.connection.characterEncoding" value="utf8mb4"/>-->
+		<!--<property name="hibernate.connection.useUnicode" value="true"/>-->
+		<property name="hibernate.connection.CharSet">utf8mb4</property>
+		<property name="hibernate.connection.characterEncoding">utf8</property>
+		<property name="hibernate.connection.useUnicode">true</property>
+
 	</properties>
 
 	<dependencies>
