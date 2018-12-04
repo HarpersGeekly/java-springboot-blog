@@ -217,6 +217,7 @@ html {
 }
 
 .navbar-brand-text {
+    margin: 0;
     font-size: 32px;
     color: var(--main-og-blue);
     font-family: var(--main-font-logo);
