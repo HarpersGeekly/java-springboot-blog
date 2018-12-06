@@ -7,6 +7,7 @@ import com.codeup.blog.springbootblog.services.CommentService;
 import com.codeup.blog.springbootblog.services.PostService;
 import com.codeup.blog.springbootblog.services.PostVoteService;
 import com.codeup.blog.springbootblog.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ public class CommentsController {
     private UsersRepository usersDao;
     private CommentsFlagsRepository commentsFlagsDao;
 
+    @Autowired
     public CommentsController(PostService postSvc, UserService userSvc, CommentService commentSvc, PostVoteService postVoteSvc, FormatterUtil formatter, UsersRepository usersDao, CommentsFlagsRepository commentsFlagsDao) {
         this.postSvc = postSvc;
         this.userSvc = userSvc;
@@ -36,6 +38,14 @@ public class CommentsController {
         this.formatter = formatter;
         this.usersDao = usersDao;
         this.commentsFlagsDao = commentsFlagsDao;
+    }
+
+    // This annotation and method allows for the viewModel attribute "formatter" to persist across all handler methods, i.e. any page you visit within this controller gets to use "formatter" in the view.
+    // The @ModelAttribute is an annotation that binds a method parameter or method return value to a named model attribute and then exposes it to a web view.
+    @ModelAttribute("formatter")
+    public FormatterUtil addFormatterToViews(Model viewModel) {
+        viewModel.addAttribute("formatter", formatter);
+        return formatter;
     }
 
 //============================================= COMMENT ON A POST ======================================================
@@ -58,7 +68,6 @@ public class CommentsController {
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndOwnerMatchesUser(post.getUser())); // show post edit button
         viewModel.addAttribute("isLoggedIn", userSvc.isLoggedIn());
         viewModel.addAttribute("comment", comment);
-        viewModel.addAttribute("formatter", formatter);
 
         if (validation.hasErrors()) {
 //            viewModel.addAttribute("errors", validation); // By using BindingResult validation instead of Error validation, don't need "errors" attritbute
@@ -249,13 +258,11 @@ public class CommentsController {
 
         if (validation.hasErrors()) {
             viewModel.addAttribute("comment", comment);
-            viewModel.addAttribute("formatter", formatter);
             return "fragments/commentError :: ajaxError";
         }
 
         Comment newComment = commentSvc.saveNewComment(post, parent, body); // saving in the comment service
         viewModel.addAttribute("comment", newComment);
-        viewModel.addAttribute("formatter", formatter);
         viewModel.addAttribute("post", post);
         viewModel.addAttribute("postOwner", postOwner);
         viewModel.addAttribute("isPostOwner", userSvc.isLoggedInAndOwnerMatchesUser(post.getUser()));
