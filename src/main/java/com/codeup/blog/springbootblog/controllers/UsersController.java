@@ -37,7 +37,7 @@ public class UsersController {
     private RolesRepository rolesDao;
     private MessageRepository messageDao;
     private CommentsFlagsRepository commentsFlagsDao;
-    private FormatterUtil formatter = new FormatterUtil();
+    private FormatterUtil formatter;
 
     @Autowired
     public UsersController(UsersRepository usersDao,
@@ -49,7 +49,8 @@ public class UsersController {
                            HitCountsRepository hitCountsDao,
                            MessageRepository messageDao,
                            CommentsFlagsRepository commentsFlagsDao,
-                           RolesRepository rolesDao) {
+                           RolesRepository rolesDao,
+                           FormatterUtil formatter) {
         this.usersDao = usersDao;
         this.passwordEncoder = passwordEncoder;
         this.userSvc = userSvc;
@@ -60,6 +61,15 @@ public class UsersController {
         this.rolesDao = rolesDao;
         this.messageDao = messageDao;
         this.commentsFlagsDao = commentsFlagsDao;
+        this.formatter = formatter;
+    }
+
+    // This annotation and method allows for the viewModel attribute "formatter" to persist across all handler methods, i.e. any page you visit within this controller gets to use "formatter" in the view.
+    // The @ModelAttribute is an annotation that binds a method parameter or method return value to a named model attribute and then exposes it to a web view.
+    @ModelAttribute("formatter")
+    public FormatterUtil addFormatterToViews(Model viewModel) {
+        viewModel.addAttribute("formatter", formatter);
+        return formatter;
     }
 
     // ============================================= LOGGING IN USER ===================================================
@@ -216,7 +226,6 @@ public class UsersController {
         viewModel.addAttribute("categories", categoriesDao.findAll());
         viewModel.addAttribute("karma", usersDao.totalKarmaByUser(user.getId()));
         viewModel.addAttribute("comments", comments);
-        viewModel.addAttribute("formatter", formatter);
         viewModel.addAttribute("messagesReceived", messagesReceived);
         return "users/profile";
     }
@@ -243,7 +252,6 @@ public class UsersController {
         viewModel.addAttribute("isBanned", user.isBanned());
         viewModel.addAttribute("posts", posts);
         viewModel.addAttribute("isOwnProfile", userSvc.isLoggedIn() && user.equals(userSvc.loggedInUser()));
-        viewModel.addAttribute("formatter", formatter);
         return "users/userArchivedPosts";
     }
 
@@ -266,7 +274,6 @@ public class UsersController {
         }
         // pass it to the view: pre-populate the form with the values from that user ie: th:field="{user.username}"
         viewModel.addAttribute("user", existingUser);
-        viewModel.addAttribute("formatter", formatter);
         return "users/editUser";
     }
 
@@ -296,7 +303,6 @@ public class UsersController {
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("user", user);
-            viewModel.addAttribute("formatter", formatter);
             return "users/editUser";
         }
 
@@ -368,7 +374,6 @@ public class UsersController {
             }
         }
 
-        viewModel.addAttribute("formatter", formatter);
         viewModel.addAttribute("posts", postSvc.findAll());
         List<User> users = (List<User>) usersDao.findAll();
         viewModel.addAttribute("users", users);

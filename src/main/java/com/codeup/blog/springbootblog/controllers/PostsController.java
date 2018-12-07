@@ -8,6 +8,7 @@ import com.codeup.blog.springbootblog.repositories.UsersRepository;
 import com.codeup.blog.springbootblog.services.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,21 +29,15 @@ import java.util.List;
 public class PostsController {
 
     // this is the service placeholder that will be final, it'll never change.
-    private final PostService postSvc;
-
     private final UsersRepository usersDao; //making queries to database
     private final RolesRepository rolesDao;
-
     private final UserService userSvc; //
-
+    private final PostService postSvc;
     private final CommentService commentSvc;
     private static final int MAX_COMMENT_LEVEL = 5;
-
     private final CategoriesRepository categoriesDao;
-
     private final HitCountsRepository hitCountsDao;
-
-    private final FormatterUtil formatter = new FormatterUtil();
+    private final FormatterUtil formatter;
 
     // Constructor "dependency injection", passing the PostService object into the PostController constructor,
     // everything ties together now. Services + Controller.
@@ -53,14 +48,15 @@ public class PostsController {
     // in the form of a List<Post> posts. But now the PostsRepository is being built in the PostsService
     // Reminder: There are built in methods for CRUDRepository:
     // findAll(), findOne(), save(), delete(). These are in the Service
-
+    @Autowired
     public PostsController(PostService postSvc,
                            UsersRepository usersDao,
                            UserService userSvc,
                            CommentService commentSvc,
                            CategoriesRepository categoriesDao,
                            HitCountsRepository hitCountsDao,
-                           RolesRepository rolesDao
+                           RolesRepository rolesDao,
+                           FormatterUtil formatter
     ) {
         this.postSvc = postSvc;
         this.usersDao = usersDao;
@@ -69,6 +65,15 @@ public class PostsController {
         this.categoriesDao = categoriesDao;
         this.hitCountsDao = hitCountsDao;
         this.rolesDao = rolesDao;
+        this.formatter = formatter;
+    }
+
+    // This annotation and method allows for the viewModel attribute "formatter" to persist across all handler methods, i.e. any page you visit within this controller gets to use "formatter" in the view.
+    // The @ModelAttribute is an annotation that binds a method parameter or method return value to a named model attribute and then exposes it to a web view.
+    @ModelAttribute("formatter")
+    public FormatterUtil addFormatterToViews(Model viewModel) {
+        viewModel.addAttribute("formatter", formatter);
+        return formatter;
     }
 
 //================================================ ALL POSTS ==================================================== /posts
@@ -115,14 +120,12 @@ public class PostsController {
         viewModel.addAttribute("mostViewedPosts", postSvc.popularPostsByViews());
         viewModel.addAttribute("popularUsers", usersDao.popularUsersByKarma());
         viewModel.addAttribute("karmas", usersDao.popularUsersKarma());
-        viewModel.addAttribute("formatter", formatter);
         return "posts/index";
     }
 
     @GetMapping("/posts/archived")
     public String showArchivedPosts(Model viewModel) {
         viewModel.addAttribute("posts", postSvc.findAll());
-        viewModel.addAttribute("formatter", formatter);
         return "posts/archivedPosts";
     }
 
@@ -143,7 +146,6 @@ public class PostsController {
             viewModel.addAttribute("nextResultSet", posts.subList(limit * batch, (limit * batch) + limit));
         }
 
-        viewModel.addAttribute("formatter", formatter);
         return "fragments/posts :: ajaxPosts";
     }
 
@@ -202,7 +204,6 @@ public class PostsController {
         viewModel.addAttribute("categories", categories);
         viewModel.addAttribute("isParentComment", isParentComment);
         viewModel.addAttribute("isDisabled", isDisabled);
-        viewModel.addAttribute("formatter", formatter);
 
         if (loggedInUser != null) {
             long loggedInUserId = loggedInUser.getId();
@@ -240,7 +241,6 @@ public class PostsController {
             }
         }
         viewModel.addAttribute("post", new Post());
-        viewModel.addAttribute("formatter", formatter);
         viewModel.addAttribute("categories", categoriesDao.findAll());
         return "/posts/create";
     }
@@ -257,7 +257,6 @@ public class PostsController {
         if (validation.hasErrors()) {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("post", post);
-            viewModel.addAttribute("formatter", formatter);
             viewModel.addAttribute("categories", categoriesDao.findAll());
             return "/posts/create";
         }
@@ -288,7 +287,6 @@ public class PostsController {
                 viewModel.addAttribute("isLoggedInUserAdmin", role);
                 viewModel.addAttribute("categories", categoriesDao.findAll());
                 viewModel.addAttribute("post", existingPost);
-                viewModel.addAttribute("formatter", formatter);
                 return "/posts/edit";
             }
         }
@@ -298,7 +296,6 @@ public class PostsController {
         } else {
             viewModel.addAttribute("categories", categoriesDao.findAll());
             viewModel.addAttribute("post", existingPost);
-            viewModel.addAttribute("formatter", formatter);
             return "/posts/edit";
         }
     }
@@ -311,7 +308,6 @@ public class PostsController {
             viewModel.addAttribute("errors", validation);
             viewModel.addAttribute("categories", categoriesDao.findAll());
             viewModel.addAttribute("post", post);
-            viewModel.addAttribute("formatter", formatter);
             return "/posts/edit";
         }
 
@@ -397,7 +393,6 @@ public class PostsController {
     @GetMapping("/posts/search-tag/{term}")
     public String searchByTag(@PathVariable String term, Model viewModel) {
         viewModel.addAttribute("searchedContent", postSvc.searchPostsByKeyword(term));
-        viewModel.addAttribute("formatter", formatter);
         return "fragments/searchedPosts :: searchedPosts";
     }
 
@@ -413,7 +408,6 @@ public class PostsController {
         viewModel.addAttribute("mostViewedPosts", postSvc.popularPostsByViews());
         viewModel.addAttribute("popularUsers", usersDao.popularUsersByKarma());
         viewModel.addAttribute("karmas", usersDao.popularUsersKarma());
-        viewModel.addAttribute("formatter", formatter);
         return "/posts/search";
     }
 
