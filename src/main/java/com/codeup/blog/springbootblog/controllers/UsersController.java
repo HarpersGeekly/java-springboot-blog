@@ -449,15 +449,19 @@ public class UsersController {
 //================================================ GRANT PERMISSIONS ===================================================
 //======================================================================================================================
 
-    @PostMapping("admin/dashboard/grant-admin/{id}")
-    public @ResponseBody
-    UserRole grantAdminPermissions(@PathVariable Long id) {
+    private UserRole getUserRole(Long id, String role_user) {
         User user = usersDao.findById(id);
         UserRole ur = rolesDao.findUserRoleByUserId(user.getId());
-        ur.setRole("ROLE_ADMIN");
+        ur.setRole(role_user);
         ur.setUserId(user.getId());
         rolesDao.save(ur);
         return ur;
+    }
+
+    @PostMapping("admin/dashboard/grant-admin/{id}")
+    public @ResponseBody
+    UserRole grantAdminPermissions(@PathVariable Long id) {
+        return getUserRole(id, "ROLE_ADMIN");
 //        The @ResponseBody annotation tells a controller that the object returned is automatically serialized into
 //        JSON and passed back into the HttpResponse object.
 //        In browser console we can see a response similar to: {id: 7, userId: 1, role: "ROLE_ADMIN"}
@@ -466,24 +470,16 @@ public class UsersController {
     @PostMapping("admin/dashboard/grant-editor/{id}")
     public @ResponseBody
     UserRole grantEditorPermissions(@PathVariable Long id) {
-        User user = usersDao.findById(id);
-        UserRole ur = rolesDao.findUserRoleByUserId(user.getId());
-        ur.setRole("ROLE_EDITOR");
-        ur.setUserId(user.getId());
-        rolesDao.save(ur);
-        return ur;
+        return getUserRole(id, "ROLE_EDITOR");
     }
 
     @PostMapping("admin/dashboard/grant-user/{id}")
     public @ResponseBody
     UserRole grantUserPermissions(@PathVariable Long id) {
-        User user = usersDao.findById(id);
-        UserRole ur = rolesDao.findUserRoleByUserId(user.getId());
-        ur.setRole("ROLE_USER");
-        ur.setUserId(user.getId());
-        rolesDao.save(ur);
-        return ur;
+        return getUserRole(id, "ROLE_USER");
     }
+
+
 
     // Messages
     @PostMapping("/messages/{senderId}/{receiverId}")
