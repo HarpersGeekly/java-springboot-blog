@@ -46,7 +46,7 @@
             <tr th:each="user : ${users}">
 
                 <!-- Modal -->
-                <div class="modal fade" id="editUserAdminDashboard" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="editUserAdminDashboardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -55,9 +55,9 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body" id="edit-user-modal">
+                            <div class="modal-body" id="edit-user-modal-body">
 
-                                <form th:action="@{'/admin/dashboard/modal' + ${user.id} + '/edit'}" method="POST" th:object="${user}" id="editUserForm">
+                                <form th:action="@{'getsChanged'}" method="POST" th:object="${user}" id="editUserForm">
 
                                     <div class="form-group">
                                         <label for="editFormUsername">Username</label>
@@ -74,12 +74,10 @@
                                         <textarea id="editFormBio" name="bio" class="form-control" style="resize:none" maxlength="1500"></textarea>
                                     </div>
 
-                                    <input type="hidden" id="editFormPassword" name="password" class="form-control" th:value="${user.password}"/>
-                                    <input type="hidden" id="date" name="date" class="form-control" th:value="${user.date}"/>
-                                    <input th:if="${user.getProfilePicture() != null}" type="hidden" id="profilePicture" name="profilePicture" class="form-control" th:value="${user.profilePicture}"/>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-primary" id="editUserFormSubmit"
+                                                th:attr="data-edit-user-form-submit-btn-id=${user.id}">Save changes</button>
                                     </div>
                                 </form>
 
@@ -88,11 +86,12 @@
                     </div>
                 </div>
 
-                <td>
+                <td th:attr="data-username-td-id=${user.id}">
                     <a class="popularTitleLink" th:href="@{/profile/{id}/{username}(id=${user.id}, title=${formatter.makeSlug(user.username)})}">
-                        <h4 class="popularTitleText" th:text="${user.username}"></h4>
+                        <h4 th:text="${user.username}"></h4>
                     </a>
                 </td>
+
                 <td>
                     <span class="postedByDate" th:text="${#temporals.monthNameShort(user.date)}"></span>
                     <span class="postedByDate" th:text="${#temporals.day(user.date)}"></span>
@@ -117,7 +116,7 @@
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     </i>
                     <div class="dropdown-menu edit-delete-dropdown" aria-labelledby="dropdownMenu">
-                        <div data-toggle="modal" data-target="#editUserAdminDashboard" class="dropdown-edit-btn dropdown-edit-user-btn"
+                        <div data-toggle="modal" data-target="#editUserAdminDashboardModal" class="dropdown-edit-btn dropdown-edit-user-btn"
                              th:attr="data-edit-user-id=${user.id}">
                             <!--<a class="dropdown-edit-btn"  th:href="${'/admin/dashboard/modal/' + user.id + '/edit'}">-->
                                 <i class="far fa-edit"></i> edit
@@ -441,13 +440,45 @@
                 let editFormUserName = $('#editFormUsername');
                 let editFormEmail = $('#editFormEmail');
                 let editFormBio = $('#editFormBio');
+                let editUserForm = $('#editUserForm');
                 editFormUserName.val(user.username);
                 editFormEmail.val(user.email);
                 editFormBio.val(user.bio);
+                editUserForm.attr('action', "/admin/dashboard/modal/" + userId + "/edit");
 
             });
             request.fail((a, b, c) => {
                 console.log(a, b, c)
+            });
+        });
+
+        container.on('click', '#editUserFormSubmit', function() {
+            let button = $(this);
+            let userId = button.data('edit-user-form-submit-btn-id');
+            let editUserForm = $('#editUserForm');
+
+            let request = $.ajax({
+                url: editUserForm.attr('action'),
+                method: 'POST',
+                data: editUserForm.serialize()
+            });
+            request.done((user) => {
+                console.log("back from edit user post method");
+                console.log(user.username);
+
+                let usernameTd = $('[data-username-td-id=' + userId + ']');
+                let usernameEditedTd = $('[data-username-td-edited-id=' + userId + ']');
+
+                usernameTd.addClass('hidden');
+
+                usernameEditedTd.removeClass('hidden');
+                usernameEditedTd.html(user.username);
+
+                $('#editUserAdminDashboardModal').modal('hide');
+
+            });
+            request.fail((a, b, c) => {
+                console.log(a, b, c);
             });
         });
 

@@ -82,43 +82,6 @@ public class UsersController {
         return "/users/login";
     }
 
-    // ======================================================================================================
-    // 1/18/18: Trying to further validate Login. But, we don't even get here. Where do we further validate?
-    // ======================================================================================================
-//    @PostMapping("/login")
-//    public String login(@Valid User user,
-//                        Errors validation,
-//                        Model viewModel,
-//                        @RequestParam(value = "username") String username,
-//                        @RequestParam(value = "password") String password) {
-//
-//        System.out.println("postmapping login method");
-//        User existingUser = usersDao.findByUsername(username);
-//        if (existingUser == null && user.getUsername().equals(username)) {
-//            validation.rejectValue(
-//                    "username",
-//                    "user.username",
-//                    "There is no user with that username.");
-//        }
-//
-//        if (!password.equals(existingUser.getPassword())) {
-//            validation.rejectValue(
-//                    "password",
-//                    "user.password",
-//                    "Password is incorrect for that user.");
-//        }
-//
-//        if (validation.hasErrors()) {
-//            viewModel.addAttribute("errors", validation);
-//            viewModel.addAttribute("user", user);
-//            viewModel.addAttribute("username", username);
-//            viewModel.addAttribute("password", password);
-//            return "/users/login";
-//        }
-//
-//        return "redirect:/profile";
-//    }
-
     // ========================================== REGISTER USER ========================================================
 
     @GetMapping("/register")
@@ -139,10 +102,10 @@ public class UsersController {
                                @RequestParam(name = "password_confirm") String passwordConfirmation) {
 
         // Validation:
-        // @Valid User user now calls @ModelAttribute User user first/instead and calls the validations!
-        // @RequestParam = asks for the value in the form field called "password_confirm" assigns it to String passwordConfirmation
+        // Instead of using "@ModelAttribute User user", @Valid User user instead calls the validations, MUST have Errors class after.
+        // @RequestParam = asks for the value in the form "name" field called "password_confirm" assigns it to String passwordConfirmation
 
-        // double check that the username is not already in database:
+        // checks that the username is not already in database:
         User existingUser = usersDao.findByUsername(user.getUsername());
         if (existingUser != null) {
             validation.rejectValue(
@@ -174,11 +137,11 @@ public class UsersController {
             return "users/register"; // not a redirect:/register because I'd lose the information.
         }
 
-        // Otherwise, if all is good:
-        // if password is valid, hash the password:
+        // Otherwise if password is valid, hash the password:
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         // set the users join date:
         user.setDate(LocalDateTime.now());
+        //set bio to null
         user.setBio(null);
         // save user in the database:
         usersDao.save(user);
@@ -298,9 +261,16 @@ public class UsersController {
     public String showProfileEditPage(@PathVariable Long id, Model viewModel) {
         // find the user in the database:
         User existingUser = usersDao.findById(id);
-        if(!userSvc.isLoggedInAndOwnerMatchesUser(existingUser)) {
-            System.out.println("got here");
-            return "redirect:/login";
+        User loggedInUser = userSvc.loggedInUser();
+        List<String> roles = rolesDao.ofUserWith(loggedInUser.getUsername());
+        for(String role : roles) {
+            if (role.equals("ROLE_ADMIN")) {
+                viewModel.addAttribute("user", existingUser);
+                viewModel.addAttribute("formatter", formatter);
+                return "users/editUser";
+            } else {
+                return "redirect:/posts";
+            }
         }
         // pass it to the view: pre-populate the form with the values from that user ie: th:field="{user.username}"
         viewModel.addAttribute("user", existingUser);
@@ -357,6 +327,7 @@ public class UsersController {
                 return "redirect:/profile/" + user.getId() + "/" + user.getUsername();
             }
         }
+
         for(String role : roles) {
             if (role.equals("ROLE_ADMIN")) {
                 redir.addFlashAttribute("isLoggedInUserAdmin", role);
@@ -416,11 +387,25 @@ public class UsersController {
         return "users/adminDashboard";
     }
 
-    @GetMapping("admin/dashboard/modal/{id}/edit")
+    @GetMapping("/admin/dashboard/modal/{id}/edit")
     public @ResponseBody User getModalUser(@PathVariable Long id, Model viewModel) {
         User user = usersDao.findById(id);
         viewModel.addAttribute("modal-user", user);
         return user;
+    }
+
+    @PostMapping("/admin/dashboard/modal/{id}/edit")
+    public @ResponseBody User saveModalUser(@PathVariable Long id,
+                                            @RequestParam(name="username") String username,
+                                            @RequestParam(name="email") String email,
+                                            @RequestParam(name="bio") String bio) {
+        User existingUser = usersDao.findById(id);
+        existingUser.setUsername(username);
+        existingUser.setEmail(email);
+        existingUser.setBio(bio);
+        System.out.println("get to edit modal");
+        usersDao.save(existingUser);
+        return existingUser;
     }
 
 //================================================ BAN AND UNBAN USERS =================================================
