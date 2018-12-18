@@ -3,8 +3,6 @@ body {
     padding-top: 50px;
     /*min-height: 100vh;*/
 
-    background: var(--main-background-color);
-
     /*background: rgb(255,250,251);*/
     /*background: linear-gradient(90deg, rgba(255,250,251,1) 0%, rgba(232,232,232,1) 100%);*/
 
@@ -39,7 +37,11 @@ body {
     font-family: var(--main-font);
     margin: 0;
     height: 100%;
-    /*background: url('../images/paper_fibers.png');*/
+
+    background: var(--main-background-color);
+    /*background: url('../images/paper_fibers.png') center;*/
+    /*background-size: cover;*/
+    /*padding-bottom: 50vw;*/
 }
 
 html {
