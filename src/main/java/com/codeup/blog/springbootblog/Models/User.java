@@ -39,7 +39,7 @@ public class User {
     @Column(nullable = false)
     @NotBlank(message = "Your password cannot be empty.")
     @Length(min = 8, max = 100, message="Your password must be between 8-100 characters.") // BCrypt PasswordEncoder hashes passwords with 60 random characters. Make sure the max is >= 60
-    @JsonIgnore
+    @JsonIgnore //password is hidden from the client
     private String password;
 
     @Column(name = "JOINED_DATE")
