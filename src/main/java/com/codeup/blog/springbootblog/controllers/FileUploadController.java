@@ -27,7 +27,7 @@ public class FileUploadController {
         this.userSvc = userSvc;
     }
 
-    @Value("${file-upload-path}")
+    @Value("C:\\Users\\ryan.c.harper\\IdeaProjects\\java-springboot-blog\\target\\classes\\static\\uploads")
     private String uploadPath;
 
 //        @GetMapping("/profile/edit/fileupload")
