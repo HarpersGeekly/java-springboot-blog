@@ -17,7 +17,8 @@ import java.util.Locale;
  * Created by RyanHarper on 11/7/17.
  */
 
-@Entity
+//JPA specification defines an object-relational mapping between tables in a relational database and a set of Java classes.
+@Entity //is a POJO with mapping information. It's now a jpa entity object. Attributes then get automatically mapped to database columns with the same name
 @Table(name="users")
 public class User {
 
