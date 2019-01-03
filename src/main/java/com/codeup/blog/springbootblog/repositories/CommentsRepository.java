@@ -1,7 +1,6 @@
 package com.codeup.blog.springbootblog.repositories;
 
 import com.codeup.blog.springbootblog.Models.Comment;
-//import com.codeup.blog.springbootblog.Models.Reply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -24,7 +23,7 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
     // comments are being injected behind the last comment the user made, not the last comment A user made.
     // SOLUTION:
     // select all comments from a post id and order by comment id.
-    // @Query uses Hibernate "HQL" object relationships not database relationships
+    // @Query uses Spring Data "JPQL" object relationships not database relationships
     // nativeQuery = true makes it SQL compatible
 
 //    @Query(nativeQuery = true, value="SELECT * from comments c where c.user_id=?1 ORDER BY c.created_date DESC")
