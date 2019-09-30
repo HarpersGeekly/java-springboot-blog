@@ -26,6 +26,7 @@ public interface CommentsRepository extends CrudRepository<Comment, Long> {
     // @Query uses Spring Data "JPQL" object relationships not database relationships
     // nativeQuery = true makes it SQL compatible
 
+    //Spring Boot + Hibernate allows you to write out methods like this, building it as it goes along:
 //    @Query(nativeQuery = true, value="SELECT * from comments c where c.user_id=?1 ORDER BY c.created_date DESC")
     List<Comment> findAllByUserIdOrderByDateDesc(Long id);
 
